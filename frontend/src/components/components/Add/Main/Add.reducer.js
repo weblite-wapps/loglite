@@ -9,7 +9,7 @@ import {
   CHANGE_INPUT_NAME,
   SET_QUERY_IN_ADD,
   FETCH_TAGS_IN_ADD,
-  ADD_TAG,
+  ADD_TAG_IN_ADD,
   CHANGE_SELECTED_TAGS_IN_ADD,
   RESET_INPUTS,
 } from './Add.action'
@@ -54,7 +54,7 @@ const reducers = {
 
   [FETCH_TAGS_IN_ADD]: (state, { tags }) => R.set(suggestionsLens, tags, state),
 
-  [ADD_TAG]: state => ({ ...state,
+  [ADD_TAG_IN_ADD]: state => ({ ...state,
     selectedTags: R.append(R.toLower(state.queryTag), state.selectedTags),
     tags: R.append(
       { label: R.toLower(state.queryTag),

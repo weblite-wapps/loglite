@@ -24,8 +24,8 @@ const loadTagsDataInAdd = createAction(LOAD_TAGS_DATA_IN_ADD, tags => ({ tags })
 const CHANGE_INPUT_NAME = 'CHANGE_INPUT_NAME'
 const changeInputName = createAction(CHANGE_INPUT_NAME, value => ({ value }))
 
-const ADD_TAG = 'ADD_TAG'
-const addTag = createAction(ADD_TAG)
+const ADD_TAG_IN_ADD = 'ADD_TAG_IN_ADD'
+const addTagInAdd = createAction(ADD_TAG_IN_ADD)
 
 const CHANGE_SELECTED_TAGS_IN_ADD = 'CHANGE_SELECTED_TAGS_IN_ADD'
 const changeSelectedTagsInAdd = createAction(CHANGE_SELECTED_TAGS_IN_ADD, tag => ({ tag }))
@@ -42,7 +42,7 @@ export {
   CHANGE_END_TIME, changeEndTime,
   LOAD_TAGS_DATA_IN_ADD, loadTagsDataInAdd,
   CHANGE_INPUT_NAME, changeInputName,
-  ADD_TAG, addTag,
+  ADD_TAG_IN_ADD, addTagInAdd,
   CHANGE_SELECTED_TAGS_IN_ADD, changeSelectedTagsInAdd,
   RESET_INPUTS, resetInputs,
 }

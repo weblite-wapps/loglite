@@ -7,7 +7,7 @@ import {
   changeInputName,
   setQueryInAdd,
   changeSelectedTagsInAdd,
-  addTag,
+  addTagInAdd,
 } from './Add.action'
 import { changeTab, addLog, addCustomLog } from '../../../Main/App.action'
 // selector
@@ -30,7 +30,7 @@ const mapDispatchToProps = dispatch => ({
   onInputNameChange: value => dispatch(changeInputName(value)),
   onQueryTagChange: query => dispatch(setQueryInAdd(query)),
   onTagClick: tag => dispatch(changeSelectedTagsInAdd(tag)),
-  addTag: () => dispatch(addTag()),
+  addTag: () => dispatch(addTagInAdd()),
   addLog: (title, tags) => dispatch(addLog(title, tags)),
   changeTab: value => dispatch(changeTab(value)),
   addCustomLog: (title, tags, date, start, end) =>
