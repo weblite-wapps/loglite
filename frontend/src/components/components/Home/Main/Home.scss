@@ -1,0 +1,15 @@
+.container {
+  margin-top: 80px;
+}
+
+.button {
+  position: fixed;
+  left: calc(50% - 60px/2);
+  bottom: 20px;
+  z-index: 5;
+}
+
+.image {
+  max-width: 350px;
+  height: 350px;
+}

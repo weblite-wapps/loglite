@@ -1,0 +1,34 @@
+.container {
+  margin-top: 80px;
+}
+
+.controllBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.navigator{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 15px;
+}
+
+.text {
+  margin: 10px;
+  text-align: center;
+}
+
+.textSlider {
+  width: 100px;
+}
+
+.chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

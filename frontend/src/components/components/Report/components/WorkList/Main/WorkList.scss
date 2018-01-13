@@ -1,0 +1,31 @@
+.text {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 4px;
+}
+
+.button {
+  display: flex;
+  margin: 10px 5px;
+}
+
+.title {
+  margin: 0px;
+}
+
+.duration {
+  margin: 0px;
+  text-align: right;
+}
+
+.date {
+  @extend .duration;
+  color: #cfcfcf;
+  font-size: 18px;
+}
