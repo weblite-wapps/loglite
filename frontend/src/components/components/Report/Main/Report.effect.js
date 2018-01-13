@@ -9,10 +9,10 @@ import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/pluck'
 import 'rxjs/add/operator/debounceTime'
 import format from 'date-fns/format'
+import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest } from './Report.helper'
 // actions
-import { changeSnackbarStage } from '../../Snackbar/Snackbar.action'
 import { LOAD_LOGS_DATA, loadLogsData, setIsLoading } from '../../../Main/App.action'
 import { LOAD_TAGS_DATA_IN_ADD } from '../../Add/Main/Add.action'
 import {
@@ -36,7 +36,7 @@ const loadTagsDataEpic = action$ =>
   action$.ofType(LOAD_TAGS_DATA_IN_ADD)
     .map(action => loadTagsDataInReport(action.payload.tags))
 
-const effectSearchTagsEpic = (action$, { getState, dispatch }) =>
+const effectSearchTagsEpic = (action$, { getState }) =>
   action$.ofType(SET_QUERY)
     .pluck('payload')
     .filter(payload => payload.queryTag.trim() !== '')
@@ -44,7 +44,7 @@ const effectSearchTagsEpic = (action$, { getState, dispatch }) =>
     .mergeMap(payload =>
       getRequest('/serachTags')
         .query({ wis: getState().App.wis, label: payload.queryTag })
-        .on('error', err => err.status !== 304 ? dispatch(changeSnackbarStage(true, 'Server dissonncted!')) : null))
+        .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .map(success => fetchTags(JSON.parse(success.text)))
 
 const calculateTotalDurationEpic = (action$, { getState, dispatch }) =>
@@ -57,7 +57,7 @@ const calculateTotalDurationEpic = (action$, { getState, dispatch }) =>
         endDate: getState().Report.endDate,
         selectedTags: getState().Report.selectedTags,
       })
-      .on('error', err => err.status !== 304 ? dispatch(changeSnackbarStage(true, 'Server dissonncted!')) : null))
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatch(setIsLoading(false)))
     .map(success => restoreTotalDuration(success.text))
 
@@ -71,7 +71,7 @@ const convertJSONToCSVEpic = (action$, { getState, dispatch }) =>
         endDate: getState().Report.endDate,
         selectedTags: getState().Report.selectedTags,
       })
-      .on('error', err => err.status !== 304 ? dispatch(changeSnackbarStage(true, 'Server dissonncted!')) : null))
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatch(setIsLoading(false)))
     .map(success => restoreCSV(success.text))
 
@@ -81,7 +81,7 @@ const fetchPreviousDayLogsDataEpic = (action$, { getState, dispatch }) =>
     .do(() => dispatch(setIsLoading(true)))
     .mergeMap(() => getRequest('/fetchPreviousDayData')
       .query({ wis: getState().App.wis, date: format(getState().Report.currentPage, 'YYYY-MM-DD') })
-      .on('error', err => err.status !== 304 ? dispatch(changeSnackbarStage(true, 'Server dissonncted!')) : null))
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatch(setIsLoading(false)))
     .map(success => loadLogsData(JSON.parse(success.text)))
 
@@ -91,7 +91,7 @@ const fetchNextDayLogsDataEpic = (action$, { getState, dispatch }) =>
     .do(() => dispatch(setIsLoading(true)))
     .mergeMap(() => getRequest('/fetchNextDayData')
       .query({ wis: getState().App.wis, date: format(getState().Report.currentPage, 'YYYY-MM-DD') })
-      .on('error', err => err.status !== 304 ? dispatch(changeSnackbarStage(true, 'Server dissonncted!')) : null))
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatch(setIsLoading(false)))
     .map(success => loadLogsData(JSON.parse(success.text)))
 
@@ -114,7 +114,7 @@ const updateChartEpic = (action$, { getState, dispatch }) =>
         startDate: payload.startDate,
         endDate: payload.endDate,
       })
-      .on('error', err => err.status !== 304 ? dispatch(changeSnackbarStage(true, 'Server dissonncted!')) : null))
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatch(setIsLoading(false)))
     .map(success => restoreBarChartData(JSON.parse(success.text)))
 

@@ -8,10 +8,9 @@ import format from 'date-fns/format'
 import startOfWeek from 'date-fns/start_of_week'
 import startOfMonth from 'date-fns/start_of_month'
 import subDays from 'date-fns/sub_days'
+import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './App.helper'
-// actions
-import { changeSnackbarStage } from '../components/Snackbar/Snackbar.action'
 import {
   loadTodayTotalDuration,
   loadThisWeekTotalDuration,
@@ -82,31 +81,31 @@ const addLogToNextDayEpic = (action$, { getState }) =>
       }))
     .map(success => restoreLog(JSON.parse(success.text)))
 
-const deleteLogEpic = (action$, { dispatch }) =>
+const deleteLogEpic = action$ =>
   action$.ofType(DELETE_LOG)
     .mergeMap(action => postRequest('/deleteLog')
       .query({ _id: action.payload._id })
-      .on('error', err => err.status !== 304 ? dispatch(changeSnackbarStage(true, 'Server dissonncted!')) : null))
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .mapTo(refetchTotalDuration())
 
-const saveStartTimeEpic = (action$, { dispatch }) =>
+const saveStartTimeEpic = action$ =>
   action$.ofType(SAVE_START_TIME)
     .mergeMap(action => postRequest('/saveStartTime')
       .send({
         startTime: new Date(),
         _id: action.payload._id,
       })
-      .on('error', err => err.status !== 304 ? dispatch(changeSnackbarStage(true, 'Server dissonncted!')) : null))
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .ignoreElements()
 
-const saveEndTimeEpic = (action$, { dispatch }) =>
+const saveEndTimeEpic = action$ =>
   action$.ofType(SAVE_END_TIME)
     .mergeMap(action => postRequest('/saveEndTime')
       .send({
         endTime: new Date(),
         _id: action.payload._id,
       })
-      .on('error', err => err.status !== 304 ? dispatch(changeSnackbarStage(true, 'Server dissonncted!')) : null))
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .mapTo(refetchTotalDuration())
 
 const resetEpic = action$ =>
