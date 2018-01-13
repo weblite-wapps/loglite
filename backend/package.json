@@ -1,31 +1,23 @@
 {
-  "name": "log-lite",
-  "version": "1.0.0",
-  "private": true,
+  "name": "loglite-backend",
+  "monolite-root": "build",
   "scripts": {
-    "dev": "webpack-dashboard --port 8061 -- buildlite -j default~dev",
-    "build": "webpack-dashboard --port 8061 -- buildlite -j default~build"
+    "build": "webpack-dashboard --port 3661 -- buildlite -j default"
   },
   "buildlite": {
     "default": {
-      "analyzer": 8005,
-      "dashboard": 8061,
-      "style": "style.css"
-    },
-    "dev": {
       "entry": {
-        "index": "./setup/dev.index.jsx"
+        "server": "./server.js"
       },
-      "react": "dev",
-      "devServer": 8081,
-      "devServerContentBase": "dev"
-    },
-    "build": {
-      "entry": {
-        "index": "./setup/dev.index.jsx"
-      },
-      "outputPath": "dev",
-      "react": "build"
+      "outputPath": "dist",
+      "babel": true,
+      "eslint": true,
+      "watch": true,
+      "target": "node",
+      "externals": [
+        "nodeModules"
+      ],
+      "dashboard": 3600
     }
   },
   "dependencies": {
