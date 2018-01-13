@@ -5,6 +5,7 @@ import Divider from 'material-ui/Divider'
 import isAfter from 'date-fns/is_after'
 import subDays from 'date-fns/sub_days'
 import format from 'date-fns/format'
+import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import StartDatePicker from '../../Custom/components/StartDatePicker/StartDatePicker.container.react'
 import EndDatePicker from '../../Custom/components/EndDatePicker/EndDatePicker.container.react'
@@ -28,21 +29,21 @@ export default class ShowChart extends React.Component {
   }
 
   _handleUpdateChart() {
-    const { startDate, endDate, updateChart, changeSnackbarStage } = this.props
+    const { startDate, endDate, updateChart } = this.props
     if (startDate && endDate) {
       if (isAfter(new Date(endDate), new Date(startDate))) {
         updateChart(startDate, endDate)
       } else {
         this.setState({ startDateIsError: true })
         this.setState({ endDateIsError: true })
-        changeSnackbarStage(true, 'StartDate is after EndDate!')
+        snackbarMessage({ message: 'StartDate is after EndDate!' })
       }
     } else if (!startDate) {
       this.setState({ startDateIsError: true })
-      changeSnackbarStage(true, 'Choose start date!')
+      snackbarMessage({ message: 'Choose start date!' })
     } else {
       this.setState({ endDateIsError: true })
-      changeSnackbarStage(true, 'Choose end date!')
+      snackbarMessage({ message: 'Choose end date!' })
     }
   }
 
@@ -87,5 +88,4 @@ ShowChart.propTypes = {
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   updateChart: PropTypes.func.isRequired,
-  changeSnackbarStage: PropTypes.func.isRequired,
 }

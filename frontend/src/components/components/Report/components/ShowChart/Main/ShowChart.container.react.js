@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import ShowChart from './ShowChart.presentational.react'
 // actions
 import { updateChart } from '../../../Main/Report.action'
-import { changeSnackbarStage } from '../../../../Snackbar/Snackbar.action'
 
 
 const mapStateToProps = state => ({
@@ -15,7 +14,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateChart: (startDate, endDate) => dispatch(updateChart(startDate, endDate)),
-  changeSnackbarStage: (value, message) => dispatch(changeSnackbarStage(value, message)),
 })
 
 

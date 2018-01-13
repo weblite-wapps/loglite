@@ -7,6 +7,7 @@ import List from 'material-ui/List'
 import Typography from 'material-ui/Typography'
 import Divider from 'material-ui/Divider'
 import Button from 'material-ui/Button'
+import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import TagShape from '../../../../common/TagShapeForReport/TagShapeForReport.presentational.react'
 //
@@ -37,7 +38,7 @@ export default class WorkList extends React.Component {
     this.handleDelete = this._handleDelete.bind(this)
   }
   _handleDelete() {
-    this.props.changeSnackbarStage(true, 'Deleted successfully !')
+    snackbarMessage({ message: 'Deleted successfully !' })
     this.props.deleteLog()
   }
   render() {
@@ -86,5 +87,4 @@ WorkList.propTypes = {
   }).isRequired,
   workDuration: PropTypes.string.isRequired,
   deleteLog: PropTypes.func.isRequired,
-  changeSnackbarStage: PropTypes.func.isRequired,
 }

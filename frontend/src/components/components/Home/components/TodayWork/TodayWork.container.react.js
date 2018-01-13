@@ -10,7 +10,6 @@ import {
   addLogToNextDay,
   toggleIsRunning,
 } from '../../../../Main/App.action'
-import { changeSnackbarStage } from '../../../Snackbar/Snackbar.action'
 // selectors
 import { getWorksDuration } from '../../../common/Common.selector'
 // helpers
@@ -29,7 +28,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   addLogToNextDay: (end, date) =>
     dispatch(addLogToNextDay(ownProps.log.title, ownProps.log.tags, end, date)),
   toggleIsRunning: () => dispatch(toggleIsRunning()),
-  changeSnackbarStage: (value, message) => dispatch(changeSnackbarStage(value, message)),
 })
 
 

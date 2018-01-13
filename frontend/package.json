@@ -33,7 +33,7 @@
     "history": "^4.7.2",
     "material-ui": "^1.0.0-beta.26",
     "material-ui-icons": "^1.0.0-beta.17",
-    "ramda": "^0.25.0",
+    "ramda": "^0.24.0",
     "react": "^16.1.1",
     "react-autocomplete": "^1.7.2",
     "react-csv": "^1.0.8",
@@ -50,5 +50,8 @@
     "rxjs": "^5.5.2",
     "superagent": "^3.8.1",
     "typeface-roboto": "^0.0.45"
-  }
+  },
+  "local-dependencies": [
+    "weblite-web-snackbar"
+  ]
 }

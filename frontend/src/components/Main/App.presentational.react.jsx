@@ -7,7 +7,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import Tabs, { Tab } from 'material-ui/Tabs'
 import { CircularProgress } from 'material-ui/Progress'
 // components
-import Snackbar from '../components/Snackbar/Snackbar.container.react'
+import Snackbar from 'weblite-web-snackbar'
 // sccsClasses
 import sccsClasses from './App.scss'
 
@@ -94,7 +94,7 @@ class App extends React.Component {
             <Tab label="Add" value="Add" className={sccsClasses.Tab} />
             <Tab label="Report" value="Report" className={sccsClasses.Tab} />
           </Tabs>
-          <Snackbar />
+          <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} />
         </div>
       </MuiThemeProvider>
     )

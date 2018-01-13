@@ -3,6 +3,7 @@ import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { CSVDownload } from 'react-csv'
+import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import StartDatePicker from '../components/StartDatePicker/StartDatePicker.container.react'
 import EndDatePicker from '../components/EndDatePicker/EndDatePicker.container.react'
@@ -26,39 +27,39 @@ export default class Custom extends React.Component {
   }
 
   _handleCalculation() {
-    const { startDate, endDate, calculateTotalDuration, changeSnackbarStage } = this.props
+    const { startDate, endDate, calculateTotalDuration } = this.props
     if (startDate && endDate) calculateTotalDuration()
     else if (!startDate) {
       this.setState({ startDateIsError: true })
-      changeSnackbarStage(true, 'Choose start date!')
+      snackbarMessage({ message: 'Choose start date!' })
     } else {
       this.setState({ endDateIsError: true })
-      changeSnackbarStage(true, 'Choose end date!')
+      snackbarMessage({ message: 'Choose end date!' })
     }
   }
 
   _handleExport() {
-    const { startDate, endDate, convertJSONToCSV, changeSnackbarStage } = this.props
+    const { startDate, endDate, convertJSONToCSV } = this.props
     if (startDate && endDate) convertJSONToCSV()
     else if (!startDate) {
       this.setState({ startDateIsError: true })
-      changeSnackbarStage(true, 'Choose start date!')
+      snackbarMessage({ message: 'Choose start date!' })
     } else {
       this.setState({ endDateIsError: true })
-      changeSnackbarStage(true, 'Choose end date!')
+      snackbarMessage({ message: 'Choose end date!' })
     }
   }
 
   _handleAddTag() {
-    const { queryTag, tags, addTag, changeSnackbarStage } = this.props
+    const { queryTag, tags, addTag } = this.props
     if (queryTag) {
       if (R.findIndex(R.propEq('label', R.toLower(queryTag)), tags) < 0) {
         addTag()
       } else {
-        changeSnackbarStage(true, 'repetitive tag!')
+        snackbarMessage({ message: 'repetitive tag!' })
       }
     } else {
-      changeSnackbarStage(true, 'select or input tag first!')
+      snackbarMessage({ message: 'select or write tag first!' })
     }
   }
 
@@ -112,5 +113,4 @@ Custom.propTypes = {
   addTag: PropTypes.func.isRequired,
   calculateTotalDuration: PropTypes.func.isRequired,
   convertJSONToCSV: PropTypes.func.isRequired,
-  changeSnackbarStage: PropTypes.func.isRequired,
 }

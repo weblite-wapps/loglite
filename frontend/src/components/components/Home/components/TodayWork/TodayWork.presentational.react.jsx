@@ -12,6 +12,7 @@ import * as R from 'ramda'
 import format from 'date-fns/format'
 import isWithinRange from 'date-fns/is_within_range'
 import differenceInSeconds from 'date-fns/difference_in_seconds'
+import { snackbarMessage } from 'weblite-web-snackbar'
 // icons
 import Play from 'material-ui-icons/PlayArrow'
 import Pause from 'material-ui-icons/Pause'
@@ -96,9 +97,9 @@ export default class TodayWork extends React.Component {
 
   _handleStartClick() {
     const { isRunning, toggleExpanded, toggleIsRunning,
-      onStartClick, changeSnackbarStage } = this.props
+      onStartClick } = this.props
     if (isRunning) {
-      changeSnackbarStage(true, 'Stop the other stopwatch first!')
+      snackbarMessage({ message: 'Stop the other stopwatch first!' })
     } else {
       toggleIsRunning()
       toggleExpanded()
@@ -191,5 +192,4 @@ TodayWork.propTypes = {
   onStopClick: PropTypes.func.isRequired,
   addLogToNextDay: PropTypes.func.isRequired,
   toggleIsRunning: PropTypes.func.isRequired,
-  changeSnackbarStage: PropTypes.func.isRequired,
 }

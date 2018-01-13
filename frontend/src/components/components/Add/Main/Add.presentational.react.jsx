@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import isAfter from 'date-fns/is_after'
 import format from 'date-fns/format'
+import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import TextField from '../../common/TextField/TextField.presentational.react'
 import Autocomplete from '../../common/Autocomplete/Autocomplete.presentational.react'
@@ -32,15 +33,15 @@ class Add extends React.Component {
   }
 
   _handleAddLog() {
-    const { inputName, selectedTags, addLog, changeTab, history, changeSnackbarStage } = this.props
+    const { inputName, selectedTags, addLog, changeTab, history } = this.props
     if (inputName) {
       addLog(inputName, selectedTags)
-      changeSnackbarStage(true, 'Added successfully!')
+      snackbarMessage({ message: 'Added successfully!' })
       changeTab('Home')
       history.push('/')
     } else {
       this.setState({ nameIsError: true })
-      changeSnackbarStage(true, 'Enter name first!')
+      snackbarMessage({ message: 'Enter name first!' })
     }
   }
 
@@ -54,59 +55,58 @@ class Add extends React.Component {
       selectedTags,
       addCustomLog,
       history,
-      changeSnackbarStage,
       changeTab } = this.props
     if (inputName && date && startTime && endTime) {
       if (isAfter(new Date(date), new Date())) {
         this.setState({ dateIsError: true })
-        changeSnackbarStage(true, 'Are you predictor?!')
+        snackbarMessage({ message: 'Are you predictor?!' })
       } else if (date === format(new Date(), 'YYYY-MM-DD') && isAfter(formatTime(startTime), new Date())) {
         this.setState({ startTimeIsError: true })
-        changeSnackbarStage(true, 'Are you predictor?!')
+        snackbarMessage({ message: 'Are you predictor?!' })
       } else if (date === format(new Date(), 'YYYY-MM-DD') && isAfter(formatTime(endTime), new Date())) {
         this.setState({ endTimeIsError: true })
-        changeSnackbarStage(true, 'Are you predictor?!')
+        snackbarMessage({ message: 'Are you predictor?!' })
       } else if (isAfter(formatTime(endTime), formatTime(startTime))) {
         if (areTimesOverlapping(
           R.filter(eachLog => (eachLog.date === date), logs),
           formatTime(startTime), formatTime(endTime))) {
-          changeSnackbarStage(true, 'Time is overlapping!')
+          snackbarMessage({ message: 'Time is overlapping!' })
         } else {
           addCustomLog(inputName, selectedTags, date, startTime, endTime)
-          changeSnackbarStage(true, 'Added successfully!')
+          snackbarMessage({ message: 'Added successfully!' })
           changeTab('Home')
           history.push('/')
         }
       } else {
         this.setState({ startTimeIsError: true })
         this.setState({ endTimeIsError: true })
-        changeSnackbarStage(true, 'StartTime is after EndTime!')
+        snackbarMessage({ message: 'StartTime is after EndTime!' })
       }
     } else if (!inputName) {
       this.setState({ nameIsError: true })
-      changeSnackbarStage(true, 'Please enter name!')
+      snackbarMessage({ message: 'Please enter name!' })
     } else if (!date) {
       this.setState({ dateIsError: true })
-      changeSnackbarStage(true, 'Please enter date!')
+      snackbarMessage({ message: 'Please enter date!' })
     } else if (!startTime) {
       this.setState({ startTimeIsError: true })
-      changeSnackbarStage(true, 'Please enter start time!')
+      snackbarMessage({ message: 'Please enter start time!' })
     } else {
       this.setState({ endTimeIsError: true })
-      changeSnackbarStage(true, 'Please enter end time!')
+      snackbarMessage({ message: 'Please enter end time!' })
     }
   }
 
   _handleAddTag() {
-    const { queryTag, tags, addTag, changeSnackbarStage } = this.props
+    const { queryTag, tags, addTag } = this.props
     if (queryTag) {
       if (R.findIndex(R.propEq('label', R.toLower(queryTag)), tags) < 0) {
         addTag()
       } else {
-        changeSnackbarStage(true, 'repetitive tag!')
+        snackbarMessage({ message: 'repetitive tag!' })
       }
     } else {
-      changeSnackbarStage(true, 'select or input tag first!')
+      snackbarMessage({ message: 'select or write tag first!' })
     }
   }
 
@@ -175,7 +175,6 @@ Add.propTypes = {
   addLog: PropTypes.func.isRequired,
   changeTab: PropTypes.func.isRequired,
   addCustomLog: PropTypes.func.isRequired,
-  changeSnackbarStage: PropTypes.func.isRequired,
 }
 
 export default withRouter(Add)

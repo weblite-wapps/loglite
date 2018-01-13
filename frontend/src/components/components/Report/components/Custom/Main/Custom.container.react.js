@@ -10,7 +10,6 @@ import {
   calculateTotalDuration,
   convertJSONToCSV,
 } from '../../../Main/Report.action'
-import { changeSnackbarStage } from '../../../../Snackbar/Snackbar.action'
 // selector
 import { getReportFilteredSuggestions } from '../../../../../Main/App.selector'
 
@@ -30,7 +29,6 @@ const mapDispatchToProps = dispatch => ({
   addTag: () => dispatch(addTag()),
   calculateTotalDuration: () => dispatch(calculateTotalDuration()),
   convertJSONToCSV: () => dispatch(convertJSONToCSV()),
-  changeSnackbarStage: (value, message) => dispatch(changeSnackbarStage(value, message)),
 })
 
 

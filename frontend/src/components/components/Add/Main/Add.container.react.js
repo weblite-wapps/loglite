@@ -10,7 +10,6 @@ import {
   addTag,
 } from './Add.action'
 import { changeTab, addLog, addCustomLog } from '../../../Main/App.action'
-import { changeSnackbarStage } from '../../Snackbar/Snackbar.action'
 // selector
 import { getAddFilteredSuggestions } from '../../../Main/App.selector'
 
@@ -36,7 +35,6 @@ const mapDispatchToProps = dispatch => ({
   changeTab: value => dispatch(changeTab(value)),
   addCustomLog: (title, tags, date, start, end) =>
     dispatch(addCustomLog(title, tags, date, start, end)),
-  changeSnackbarStage: (value, message) => dispatch(changeSnackbarStage(value, message)),
 })
 
 

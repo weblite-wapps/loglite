@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import WorkList from './WorkList.presentational.react'
 // actions
 import { deleteLog } from '../../../../../Main/App.action'
-import { changeSnackbarStage } from '../../../../Snackbar/Snackbar.action'
 // selectors
 import { getWorksDuration } from '../../../../common/Common.selector'
 // helpers
@@ -17,7 +16,6 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   deleteLog: () => dispatch(deleteLog(ownProps.log._id)),
-  changeSnackbarStage: (value, message) => dispatch(changeSnackbarStage(value, message)),
 })
 
 
