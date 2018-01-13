@@ -29,15 +29,10 @@
     }
   },
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "cors": "^2.8.4",
     "date-fns": "^1.29.0",
-    "express": "^4.16.2",
     "history": "^4.7.2",
-    "json2csv": "^3.11.5",
     "material-ui": "^1.0.0-beta.26",
     "material-ui-icons": "^1.0.0-beta.17",
-    "mongodb": "^2.2.33",
     "ramda": "^0.25.0",
     "react": "^16.1.1",
     "react-autocomplete": "^1.7.2",

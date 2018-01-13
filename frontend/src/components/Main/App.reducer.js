@@ -26,7 +26,7 @@ const initialState = {
   isLoading: false,
   isRunning: false,
   logs: [],
-  wis: (window.W && window.W.id) || "110",
+  wis: (window.W && window.W.id) || '110',
 }
 
 
