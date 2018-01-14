@@ -28,13 +28,16 @@ app.use(bodyParser.json()) // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
 
 const logger = console.log
+logger('log1')
 
 // Handler for internal server errors
-function errorHandler(err, req, res) {
-  res.status(500)
-  res.render('error_template', { error: err })
-}
-app.use(errorHandler)
+// function errorHandler(err, res, y) {
+//   console.log('err.stack')
+//   console.log(err.stack)
+//   // logger(err.message)
+//   // res.status = 500
+// }
+// app.use(errorHandler)
 
 let db
 MongoClient.connect('mongodb://localhost:27017/LogLite', (err, database) => {
