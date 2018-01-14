@@ -10,7 +10,6 @@ import AppReducer from '../components/Main/App.reducer'
 import HomeReducer from '../components/components/Home/Main/Home.reducer'
 import AddReducer from '../components/components/Add/Main/Add.reducer'
 import ReportReducer from '../components/components/Report/Main/Report.reducer'
-import SnackbarReducer from '../components/components/Snackbar/Snackbar.reducer'
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -26,7 +25,6 @@ const store = createStore(
     Home: HomeReducer,
     Add: AddReducer,
     Report: ReportReducer,
-    Snackbar: SnackbarReducer,
   }), composeEnhancers(applyMiddleware(epicMiddleware)))
 
 

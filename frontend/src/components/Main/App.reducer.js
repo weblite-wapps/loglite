@@ -93,11 +93,11 @@ const reducers = {
   }),
 
   [RESTORE_LOG]: (state, { log }) => ({ ...state,
-    logs: R.prepend(R.assoc('expanded', false, log), R.drop(1, state.logs)),
+    logs: R.adjust(R.assoc('_id', log._id), 0, state.logs),
   }),
 
   [RESTORE_CUSTOM_LOG]: (state, { log }) => ({ ...state,
-    logs: R.prepend(R.assoc('expanded', false, log), R.drop(1, state.logs)),
+    logs: R.adjust(R.assoc('_id', log._id), 0, state.logs),
   }),
 
   [DELETE_LOG]: (state, { _id }) => ({ ...state,
