@@ -33,7 +33,7 @@ const addLogEpic = (action$, { getState }) =>
   action$.ofType(ADD_LOG)
     .pluck('payload')
     .mergeMap(payload => Promise.all([
-      postRequest('/insertLog')
+      postRequest('/saveLog')
         .send({
           title: payload.title,
           tags: payload.tags,
@@ -42,7 +42,7 @@ const addLogEpic = (action$, { getState }) =>
           wis: getState().App.wis,
         })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
-      postRequest('/insertTags')
+      postRequest('/saveTags')
         .send({
           tags: payload.tags,
           wis: getState().App.wis,
@@ -55,7 +55,7 @@ const addCustomLogEpic = (action$, { getState }) =>
   action$.ofType(ADD_CUSTOM_LOG)
     .pluck('payload')
     .mergeMap(payload => Promise.all([
-      postRequest('/insertCustomLog')
+      postRequest('/saveCustomLog')
         .send({
           title: payload.title,
           tags: payload.tags,
@@ -67,7 +67,7 @@ const addCustomLogEpic = (action$, { getState }) =>
           wis: getState().App.wis,
         })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
-      postRequest('/insertTags')
+      postRequest('/saveTags')
         .send({
           tags: payload.tags,
           wis: getState().App.wis,

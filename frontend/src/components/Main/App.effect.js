@@ -37,7 +37,7 @@ import {
 const fetchTodayDataEpic = (action$, { getState }) =>
   action$.ofType(FETCH_TODAY_DATA)
     .mergeMap(() => Promise.all([
-      getRequest('/')
+      getRequest('/fetchLogs')
         .query({ wis: getState().App.wis, date: format(new Date(), 'YYYY-MM-DD') }),
       getRequest('/fetchTags')
         .query({ wis: getState().App.wis }),
