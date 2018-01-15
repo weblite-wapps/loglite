@@ -30,5 +30,5 @@ export const formattedSeconds = (seconds) => {
   }
   return Math.floor((seconds % 3600) / 60) === 0 ?
     `Total: ${Math.floor(seconds / 3600)}h` :
-    `Total: ${Math.floor(seconds / 3600)}h${Math.floor((seconds % 3600) / 60)}m`
+    `Total: ${Math.floor(seconds / 3600)}h & ${Math.floor((seconds % 3600) / 60)}m`
 }

@@ -20,14 +20,14 @@ export const formattedSeconds = (seconds, pageName) => {
     }
     return Math.floor((seconds % 3600) / 60) === 0 ?
       `${Math.floor(seconds / 3600)}h` :
-      `${Math.floor(seconds / 3600)}h${Math.floor((seconds % 3600) / 60)}m`
+      `${Math.floor(seconds / 3600)}h & ${Math.floor((seconds % 3600) / 60)}m`
   }
   if (Math.floor(seconds / 3600) === 0) {
     return `Total: ${Math.floor(seconds / 60)}m`
   }
   return Math.floor((seconds % 3600) / 60) === 0 ?
     `Total: ${Math.floor(seconds / 3600)}h` :
-    `Total: ${Math.floor(seconds / 3600)}h${Math.floor((seconds % 3600) / 60)}m`
+    `Total: ${Math.floor(seconds / 3600)}h & ${Math.floor((seconds % 3600) / 60)}m`
 }
 
 const formattedTags = tags =>
