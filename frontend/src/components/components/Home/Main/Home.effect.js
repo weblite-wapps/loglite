@@ -19,6 +19,7 @@ import {
 
 const refetchTotalDurationEpic = (action$, { getState }) =>
   action$.ofType(RESET_INPUTS, REFETCH_TOTAL_DURATION)
+    .do(() => dispatch(setIsLoading(true)))
     .mergeMap(() => Promise.all([
       postRequest('/todayTotalDuration')
         .send({
@@ -38,6 +39,7 @@ const refetchTotalDurationEpic = (action$, { getState }) =>
           endDate: new Date(),
         }),
     ]))
+    .do(() => dispatch(setIsLoading(false)))
     .mergeMap(success => ([
       loadTodayTotalDuration(success[0].text),
       loadThisWeekTotalDuration(success[1].text),
