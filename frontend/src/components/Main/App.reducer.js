@@ -73,7 +73,7 @@ const reducers = {
             title,
             expanded: false,
             tags,
-            times: [{ start, end }],
+            times: [{ start: formatTime(start), end: formatTime(end) }],
             date,
             wis: state.wis,
           }, state.logs),
