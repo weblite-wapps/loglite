@@ -1,5 +1,5 @@
 // components
-import host from '../../../../config'
+import host from '../../../../setup/config'
 // const
 const request = require('superagent')
 

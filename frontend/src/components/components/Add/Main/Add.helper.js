@@ -3,7 +3,7 @@ import setMinutes from 'date-fns/set_minutes'
 import setHours from 'date-fns/set_hours'
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping'
 // components
-import host from '../../../../config'
+import host from '../../../../setup/config'
 // const
 const request = require('superagent')
 

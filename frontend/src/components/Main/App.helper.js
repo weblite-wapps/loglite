@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import setMinutes from 'date-fns/set_minutes'
 import setHours from 'date-fns/set_hours'
 // components
-import host from '../../config'
+import host from '../../setup/config'
 // const
 const request = require('superagent')
 

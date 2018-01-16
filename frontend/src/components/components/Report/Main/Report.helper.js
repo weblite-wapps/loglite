@@ -4,7 +4,7 @@ import differenceInSeconds from 'date-fns/difference_in_seconds'
 import addDays from 'date-fns/add_days'
 import subDays from 'date-fns/sub_days'
 // components
-import host from '../../../../config'
+import host from '../../../../setup/config'
 // const
 const request = require('superagent')
 

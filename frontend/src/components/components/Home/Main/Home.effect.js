@@ -1,6 +1,7 @@
 // modules
 import { combineEpics } from 'redux-observable'
 import 'rxjs/add/operator/mergeMap'
+import 'rxjs/add/operator/do'
 import format from 'date-fns/format'
 import startOfWeek from 'date-fns/start_of_week'
 import startOfMonth from 'date-fns/start_of_month'
@@ -8,6 +9,7 @@ import subDays from 'date-fns/sub_days'
 // helpers
 import { postRequest } from './Home.helper'
 // actions
+import { setIsLoading } from '../../../Main/App.action'
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
 import {
   REFETCH_TOTAL_DURATION,
@@ -17,7 +19,7 @@ import {
 } from './Home.action'
 
 
-const refetchTotalDurationEpic = (action$, { getState }) =>
+const refetchTotalDurationEpic = (action$, { getState, dispatch }) =>
   action$.ofType(RESET_INPUTS, REFETCH_TOTAL_DURATION)
     .do(() => dispatch(setIsLoading(true)))
     .mergeMap(() => Promise.all([
