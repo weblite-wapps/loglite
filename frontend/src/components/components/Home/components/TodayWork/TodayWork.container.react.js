@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onStopClick: (_id, end) => dispatch(saveEndTime(_id, end)),
   addLogToNextDay: (end, date) =>
     dispatch(addLogToNextDay(ownProps.log.title, ownProps.log.tags, end, date)),
-  changeRunningId: () => dispatch(changeRunningId(ownProps._id)),
+  changeRunningId: _id => dispatch(changeRunningId(_id)),
 })
 
 
