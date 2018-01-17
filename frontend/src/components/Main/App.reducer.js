@@ -15,10 +15,8 @@ import {
   RESTORE_LOG,
   RESTORE_CUSTOM_LOG,
   DELETE_LOG,
-  CHANGE_START_TIME_OF_RANGE,
   SET_SECONDS_ELAPSED,
   INCREMENT_SECONDS_ELAPSED,
-  CHANGE_LAST_CLEARED_INCREMENTER,
   SAVE_START_TIME,
   SAVE_END_TIME,
   CHANGE_RUNNING_ID,
@@ -113,11 +111,6 @@ const reducers = {
     logs: R.remove(R.findIndex(R.propEq('_id', _id))(state.logs), 1, state.logs),
   }),
 
-  [CHANGE_START_TIME_OF_RANGE]: (state, { _id, value }) => ({ ...state,
-    logs: R.map(log => (log._id === _id) ?
-      R.set(stopwatchLens, { ...log.stopwatch, startTimeOfRange: value }, log) : log, state.logs),
-  }),
-
   [SET_SECONDS_ELAPSED]: (state, { _id, value }) => ({ ...state,
     logs: R.map(log => (log._id === _id) ?
       R.set(stopwatchLens, { ...log.stopwatch, secondsElapsed: value }, log) : log, state.logs),
@@ -128,12 +121,6 @@ const reducers = {
       { ...log,
         stopwatch: { ...log.stopwatch, secondsElapsed: R.inc(log.stopwatch.secondsElapsed) },
       } : log, state.logs),
-  }),
-
-  [CHANGE_LAST_CLEARED_INCREMENTER]: (state, { _id, value }) => ({ ...state,
-    logs: R.map(log => (log._id === _id) ?
-      R.set(stopwatchLens, { ...log.stopwatch, lastClearedIncrementer: value }, log) :
-      log, state.logs),
   }),
 
   [SAVE_START_TIME]: (state, { _id }) => ({ ...state,
