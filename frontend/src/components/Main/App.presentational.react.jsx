@@ -1,6 +1,6 @@
 // Modules
 import React from 'react'
-import annyang from 'annyang'
+// import annyang from 'annyang'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
@@ -50,22 +50,22 @@ class App extends React.Component {
     else if (!tabIndex) changeTab('Home')
     else changeTab(tabIndex)
 
-    const commands = {
-      Home: () => {
-        this.props.history.push('/')
-        this.props.changeTab('Home')
-      },
-      Add: () => {
-        this.props.history.push('/Add')
-        this.props.changeTab('Add')
-      },
-      Report: () => {
-        this.props.history.push('/Report')
-        this.props.changeTab('Report')
-      },
-    }
-    annyang.addCommands(commands)
-    annyang.start({ autoRestart: true })
+    // const commands = {
+    //   Home: () => {
+    //     this.props.history.push('/')
+    //     this.props.changeTab('Home')
+    //   },
+    //   Add: () => {
+    //     this.props.history.push('/Add')
+    //     this.props.changeTab('Add')
+    //   },
+    //   Report: () => {
+    //     this.props.history.push('/Report')
+    //     this.props.changeTab('Report')
+    //   },
+    // }
+    // annyang.addCommands(commands)
+    // annyang.start({ autoRestart: true })
   }
 
   componentDidMount() {
