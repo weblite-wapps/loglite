@@ -29,6 +29,7 @@
     }
   },
   "dependencies": {
+    "annyang": "^2.6.0",
     "date-fns": "^1.29.0",
     "history": "^4.7.2",
     "material-ui": "^1.0.0-beta.26",
