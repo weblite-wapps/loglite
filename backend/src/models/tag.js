@@ -7,7 +7,7 @@ const { Schema } = mongoose
 const TagSchema = new Schema({
   label: String,
   number: Number,
-  wis: Number,
+  wis: String,
 })
 
 export default mongoose.model('Tag', TagSchema)
