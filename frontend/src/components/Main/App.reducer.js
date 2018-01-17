@@ -37,7 +37,7 @@ const isLoadingLens = R.lensProp('isLoading')
 const tabIndexLens = R.lensProp('tabIndex')
 const endLens = R.lensProp('end')
 const runningIdLens = R.lensProp('runningId')
-const stopwatchLens = R.lensProp('stopwatch')
+const secondsElapsedLens = R.lensProp('secondsElapsed')
 
 // reducers
 const reducers = {
@@ -49,6 +49,7 @@ const reducers = {
     logs: R.concat(state.logs,
       R.map(log => ({ ...log,
         expanded: false,
+        secondsElapsed: 0,
         stopwatch: { startTimeOfRange: null, secondsElapsed: 0, lastClearedIncrementer: null },
       }), logs)),
   }),
@@ -65,6 +66,7 @@ const reducers = {
         expanded: false,
         tags,
         times: [],
+        secondsElapsed: 0,
         date: format(new Date(), 'YYYY-MM-DD'),
         wis: state.wis,
       },
@@ -81,6 +83,7 @@ const reducers = {
             expanded: false,
             tags,
             times: [{ start: formatTime(start), end: formatTime(end) }],
+            secondsElapsed: 0,
             date,
             wis: state.wis,
           }, state.logs),
@@ -94,6 +97,7 @@ const reducers = {
         expanded: false,
         tags,
         times: [{ start: formatTime('00:00'), end }],
+        secondsElapsed: 0,
         date,
         wis: state.wis,
       }, state.logs),
@@ -113,14 +117,12 @@ const reducers = {
 
   [SET_SECONDS_ELAPSED]: (state, { _id, value }) => ({ ...state,
     logs: R.map(log => (log._id === _id) ?
-      R.set(stopwatchLens, { ...log.stopwatch, secondsElapsed: value }, log) : log, state.logs),
+      R.set(secondsElapsedLens, value, log) : log, state.logs),
   }),
 
   [INCREMENT_SECONDS_ELAPSED]: (state, { _id }) => ({ ...state,
     logs: R.map(log => (log._id === _id) ?
-      { ...log,
-        stopwatch: { ...log.stopwatch, secondsElapsed: R.inc(log.stopwatch.secondsElapsed) },
-      } : log, state.logs),
+      R.set(secondsElapsedLens, R.inc(log.secondsElapsed), log) : log, state.logs),
   }),
 
   [SAVE_START_TIME]: (state, { _id }) => ({ ...state,

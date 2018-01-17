@@ -67,6 +67,7 @@ class App extends React.Component {
     annyang.addCommands(commands)
     annyang.start({ autoRestart: true })
   }
+
   componentDidMount() {
     this.props.fetchTodayData()
   }

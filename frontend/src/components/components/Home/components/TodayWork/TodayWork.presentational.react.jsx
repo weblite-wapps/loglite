@@ -143,7 +143,7 @@ export default class TodayWork extends React.Component {
               <Divider light />
               <div className={scssClasses.stopwatch}>
                 <Typography type="subheading">
-                  {formattedSeconds(log.stopwatch.secondsElapsed)}
+                  {formattedSeconds(log.secondsElapsed)}
                 </Typography>
               </div>
             </Collapse>
