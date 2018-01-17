@@ -53,7 +53,7 @@ export default class Custom extends React.Component {
             <ListItem disableGutters>
               <div className={scssClasses.buttons}>
                 <Button isCustome label="Custome" onClick={this.handleClick} />
-                <Button label="START" onClick={onAdd} />
+                <Button label="ADD" onClick={onAdd} />
               </div>
             </ListItem>
             <Collapse component="li" in={this.state.expanded} timeout="auto" unmountOnExit>
