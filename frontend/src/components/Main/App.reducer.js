@@ -31,7 +31,6 @@ const initialState = {
   wis: (window.W && window.W.id) || '110',
 }
 
-
 // lens & views
 const isLoadingLens = R.lensProp('isLoading')
 const tabIndexLens = R.lensProp('tabIndex')

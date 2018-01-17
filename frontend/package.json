@@ -21,6 +21,7 @@
       "devServerContentBase": "dev"
     },
     "build": {
+      "watch": true,
       "entry": {
         "index": "./setup/dev.index.jsx"
       },
