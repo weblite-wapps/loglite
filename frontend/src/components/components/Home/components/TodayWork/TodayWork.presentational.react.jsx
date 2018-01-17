@@ -12,7 +12,6 @@ import * as R from 'ramda'
 import format from 'date-fns/format'
 import isWithinRange from 'date-fns/is_within_range'
 import differenceInSeconds from 'date-fns/difference_in_seconds'
-import { snackbarMessage } from 'weblite-web-snackbar'
 // icons
 import Play from 'material-ui-icons/PlayArrow'
 import Pause from 'material-ui-icons/Pause'
@@ -58,88 +57,56 @@ export default class TodayWork extends React.Component {
     super(props)
     this.handleStartClick = this._handleStartClick.bind(this)
     this.handleStopClick = this._handleStopClick.bind(this)
-    this.state = {
-      startTimeOfRange: null,
-      secondsElapsed: 0,
-      lastClearedIncrementer: null,
-    }
-    this.incrementer = null
   }
 
   componentWillMount() {
-    const { log } = this.props
+    const { log, setSecondsElapsed, incrementSecondsElapsed } = this.props
     const len = log.times.length
     if (len && log.times[len - 1].end === 'running') {
-      this.setState({
-        secondsElapsed: sumTimes(log.times) + differenceInSeconds(new Date(),
-          log.times[len - 1].start),
-      })
-      this.incrementer = setInterval(() =>
-        this.setState({ secondsElapsed: this.state.secondsElapsed + 1 })
-        , 1000)
+      setSecondsElapsed(sumTimes(log.times) + differenceInSeconds(new Date(),
+        log.times[len - 1].start))
+      incrementSecondsElapsed()
     } else {
-      this.setState({ secondsElapsed: sumTimes(log.times) })
+      setSecondsElapsed(sumTimes(log.times))
     }
   }
 
   componentDidMount() {
-    const { log, toggleExpanded, toggleIsRunning } = this.props
+    const { log, toggleExpanded, changeRunningId } = this.props
     const len = log.times.length
     if (!log.expanded && len && log.times[len - 1].end === 'running') {
-      toggleExpanded()
-      toggleIsRunning()
+      toggleExpanded(log._id)
+      changeRunningId(log._id)
     }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.incrementer)
   }
 
   _handleStartClick() {
-    const { isRunning, toggleExpanded, toggleIsRunning,
-      onStartClick } = this.props
-    if (isRunning) {
-      snackbarMessage({ message: 'Stop the other stopwatch first!' })
-    } else {
-      toggleIsRunning()
-      toggleExpanded()
-      this.setState({ startTimeOfRange: new Date() })
-      onStartClick()
-      this.incrementer = setInterval(() =>
-        this.setState({ secondsElapsed: this.state.secondsElapsed + 1 })
-        , 1000)
+    const { log, runningId, toggleExpanded, changeRunningId,
+      onStartClick, onStopClick } = this.props
+    if (runningId) {
+      onStopClick(runningId, new Date())
+      toggleExpanded(runningId)
     }
+    onStartClick()
+    changeRunningId(log._id)
+    toggleExpanded(log._id)
   }
 
   _handleStopClick() {
-    const { toggleExpanded, toggleIsRunning, addLogToNextDay, onStopClick } = this.props
-    clearInterval(this.incrementer)
-    this.setState({ lastClearedIncrementer: this.incrementer })
-    toggleExpanded()
-    toggleIsRunning()
-    if (isWithinRange(formatTime('24:00'), this.state.startTimeOfRange, new Date())) {
+    const { log, toggleExpanded, changeRunningId, addLogToNextDay, onStopClick } = this.props
+    toggleExpanded(log._id)
+    changeRunningId('')
+    if (isWithinRange(formatTime('24:00'), log.stopwatch.startTimeOfRange, new Date())) {
       addLogToNextDay(new Date(), format(new Date(), 'YYYY-MM-DD'))
-      onStopClick(previousDay(formatTime('24:00')))
+      onStopClick(log._id, previousDay(formatTime('24:00')))
     } else {
-      onStopClick(new Date())
+      onStopClick(log._id, new Date())
     }
   }
 
   render() {
-    const { secondsElapsed, lastClearedIncrementer } = this.state
-    const { isRunning, log, workDuration } = this.props
+    const { log, workDuration } = this.props
     const len = log.times.length
-    const button =
-      secondsElapsed === 0 || this.incrementer === lastClearedIncrementer ?
-        (
-          <IconButton onClick={this.handleStartClick}>
-            <Play className={scssClasses.icon} />
-          </IconButton>
-        ) : (
-          <IconButton onClick={this.handleStopClick}>
-            <Pause className={scssClasses.icon} />
-          </IconButton>
-        )
     return (
       <MuiThemeProvider theme={theme}>
         <div>
@@ -158,8 +125,17 @@ export default class TodayWork extends React.Component {
                 </span>
               </Typography>
               <ListItemSecondaryAction>
-                { (!isRunning || (len && log.times[len - 1].end === 'running')) ?
-                    button : null
+                {
+                  len && log.times[len - 1].end === 'running' ?
+                    (
+                      <IconButton onClick={this.handleStopClick}>
+                        <Pause className={scssClasses.icon} />
+                      </IconButton>
+                    ) : (
+                      <IconButton onClick={this.handleStartClick}>
+                        <Play className={scssClasses.icon} />
+                      </IconButton>
+                    )
                 }
               </ListItemSecondaryAction>
             </ListItem>
@@ -167,7 +143,7 @@ export default class TodayWork extends React.Component {
               <Divider light />
               <div className={scssClasses.stopwatch}>
                 <Typography type="subheading">
-                  {formattedSeconds(secondsElapsed)}
+                  {formattedSeconds(log.stopwatch.secondsElapsed)}
                 </Typography>
               </div>
             </Collapse>
@@ -180,16 +156,18 @@ export default class TodayWork extends React.Component {
 }
 
 TodayWork.propTypes = {
+  runningId: PropTypes.string.isRequired,
   log: PropTypes.shape({
     title: PropTypes.string.isRequired,
     expanded: PropTypes.bool.isRequired,
     times: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  isRunning: PropTypes.bool.isRequired,
   workDuration: PropTypes.string.isRequired,
   toggleExpanded: PropTypes.func.isRequired,
   onStartClick: PropTypes.func.isRequired,
   onStopClick: PropTypes.func.isRequired,
   addLogToNextDay: PropTypes.func.isRequired,
-  toggleIsRunning: PropTypes.func.isRequired,
+  changeRunningId: PropTypes.func.isRequired,
+  setSecondsElapsed: PropTypes.func.isRequired,
+  incrementSecondsElapsed: PropTypes.func.isRequired,
 }

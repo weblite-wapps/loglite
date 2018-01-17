@@ -42,6 +42,24 @@ const restoreCustomLog = createAction(RESTORE_CUSTOM_LOG, log => ({ log }))
 const DELETE_LOG = 'DELETE_LOG'
 const deleteLog = createAction(DELETE_LOG, _id => ({ _id }))
 
+const CHANGE_START_TIME_OF_RANGE = 'CHANGE_START_TIME_OF_RANGE'
+const changeStartTimeOfRange = createAction(
+  CHANGE_START_TIME_OF_RANGE,
+  (_id, value) => ({ _id, value }),
+)
+
+const SET_SECONDS_ELAPSED = 'SET_SECONDS_ELAPSED'
+const setSecondsElapsed = createAction(SET_SECONDS_ELAPSED, (_id, value) => ({ _id, value }))
+
+const INCREMENT_SECONDS_ELAPSED = 'INCREMENT_SECONDS_ELAPSED'
+const incrementSecondsElapsed = createAction(INCREMENT_SECONDS_ELAPSED, _id => ({ _id }))
+
+const CHANGE_LAST_CLEARED_INCREMENTER = 'CHANGE_LAST_CLEARED_INCREMENTER'
+const changeLastCleardIncrementer = createAction(
+  CHANGE_LAST_CLEARED_INCREMENTER,
+  (_id, value) => ({ _id, value }),
+)
+
 const SAVE_START_TIME = 'SAVE_START_TIME'
 const saveStartTime = createAction(SAVE_START_TIME, _id => ({ _id }))
 
@@ -51,8 +69,8 @@ const saveEndTime = createAction(
   (_id, end) => ({ _id, end }),
 )
 
-const TOGGLE_IS_RUNNING = 'TOGGLE_IS_RUNNING'
-const toggleIsRunning = createAction(TOGGLE_IS_RUNNING)
+const CHANGE_RUNNING_ID = 'CHANGE_RUNNING_ID'
+const changeRunningId = createAction(CHANGE_RUNNING_ID, _id => ({ _id }))
 
 
 export {
@@ -67,7 +85,11 @@ export {
   RESTORE_LOG, restoreLog,
   RESTORE_CUSTOM_LOG, restoreCustomLog,
   DELETE_LOG, deleteLog,
+  CHANGE_START_TIME_OF_RANGE, changeStartTimeOfRange,
+  SET_SECONDS_ELAPSED, setSecondsElapsed,
+  INCREMENT_SECONDS_ELAPSED, incrementSecondsElapsed,
+  CHANGE_LAST_CLEARED_INCREMENTER, changeLastCleardIncrementer,
   SAVE_START_TIME, saveStartTime,
   SAVE_END_TIME, saveEndTime,
-  TOGGLE_IS_RUNNING, toggleIsRunning,
+  CHANGE_RUNNING_ID, changeRunningId,
 }

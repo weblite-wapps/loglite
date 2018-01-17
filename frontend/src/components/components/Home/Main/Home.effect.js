@@ -1,7 +1,13 @@
 // modules
 import { combineEpics } from 'redux-observable'
 import 'rxjs/add/operator/mergeMap'
+import 'rxjs/add/operator/mapTo'
 import 'rxjs/add/operator/do'
+import 'rxjs/add/operator/takeUntil'
+import 'rxjs/add/operator/pluck'
+import 'rxjs/add/operator/delay'
+import { Observable } from 'rxjs/Observable'
+import 'rxjs/add/observable/interval'
 import format from 'date-fns/format'
 import startOfWeek from 'date-fns/start_of_week'
 import startOfMonth from 'date-fns/start_of_month'
@@ -9,7 +15,12 @@ import subDays from 'date-fns/sub_days'
 // helpers
 import { postRequest } from './Home.helper'
 // actions
-import { setIsLoading } from '../../../Main/App.action'
+import {
+  SAVE_START_TIME,
+  INCREMENT_SECONDS_ELAPSED,
+  SAVE_END_TIME,
+  setIsLoading,
+} from '../../../Main/App.action'
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
 import {
   REFETCH_TOTAL_DURATION,
@@ -48,7 +59,15 @@ const refetchTotalDurationEpic = (action$, { getState, dispatch }) =>
       loadThisMonthTotalDuration(success[2].text),
     ]))
 
+const effectCountUpEpic = action$ =>
+  action$.ofType(SAVE_START_TIME)
+    .pluck('payload')
+    .mergeMap(payload => Observable.interval(1000)
+      .mapTo({ type: INCREMENT_SECONDS_ELAPSED, payload })
+      .takeUntil(action$.ofType(SAVE_END_TIME)))
+
 
 export default combineEpics(
   refetchTotalDurationEpic,
+  effectCountUpEpic,
 )

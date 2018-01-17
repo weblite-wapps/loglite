@@ -15,16 +15,20 @@ import {
   RESTORE_LOG,
   RESTORE_CUSTOM_LOG,
   DELETE_LOG,
+  CHANGE_START_TIME_OF_RANGE,
+  SET_SECONDS_ELAPSED,
+  INCREMENT_SECONDS_ELAPSED,
+  CHANGE_LAST_CLEARED_INCREMENTER,
   SAVE_START_TIME,
   SAVE_END_TIME,
-  TOGGLE_IS_RUNNING,
+  CHANGE_RUNNING_ID,
 } from './App.action'
 
 // state
 const initialState = {
   tabIndex: 'Home',
   isLoading: false,
-  isRunning: false,
+  runningId: '',
   logs: [],
   wis: (window.W && window.W.id) || '110',
 }
@@ -34,7 +38,8 @@ const initialState = {
 const isLoadingLens = R.lensProp('isLoading')
 const tabIndexLens = R.lensProp('tabIndex')
 const endLens = R.lensProp('end')
-const isRunningLens = R.lensProp('isRunning')
+const runningIdLens = R.lensProp('runningId')
+const stopwatchLens = R.lensProp('stopwatch')
 
 // reducers
 const reducers = {
@@ -43,7 +48,11 @@ const reducers = {
   [CHANGE_TAB]: (state, { value }) => R.set(tabIndexLens, value, state),
 
   [LOAD_LOGS_DATA]: (state, { logs }) => ({ ...state,
-    logs: R.concat(state.logs, R.map(log => ({ ...log, expanded: false }), logs)),
+    logs: R.concat(state.logs,
+      R.map(log => ({ ...log,
+        expanded: false,
+        stopwatch: { startTimeOfRange: null, secondsElapsed: 0, lastClearedIncrementer: null },
+      }), logs)),
   }),
 
   [TOGGLE_EXPANDED]: (state, { _id }) => ({ ...state,
@@ -104,6 +113,29 @@ const reducers = {
     logs: R.remove(R.findIndex(R.propEq('_id', _id))(state.logs), 1, state.logs),
   }),
 
+  [CHANGE_START_TIME_OF_RANGE]: (state, { _id, value }) => ({ ...state,
+    logs: R.map(log => (log._id === _id) ?
+      R.set(stopwatchLens, { ...log.stopwatch, startTimeOfRange: value }, log) : log, state.logs),
+  }),
+
+  [SET_SECONDS_ELAPSED]: (state, { _id, value }) => ({ ...state,
+    logs: R.map(log => (log._id === _id) ?
+      R.set(stopwatchLens, { ...log.stopwatch, secondsElapsed: value }, log) : log, state.logs),
+  }),
+
+  [INCREMENT_SECONDS_ELAPSED]: (state, { _id }) => ({ ...state,
+    logs: R.map(log => (log._id === _id) ?
+      { ...log,
+        stopwatch: { ...log.stopwatch, secondsElapsed: R.inc(log.stopwatch.secondsElapsed) },
+      } : log, state.logs),
+  }),
+
+  [CHANGE_LAST_CLEARED_INCREMENTER]: (state, { _id, value }) => ({ ...state,
+    logs: R.map(log => (log._id === _id) ?
+      R.set(stopwatchLens, { ...log.stopwatch, lastClearedIncrementer: value }, log) :
+      log, state.logs),
+  }),
+
   [SAVE_START_TIME]: (state, { _id }) => ({ ...state,
     logs: R.map(log => (log._id === _id) ?
       { ...log, times: R.append({ start: new Date(), end: 'running' }, log.times) } : log, state.logs),
@@ -116,7 +148,7 @@ const reducers = {
           R.set(endLens, end, time) : time, log.times) } : log, state.logs),
   }),
 
-  [TOGGLE_IS_RUNNING]: state => R.set(isRunningLens, !state.isRunning, state),
+  [CHANGE_RUNNING_ID]: (state, { _id }) => R.set(runningIdLens, _id, state),
 }
 
 
