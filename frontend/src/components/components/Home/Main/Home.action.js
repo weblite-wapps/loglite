@@ -18,6 +18,8 @@ const loadThisMonthTotalDuration = createAction(LOAD_THISMONTH_TOTAL_DURATION, v
 const REFETCH_TOTAL_DURATION = 'REFETCH_TOTAL_DURATION'
 const refetchTotalDuration = createAction(REFETCH_TOTAL_DURATION)
 
+const COUNTINUE_COUNTING = 'COUNTINUE_COUNTING'
+const countinueCounting = createAction(COUNTINUE_COUNTING, _id => ({ _id }))
 
 export {
   CHANGE_TEXT_SLIDER, changeTextSlider,
@@ -25,4 +27,5 @@ export {
   LOAD_THISWEEK_TOTAL_DURATION, loadThisWeekTotalDuration,
   LOAD_THISMONTH_TOTAL_DURATION, loadThisMonthTotalDuration,
   REFETCH_TOTAL_DURATION, refetchTotalDuration,
+  COUNTINUE_COUNTING, countinueCounting,
 }

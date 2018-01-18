@@ -24,6 +24,7 @@ import {
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
 import {
   REFETCH_TOTAL_DURATION,
+  COUNTINUE_COUNTING,
   loadTodayTotalDuration,
   loadThisWeekTotalDuration,
   loadThisMonthTotalDuration,
@@ -60,7 +61,7 @@ const refetchTotalDurationEpic = (action$, { getState, dispatch }) =>
     ]))
 
 const effectCountUpEpic = action$ =>
-  action$.ofType(SAVE_START_TIME)
+  action$.ofType(SAVE_START_TIME, COUNTINUE_COUNTING)
     .pluck('payload')
     .mergeMap(payload => Observable.interval(1000)
       .mapTo({ type: INCREMENT_SECONDS_ELAPSED, payload })

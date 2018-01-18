@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 // components
 import TodayWork from './TodayWork.presentational.react'
 // actions
+import { countinueCounting } from '../../Main/Home.action'
 import {
   toggleExpanded,
   setSecondsElapsed,
-  incrementSecondsElapsed,
   saveStartTime,
   saveEndTime,
   addLogToNextDay,
@@ -26,7 +26,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   toggleExpanded: _id => dispatch(toggleExpanded(_id)),
   setSecondsElapsed: value => dispatch(setSecondsElapsed(ownProps._id, value)),
-  incrementSecondsElapsed: () => dispatch(incrementSecondsElapsed(ownProps._id)),
+  countinueCounting: _id => dispatch(countinueCounting(_id)),
   onStartClick: () => dispatch(saveStartTime(ownProps._id)),
   onStopClick: (_id, end) => dispatch(saveEndTime(_id, end)),
   addLogToNextDay: (end, date) =>

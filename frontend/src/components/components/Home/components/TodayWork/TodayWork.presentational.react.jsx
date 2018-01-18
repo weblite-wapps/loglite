@@ -60,12 +60,12 @@ export default class TodayWork extends React.Component {
   }
 
   componentWillMount() {
-    const { log, setSecondsElapsed, incrementSecondsElapsed } = this.props
+    const { log, setSecondsElapsed, countinueCounting } = this.props
     const len = log.times.length
     if (len && log.times[len - 1].end === 'running') {
       setSecondsElapsed(sumTimes(log.times) + differenceInSeconds(new Date(),
         log.times[len - 1].start))
-      incrementSecondsElapsed()
+      countinueCounting(log._id)
     } else {
       setSecondsElapsed(sumTimes(log.times))
     }
@@ -170,5 +170,5 @@ TodayWork.propTypes = {
   addLogToNextDay: PropTypes.func.isRequired,
   changeRunningId: PropTypes.func.isRequired,
   setSecondsElapsed: PropTypes.func.isRequired,
-  incrementSecondsElapsed: PropTypes.func.isRequired,
+  countinueCounting: PropTypes.func.isRequired,
 }
