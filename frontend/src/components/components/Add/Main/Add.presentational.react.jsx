@@ -33,9 +33,9 @@ class Add extends React.Component {
   }
 
   _handleAddLog() {
-    const { inputName, selectedTags, addLog, changeTab, history } = this.props
-    if (inputName) {
-      addLog(inputName, selectedTags)
+    const { title, selectedTags, addLog, changeTab, history } = this.props
+    if (title) {
+      addLog(title, selectedTags)
       snackbarMessage({ message: 'Added successfully!' })
       changeTab('Home')
       history.push('/')
@@ -51,12 +51,12 @@ class Add extends React.Component {
       date,
       startTime,
       endTime,
-      inputName,
+      title,
       selectedTags,
       addCustomLog,
       history,
       changeTab } = this.props
-    if (inputName && date && startTime && endTime) {
+    if (title && date && startTime && endTime) {
       if (isAfter(new Date(date), new Date())) {
         this.setState({ dateIsError: true })
         snackbarMessage({ message: 'Are you predictor?!' })
@@ -72,7 +72,7 @@ class Add extends React.Component {
           formatTime(startTime), formatTime(endTime))) {
           snackbarMessage({ message: 'Time is overlapping!' })
         } else {
-          addCustomLog(inputName, selectedTags, date, startTime, endTime)
+          addCustomLog(title, selectedTags, date, startTime, endTime)
           snackbarMessage({ message: 'Added successfully!' })
           changeTab('Home')
           history.push('/')
@@ -82,7 +82,7 @@ class Add extends React.Component {
         this.setState({ endTimeIsError: true })
         snackbarMessage({ message: 'StartTime is after EndTime!' })
       }
-    } else if (!inputName) {
+    } else if (!title) {
       this.setState({ nameIsError: true })
       snackbarMessage({ message: 'Please enter name!' })
     } else if (!date) {
@@ -113,8 +113,8 @@ class Add extends React.Component {
   render() {
     const { dateIsError, startTimeIsError, endTimeIsError } = this.state
     const {
-      inputName,
-      onInputNameChange,
+      title,
+      onTitleChange,
       suggestions,
       queryTag,
       onQueryTagChange,
@@ -125,9 +125,9 @@ class Add extends React.Component {
       <div className={scssClasses.container}>
         <div className={scssClasses.textField}>
           <TextField
-            label="Task Name"
-            value={inputName}
-            onChange={e => onInputNameChange(e.target.value)}
+            label="Title"
+            value={title}
+            onChange={e => onTitleChange(e.target.value)}
             isError={this.state.nameIsError}
           />
         </div>
@@ -160,7 +160,7 @@ Add.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
-  inputName: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   queryTag: PropTypes.string.isRequired,
   suggestions: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -168,7 +168,7 @@ Add.propTypes = {
   date: PropTypes.string.isRequired,
   startTime: PropTypes.string.isRequired,
   endTime: PropTypes.string.isRequired,
-  onInputNameChange: PropTypes.func.isRequired,
+  onTitleChange: PropTypes.func.isRequired,
   onQueryTagChange: PropTypes.func.isRequired,
   onTagClick: PropTypes.func.isRequired,
   addTag: PropTypes.func.isRequired,

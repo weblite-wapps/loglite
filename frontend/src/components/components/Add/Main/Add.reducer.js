@@ -6,7 +6,7 @@ import {
   CHANGE_START_TIME,
   CHANGE_END_TIME,
   LOAD_TAGS_DATA_IN_ADD,
-  CHANGE_INPUT_NAME,
+  CHANGE_TITLE,
   SET_QUERY_IN_ADD,
   FETCH_TAGS_IN_ADD,
   ADD_TAG_IN_ADD,
@@ -16,7 +16,7 @@ import {
 
 // state
 const initialState = {
-  inputName: '',
+  title: '',
   queryTag: '',
   suggestions: [],
   date: '',
@@ -31,7 +31,7 @@ const initialState = {
 const dateLens = R.lensProp('date')
 const startTimeLens = R.lensProp('startTime')
 const endTimeLens = R.lensProp('endTime')
-const inputNameLens = R.lensProp('inputName')
+const titleLens = R.lensProp('title')
 const queryTagLens = R.lensProp('queryTag')
 const suggestionsLens = R.lensProp('suggestions')
 
@@ -48,7 +48,7 @@ const reducers = {
     tags: R.map(tag => R.assoc('isSelected', false, tag), tags),
   }),
 
-  [CHANGE_INPUT_NAME]: (state, { value }) => R.set(inputNameLens, value, state),
+  [CHANGE_TITLE]: (state, { value }) => R.set(titleLens, value, state),
 
   [SET_QUERY_IN_ADD]: (state, { queryTag }) => R.set(queryTagLens, queryTag)(state),
 
@@ -77,7 +77,7 @@ const reducers = {
       startTime: '',
       endTime: '',
       date: '',
-      inputName: '',
+      title: '',
       selectedTags: [],
       queryTag: '',
     }),

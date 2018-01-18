@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Add from './Add.presentational.react'
 // actions
 import {
-  changeInputName,
+  changeTitle,
   setQueryInAdd,
   changeSelectedTagsInAdd,
   addTagInAdd,
@@ -16,7 +16,7 @@ import { getAddFilteredSuggestions } from '../../../Main/App.selector'
 
 const mapStateToProps = state => ({
   logs: state.App.logs,
-  inputName: state.Add.inputName,
+  title: state.Add.title,
   selectedTags: state.Add.selectedTags,
   queryTag: state.Add.queryTag,
   suggestions: getAddFilteredSuggestions(state),
@@ -27,7 +27,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onInputNameChange: value => dispatch(changeInputName(value)),
+  onTitleChange: value => dispatch(changeTitle(value)),
   onQueryTagChange: query => dispatch(setQueryInAdd(query)),
   onTagClick: tag => dispatch(changeSelectedTagsInAdd(tag)),
   addTag: () => dispatch(addTagInAdd()),
