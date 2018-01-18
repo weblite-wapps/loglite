@@ -67,8 +67,8 @@ const convertJSONToCSVEpic = (action$, { getState, dispatch }) =>
     .mergeMap(() => getRequest('/convertJSONToCSV')
       .query({
         wis: getState().App.wis,
-        startDate: getState().Report.startDate,
-        endDate: getState().Report.endDate,
+        startDate: getState().Report.startDate || new Date(),
+        endDate: getState().Report.endDate || new Date(),
         selectedTags: getState().Report.selectedTags,
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
