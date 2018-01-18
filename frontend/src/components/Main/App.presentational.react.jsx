@@ -1,6 +1,7 @@
 // Modules
 import React from 'react'
-// import annyang from 'annyang'
+import annyang from 'annyang'
+import { CSVDownload } from 'react-csv'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
@@ -50,22 +51,25 @@ class App extends React.Component {
     else if (!tabIndex) changeTab('Home')
     else changeTab(tabIndex)
 
-    // const commands = {
-    //   Home: () => {
-    //     this.props.history.push('/')
-    //     this.props.changeTab('Home')
-    //   },
-    //   Add: () => {
-    //     this.props.history.push('/Add')
-    //     this.props.changeTab('Add')
-    //   },
-    //   Report: () => {
-    //     this.props.history.push('/Report')
-    //     this.props.changeTab('Report')
-    //   },
-    // }
-    // annyang.addCommands(commands)
-    // annyang.start({ autoRestart: true })
+    const commands = {
+      Home: () => {
+        this.props.history.push('')
+        this.props.changeTab('Home')
+      },
+      Add: () => {
+        this.props.history.push('/Add')
+        this.props.changeTab('Add')
+      },
+      Report: () => {
+        this.props.history.push('/Report')
+        this.props.changeTab('Report')
+      },
+      Export: () => {
+        this.props.convertJSONToCSV()
+      },
+    }
+    annyang.addCommands(commands)
+    annyang.start({ autoRestart: true, continuous: false })
   }
 
   componentDidMount() {
@@ -85,7 +89,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoading, tabIndex } = this.props
+    const { isLoading, tabIndex, CSV } = this.props
     return (
       <MuiThemeProvider theme={theme}>
         <div className={sccsClasses.root}>
@@ -113,6 +117,15 @@ class App extends React.Component {
             <Tab label="Report" value="Report" className={sccsClasses.Tab} />
           </Tabs>
           <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} />
+          {
+            CSV ?
+              <CSVDownload
+                data={CSV}
+                separator=";"
+                filename="LogliteReport.csv"
+                target="_blank"
+              /> : null
+          }
         </div>
       </MuiThemeProvider>
     )
@@ -129,8 +142,10 @@ App.propTypes = {
   }).isRequired,
   isLoading: PropTypes.bool.isRequired,
   tabIndex: PropTypes.string.isRequired,
+  CSV: PropTypes.string.isRequired,
   changeTab: PropTypes.func.isRequired,
   fetchTodayData: PropTypes.func.isRequired,
+  convertJSONToCSV: PropTypes.func.isRequired,
 }
 
 export default withRouter(App)

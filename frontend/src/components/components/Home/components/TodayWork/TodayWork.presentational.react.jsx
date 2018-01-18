@@ -94,9 +94,10 @@ export default class TodayWork extends React.Component {
 
   _handleStopClick() {
     const { log, toggleExpanded, changeRunningId, addLogToNextDay, onStopClick } = this.props
+    const len = log.times.length
     toggleExpanded(log._id)
     changeRunningId('')
-    if (isWithinRange(formatTime('24:00'), log.stopwatch.startTimeOfRange, new Date())) {
+    if (isWithinRange(formatTime('24:00'), log.times[len - 1].start, new Date())) {
       addLogToNextDay(new Date(), format(new Date(), 'YYYY-MM-DD'))
       onStopClick(log._id, previousDay(formatTime('24:00')))
     } else {
