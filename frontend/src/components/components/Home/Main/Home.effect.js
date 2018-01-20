@@ -19,6 +19,7 @@ import {
   SAVE_START_TIME,
   INCREMENT_SECONDS_ELAPSED,
   SAVE_END_TIME,
+  CHANGE_TAB,
   setIsLoading,
 } from '../../../Main/App.action'
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
@@ -65,7 +66,7 @@ const effectCountUpEpic = action$ =>
     .pluck('payload')
     .mergeMap(payload => Observable.interval(1000)
       .mapTo({ type: INCREMENT_SECONDS_ELAPSED, payload })
-      .takeUntil(action$.ofType(SAVE_END_TIME)))
+      .takeUntil(action$.ofType(SAVE_END_TIME, CHANGE_TAB)))
 
 
 export default combineEpics(

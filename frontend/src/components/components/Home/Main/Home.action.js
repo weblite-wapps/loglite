@@ -21,6 +21,7 @@ const refetchTotalDuration = createAction(REFETCH_TOTAL_DURATION)
 const COUNTINUE_COUNTING = 'COUNTINUE_COUNTING'
 const countinueCounting = createAction(COUNTINUE_COUNTING, _id => ({ _id }))
 
+
 export {
   CHANGE_TEXT_SLIDER, changeTextSlider,
   LOAD_TODAY_TOTAL_DURATION, loadTodayTotalDuration,
