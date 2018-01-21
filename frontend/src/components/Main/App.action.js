@@ -18,6 +18,9 @@ const loadLogsData = createAction(LOAD_LOGS_DATA, logs => ({ logs }))
 const TOGGLE_EXPANDED = 'TOGGLE_EXPANDED'
 const toggleExpanded = createAction(TOGGLE_EXPANDED, _id => ({ _id }))
 
+const CHANGE_POPOVER_STAGE = 'CHANGE_POPOVER_STAGE'
+const changePopoverStage = createAction(CHANGE_POPOVER_STAGE, (_id, value) => ({ _id, value }))
+
 const ADD_LOG = 'ADD_LOG'
 const addLog = createAction(ADD_LOG, (title, tags) => ({ title, tags }))
 
@@ -67,6 +70,7 @@ export {
   CHANGE_TAB, changeTab,
   LOAD_LOGS_DATA, loadLogsData,
   TOGGLE_EXPANDED, toggleExpanded,
+  CHANGE_POPOVER_STAGE, changePopoverStage,
   ADD_LOG, addLog,
   ADD_CUSTOM_LOG, addCustomLog,
   ADD_LOG_TO_NEXT_DAY, addLogToNextDay,
