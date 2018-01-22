@@ -100,6 +100,7 @@ export default class Report extends React.Component {
             <div className={scssClasses.textField}>
               <MuiTextField
                 select
+                fullWidth
                 label="user name"
                 value={selectedUser}
                 onChange={e => changeSelectedUser(e.target.value)}
