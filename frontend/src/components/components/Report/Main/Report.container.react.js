@@ -9,7 +9,7 @@ import { getTotalDuration, getPieChartData } from './Report.selector'
 
 
 const mapStateToProps = state => ({
-  userId: state.App.userId,
+  userId: state.App.user.id,
   sender: state.App.sender,
   users: state.App.users,
   selectedUser: state.Report.selectedUser,

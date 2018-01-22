@@ -5,9 +5,9 @@ const { Schema } = mongoose
 
 // create a schema
 const UserSchema = new Schema({
-  userId: String,
-  name: Number,
-  wis: Number,
+  id: String,
+  name: String,
+  wis: String,
 })
 
 export default mongoose.model('User', UserSchema)

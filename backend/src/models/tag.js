@@ -8,7 +8,7 @@ const TagSchema = new Schema({
   label: String,
   number: Number,
   userId: String,
-  wis: Number,
+  wis: String,
 })
 
 export default mongoose.model('Tag', TagSchema)

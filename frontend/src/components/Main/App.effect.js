@@ -28,6 +28,7 @@ import {
   DELETE_LOG,
   SAVE_START_TIME,
   SAVE_END_TIME,
+  loadUsersData,
   loadLogsData,
   restoreLog,
 } from './App.action'
@@ -36,40 +37,56 @@ import {
 const fetchTodayDataEpic = (action$, { getState }) =>
   action$.ofType(FETCH_TODAY_DATA)
     .mergeMap(() => Promise.all([
+      getRequest('/fetchUsers')
+        .query({
+          wis: getState().App.wis,
+        }),
       getRequest('/fetchLogs')
         .query({
           wis: getState().App.wis,
-          userId: getState().App.userId,
-          date: format(new Date(), 'YYYY-MM-DD') }),
+          userId: getState().App.user.id,
+          date: format(new Date(), 'YYYY-MM-DD'),
+        }),
       getRequest('/fetchTags')
-        .query({ wis: getState().App.wis }),
+        .query({
+          wis: getState().App.wis,
+          userId: getState().App.user.id,
+        }),
       postRequest('/todayTotalDuration')
         .send({
           wis: getState().App.wis,
-          userId: getState().App.userId,
+          userId: getState().App.user.id,
           date: format(new Date(), 'YYYY-MM-DD'),
         }),
       postRequest('/thisWeekTotalDurations')
         .send({
           wis: getState().App.wis,
-          userId: getState().App.userId,
+          userId: getState().App.user.id,
           startDate: subDays(startOfWeek(new Date()), 1),
           endDate: new Date(),
         }),
       postRequest('/thisMonthTotalDurations')
         .send({
           wis: getState().App.wis,
-          userId: getState().App.userId,
+          userId: getState().App.user.id,
           startDate: startOfMonth(new Date()),
           endDate: new Date(),
         }),
+      postRequest('/saveUser')
+        .send({
+          wis: getState().App.wis,
+          userId: getState().App.user.id,
+          username: getState().App.user.name,
+        }),
     ]))
     .mergeMap(success => ([
-      loadLogsData(JSON.parse(success[0].text)),
-      loadTagsDataInAdd(JSON.parse(success[1].text)),
-      loadTodayTotalDuration(success[2].text),
-      loadThisWeekTotalDuration(success[3].text),
-      loadThisMonthTotalDuration(success[4].text),
+      loadUsersData(JSON.parse(success[0].text)),
+      loadLogsData(JSON.parse(success[1].text)),
+      loadTagsDataInAdd(JSON.parse(success[2].text)),
+      loadTodayTotalDuration(success[3].text),
+      loadThisWeekTotalDuration(success[4].text),
+      loadThisMonthTotalDuration(success[5].text),
+      resetInputs(),
     ]))
     .do(() => window.W && window.W.start())
 
@@ -82,7 +99,7 @@ const addLogToNextDayEpic = (action$, { getState }) =>
         tags: action.payload.tags,
         times: [{ start: formatTime('00:00'), end: formatTime(action.payload.end) }],
         date: action.payload.date,
-        userId: getState().App.userId,
+        userId: getState().App.user.id,
         wis: getState().App.wis,
       }))
     .map(success => restoreLog(JSON.parse(success.text)))

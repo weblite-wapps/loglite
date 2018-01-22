@@ -7,6 +7,7 @@ import { formatTime } from './App.helper'
 import {
   SET_ISLOADING,
   CHANGE_TAB,
+  LOAD_USERS_DATA,
   LOAD_LOGS_DATA,
   TOGGLE_EXPANDED,
   CHANGE_POPOVER_STAGE,
@@ -28,10 +29,10 @@ const initialState = {
   isLoading: false,
   runningId: '',
   logs: [],
-  users: [{ name: 'Ali', id: '121' }, { name: 'Mostafa', id: '135' }],
-  userId: '598',
+  users: [],
+  user: { name: 'Ali', id: '110' },
   wis: (window.W && window.W.id) || '110',
-  sender: { name: 'Ali', id: '598' },
+  sender: { name: 'Ali', id: '110' },
 }
 
 // lens & views
@@ -46,6 +47,10 @@ const reducers = {
   [SET_ISLOADING]: (state, { value }) => R.set(isLoadingLens, value)(state),
 
   [CHANGE_TAB]: (state, { value }) => R.set(tabIndexLens, value, state),
+
+  [LOAD_USERS_DATA]: (state, { users }) => ({ ...state,
+    users: R.concat(state.users, users),
+  }),
 
   [LOAD_LOGS_DATA]: (state, { logs }) => ({ ...state,
     logs: R.concat(state.logs,

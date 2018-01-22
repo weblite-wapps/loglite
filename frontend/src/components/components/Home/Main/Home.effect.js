@@ -39,20 +39,20 @@ const refetchTotalDurationEpic = (action$, { getState, dispatch }) =>
       postRequest('/todayTotalDuration')
         .send({
           wis: getState().App.wis,
-          userId: getState().App.userId,
+          userId: getState().App.user.id,
           date: format(new Date(), 'YYYY-MM-DD'),
         }),
       postRequest('/thisWeekTotalDurations')
         .send({
           wis: getState().App.wis,
-          userId: getState().App.userId,
+          userId: getState().App.user.id,
           startDate: subDays(startOfWeek(new Date()), 1),
           endDate: new Date(),
         }),
       postRequest('/thisMonthTotalDurations')
         .send({
           wis: getState().App.wis,
-          userId: getState().App.userId,
+          userId: getState().App.user.id,
           startDate: startOfMonth(new Date()),
           endDate: new Date(),
         }),

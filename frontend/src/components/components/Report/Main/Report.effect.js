@@ -43,7 +43,7 @@ const effectSearchTagsEpic = (action$, { getState }) =>
     .debounceTime(250)
     .mergeMap(payload =>
       getRequest('/serachTags')
-        .query({ wis: getState().App.wis, userId: getState().App.userId, label: payload.queryTag })
+        .query({ wis: getState().App.wis, userId: getState().App.user.id, label: payload.queryTag })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .map(success => fetchTags(JSON.parse(success.text)))
 
@@ -53,7 +53,7 @@ const calculateTotalDurationEpic = (action$, { getState, dispatch }) =>
     .mergeMap(() => getRequest('/calculateTotalDuration')
       .query({
         wis: getState().App.wis,
-        userId: getState().App.userId,
+        userId: getState().App.user.id,
         startDate: getState().Report.startDate,
         endDate: getState().Report.endDate,
         selectedTags: getState().Report.selectedTags,
@@ -68,7 +68,7 @@ const convertJSONToCSVEpic = (action$, { getState, dispatch }) =>
     .mergeMap(() => getRequest('/convertJSONToCSV')
       .query({
         wis: getState().App.wis,
-        userId: getState().App.userId,
+        userId: getState().App.user.id,
         startDate: getState().Report.startDate || new Date(),
         endDate: getState().Report.endDate || new Date(),
         selectedTags: getState().Report.selectedTags,
@@ -84,7 +84,7 @@ const fetchPreviousDayLogsDataEpic = (action$, { getState, dispatch }) =>
     .mergeMap(() => getRequest('/fetchPreviousDayData')
       .query({
         wis: getState().App.wis,
-        userId: getState().App.userId,
+        userId: getState().App.user.id,
         date: format(getState().Report.currentPage, 'YYYY-MM-DD') })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatch(setIsLoading(false)))
@@ -97,7 +97,7 @@ const fetchNextDayLogsDataEpic = (action$, { getState, dispatch }) =>
     .mergeMap(() => getRequest('/fetchNextDayData')
       .query({
         wis: getState().App.wis,
-        userId: getState().App.userId,
+        userId: getState().App.user.id,
         date: format(getState().Report.currentPage, 'YYYY-MM-DD') })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatch(setIsLoading(false)))
@@ -119,7 +119,7 @@ const updateChartEpic = (action$, { getState, dispatch }) =>
     .mergeMap(payload => getRequest('/barChartData')
       .query({
         wis: getState().App.wis,
-        userId: getState().App.userId,
+        userId: getState().App.user.id,
         startDate: payload.startDate,
         endDate: payload.endDate,
       })

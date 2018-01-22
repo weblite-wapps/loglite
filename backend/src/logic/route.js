@@ -5,10 +5,13 @@ import * as R from 'ramda'
 import app from '../setup/server'
 // db helpers
 import {
+  fetchUsers,
   fetchLogs,
   fetchTags,
+  saveUser,
   saveLog,
   saveCustomLog,
+  countUser,
   countTags,
   saveTag,
   updateTag,
@@ -19,6 +22,11 @@ import {
 import { sumLogs, formattedSeconds, modifiedQuery, getBarChartData, getJSON } from './helper'
 // const
 const logger = console.log
+
+app.get('/fetchUsers', (req, res) =>
+  fetchUsers({ wis: req.query.wis })
+    .then(users => res.json(users))
+    .catch(logger))
 
 app.get('/fetchLogs', (req, res) =>
   fetchLogs({ wis: req.query.wis, userId: req.query.userId, date: req.query.date })
@@ -37,6 +45,16 @@ app.get('/serachTags', (req, res) =>
     .then(tags => res.json(tags))
     .catch(logger))
 
+app.post('/saveUser', (req, res) => {
+  countUser({ wis: req.body.wis, id: req.body.userId }).then((number) => {
+    if (number === 0) {
+      saveUser({ wis: req.body.wis, name: req.body.username, id: req.body.userId })
+        .then(() => res.send('saved successfully!'))
+        .catch(logger)
+    }
+    res.send('user was saved before!')
+  })
+})
 
 app.post('/saveLog', (req, res) =>
   saveLog(req.body)
