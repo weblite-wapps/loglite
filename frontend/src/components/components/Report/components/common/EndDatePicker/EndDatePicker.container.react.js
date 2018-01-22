@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // components
 import EndDatePicker from './EndDatePicker.presentational.react'
 // actions
-import { changeEndDate } from '../../../../Main/Report.action'
+import { changeEndDate } from '../../../Main/Report.action'
 
 
 const mapStateToProps = state => ({

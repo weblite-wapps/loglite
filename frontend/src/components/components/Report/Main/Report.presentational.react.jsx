@@ -15,7 +15,7 @@ import ViewList from 'material-ui-icons/ViewList'
 import FileDownload from 'material-ui-icons/FileDownload'
 import InsertChart from 'material-ui-icons/InsertChart'
 // components
-import Custom from '../components/Custom/Main/Custom.container.react'
+import Custom from '../components/Custom/Custom.container.react'
 import WorkList from '../components/WorkList/Main/WorkList.container.react'
 import CustomizedPieChart from '../components/WorkList/components/PieChart.presentational.react'
 import ShowChart from '../components/ShowChart/Main/ShowChart.container.react'

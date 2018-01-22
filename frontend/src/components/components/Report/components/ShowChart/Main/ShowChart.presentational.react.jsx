@@ -7,8 +7,8 @@ import subDays from 'date-fns/sub_days'
 import format from 'date-fns/format'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
-import StartDatePicker from '../../Custom/components/StartDatePicker/StartDatePicker.container.react'
-import EndDatePicker from '../../Custom/components/EndDatePicker/EndDatePicker.container.react'
+import StartDatePicker from '../../common/StartDatePicker/StartDatePicker.container.react'
+import EndDatePicker from '../../common/EndDatePicker/EndDatePicker.container.react'
 import Button from '../../../../common/Button/Button.presentational.react'
 import BarChart from '../components/BarChart.presentational.react'
 // scssClasses

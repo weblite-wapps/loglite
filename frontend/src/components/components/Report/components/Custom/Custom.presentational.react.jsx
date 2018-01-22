@@ -4,11 +4,11 @@ import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
-import StartDatePicker from '../components/StartDatePicker/StartDatePicker.container.react'
-import EndDatePicker from '../components/EndDatePicker/EndDatePicker.container.react'
-import Button from '../../../../common/Button/Button.presentational.react'
-import TagList from '../../../../common/TagList/TagList.presentational.react'
-import Autocomplete from '../../../../common/Autocomplete/Autocomplete.presentational.react'
+import StartDatePicker from '../common/StartDatePicker/StartDatePicker.container.react'
+import EndDatePicker from '../common/EndDatePicker/EndDatePicker.container.react'
+import Button from '../../../common/Button/Button.presentational.react'
+import TagList from '../../../common/TagList/TagList.presentational.react'
+import Autocomplete from '../../../common/Autocomplete/Autocomplete.presentational.react'
 // scssClasses
 import scssClasses from './Custom.scss'
 

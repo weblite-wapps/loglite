@@ -9,9 +9,9 @@ import {
   addTag,
   calculateTotalDuration,
   convertJSONToCSV,
-} from '../../../Main/Report.action'
+} from '../../Main/Report.action'
 // selector
-import { getReportFilteredSuggestions } from '../../../../../Main/App.selector'
+import { getReportFilteredSuggestions } from '../../../../Main/App.selector'
 
 
 const mapStateToProps = state => ({
