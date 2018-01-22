@@ -1,7 +1,7 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import Typography from 'material-ui/Typography'
@@ -23,6 +23,18 @@ import ShowChart from '../components/ShowChart/Main/ShowChart.container.react'
 // scssClasses
 import scssClasses from './Report.scss'
 
+const styles = () => ({
+  textFieldFormLabel: {
+    color: '#919191',
+  },
+  textFieldInkbar: {
+    '&:after': {
+      backgroundColor: '#919191',
+    },
+  },
+})
+
+
 const theme = createMuiTheme({
   overrides: {
     MuiButton: {
@@ -43,7 +55,7 @@ const theme = createMuiTheme({
   },
 })
 
-export default class Report extends React.Component {
+class Report extends React.Component {
   constructor(props) {
     super(props)
     this.handleClickWorkList = this._handleClickWorkList.bind(this)
@@ -89,7 +101,7 @@ export default class Report extends React.Component {
   }
 
   render() {
-    const { userId, sender, users, selectedUser,
+    const { classes, userId, sender, users, selectedUser,
       changeSelectedUser, logs, currentPage, totalDuration,
       totalDurationFromServer, pieChartData, onPreviousClick, onNextClick } = this.props
     const { expandedCustom, expandedWorkList, expandedShowChart, isCustom } = this.state
@@ -104,9 +116,15 @@ export default class Report extends React.Component {
                 label="user name"
                 value={selectedUser}
                 onChange={e => changeSelectedUser(e.target.value)}
+                InputProps={{
+                    classes: {
+                      inkbar: classes.textFieldInkbar,
+                    },
+                  }}
                 InputLabelProps={{
+                  className: classes.textFieldFormLabel,
                   shrink: true,
-                }}
+                  }}
                 SelectProps={{
                   native: true,
                   MenuProps: {
@@ -187,6 +205,7 @@ export default class Report extends React.Component {
 }
 
 Report.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
   userId: PropTypes.string.isRequired,
   sender: PropTypes.shape({}).isRequired,
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -200,3 +219,5 @@ Report.propTypes = {
   onPreviousClick: PropTypes.func.isRequired,
   onNextClick: PropTypes.func.isRequired,
 }
+
+export default withStyles(styles)(Report)
