@@ -39,9 +39,6 @@ const addLogToNextDay = createAction(
 const RESTORE_LOG = 'RESTORE_LOG'
 const restoreLog = createAction(RESTORE_LOG, log => ({ log }))
 
-const RESTORE_CUSTOM_LOG = 'RESTORE_CUSTOM_LOG'
-const restoreCustomLog = createAction(RESTORE_CUSTOM_LOG, log => ({ log }))
-
 const DELETE_LOG = 'DELETE_LOG'
 const deleteLog = createAction(DELETE_LOG, _id => ({ _id }))
 
@@ -75,7 +72,6 @@ export {
   ADD_CUSTOM_LOG, addCustomLog,
   ADD_LOG_TO_NEXT_DAY, addLogToNextDay,
   RESTORE_LOG, restoreLog,
-  RESTORE_CUSTOM_LOG, restoreCustomLog,
   DELETE_LOG, deleteLog,
   SET_SECONDS_ELAPSED, setSecondsElapsed,
   INCREMENT_SECONDS_ELAPSED, incrementSecondsElapsed,

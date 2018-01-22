@@ -10,7 +10,7 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './Add.helper'
 // actions
-import { ADD_LOG, ADD_CUSTOM_LOG, restoreLog, restoreCustomLog } from '../../../Main/App.action'
+import { ADD_LOG, ADD_CUSTOM_LOG, restoreLog } from '../../../Main/App.action'
 import {
   SET_QUERY_IN_ADD,
   fetchTagsInAdd,
@@ -74,7 +74,7 @@ const addCustomLogEpic = (action$, { getState }) =>
         }),
     ]))
     .mergeMap(success => [
-      success[0].text === 'added successfully!' ? resetInputs() : restoreCustomLog(JSON.parse(success[0].text)),
+      success[0].text === 'added successfully!' ? resetInputs() : restoreLog(JSON.parse(success[0].text)),
       loadTagsDataInAdd(JSON.parse(success[1].text))])
 
 export default combineEpics(

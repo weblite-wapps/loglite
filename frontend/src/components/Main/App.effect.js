@@ -25,7 +25,6 @@ import {
   FETCH_TODAY_DATA,
   ADD_LOG_TO_NEXT_DAY,
   RESTORE_LOG,
-  RESTORE_CUSTOM_LOG,
   DELETE_LOG,
   SAVE_START_TIME,
   SAVE_END_TIME,
@@ -109,7 +108,7 @@ const saveEndTimeEpic = action$ =>
     .mapTo(refetchTotalDuration())
 
 const resetEpic = action$ =>
-  action$.ofType(RESTORE_LOG, RESTORE_CUSTOM_LOG)
+  action$.ofType(RESTORE_LOG)
     .mapTo(resetInputs())
 
 

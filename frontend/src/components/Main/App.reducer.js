@@ -14,7 +14,6 @@ import {
   ADD_CUSTOM_LOG,
   ADD_LOG_TO_NEXT_DAY,
   RESTORE_LOG,
-  RESTORE_CUSTOM_LOG,
   DELETE_LOG,
   SET_SECONDS_ELAPSED,
   INCREMENT_SECONDS_ELAPSED,
@@ -111,10 +110,6 @@ const reducers = {
   }),
 
   [RESTORE_LOG]: (state, { log }) => ({ ...state,
-    logs: R.adjust(R.assoc('_id', log._id), 0, state.logs),
-  }),
-
-  [RESTORE_CUSTOM_LOG]: (state, { log }) => ({ ...state,
     logs: R.adjust(R.assoc('_id', log._id), 0, state.logs),
   }),
 
