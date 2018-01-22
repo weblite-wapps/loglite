@@ -28,9 +28,10 @@ const initialState = {
   isLoading: false,
   runningId: '',
   logs: [],
+  users: [{ name: 'Ali', id: '121' }, { name: 'Mostafa', id: '135' }],
   userId: '598',
   wis: (window.W && window.W.id) || '110',
-  senderId: '598',
+  sender: { name: 'Ali', id: '598' },
 }
 
 // lens & views

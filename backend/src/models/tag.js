@@ -7,6 +7,7 @@ const { Schema } = mongoose
 const TagSchema = new Schema({
   label: String,
   number: Number,
+  userId: String,
   wis: Number,
 })
 

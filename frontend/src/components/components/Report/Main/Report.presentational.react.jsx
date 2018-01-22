@@ -7,6 +7,7 @@ import Collapse from 'material-ui/transitions/Collapse'
 import Typography from 'material-ui/Typography'
 import Divider from 'material-ui/Divider'
 import MuiButton from 'material-ui/Button'
+import MuiTextField from 'material-ui/TextField'
 import format from 'date-fns/format'
 // icons
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
@@ -48,11 +49,16 @@ export default class Report extends React.Component {
     this.handleClickWorkList = this._handleClickWorkList.bind(this)
     this.handleClickCustom = this._handleClickCustom.bind(this)
     this.handleClickChart = this._handleClickChart.bind(this)
+    this.handleChangeSelect = this._handleChangeSelect.bind(this)
     this.state = {
       expandedShowChart: false,
       expandedCustom: false,
       expandedWorkList: true,
     }
+  }
+
+  _handleChangeSelect() {
+    this.porps.changeSelectedUser()
   }
 
   _handleClickWorkList() {
@@ -83,12 +89,35 @@ export default class Report extends React.Component {
   }
 
   render() {
-    const { logs, currentPage, totalDuration, totalDurationFromServer,
-      pieChartData, onPreviousClick, onNextClick } = this.props
+    const { userId, sender, users, selectedUser,
+      changeSelectedUser, logs, currentPage, totalDuration,
+      totalDurationFromServer, pieChartData, onPreviousClick, onNextClick } = this.props
     const { expandedCustom, expandedWorkList, expandedShowChart, isCustom } = this.state
     return (
       <div className={scssClasses.container}>
         <MuiThemeProvider theme={theme}>
+          { userId === sender.id ?
+            <div className={scssClasses.textField}>
+              <MuiTextField
+                select
+                label="user name"
+                value={selectedUser}
+                onChange={e => changeSelectedUser(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                SelectProps={{
+                  native: true,
+                  MenuProps: {
+                    className: scssClasses.menu,
+                  },
+                }}
+                margin="normal"
+              >
+                {users.map(user =>
+                  <option key={user.id} value={user.id}>{user.name}</option>)}
+              </MuiTextField>
+            </div> : null }
           <div className={scssClasses.controllBar}>
             <div className={scssClasses.navigator}>
               <MuiButton onClick={onPreviousClick} disabled={isCustom}>
@@ -157,11 +186,16 @@ export default class Report extends React.Component {
 }
 
 Report.propTypes = {
+  userId: PropTypes.string.isRequired,
+  sender: PropTypes.shape({}).isRequired,
+  users: PropTypes.arrayOf(PropTypes.object).isRequired,
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentPage: PropTypes.instanceOf(Date).isRequired,
   totalDuration: PropTypes.string.isRequired,
   totalDurationFromServer: PropTypes.string.isRequired,
   pieChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  selectedUser: PropTypes.string.isRequired,
+  changeSelectedUser: PropTypes.func.isRequired,
   onPreviousClick: PropTypes.func.isRequired,
   onNextClick: PropTypes.func.isRequired,
 }

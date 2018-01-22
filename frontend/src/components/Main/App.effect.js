@@ -82,7 +82,7 @@ const addLogToNextDayEpic = (action$, { getState }) =>
         tags: action.payload.tags,
         times: [{ start: formatTime('00:00'), end: formatTime(action.payload.end) }],
         date: action.payload.date,
-        userId: getState().App.userId, 
+        userId: getState().App.userId,
         wis: getState().App.wis,
       }))
     .map(success => restoreLog(JSON.parse(success.text)))

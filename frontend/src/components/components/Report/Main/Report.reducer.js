@@ -17,6 +17,7 @@ import {
   CONVERT_JSON_TO_CSV,
   RESTORE_CSV,
   RESET_CSV,
+  CHANGE_SELECTED_USER,
   DECREMENT_CURRENT_PAGE,
   INCREMENT_CURRENT_PAGE,
   CHANGE_CURRENT_PAGES_INVENTORY,
@@ -25,6 +26,7 @@ import {
 
 // state
 const initialState = {
+  selectedUser: '',
   queryTag: '',
   suggestions: [],
   selectedTags: [],
@@ -40,6 +42,7 @@ const initialState = {
 
 
 // lens & views
+const selectedUserLens = R.lensProp('selectedUser')
 const queryTagLens = R.lensProp('queryTag')
 const startDateLens = R.lensProp('startDate')
 const endDateLens = R.lensProp('endDate')
@@ -92,6 +95,8 @@ const reducers = {
   [RESTORE_CSV]: (state, { CSV }) => R.set(CSVLens, CSV, state),
 
   [RESET_CSV]: state => R.set(CSVLens, '', state),
+
+  [CHANGE_SELECTED_USER]: (state, { value }) => R.set(selectedUserLens, value)(state),
 
   [DECREMENT_CURRENT_PAGE]: state => R.set(currentPageLens, previousDay(state.currentPage), state),
 

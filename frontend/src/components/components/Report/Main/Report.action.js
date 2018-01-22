@@ -42,6 +42,9 @@ const restoreCSV = createAction(RESTORE_CSV, CSV => ({ CSV }))
 const RESET_CSV = 'RESET_CSV'
 const resetCSV = createAction(RESET_CSV)
 
+const CHANGE_SELECTED_USER = 'CHANGE_SELECTED_USER'
+const changeSelectedUser = createAction(CHANGE_SELECTED_USER, value => ({ value }))
+
 const DECREMENT_CURRENT_PAGE = 'DECREMENT_CURRENT_PAGE'
 const decrementCurrentPage = createAction(DECREMENT_CURRENT_PAGE)
 
@@ -70,6 +73,7 @@ export {
   CONVERT_JSON_TO_CSV, convertJSONToCSV,
   RESTORE_CSV, restoreCSV,
   RESET_CSV, resetCSV,
+  CHANGE_SELECTED_USER, changeSelectedUser,
   DECREMENT_CURRENT_PAGE, decrementCurrentPage,
   INCREMENT_CURRENT_PAGE, incrementCurrentPage,
   CHANGE_CURRENT_PAGES_INVENTORY, changeCurrentPagesInventory,
