@@ -10,8 +10,8 @@ import Tabs, { Tab } from 'material-ui/Tabs'
 import { CircularProgress } from 'material-ui/Progress'
 // components
 import Snackbar from 'weblite-web-snackbar'
-// sccsClasses
-import sccsClasses from './App.scss'
+// scssClasses
+import scssClasses from './App.scss'
 
 
 const theme = createMuiTheme({
@@ -92,16 +92,16 @@ class App extends React.Component {
     const { isLoading, tabIndex, CSV } = this.props
     return (
       <MuiThemeProvider theme={theme}>
-        <div className={sccsClasses.root}>
+        <div className={scssClasses.root}>
           <div
-            className={sccsClasses.logoContainer}
+            className={scssClasses.logoContainer}
             onClick={this.goToAbout}
             role="button"
             tabIndex="0"
           >
-            <div className={isLoading ? sccsClasses.loading : sccsClasses.normal}>
-              <CircularProgress size={40} color="primary" className={sccsClasses.progress} />
-              <img alt="loglite logo" src="assets/logo.jpg" className={sccsClasses.logo} />
+            <div className={isLoading ? scssClasses.loading : scssClasses.normal}>
+              <CircularProgress size={40} color="primary" className={scssClasses.progress} />
+              <img alt="loglite logo" src="assets/logo.jpg" className={scssClasses.logo} />
             </div>
           </div>
           <Tabs
@@ -110,11 +110,11 @@ class App extends React.Component {
             indicatorColor={this.state.aboutMode ? '#cfcfcf' : '#000000'}
             fullWidth
             centered
-            className={sccsClasses.Tabs}
+            className={scssClasses.Tabs}
           >
-            <Tab label="Home" value="Home" className={sccsClasses.Tab} />
-            <Tab label="Add" value="Add" className={sccsClasses.Tab} />
-            <Tab label="Report" value="Report" className={sccsClasses.Tab} />
+            <Tab label="Home" value="Home" className={scssClasses.Tab} />
+            <Tab label="Add" value="Add" className={scssClasses.Tab} />
+            <Tab label="Report" value="Report" className={scssClasses.Tab} />
           </Tabs>
           <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} />
           {

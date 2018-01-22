@@ -10,15 +10,15 @@ import Home from '../components/components/Home/Main/Home.container.react'
 import Add from '../components/components/Add/Main/Add.container.react'
 import Report from '../components/components/Report/Main/Report.container.react'
 import About from '../components/components/About/About'
-// sccsClasses
-import sccsClasses from './root.scss'
+// scssClasses
+import scssClasses from './root.scss'
 
 
 export default function root() {
   return (
     <Provider store={store}>
       <Router>
-        <div className={sccsClasses.container}>
+        <div className={scssClasses.container}>
           <App />
           <Switch>
             <Route exact path="/" component={Home} />

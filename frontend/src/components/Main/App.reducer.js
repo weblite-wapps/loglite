@@ -28,7 +28,9 @@ const initialState = {
   isLoading: false,
   runningId: '',
   logs: [],
+  userId: '598',
   wis: (window.W && window.W.id) || '110',
+  senderId: '598',
 }
 
 // lens & views

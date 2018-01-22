@@ -2,12 +2,12 @@
 import React from 'react'
 import Typography from 'material-ui/Typography'
 // sccsClasses
-import sccsClasses from './About.scss'
+import scssClasses from './About.scss'
 
 
 export default function About() {
   return (
-    <div className={sccsClasses.container}>
+    <div className={scssClasses.container}>
       <img alt="loglite about" src="assets/about.jpg" align="middle" />
       <Typography type="subheading" align="center" gutterBottom>
         Version 1.1.0

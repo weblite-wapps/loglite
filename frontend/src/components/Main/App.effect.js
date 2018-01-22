@@ -37,23 +37,29 @@ const fetchTodayDataEpic = (action$, { getState }) =>
   action$.ofType(FETCH_TODAY_DATA)
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
-        .query({ wis: getState().App.wis, date: format(new Date(), 'YYYY-MM-DD') }),
+        .query({
+          wis: getState().App.wis,
+          userId: getState().App.userId,
+          date: format(new Date(), 'YYYY-MM-DD') }),
       getRequest('/fetchTags')
         .query({ wis: getState().App.wis }),
       postRequest('/todayTotalDuration')
         .send({
           wis: getState().App.wis,
+          userId: getState().App.userId,
           date: format(new Date(), 'YYYY-MM-DD'),
         }),
       postRequest('/thisWeekTotalDurations')
         .send({
           wis: getState().App.wis,
+          userId: getState().App.userId,
           startDate: subDays(startOfWeek(new Date()), 1),
           endDate: new Date(),
         }),
       postRequest('/thisMonthTotalDurations')
         .send({
           wis: getState().App.wis,
+          userId: getState().App.userId,
           startDate: startOfMonth(new Date()),
           endDate: new Date(),
         }),
@@ -76,6 +82,7 @@ const addLogToNextDayEpic = (action$, { getState }) =>
         tags: action.payload.tags,
         times: [{ start: formatTime('00:00'), end: formatTime(action.payload.end) }],
         date: action.payload.date,
+        userId: getState().App.userId, 
         wis: getState().App.wis,
       }))
     .map(success => restoreLog(JSON.parse(success.text)))

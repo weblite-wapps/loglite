@@ -25,7 +25,7 @@ const effectSearchTagsEpic = (action$, { getState }) =>
     .debounceTime(250)
     .mergeMap(payload =>
       getRequest('/serachTags')
-        .query({ wis: getState().App.wis, label: payload.queryTag })
+        .query({ wis: getState().App.wis, userId: getState().App.userId, label: payload.queryTag })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .map(success => fetchTagsInAdd(JSON.parse(success.text)))
 
@@ -39,12 +39,14 @@ const addLogEpic = (action$, { getState }) =>
           tags: payload.tags,
           times: [],
           date: format(new Date(), 'YYYY-MM-DD'),
+          userId: getState().App.userId,
           wis: getState().App.wis,
         })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
       postRequest('/saveTags')
         .send({
           tags: payload.tags,
+          userId: getState().App.userId,
           wis: getState().App.wis,
         }),
     ]))
@@ -64,12 +66,14 @@ const addCustomLogEpic = (action$, { getState }) =>
             end: formatTime(payload.end),
           }],
           date: payload.date,
+          userId: getState().App.userId,
           wis: getState().App.wis,
         })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
       postRequest('/saveTags')
         .send({
           tags: payload.tags,
+          userId: getState().App.userId,
           wis: getState().App.wis,
         }),
     ]))
