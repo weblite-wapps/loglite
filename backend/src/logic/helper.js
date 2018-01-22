@@ -37,17 +37,20 @@ export const modifiedQuery = (query) => {
   if (!query.selectedTags) {
     return {
       wis: query.wis,
+      userId: query.userId,
       $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }],
     }
   } else if (Array.isArray(query.selectedTags)) {
     return {
       wis: query.wis,
+      userId: query.userId,
       tags: { $in: query.selectedTags },
       $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }],
     }
   }
   return {
     wis: query.wis,
+    userId: query.userId,
     tags: query.selectedTags,
     $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }],
   }
