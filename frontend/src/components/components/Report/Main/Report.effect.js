@@ -16,6 +16,7 @@ import { getRequest } from './Report.helper'
 import { LOAD_LOGS_DATA, loadLogsData, setIsLoading } from '../../../Main/App.action'
 import { LOAD_TAGS_DATA_IN_ADD } from '../../Add/Main/Add.action'
 import {
+  RESET_STAFF_LOGS,
   LOAD_STAFF_LOGS,
   CHANGE_SELECTED_USER,
   SET_QUERY,
@@ -35,13 +36,17 @@ import {
   restoreBarChartData,
 } from './Report.action'
 
-const loadStaffDataEpic = (action$, { getState, dispatch }) =>
+const resetStaffDataEpic = action$ =>
   action$.ofType(CHANGE_SELECTED_USER)
+    .mapTo({ type: RESET_STAFF_LOGS })
+
+const loadStaffDataEpic = (action$, { getState, dispatch }) =>
+  action$.ofType(RESET_STAFF_LOGS)
     .do(() => dispatch(setIsLoading(true)))
-    .mergeMap(action => getRequest('/fetchLogs')
+    .mergeMap(() => getRequest('/fetchLogs')
       .query({
         wis: getState().App.wis,
-        userId: action.payload.value,
+        userId: getState().Report.selectedUser,
         date: format(getState().Report.currentPage, 'YYYY-MM-DD'),
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
@@ -154,6 +159,7 @@ const updateChartEpic = (action$, { getState, dispatch }) =>
     .map(success => restoreBarChartData(JSON.parse(success.text)))
 
 export default combineEpics(
+  resetStaffDataEpic,
   loadStaffDataEpic,
   effectSearchTagsEpic,
   loadTagsDataEpic,

@@ -5,6 +5,7 @@ import format from 'date-fns/format'
 import { previousDay, nextDay } from './Report.helper'
 // actions
 import {
+  RESET_STAFF_LOGS,
   LOAD_STAFF_LOGS,
   LOAD_TAGS_DATA_IN_REPORT,
   SET_QUERY,
@@ -57,8 +58,15 @@ const barChartDataLens = R.lensProp('barChartData')
 
 // reducers
 const reducers = {
+  [RESET_STAFF_LOGS]: state => ({ ...state,
+    staffLogs: [],
+  }),
+
   [LOAD_STAFF_LOGS]: (state, { logs }) => ({ ...state,
-    staffLogs: R.map(log => ({ ...log, popoverIsOpen: false }), logs),
+    staffLogs: R.concat(state.staffLogs,
+      R.map(log => ({ ...log,
+        popoverIsOpen: false,
+      }), logs)),
   }),
 
   [LOAD_TAGS_DATA_IN_REPORT]: (state, { tags }) => ({ ...state,

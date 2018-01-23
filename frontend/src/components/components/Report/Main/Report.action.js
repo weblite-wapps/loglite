@@ -3,6 +3,9 @@ import { createAction } from 'redux-actions'
 
 
 // actions
+const RESET_STAFF_LOGS = 'RESET_STAFF_LOGS'
+const resetStaffLogs = createAction(RESET_STAFF_LOGS)
+
 const LOAD_STAFF_LOGS = 'LOAD_STAFF_LOGS'
 const loadStaffLogs = createAction(LOAD_STAFF_LOGS, logs => ({ logs }))
 
@@ -64,6 +67,7 @@ const RESTORE_BAR_CHART_DATA = 'RESTORE_BAR_CHART_DATA'
 const restoreBarChartData = createAction(RESTORE_BAR_CHART_DATA, data => ({ data }))
 
 export {
+  RESET_STAFF_LOGS, resetStaffLogs,
   LOAD_STAFF_LOGS, loadStaffLogs,
   LOAD_TAGS_DATA_IN_REPORT, loadTagsDataInReport,
   SET_QUERY, setQuery,
