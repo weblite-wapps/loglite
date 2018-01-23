@@ -5,6 +5,7 @@ import format from 'date-fns/format'
 import { previousDay, nextDay } from './Report.helper'
 // actions
 import {
+  LOAD_STAFF_LOGS,
   LOAD_TAGS_DATA_IN_REPORT,
   SET_QUERY,
   FETCH_TAGS,
@@ -26,7 +27,8 @@ import {
 
 // state
 const initialState = {
-  selectedUser: '',
+  staffLogs: [],
+  selectedUser: '110',
   queryTag: '',
   suggestions: [],
   selectedTags: [],
@@ -36,7 +38,7 @@ const initialState = {
   totalDuration: 'Not calculated',
   CSV: '',
   currentPage: new Date(),
-  currentPagesInventory: [],
+  currentPagesInventory: {},
   barChartData: [],
 }
 
@@ -55,6 +57,10 @@ const barChartDataLens = R.lensProp('barChartData')
 
 // reducers
 const reducers = {
+  [LOAD_STAFF_LOGS]: (state, { logs }) => ({ ...state,
+    staffLogs: R.map(log => ({ ...log, popoverIsOpen: false }), logs),
+  }),
+
   [LOAD_TAGS_DATA_IN_REPORT]: (state, { tags }) => ({ ...state,
     tags: R.map(tag => R.assoc('isSelected', false, tag), tags),
   }),
@@ -103,7 +109,10 @@ const reducers = {
   [INCREMENT_CURRENT_PAGE]: state => R.set(currentPageLens, nextDay(state.currentPage), state),
 
   [CHANGE_CURRENT_PAGES_INVENTORY]: state => ({ ...state,
-    currentPagesInventory: R.uniq(R.append(format(state.currentPage, 'YYYY-MM-DD'), state.currentPagesInventory)),
+    currentPagesInventory: { ...state.currentPagesInventory,
+      [state.selectedUser]: R.uniq(R.append(format(state.currentPage, 'YYYY-MM-DD'),
+        state.currentPagesInventory[state.selectedUser])),
+    },
   }),
 
   [RESTORE_BAR_CHART_DATA]: (state, { data }) => R.set(barChartDataLens, data, state),

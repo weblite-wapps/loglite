@@ -11,6 +11,8 @@ import subDays from 'date-fns/sub_days'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './App.helper'
+// actions
+import { changeSelectedUser } from '../components/Report/Main/Report.action'
 import {
   loadTodayTotalDuration,
   loadThisWeekTotalDuration,
@@ -86,7 +88,7 @@ const fetchTodayDataEpic = (action$, { getState }) =>
       loadTodayTotalDuration(success[3].text),
       loadThisWeekTotalDuration(success[4].text),
       loadThisMonthTotalDuration(success[5].text),
-      resetInputs(),
+      changeSelectedUser(getState().App.user.id),
     ]))
     .do(() => window.W && window.W.start())
 
@@ -99,7 +101,7 @@ const addLogToNextDayEpic = (action$, { getState }) =>
         tags: action.payload.tags,
         times: [{ start: formatTime('00:00'), end: formatTime(action.payload.end) }],
         date: action.payload.date,
-        userId: getState().App.user.id,
+        id: getState().App.user.id,
         wis: getState().App.wis,
       }))
     .map(success => restoreLog(JSON.parse(success.text)))
