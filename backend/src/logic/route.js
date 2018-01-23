@@ -33,9 +33,8 @@ app.get('/fetchLogs', (req, res) =>
     .then(logs => res.json(logs))
     .catch(logger))
 
-
 app.get('/fetchTags', (req, res) =>
-  fetchTags({ wis: req.query.wis })
+  fetchTags({ wis: req.query.wis, userId: req.query.userId })
     .then(logs => res.json(logs))
     .catch(logger))
 
@@ -70,16 +69,16 @@ app.post('/saveCustomLog', (req, res) =>
 
 app.post('/saveTags', (req, res) => {
   const addOrUpdateTag = tag =>
-    countTags({ wis: req.body.wis, userId: req.query.userId, label: tag })
+    countTags({ wis: req.body.wis, userId: req.body.userId, label: tag })
       .then((number) => {
         if (number === 0) {
-          saveTag({ label: tag, number: 1, userId: req.query.userId, wis: req.body.wis })
+          saveTag({ label: tag, number: 1, userId: req.body.userId, wis: req.body.wis })
         } else {
           updateTag({ label: tag }, { $inc: { number: 1 } })
         }
       })
   R.forEach(addOrUpdateTag, req.body.tags)
-  fetchTags({ wis: req.body.wis, userId: req.query.userId })
+  fetchTags({ wis: req.body.wis, userId: req.body.userId })
     .then(tags => res.json(tags))
     .catch(logger)
 })
@@ -110,7 +109,7 @@ app.post('/saveEndTime', (req, res) =>
 
 
 app.post('/todayTotalDuration', (req, res) =>
-  fetchLogs({ wis: req.body.wis, userId: req.query.userId, date: req.body.date })
+  fetchLogs({ wis: req.body.wis, userId: req.body.userId, date: req.body.date })
     .then(sumLogs)
     .then(sum => formattedSeconds(sum, 'Home'))
     .then(totalDuration => res.send(totalDuration))
@@ -120,7 +119,7 @@ app.post('/todayTotalDuration', (req, res) =>
 app.post('/thisWeekTotalDurations', (req, res) =>
   fetchLogs({
     wis: req.body.wis,
-    userId: req.query.userId,
+    userId: req.body.userId,
     $and: [{ date: { $gte: req.body.startDate } }, { date: { $lte: req.body.endDate } }] })
     .then(sumLogs)
     .then(sum => formattedSeconds(sum, 'Home'))
@@ -131,7 +130,7 @@ app.post('/thisWeekTotalDurations', (req, res) =>
 app.post('/thisMonthTotalDurations', (req, res) =>
   fetchLogs({
     wis: req.body.wis,
-    userId: req.query.userId,
+    userId: req.body.userId,
     $and: [{ date: { $gte: req.body.startDate } }, { date: { $lte: req.body.endDate } }] })
     .then(sumLogs)
     .then(sum => formattedSeconds(sum, 'Home'))

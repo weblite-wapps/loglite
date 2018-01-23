@@ -41,7 +41,7 @@ export const countTags = async query => Tag
   .find(query)
   .count()
 
-export const saveTag = async tags => new Tag(tags)
+export const saveTag = async tag => new Tag(tag)
   .save()
 
 export const updateTag = async (query, operation) => Tag
