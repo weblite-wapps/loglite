@@ -25,6 +25,3 @@ export const formattedMinutes = (minutes) => {
   }
   return minutes % 60 === 0 ? `${Math.floor(minutes / 60)}h` : `${Math.floor(minutes / 60)}h${minutes % 60}m`
 }
-
-export const getLogDuration = (WorksDuration, _id) =>
-  WorksDuration[R.findIndex(R.propEq('_id', _id))(WorksDuration)].duration

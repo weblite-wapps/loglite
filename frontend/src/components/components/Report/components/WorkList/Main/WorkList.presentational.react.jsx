@@ -66,7 +66,7 @@ export default class WorkList extends React.Component {
   }
 
   render() {
-    const { log, workDuration } = this.props
+    const { userId, selectedUser, log, workDuration } = this.props
     return (
       <div>
         <List disablePadding>
@@ -78,7 +78,7 @@ export default class WorkList extends React.Component {
             </div>
             <div>
               <Typography type="body2" align="right">
-                { R.test(/^NaN/, workDuration) ? 'Running...' : workDuration }
+                {R.test(/^NaN/, workDuration) ? 'Running...' : workDuration}
               </Typography>
             </div>
           </div>
@@ -89,38 +89,41 @@ export default class WorkList extends React.Component {
                 tag={tag}
               />))}
           </div>
-          <div className={scssClasses.button}>
-            <MuiThemeProvider theme={theme}>
-              <Button
-                ref={(node) => {
-                  this.button = node
-                }}
-                raised
-                onClick={this.handleOpenPopover}
-              >
-                Delete
-              </Button>
-              <Popover
-                open={log.popoverIsOpen}
-                onClose={this.handleClose}
-                anchorEl={this.state.anchorEl}
-                anchorOrigin={{
-                  vertical: 'center',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center',
-                }}
-              >
-                <Typography type="subheading" style={{ margin: '5px' }}>
-                  Are you sure?
-                </Typography>
-                <Button raised onClick={this.handleYep}>Yep</Button>
-                <Button raised onClick={this.handleNop}>Nop</Button>
-              </Popover>
-            </MuiThemeProvider>
-          </div>
+          {
+            selectedUser === userId ?
+              <div className={scssClasses.button}>
+                <MuiThemeProvider theme={theme}>
+                  <Button
+                    ref={(node) => {
+                      this.button = node
+                    }}
+                    raised
+                    onClick={this.handleOpenPopover}
+                  >
+                    Delete
+                  </Button>
+                  <Popover
+                    open={log.popoverIsOpen}
+                    onClose={this.handleClose}
+                    anchorEl={this.state.anchorEl}
+                    anchorOrigin={{
+                      vertical: 'center',
+                      horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'center',
+                    }}
+                  >
+                    <Typography type="subheading" style={{ margin: '5px' }}>
+                      Are you sure?
+                    </Typography>
+                    <Button raised onClick={this.handleYep}>Yep</Button>
+                    <Button raised onClick={this.handleNop}>Nop</Button>
+                  </Popover>
+                </MuiThemeProvider>
+              </div> : null
+          }
         </List>
         <Divider />
       </div>
@@ -136,6 +139,8 @@ WorkList.propTypes = {
       PropTypes.array,
     ])).isRequired,
   }).isRequired,
+  userId: PropTypes.string.isRequired,
+  selectedUser: PropTypes.string.isRequired,
   workDuration: PropTypes.string.isRequired,
   deleteLog: PropTypes.func.isRequired,
   changePopoverStage: PropTypes.func.isRequired,
