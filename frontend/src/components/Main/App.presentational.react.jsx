@@ -1,6 +1,6 @@
 // Modules
 import React from 'react'
-import annyang from 'annyang'
+// import annyang from 'annyang'
 import { CSVDownload } from 'react-csv'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
@@ -51,25 +51,25 @@ class App extends React.Component {
     else if (!tabIndex) changeTab('Home')
     else changeTab(tabIndex)
 
-    const commands = {
-      Home: () => {
-        this.props.history.push('')
-        this.props.changeTab('Home')
-      },
-      Add: () => {
-        this.props.history.push('/Add')
-        this.props.changeTab('Add')
-      },
-      Report: () => {
-        this.props.history.push('/Report')
-        this.props.changeTab('Report')
-      },
-      Export: () => {
-        this.props.convertJSONToCSV()
-      },
-    }
-    annyang.addCommands(commands)
-    annyang.start({ autoRestart: true, continuous: false })
+    // const commands = {
+    //   Home: () => {
+    //     this.props.history.push('')
+    //     this.props.changeTab('Home')
+    //   },
+    //   Add: () => {
+    //     this.props.history.push('/Add')
+    //     this.props.changeTab('Add')
+    //   },
+    //   Report: () => {
+    //     this.props.history.push('/Report')
+    //     this.props.changeTab('Report')
+    //   },
+    //   Export: () => {
+    //     this.props.convertJSONToCSV()
+    //   },
+    // }
+    // annyang.addCommands(commands)
+    // annyang.start({ autoRestart: true, continuous: false })
   }
 
   componentDidMount() {
