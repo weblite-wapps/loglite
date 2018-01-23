@@ -43,15 +43,25 @@ const resetStaffDataEpic = action$ =>
 const loadStaffDataEpic = (action$, { getState, dispatch }) =>
   action$.ofType(RESET_STAFF_LOGS)
     .do(() => dispatch(setIsLoading(true)))
-    .mergeMap(() => getRequest('/fetchLogs')
-      .query({
-        wis: getState().App.wis,
-        userId: getState().Report.selectedUser,
-        date: format(getState().Report.currentPage, 'YYYY-MM-DD'),
-      })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+    .mergeMap(() => Promise.all([
+      getRequest('/fetchLogs')
+        .query({
+          wis: getState().App.wis,
+          userId: getState().Report.selectedUser,
+          date: format(getState().Report.currentPage, 'YYYY-MM-DD'),
+        })
+        .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
+      getRequest('/fetchTags')
+        .query({
+          wis: getState().App.wis,
+          userId: getState().Report.selectedUser,
+        }),
+    ]))
     .do(() => dispatch(setIsLoading(false)))
-    .map(success => loadStaffLogs(JSON.parse(success.text)))
+    .mergeMap(success => ([
+      loadStaffLogs(JSON.parse(success[0].text)),
+      loadTagsDataInReport(JSON.parse(success[1].text)),
+    ]))
 
 const loadTagsDataEpic = action$ =>
   action$.ofType(LOAD_TAGS_DATA_IN_ADD)
