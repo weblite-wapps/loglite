@@ -32,7 +32,7 @@ const initialState = {
   users: [],
   user: { name: 'Ali', id: '110' },
   wis: (window.W && window.W.id) || '110',
-  sender: { name: 'Ali', id: '110' },
+  sender: true,
 }
 
 // lens & views

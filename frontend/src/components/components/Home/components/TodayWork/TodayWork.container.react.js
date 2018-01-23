@@ -14,20 +14,18 @@ import {
 } from '../../../../Main/App.action'
 // selectors
 import { getWorksDuration } from '../../../common/Common.selector'
-// helpers
-import { getLogDuration } from '../../../common/Common.helper'
 
 
 const mapStateToProps = (state, ownProps) => ({
   runningId: state.App.runningId,
-  workDuration: getLogDuration(getWorksDuration(state), ownProps._id),
+  workDuration: getWorksDuration(state)[ownProps.log._id],
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   toggleExpanded: _id => dispatch(toggleExpanded(_id)),
-  setSecondsElapsed: value => dispatch(setSecondsElapsed(ownProps._id, value)),
+  setSecondsElapsed: value => dispatch(setSecondsElapsed(ownProps.log._id, value)),
   countinueCounting: _id => dispatch(countinueCounting(_id)),
-  onStartClick: () => dispatch(saveStartTime(ownProps._id)),
+  onStartClick: () => dispatch(saveStartTime(ownProps.log._id)),
   onStopClick: (_id, end) => dispatch(saveEndTime(_id, end)),
   addLogToNextDay: (end, date) =>
     dispatch(addLogToNextDay(ownProps.log.title, ownProps.log.tags, end, date)),

@@ -15,6 +15,8 @@ import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import ViewList from 'material-ui-icons/ViewList'
 import FileDownload from 'material-ui-icons/FileDownload'
 import InsertChart from 'material-ui-icons/InsertChart'
+// selectors
+import { getWorksDuration, getStaffWorksDuration } from '../../common/Common.selector'
 // components
 import Custom from '../components/Custom/Custom.container.react'
 import WorkList from '../components/WorkList/Main/WorkList.container.react'
@@ -101,14 +103,18 @@ class Report extends React.Component {
   }
 
   render() {
-    const { classes, userId, sender, users, selectedUser,
-      changeSelectedUser, logs, currentPage, totalDuration,
-      totalDurationFromServer, pieChartData, onPreviousClick, onNextClick } = this.props
+    const {
+      classes, userId, selectedUser, sender, users,
+      changeSelectedUser, logs, staffLogs, currentPage, totalDuration, staffTotalDuration,
+      totalDurationFromServer, pieChartData, staffPieChartData, onPreviousClick, onNextClick,
+    } = this.props
     const { expandedCustom, expandedWorkList, expandedShowChart, isCustom } = this.state
+    const getDuration =
+      selectedUser === userId ? getWorksDuration : getStaffWorksDuration
     return (
       <div className={scssClasses.container}>
         <MuiThemeProvider theme={theme}>
-          { userId === sender.id ?
+          { sender ?
             <div className={scssClasses.textField}>
               <MuiTextField
                 select
@@ -116,6 +122,7 @@ class Report extends React.Component {
                 label="user name"
                 value={selectedUser}
                 onChange={e => changeSelectedUser(e.target.value)}
+                style={{ marginTop: '0' }}
                 InputProps={{
                     classes: {
                       inkbar: classes.textFieldInkbar,
@@ -182,19 +189,23 @@ class Report extends React.Component {
           <Collapse component="li" in={expandedWorkList} timeout="auto" unmountOnExit>
             <div className={scssClasses.text}>
               <Typography type="subheading" >
-                {totalDuration}
+                {selectedUser === userId ? totalDuration : staffTotalDuration}
               </Typography>
             </div>
             <Divider />
             <div className={scssClasses.chart}>
-              <CustomizedPieChart pieChartData={pieChartData} />
+              <CustomizedPieChart
+                pieChartData={
+                  selectedUser === userId ? pieChartData : staffPieChartData}
+              />
             </div>
             <Divider />
-            {
-              logs.filter(log => log.date === format(currentPage, 'YYYY-MM-DD')).map(log => (
+            {(selectedUser === userId ? logs : staffLogs)
+              .filter(log => log.date === format(currentPage, 'YYYY-MM-DD')).map(log => (
                 <WorkList
                   key={log._id}
                   log={log}
+                  getDuration={getDuration}
                 />))
             }
           </Collapse>
@@ -207,13 +218,16 @@ class Report extends React.Component {
 Report.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   userId: PropTypes.string.isRequired,
-  sender: PropTypes.shape({}).isRequired,
+  sender: PropTypes.bool.isRequired,
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  staffLogs: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentPage: PropTypes.instanceOf(Date).isRequired,
   totalDuration: PropTypes.string.isRequired,
+  staffTotalDuration: PropTypes.string.isRequired,
   totalDurationFromServer: PropTypes.string.isRequired,
   pieChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  staffPieChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedUser: PropTypes.string.isRequired,
   changeSelectedUser: PropTypes.func.isRequired,
   onPreviousClick: PropTypes.func.isRequired,

@@ -145,7 +145,7 @@ App.propTypes = {
   CSV: PropTypes.string.isRequired,
   changeTab: PropTypes.func.isRequired,
   fetchTodayData: PropTypes.func.isRequired,
-  convertJSONToCSV: PropTypes.func.isRequired,
+  // convertJSONToCSV: PropTypes.func.isRequired,
 }
 
 export default withRouter(App)

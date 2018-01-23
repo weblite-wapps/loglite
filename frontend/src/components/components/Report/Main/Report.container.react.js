@@ -5,7 +5,12 @@ import Report from './Report.presentational.react'
 // actions
 import { changeSelectedUser, decrementCurrentPage, incrementCurrentPage } from './Report.action'
 // selectors
-import { getTotalDuration, getPieChartData } from './Report.selector'
+import {
+  getTotalDuration,
+  getStaffTotalDuration,
+  getPieChartData,
+  getStaffPieChartData,
+} from './Report.selector'
 
 
 const mapStateToProps = state => ({
@@ -14,10 +19,13 @@ const mapStateToProps = state => ({
   users: state.App.users,
   selectedUser: state.Report.selectedUser,
   logs: state.App.logs,
+  staffLogs: state.Report.staffLogs,
   currentPage: state.Report.currentPage,
   totalDuration: getTotalDuration(state),
+  staffTotalDuration: getStaffTotalDuration(state),
   totalDurationFromServer: state.Report.totalDuration,
   pieChartData: getPieChartData(state),
+  staffPieChartData: getStaffPieChartData(state),
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -64,7 +64,6 @@ class Home extends React.Component {
                 <TodayWork
                   key={log._id}
                   log={log}
-                  _id={log._id}
                 />
               ))
             }
