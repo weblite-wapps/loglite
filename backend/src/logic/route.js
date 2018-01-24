@@ -32,7 +32,7 @@ app.get('/fetchUsers', (req, res) =>
 
 app.get('/fetchLogs', (req, res) =>
   fetchLogs({ wis: req.query.wis, userId: req.query.userId, date: req.query.date })
-    .then(logs => res.json(logs))
+    .then(logs => res.json(R.reverse(logs)))
     .catch(logger))
 
 

@@ -12,7 +12,6 @@ export const fetchUsers = async query => User
 
 export const fetchLogs = async query => Log
   .find(query)
-  .sort({ date: 1 })
   .exec()
 
 export const fetchTags = async query => Tag
