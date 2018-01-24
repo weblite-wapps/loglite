@@ -42,7 +42,7 @@ const resetStaffDataEpic = (action$, { getState }) =>
 
 const loadStaffDataEpic = (action$, { getState, dispatch }) =>
   action$.ofType(RESET_STAFF_LOGS)
-    .filter(() => getState().Report.staffLogs.length)
+    .filter(() => getState().Report.currentPagesInventory)
     .do(() => dispatch(setIsLoading(true)))
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
