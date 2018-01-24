@@ -4,7 +4,7 @@ import { createAction } from 'redux-actions'
 
 // actions
 const RESET_STAFF_LOGS = 'RESET_STAFF_LOGS'
-const resetStaffLogs = createAction(RESET_STAFF_LOGS)
+const resetStaffLogs = createAction(RESET_STAFF_LOGS, userId => ({ userId }))
 
 const LOAD_STAFF_LOGS = 'LOAD_STAFF_LOGS'
 const loadStaffLogs = createAction(LOAD_STAFF_LOGS, logs => ({ logs }))

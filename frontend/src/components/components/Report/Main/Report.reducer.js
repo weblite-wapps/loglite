@@ -29,7 +29,7 @@ import {
 // state
 const initialState = {
   staffLogs: [],
-  selectedUser: '110',
+  selectedUser: '120',
   queryTag: '',
   suggestions: [],
   selectedTags: [],
@@ -58,8 +58,10 @@ const barChartDataLens = R.lensProp('barChartData')
 
 // reducers
 const reducers = {
-  [RESET_STAFF_LOGS]: state => ({ ...state,
+  [RESET_STAFF_LOGS]: (state, { userId }) => ({ ...state,
     staffLogs: [],
+    currentPagesInventory:
+      R.mapObjIndexed((num, key) => key === userId ? num : null, state.currentPagesInventory),
   }),
 
   [LOAD_STAFF_LOGS]: (state, { logs }) => ({ ...state,

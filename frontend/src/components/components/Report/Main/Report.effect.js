@@ -36,12 +36,13 @@ import {
   restoreBarChartData,
 } from './Report.action'
 
-const resetStaffDataEpic = action$ =>
+const resetStaffDataEpic = (action$, { getState }) =>
   action$.ofType(CHANGE_SELECTED_USER)
-    .mapTo({ type: RESET_STAFF_LOGS })
+    .mapTo({ type: RESET_STAFF_LOGS, payload: { userId: getState().App.user.id } })
 
 const loadStaffDataEpic = (action$, { getState, dispatch }) =>
   action$.ofType(RESET_STAFF_LOGS)
+    .filter(() => getState().Report.staffLogs.length)
     .do(() => dispatch(setIsLoading(true)))
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
@@ -59,7 +60,8 @@ const loadStaffDataEpic = (action$, { getState, dispatch }) =>
     ]))
     .do(() => dispatch(setIsLoading(false)))
     .mergeMap(success => ([
-      loadStaffLogs(JSON.parse(success[0].text)),
+      getState().Report.selectedUser === getState().App.user.id ?
+        loadLogsData(JSON.parse(success[0].text)) : loadStaffLogs(JSON.parse(success[0].text)),
       loadTagsDataInReport(JSON.parse(success[1].text)),
     ]))
 
@@ -145,7 +147,7 @@ const fetchNextDayLogsDataEpic = (action$, { getState, dispatch }) =>
         loadLogsData(JSON.parse(success.text)) : loadStaffLogs(JSON.parse(success.text)))
 
 const loadDataEpic = action$ =>
-  action$.ofType(LOAD_LOGS_DATA, LOAD_STAFF_LOGS)
+  action$.ofType(LOAD_LOGS_DATA, LOAD_STAFF_LOGS, RESET_STAFF_LOGS)
     .mapTo({ type: CHANGE_CURRENT_PAGES_INVENTORY })
 
 const resetCSVEpic = action$ =>

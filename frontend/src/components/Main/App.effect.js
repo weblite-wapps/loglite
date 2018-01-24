@@ -12,8 +12,7 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './App.helper'
 // actions
-import { changeSelectedUser } from '../components/Report/Main/Report.action'
-import { RESET_INPUTS, loadTagsDataInAdd } from '../components/Add/Main/Add.action'
+import { RESET_INPUTS, loadTagsDataInAdd, resetInputs } from '../components/Add/Main/Add.action'
 import {
   loadTodayTotalDuration,
   loadThisWeekTotalDuration,
@@ -85,7 +84,7 @@ const fetchTodayDataEpic = (action$, { getState }) =>
       loadTodayTotalDuration(success[3].text),
       loadThisWeekTotalDuration(success[4].text),
       loadThisMonthTotalDuration(success[5].text),
-      changeSelectedUser(getState().App.user.id),
+      resetInputs(),
     ]))
     .do(() => window.W && window.W.start())
 
