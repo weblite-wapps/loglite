@@ -7,6 +7,7 @@ import Tag from '../models/tag'
 
 export const fetchUsers = async query => User
   .find(query)
+  .sort({ name: 1 })
   .exec()
 
 export const fetchLogs = async query => Log

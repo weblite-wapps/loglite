@@ -12,7 +12,6 @@ import Popover from 'material-ui/Popover'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import TagShape from '../../../../common/TagShapeForReport/TagShapeForReport.presentational.react'
-//
 // scssClasses
 import scssClasses from './WorkList.scss'
 

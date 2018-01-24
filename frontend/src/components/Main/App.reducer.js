@@ -30,7 +30,7 @@ const initialState = {
   runningId: '',
   logs: [],
   users: [],
-  user: { name: 'Ali', id: '110' },
+  user: { name: 'Mostafa', id: '120' },
   wis: (window.W && window.W.id) || '110',
   sender: true,
 }

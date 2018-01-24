@@ -13,16 +13,13 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 import { formatTime, getRequest, postRequest } from './App.helper'
 // actions
 import { changeSelectedUser } from '../components/Report/Main/Report.action'
+import { RESET_INPUTS, loadTagsDataInAdd } from '../components/Add/Main/Add.action'
 import {
   loadTodayTotalDuration,
   loadThisWeekTotalDuration,
   loadThisMonthTotalDuration,
-  refetchTotalDuration,
+  REFETCH_TOTAL_DURATION,
 } from '../components/Home/Main/Home.action'
-import {
-  resetInputs,
-  loadTagsDataInAdd,
-} from '../components/Add/Main/Add.action'
 import {
   FETCH_TODAY_DATA,
   ADD_LOG_TO_NEXT_DAY,
@@ -111,7 +108,7 @@ const deleteLogEpic = action$ =>
     .mergeMap(action => postRequest('/deleteLog')
       .query({ _id: action.payload._id })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
-    .mapTo(refetchTotalDuration())
+    .mapTo({ type: REFETCH_TOTAL_DURATION })
 
 const saveStartTimeEpic = action$ =>
   action$.ofType(SAVE_START_TIME)
@@ -131,11 +128,11 @@ const saveEndTimeEpic = action$ =>
         _id: action.payload._id,
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
-    .mapTo(refetchTotalDuration())
+    .mapTo({ type: REFETCH_TOTAL_DURATION })
 
 const resetEpic = action$ =>
   action$.ofType(RESTORE_LOG)
-    .mapTo(resetInputs())
+    .mapTo({ type: RESET_INPUTS })
 
 
 export default combineEpics(

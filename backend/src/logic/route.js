@@ -23,15 +23,18 @@ import { sumLogs, formattedSeconds, modifiedQuery, getBarChartData, getJSON } fr
 // const
 const logger = console.log
 
+
 app.get('/fetchUsers', (req, res) =>
   fetchUsers({ wis: req.query.wis })
     .then(users => res.json(users))
     .catch(logger))
 
+
 app.get('/fetchLogs', (req, res) =>
   fetchLogs({ wis: req.query.wis, userId: req.query.userId, date: req.query.date })
     .then(logs => res.json(logs))
     .catch(logger))
+
 
 app.get('/fetchTags', (req, res) =>
   fetchTags({ wis: req.query.wis, userId: req.query.userId })
@@ -44,6 +47,7 @@ app.get('/serachTags', (req, res) =>
     .then(tags => res.json(tags))
     .catch(logger))
 
+
 app.post('/saveUser', (req, res) => {
   countUser({ wis: req.body.wis, id: req.body.userId }).then((number) => {
     if (number === 0) {
@@ -54,6 +58,7 @@ app.post('/saveUser', (req, res) => {
     res.send('user was saved before!')
   })
 })
+
 
 app.post('/saveLog', (req, res) =>
   saveLog(req.body)
