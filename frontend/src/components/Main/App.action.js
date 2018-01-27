@@ -3,6 +3,9 @@ import { createAction } from 'redux-actions'
 
 
 // actions
+const SET_API = 'SET_API'
+const setAPI = createAction(SET_API)
+
 const FETCH_TODAY_DATA = 'FETCH_TODAY_DATA'
 const fetchTodayData = createAction(FETCH_TODAY_DATA)
 
@@ -65,6 +68,7 @@ const changeRunningId = createAction(CHANGE_RUNNING_ID, _id => ({ _id }))
 
 
 export {
+  SET_API, setAPI,
   FETCH_TODAY_DATA, fetchTodayData,
   SET_ISLOADING, setIsLoading,
   CHANGE_TAB, changeTab,

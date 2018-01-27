@@ -73,7 +73,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchTodayData()
+    setTimeout(this.props.setAPI(), 300)
+    setTimeout(this.props.fetchTodayData(), 1000)
   }
 
   _handleChange(value) {
@@ -145,6 +146,7 @@ App.propTypes = {
   CSV: PropTypes.string.isRequired,
   changeTab: PropTypes.func.isRequired,
   fetchTodayData: PropTypes.func.isRequired,
+  setAPI: PropTypes.func.isRequired,
   // convertJSONToCSV: PropTypes.func.isRequired,
 }
 

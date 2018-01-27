@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // components
 import App from './App.presentational.react'
 // actions
-import { changeTab, fetchTodayData } from './App.action'
+import { changeTab, setAPI, fetchTodayData } from './App.action'
 import { convertJSONToCSV } from '../components/Report/Main/Report.action'
 
 
@@ -15,6 +15,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   changeTab: value => dispatch(changeTab(value)),
+  setAPI: () => dispatch(setAPI()),
   fetchTodayData: () => dispatch(fetchTodayData()),
   convertJSONToCSV: () => dispatch(convertJSONToCSV()),
 })

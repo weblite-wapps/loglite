@@ -38,7 +38,10 @@ import {
 
 const resetStaffDataEpic = (action$, { getState }) =>
   action$.ofType(CHANGE_SELECTED_USER)
-    .mapTo({ type: RESET_STAFF_LOGS, payload: { userId: getState().App.user.id } })
+    .mapTo({
+      type: RESET_STAFF_LOGS,
+      payload: { userId: getState().App.user && getState().App.user.id },
+    })
 
 const loadStaffDataEpic = (action$, { getState, dispatch }) =>
   action$.ofType(RESET_STAFF_LOGS)

@@ -5,6 +5,7 @@ import format from 'date-fns/format'
 import { formatTime } from './App.helper'
 // actions
 import {
+  SET_API,
   SET_ISLOADING,
   CHANGE_TAB,
   LOAD_USERS_DATA,
@@ -30,9 +31,9 @@ const initialState = {
   runningId: '',
   logs: [],
   users: [],
-  user: { name: 'Mostafa', id: '120' },
+  user: null,
   wis: (window.W && window.W.id) || '110',
-  sender: true,
+  sender: null,
 }
 
 // lens & views
@@ -44,6 +45,11 @@ const secondsElapsedLens = R.lensProp('secondsElapsed')
 
 // reducers
 const reducers = {
+  [SET_API]: state => ({ ...state,
+    user: { name: 'Mostafa', id: '120' },
+    sender: true,
+  }),
+
   [SET_ISLOADING]: (state, { value }) => R.set(isLoadingLens, value)(state),
 
   [CHANGE_TAB]: (state, { value }) => R.set(tabIndexLens, value, state),
