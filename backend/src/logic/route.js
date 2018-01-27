@@ -103,13 +103,13 @@ app.post('/deleteLog', (req, res) =>
 
 app.post('/saveStartTime', (req, res) =>
   saveTime({ _id: mongoose.Types.ObjectId(req.body._id) }, { $push: { times: { start: req.body.startTime, end: 'running' } } })
-    .then(() => res.send('deleted successfully!'))
+    .then(() => res.send('saved successfully!'))
     .catch(logger))
 
 
 app.post('/saveEndTime', (req, res) =>
   saveTime({ _id: mongoose.Types.ObjectId(req.body._id), 'times.end': 'running' }, { $set: { 'times.$.end': req.body.endTime } })
-    .then(message => res.send(message))
+    .then(() => res.send('saved successfully!'))
     .catch(logger))
 
 

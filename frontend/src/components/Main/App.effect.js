@@ -4,6 +4,7 @@ import 'rxjs/add/operator/mergeMap'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/mapTo'
 import 'rxjs/add/operator/ignoreElements'
+import 'rxjs/add/operator/filter'
 import format from 'date-fns/format'
 import startOfWeek from 'date-fns/start_of_week'
 import startOfMonth from 'date-fns/start_of_month'
@@ -32,13 +33,18 @@ import {
 } from './App.action'
 
 
+const fetchUsersEpic = (action$, { getState }) =>
+  action$.ofType(FETCH_TODAY_DATA)
+    .filter(() => getState().App.sender)
+    .mergeMap(() => getRequest('/fetchUsers')
+      .query({
+        wis: getState().App.wis,
+      }),
+    ).map(success => loadUsersData(JSON.parse(success.text)))
+
 const fetchTodayDataEpic = (action$, { getState }) =>
   action$.ofType(FETCH_TODAY_DATA)
     .mergeMap(() => Promise.all([
-      getRequest('/fetchUsers')
-        .query({
-          wis: getState().App.wis,
-        }),
       getRequest('/fetchLogs')
         .query({
           wis: getState().App.wis,
@@ -78,12 +84,11 @@ const fetchTodayDataEpic = (action$, { getState }) =>
         }),
     ]))
     .mergeMap(success => ([
-      loadUsersData(JSON.parse(success[0].text)),
-      loadLogsData(JSON.parse(success[1].text)),
-      loadTagsDataInAdd(JSON.parse(success[2].text)),
-      loadTodayTotalDuration(success[3].text),
-      loadThisWeekTotalDuration(success[4].text),
-      loadThisMonthTotalDuration(success[5].text),
+      loadLogsData(JSON.parse(success[0].text)),
+      loadTagsDataInAdd(JSON.parse(success[1].text)),
+      loadTodayTotalDuration(success[2].text),
+      loadThisWeekTotalDuration(success[3].text),
+      loadThisMonthTotalDuration(success[4].text),
       resetInputs(),
     ]))
     .do(() => window.W && window.W.start())
@@ -135,6 +140,7 @@ const resetEpic = action$ =>
 
 
 export default combineEpics(
+  fetchUsersEpic,
   fetchTodayDataEpic,
   addLogToNextDayEpic,
   deleteLogEpic,

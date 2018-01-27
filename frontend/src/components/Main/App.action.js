@@ -4,7 +4,7 @@ import { createAction } from 'redux-actions'
 
 // actions
 const FETCH_TODAY_DATA = 'FETCH_TODAY_DATA'
-const fetchTodayData = createAction(FETCH_TODAY_DATA, value => ({ value }))
+const fetchTodayData = createAction(FETCH_TODAY_DATA)
 
 const SET_ISLOADING = 'SET_ISLOADING'
 const setIsLoading = createAction(SET_ISLOADING, value => ({ value }))
