@@ -52,12 +52,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    const { setAPI, fetchTodayData, history, changeTab } = this.props
     W.load()
     WProto.wappCommunicateCoreLoad = ({ creator, user }) => {
-      this.props.setAPI(creator, user)
-      this.props.fetchTodayData()
+      setAPI(creator, user)
+      fetchTodayData()
     }
-    this.props.history.push('/')
+    history.push('/')
+    changeTab('Home')
   }
 
   _handleChange(value) {
