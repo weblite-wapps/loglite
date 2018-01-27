@@ -5,6 +5,7 @@ import format from 'date-fns/format'
 import { previousDay, nextDay } from './Report.helper'
 // actions
 import {
+  SET_API,
   RESET_STAFF_LOGS,
   LOAD_STAFF_LOGS,
   LOAD_TAGS_DATA_IN_REPORT,
@@ -58,6 +59,8 @@ const barChartDataLens = R.lensProp('barChartData')
 
 // reducers
 const reducers = {
+  [SET_API]: (state, { user, creator }) => ({ ...state, selectedUser: user.id }),
+
   [RESET_STAFF_LOGS]: (state, { userId }) => ({ ...state,
     staffLogs: [],
     currentPagesInventory:
