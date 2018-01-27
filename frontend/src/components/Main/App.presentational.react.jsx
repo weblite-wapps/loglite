@@ -57,6 +57,7 @@ class App extends React.Component {
       this.props.setAPI(creator, user)
       this.props.fetchTodayData()
     }
+    this.props.history.push('/')
   }
 
   _handleChange(value) {
@@ -129,7 +130,6 @@ App.propTypes = {
   changeTab: PropTypes.func.isRequired,
   fetchTodayData: PropTypes.func.isRequired,
   setAPI: PropTypes.func.isRequired,
-  // convertJSONToCSV: PropTypes.func.isRequired,
 }
 
 export default withRouter(App)
