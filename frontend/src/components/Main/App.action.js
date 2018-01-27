@@ -4,7 +4,7 @@ import { createAction } from 'redux-actions'
 
 // actions
 const SET_API = 'SET_API'
-const setAPI = createAction(SET_API)
+const setAPI = createAction(SET_API, (creator, user) => ({ creator, user }))
 
 const FETCH_TODAY_DATA = 'FETCH_TODAY_DATA'
 const fetchTodayData = createAction(FETCH_TODAY_DATA)

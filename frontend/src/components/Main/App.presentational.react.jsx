@@ -1,6 +1,5 @@
 // Modules
 import React from 'react'
-// import annyang from 'annyang'
 import { CSVDownload } from 'react-csv'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
@@ -50,31 +49,14 @@ class App extends React.Component {
     if (tabIndex === 'About') this.setState({ aboutMode: true })
     else if (!tabIndex) changeTab('Home')
     else changeTab(tabIndex)
-
-    // const commands = {
-    //   Home: () => {
-    //     this.props.history.push('')
-    //     this.props.changeTab('Home')
-    //   },
-    //   Add: () => {
-    //     this.props.history.push('/Add')
-    //     this.props.changeTab('Add')
-    //   },
-    //   Report: () => {
-    //     this.props.history.push('/Report')
-    //     this.props.changeTab('Report')
-    //   },
-    //   Export: () => {
-    //     this.props.convertJSONToCSV()
-    //   },
-    // }
-    // annyang.addCommands(commands)
-    // annyang.start({ autoRestart: true, continuous: false })
   }
 
   componentDidMount() {
-    setTimeout(this.props.setAPI(), 300)
-    setTimeout(this.props.fetchTodayData(), 1000)
+    W.load()
+    WProto.wappCommunicateCoreLoad = ({ creator, user }) => {
+      this.props.setAPI(creator, user)
+      this.props.fetchTodayData()
+    }
   }
 
   _handleChange(value) {

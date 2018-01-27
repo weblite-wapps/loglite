@@ -35,7 +35,7 @@ import {
 
 const fetchUsersEpic = (action$, { getState }) =>
   action$.ofType(FETCH_TODAY_DATA)
-    .filter(() => getState().App.sender)
+    .filter(() => getState().App.creator)
     .mergeMap(() => getRequest('/fetchUsers')
       .query({
         wis: getState().App.wis,

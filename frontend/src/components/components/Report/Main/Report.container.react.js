@@ -15,7 +15,7 @@ import {
 
 const mapStateToProps = state => ({
   userId: state.App.user.id,
-  sender: state.App.sender,
+  creator: state.App.creator,
   users: state.App.users,
   selectedUser: state.Report.selectedUser,
   logs: state.App.logs,

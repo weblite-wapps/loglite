@@ -33,7 +33,7 @@ const initialState = {
   users: [],
   user: null,
   wis: (window.W && window.W.id) || '110',
-  sender: null,
+  creator: null,
 }
 
 // lens & views
@@ -45,10 +45,7 @@ const secondsElapsedLens = R.lensProp('secondsElapsed')
 
 // reducers
 const reducers = {
-  [SET_API]: state => ({ ...state,
-    user: { name: 'Mostafa', id: '120' },
-    sender: true,
-  }),
+  [SET_API]: (state, { user, creator }) => ({ ...state, user, creator }),
 
   [SET_ISLOADING]: (state, { value }) => R.set(isLoadingLens, value)(state),
 

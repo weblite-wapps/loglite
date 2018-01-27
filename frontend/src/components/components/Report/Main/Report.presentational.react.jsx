@@ -104,7 +104,7 @@ class Report extends React.Component {
 
   render() {
     const {
-      classes, userId, selectedUser, sender, users,
+      classes, userId, selectedUser, creator, users,
       changeSelectedUser, logs, staffLogs, currentPage, totalDuration, staffTotalDuration,
       totalDurationFromServer, pieChartData, staffPieChartData, onPreviousClick, onNextClick,
     } = this.props
@@ -114,7 +114,7 @@ class Report extends React.Component {
     return (
       <div className={scssClasses.container}>
         <MuiThemeProvider theme={theme}>
-          { sender ?
+          { creator ?
             <div className={scssClasses.textField}>
               <MuiTextField
                 select
@@ -218,7 +218,7 @@ class Report extends React.Component {
 Report.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   userId: PropTypes.string.isRequired,
-  sender: PropTypes.bool.isRequired,
+  creator: PropTypes.bool.isRequired,
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
   staffLogs: PropTypes.arrayOf(PropTypes.object).isRequired,

@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   changeTab: value => dispatch(changeTab(value)),
-  setAPI: () => dispatch(setAPI()),
+  setAPI: (creator, user) => dispatch(setAPI(creator, user)),
   fetchTodayData: () => dispatch(fetchTodayData()),
   convertJSONToCSV: () => dispatch(convertJSONToCSV()),
 })
