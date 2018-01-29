@@ -2,7 +2,7 @@
 import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import { MuiThemeProvider } from 'material-ui/styles'
 import List, { ListItem, ListItemSecondaryAction } from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import Typography from 'material-ui/Typography'
@@ -16,40 +16,15 @@ import differenceInSeconds from 'date-fns/difference_in_seconds'
 import Play from 'material-ui-icons/PlayArrow'
 import Pause from 'material-ui-icons/Pause'
 // helpers
-import { previousDay, formattedSeconds, formatTime, sumTimes, formattedName } from './TodayWork.helper'
-// scssClasses
+import { previousDay,
+  formattedSeconds,
+  formatTime,
+  sumTimes,
+  formattedName,
+  theme,
+} from './TodayWork.helper'
+// css
 import scssClasses from './TodayWork.scss'
-
-const theme = createMuiTheme({
-  overrides: {
-    MuiIconButton: {
-      root: {
-        height: '30px',
-        width: '30px',
-        marginTop: '10px',
-      },
-    },
-    MuiListItem: {
-      dense: {
-        paddingLeft: '30px',
-      },
-    },
-    MuiListItemSecondaryAction: {
-      root: {
-        paddingRight: '20px',
-      },
-    },
-    MuiDivider: {
-      root: {
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
-      },
-      light: {
-        marginRight: '20px',
-        marginLeft: '20px',
-      },
-    },
-  },
-})
 
 
 export default class TodayWork extends React.Component {

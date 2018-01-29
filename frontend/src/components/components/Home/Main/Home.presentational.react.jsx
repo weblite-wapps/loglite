@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import { MuiThemeProvider } from 'material-ui/styles'
 import Divider from 'material-ui/Divider'
 import Button from 'material-ui/Button'
 import format from 'date-fns/format'
@@ -11,33 +11,9 @@ import AddIcon from 'material-ui-icons/Add'
 // components
 import Summary from '../components/Summary/Summary.container.react'
 import TodayWork from '../components/TodayWork/TodayWork.container.react'
-// scssClasses
+// css
+import { theme } from './Home.helper'
 import scssClasses from './Home.scss'
-
-
-const theme = createMuiTheme({
-  overrides: {
-    MuiButton: {
-      fab: {
-        backgroundColor: '#505050',
-        height: '60px',
-        width: '60px',
-      },
-    },
-    MuiSvgIcon: {
-      root: {
-        color: 'white',
-        height: '50px',
-        width: '50px',
-      },
-    },
-    MuiDivider: {
-      default: {
-        backgroundColor: '#000000',
-      },
-    },
-  },
-})
 
 
 class Home extends React.Component {

@@ -1,3 +1,5 @@
+// modules
+import { createMuiTheme } from 'material-ui/styles'
 // components
 import host from '../../../../setup/config'
 // const
@@ -24,3 +26,27 @@ export const NextTextSliderDuration = (currentStage, direction) => {
     default: return null
   }
 }
+
+export const theme = createMuiTheme({
+  overrides: {
+    MuiButton: {
+      fab: {
+        backgroundColor: '#505050',
+        height: '60px',
+        width: '60px',
+      },
+    },
+    MuiSvgIcon: {
+      root: {
+        color: 'white',
+        height: '50px',
+        width: '50px',
+      },
+    },
+    MuiDivider: {
+      default: {
+        backgroundColor: '#000000',
+      },
+    },
+  },
+})
