@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // components
 import Report from './Report.presentational.react'
 // actions
-import { changeSelectedUser, decrementCurrentPage, incrementCurrentPage } from './Report.action'
+import { changeSelectedUser } from './Report.action'
 // selectors
 import {
   getTotalDuration,
@@ -30,8 +30,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   changeSelectedUser: user => dispatch(changeSelectedUser(user)),
-  onPreviousClick: () => dispatch(decrementCurrentPage()),
-  onNextClick: () => dispatch(incrementCurrentPage()),
 })
 
 
