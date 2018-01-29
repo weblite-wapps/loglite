@@ -1,5 +1,6 @@
 // modules
 import * as R from 'ramda'
+import { createMuiTheme } from 'material-ui/styles'
 import setMinutes from 'date-fns/set_minutes'
 import setHours from 'date-fns/set_hours'
 // components
@@ -17,3 +18,23 @@ export const getRequest = path => request
 export const postRequest = path => request
   .post(host + path)
   .set('Access-Control-Allow-Origin', '*')
+
+export const theme = createMuiTheme({
+  overrides: {
+    MuiTab: {
+      root: {
+        height: '50px',
+      },
+    },
+    MuiTabIndicator: {
+      root: {
+        height: '5px',
+      },
+    },
+    MuiCircularProgress: {
+      primaryColor: {
+        color: 'white',
+      },
+    },
+  },
+})

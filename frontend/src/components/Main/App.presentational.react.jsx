@@ -4,34 +4,14 @@ import { CSVDownload } from 'react-csv'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import { MuiThemeProvider } from 'material-ui/styles'
 import Tabs, { Tab } from 'material-ui/Tabs'
 import { CircularProgress } from 'material-ui/Progress'
 // components
 import Snackbar from 'weblite-web-snackbar'
-// scssClasses
+// css
 import scssClasses from './App.scss'
-
-
-const theme = createMuiTheme({
-  overrides: {
-    MuiTab: {
-      root: {
-        height: '50px',
-      },
-    },
-    MuiTabIndicator: {
-      root: {
-        height: '5px',
-      },
-    },
-    MuiCircularProgress: {
-      primaryColor: {
-        color: 'white',
-      },
-    },
-  },
-})
+import { theme } from './App.helper'
 
 class App extends React.Component {
   constructor(props) {
