@@ -1,5 +1,6 @@
 // modules
 import React from 'react'
+import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import List, { ListItem, ListItemSecondaryAction } from 'material-ui/List'
@@ -8,7 +9,6 @@ import Typography from 'material-ui/Typography'
 import IconButton from 'material-ui/IconButton'
 import Tooltip from 'material-ui/Tooltip'
 import Divider from 'material-ui/Divider'
-import * as R from 'ramda'
 import format from 'date-fns/format'
 import isWithinRange from 'date-fns/is_within_range'
 import differenceInSeconds from 'date-fns/difference_in_seconds'
@@ -158,11 +158,7 @@ export default class TodayWork extends React.Component {
 
 TodayWork.propTypes = {
   runningId: PropTypes.string.isRequired,
-  log: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    expanded: PropTypes.bool.isRequired,
-    times: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
+  log: PropTypes.shape({}).isRequired,
   workDuration: PropTypes.string.isRequired,
   toggleExpanded: PropTypes.func.isRequired,
   onStartClick: PropTypes.func.isRequired,

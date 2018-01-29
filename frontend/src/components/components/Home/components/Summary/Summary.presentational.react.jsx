@@ -89,15 +89,8 @@ function Summary(props) {
 }
 
 Summary.propTypes = {
-  classes: PropTypes.shape({
-    display1: PropTypes.string.isRequired,
-    display2: PropTypes.string.isRequired,
-    headline: PropTypes.string.isRequired,
-  }).isRequired,
-  textSlider: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    duration: PropTypes.string.isRequired,
-  }).isRequired,
+  classes: PropTypes.shape({}).isRequired,
+  textSlider: PropTypes.shape({}).isRequired,
   changeTextSlider: PropTypes.func.isRequired,
 }
 

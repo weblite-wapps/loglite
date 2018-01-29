@@ -15,13 +15,7 @@ import subDays from 'date-fns/sub_days'
 // helpers
 import { postRequest } from './Home.helper'
 // actions
-import {
-  SAVE_START_TIME,
-  INCREMENT_SECONDS_ELAPSED,
-  SAVE_END_TIME,
-  CHANGE_TAB,
-  setIsLoading,
-} from '../../../Main/App.action'
+
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
 import {
   REFETCH_TOTAL_DURATION,
@@ -30,6 +24,13 @@ import {
   loadThisWeekTotalDuration,
   loadThisMonthTotalDuration,
 } from './Home.action'
+import {
+  SAVE_START_TIME,
+  INCREMENT_SECONDS_ELAPSED,
+  SAVE_END_TIME,
+  CHANGE_TAB,
+  setIsLoading,
+} from '../../../Main/App.action'
 
 
 const refetchTotalDurationEpic = (action$, { getState, dispatch }) =>

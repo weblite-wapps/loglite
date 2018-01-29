@@ -5,8 +5,9 @@ import { withRouter } from 'react-router'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import Divider from 'material-ui/Divider'
 import Button from 'material-ui/Button'
-import AddIcon from 'material-ui-icons/Add'
 import format from 'date-fns/format'
+// icons
+import AddIcon from 'material-ui-icons/Add'
 // components
 import Summary from '../components/Summary/Summary.container.react'
 import TodayWork from '../components/TodayWork/TodayWork.container.react'
