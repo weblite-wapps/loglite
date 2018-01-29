@@ -1,40 +1,28 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider, createMuiTheme, withStyles } from 'material-ui/styles'
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import Typography from 'material-ui/Typography'
 import Divider from 'material-ui/Divider'
 import MuiButton from 'material-ui/Button'
-import MuiTextField from 'material-ui/TextField'
 import format from 'date-fns/format'
 // icons
-import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
-import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import ViewList from 'material-ui-icons/ViewList'
 import FileDownload from 'material-ui-icons/FileDownload'
 import InsertChart from 'material-ui-icons/InsertChart'
 // selectors
 import { getWorksDuration, getStaffWorksDuration } from '../../common/Common.selector'
 // components
+import SelectBar from '../components/common/SelectBar/SelectBar.container.react'
+import Navigator from '../components/common/Navigator/Navigator.container.react'
 import Custom from '../components/Custom/Custom.container.react'
 import WorkList from '../components/WorkList/Main/WorkList.container.react'
 import CustomizedPieChart from '../components/WorkList/components/PieChart.presentational.react'
 import ShowChart from '../components/ShowChart/Main/ShowChart.container.react'
 // scssClasses
 import scssClasses from './Report.scss'
-
-const styles = () => ({
-  textFieldFormLabel: {
-    color: '#919191',
-  },
-  textFieldInkbar: {
-    '&:after': {
-      backgroundColor: '#919191',
-    },
-  },
-})
 
 
 const theme = createMuiTheme({
@@ -57,7 +45,7 @@ const theme = createMuiTheme({
   },
 })
 
-class Report extends React.Component {
+export default class Report extends React.Component {
   constructor(props) {
     super(props)
     this.handleClickWorkList = this._handleClickWorkList.bind(this)
@@ -68,6 +56,7 @@ class Report extends React.Component {
       expandedShowChart: false,
       expandedCustom: false,
       expandedWorkList: true,
+      isCustom: false,
     }
   }
 
@@ -104,9 +93,8 @@ class Report extends React.Component {
 
   render() {
     const {
-      classes, userId, selectedUser, creator, users,
-      changeSelectedUser, logs, staffLogs, currentPage, totalDuration, staffTotalDuration,
-      totalDurationFromServer, pieChartData, staffPieChartData, onPreviousClick, onNextClick,
+      userId, logs, staffLogs, currentPage, totalDuration, staffTotalDuration,
+      totalDurationFromServer, pieChartData, staffPieChartData, selectedUser,
     } = this.props
     const { expandedCustom, expandedWorkList, expandedShowChart, isCustom } = this.state
     const getDuration =
@@ -114,51 +102,9 @@ class Report extends React.Component {
     return (
       <div className={scssClasses.container}>
         <MuiThemeProvider theme={theme}>
-          { creator ?
-            <div className={scssClasses.textField}>
-              <MuiTextField
-                select
-                fullWidth
-                label="user name"
-                value={selectedUser}
-                onChange={e => changeSelectedUser(e.target.value)}
-                style={{ marginTop: '0' }}
-                InputProps={{
-                    classes: {
-                      inkbar: classes.textFieldInkbar,
-                    },
-                  }}
-                InputLabelProps={{
-                  className: classes.textFieldFormLabel,
-                  shrink: true,
-                  }}
-                SelectProps={{
-                  native: true,
-                  MenuProps: {
-                    className: scssClasses.menu,
-                  },
-                }}
-                margin="normal"
-              >
-                {users.map(user =>
-                  <option key={user.id} value={user.id}>{user.name}</option>)}
-              </MuiTextField>
-            </div> : null }
+          <SelectBar />
           <div className={scssClasses.controllBar}>
-            <div className={scssClasses.navigator}>
-              <MuiButton onClick={onPreviousClick} disabled={isCustom}>
-                <KeyboardArrowLeft />
-              </MuiButton>
-              <Typography type="body1" align="center" className={scssClasses.textSlider}>
-                {isCustom ? 'CUSTOMIZED' : format(currentPage, 'YYYY-MM-DD')}
-              </Typography>
-              <MuiButton
-                disabled={isCustom || format(currentPage, 'YYYY-MM-DD') === format(new Date(), 'YYYY-MM-DD')}
-                onClick={onNextClick}
-              >
-                <KeyboardArrowRight />
-              </MuiButton>
-            </div>
+            <Navigator isCustom={isCustom} />
             <MuiButton raised={expandedWorkList} onClick={this.handleClickWorkList}>
               <ViewList />
             </MuiButton>
@@ -216,10 +162,7 @@ class Report extends React.Component {
 }
 
 Report.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   userId: PropTypes.string.isRequired,
-  creator: PropTypes.bool.isRequired,
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
   staffLogs: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentPage: PropTypes.instanceOf(Date).isRequired,
@@ -229,9 +172,4 @@ Report.propTypes = {
   pieChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
   staffPieChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedUser: PropTypes.string.isRequired,
-  changeSelectedUser: PropTypes.func.isRequired,
-  onPreviousClick: PropTypes.func.isRequired,
-  onNextClick: PropTypes.func.isRequired,
 }
-
-export default withStyles(styles)(Report)

@@ -17,8 +17,9 @@ import { getRequest } from './Report.helper'
 import { LOAD_LOGS_DATA, loadLogsData, setIsLoading } from '../../../Main/App.action'
 import { LOAD_TAGS_DATA_IN_ADD } from '../../Add/Main/Add.action'
 import {
-  RESET_STAFF_LOGS,
-  LOAD_STAFF_LOGS,
+  RESET_STAFF_LOGS, resetStaffLogs,
+  LOAD_STAFF_LOGS, loadStaffLogs,
+  RESTORE_CSV, restoreCSV,
   CHANGE_SELECTED_USER,
   SET_QUERY,
   CALCULATE_TOTAL_DURATION,
@@ -26,13 +27,10 @@ import {
   DECREMENT_CURRENT_PAGE,
   INCREMENT_CURRENT_PAGE,
   CHANGE_CURRENT_PAGES_INVENTORY,
-  RESTORE_CSV,
   RESET_CSV,
   UPDATE_CHART,
-  loadStaffLogs,
   fetchTags,
   restoreTotalDuration,
-  restoreCSV,
   loadTagsDataInReport,
   restoreBarChartData,
 } from './Report.action'
