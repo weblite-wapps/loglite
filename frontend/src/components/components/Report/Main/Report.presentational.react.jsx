@@ -117,6 +117,7 @@ export default class Report extends React.Component {
           </div>
         </MuiThemeProvider>
         <Divider />
+
         <List disablePadding className={scssClasses.list}>
           <Collapse component="li" in={expandedCustom} timeout="auto" unmountOnExit>
             <Custom />
@@ -128,10 +129,12 @@ export default class Report extends React.Component {
             </div>
             <Divider />
           </Collapse>
+
           <Collapse component="li" in={expandedShowChart} timeout="auto" unmountOnExit>
             <ShowChart />
             <Divider />
           </Collapse>
+
           <Collapse component="li" in={expandedWorkList} timeout="auto" unmountOnExit>
             <div className={scssClasses.text}>
               <Typography type="subheading" >
