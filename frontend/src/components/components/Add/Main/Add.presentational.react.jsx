@@ -105,8 +105,8 @@ class Add extends React.Component {
 
   render() {
     const { dateIsError, startTimeIsError, endTimeIsError } = this.state
-    const { title, onTitleChange, suggestions, queryTag,
-      onQueryTagChange, tags, onTagClick } = this.props
+    const { title, onTitleChange, suggestions, queryTag, onQueryTagChange, tags, onTagClick,
+    } = this.props
 
     return (
       <div className={scssClasses.container}>

@@ -6,13 +6,12 @@ import Typography from 'material-ui/Typography'
 import scssClasses from './TagShapeForReport.scss'
 
 
-function TagShape(props) {
-  const { tag } = props
+export default function TagShape(props) {
   return (
     <div className={scssClasses.container}>
       <div className={scssClasses.content}>
         <Typography type="body1">
-          {tag}
+          {props.tag}
         </Typography>
       </div>
     </div>
@@ -23,5 +22,3 @@ function TagShape(props) {
 TagShape.propTypes = {
   tag: PropTypes.string.isRequired,
 }
-
-export default TagShape

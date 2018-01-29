@@ -8,6 +8,7 @@ import { styles } from '../../../../Main/Add.helper'
 
 function DatePicker(props) {
   const { isError, date, onDateChange, classes } = props
+
   return (
     <form className={classes.container} noValidate>
       <TextField

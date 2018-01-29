@@ -7,6 +7,7 @@ import scssClasses from './Autocomplete.scss'
 
 export default function IntegrationAutocomplete(props) {
   const { label, suggestions, inputValue, onInputValueChange, onSelect, onAdd } = props
+
   return (
     <Autocomplete
       getItemValue={item => item.label}

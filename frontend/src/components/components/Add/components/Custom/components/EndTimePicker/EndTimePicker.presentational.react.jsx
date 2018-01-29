@@ -9,6 +9,7 @@ import { styles } from '../../../../Main/Add.helper'
 
 function EndTimePicker(props) {
   const { isError, endTime, onEndTimeChange, classes } = props
+
   return (
     <form className={classes.container} noValidate>
       <TextField

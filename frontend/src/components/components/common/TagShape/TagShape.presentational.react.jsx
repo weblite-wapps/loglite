@@ -10,6 +10,7 @@ import scssClasses from './TagShape.scss'
 
 export default function TagShape(props) {
   const { tag, onTagClick } = props
+
   return (
     <div className={scssClasses.container} onClick={onTagClick} role="button" tabIndex="0">
       <div className={tag.isSelected ? scssClasses.selected : scssClasses.default}>
@@ -27,9 +28,6 @@ export default function TagShape(props) {
 }
 
 TagShape.propTypes = {
-  tag: PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    isSelected: PropTypes.bool.isRequired,
-  }).isRequired,
+  tag: PropTypes.shape({}).isRequired,
   onTagClick: PropTypes.func.isRequired,
 }

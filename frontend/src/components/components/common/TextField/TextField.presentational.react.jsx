@@ -19,6 +19,7 @@ const styles = () => ({
 
 function TextField(props) {
   const { isError, label, value, onChange, classes } = props
+
   return (
     <MuiTextField
       label={label}
@@ -42,10 +43,7 @@ function TextField(props) {
 }
 
 TextField.propTypes = {
-  classes: PropTypes.shape({
-    textFieldFormLabel: PropTypes.string.isRequired,
-    textFieldInkbar: PropTypes.string.isRequired,
-  }).isRequired,
+  classes: PropTypes.shape({}).isRequired,
   isError: PropTypes.bool.isRequired,
   label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,

@@ -9,6 +9,7 @@ import { styles } from '../../../../Main/Add.helper'
 
 function StartTimePicker(props) {
   const { isError, startTime, onStartTimeChange, classes } = props
+
   return (
     <form className={classes.container} noValidate>
       <TextField

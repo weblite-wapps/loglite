@@ -6,8 +6,9 @@ import Button from 'material-ui/Button'
 // css
 import theme from './Button.helper'
 
-function CustomButton(props) {
+export default function CustomButton(props) {
   const { isCustome, label, onClick } = props
+
   return (
     <MuiThemeProvider theme={theme}>
       { isCustome ?
@@ -31,5 +32,3 @@ CustomButton.defaultProps = {
   isCustome: false,
   onClick: null,
 }
-
-export default CustomButton

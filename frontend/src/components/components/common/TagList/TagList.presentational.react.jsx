@@ -7,8 +7,9 @@ import TagShape from '../TagShape/TagShape.presentational.react'
 import scssClasses from './TagList.scss'
 
 
-function TagList(props) {
+export default function TagList(props) {
   const { tags, onTagClick } = props
+
   return (
     <div className={scssClasses.tags}>
       {tags.map(tag => (
@@ -26,5 +27,3 @@ TagList.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.object).isRequired,
   onTagClick: PropTypes.func.isRequired,
 }
-
-export default TagList

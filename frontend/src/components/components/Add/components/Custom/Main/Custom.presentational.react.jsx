@@ -32,6 +32,7 @@ export default class Custom extends React.Component {
 
   render() {
     const { dateIsError, startTimeIsError, endTimeIsError, onAdd, onCustomAdd } = this.props
+
     return (
       <MuiThemeProvider theme={theme}>
         <div>
