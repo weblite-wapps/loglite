@@ -13,7 +13,7 @@ import {
   changeRunningId,
 } from '../../../../Main/App.action'
 // selectors
-import { getWorksDuration } from '../../../common/Common.selector'
+import { getWorksDuration } from '../../../../../helper/selectors/workDuration.selector'
 
 
 const mapStateToProps = (state, ownProps) => ({

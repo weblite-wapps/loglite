@@ -9,7 +9,7 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import StartDatePicker from '../../common/StartDatePicker/StartDatePicker.container.react'
 import EndDatePicker from '../../common/EndDatePicker/EndDatePicker.container.react'
-import Button from '../../../../common/Button/Button.presentational.react'
+import Button from '../../../../../../helper/components/Button/Button.presentational.react'
 import BarChart from '../components/BarChart.presentational.react'
 // css
 import scssClasses from './ShowChart.scss'

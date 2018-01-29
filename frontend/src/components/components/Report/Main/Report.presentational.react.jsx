@@ -13,7 +13,7 @@ import ViewList from 'material-ui-icons/ViewList'
 import FileDownload from 'material-ui-icons/FileDownload'
 import InsertChart from 'material-ui-icons/InsertChart'
 // selectors
-import { getWorksDuration, getStaffWorksDuration } from '../../common/Common.selector'
+import { getWorksDuration, getStaffWorksDuration } from '../../../../helper/selectors/workDuration.selector'
 // components
 import SelectBar from '../components/common/SelectBar/SelectBar.container.react'
 import Navigator from '../components/common/Navigator/Navigator.container.react'

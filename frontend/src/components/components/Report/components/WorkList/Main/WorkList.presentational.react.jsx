@@ -11,7 +11,7 @@ import Button from 'material-ui/Button'
 import Popover from 'material-ui/Popover'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
-import TagShape from '../../../../common/TagShapeForReport/TagShapeForReport.presentational.react'
+import TagShape from '../../../../../../helper/components/TagShapeForReport/TagShapeForReport.presentational.react'
 // css
 import scssClasses from './WorkList.scss'
 import theme from './WorkList.helper'

@@ -6,7 +6,7 @@ import Divider from 'material-ui/Divider'
 import List, { ListItem } from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 // components
-import Button from '../../../../common/Button/Button.presentational.react'
+import Button from '../../../../../../helper/components/Button/Button.presentational.react'
 import DatePicker from '../components/DatePicker/DatePicker.container.react'
 import StartTimePicker from '../components/StartTimePicker/StartTimePicker.container.react'
 import EndTimePicker from '../components/EndTimePicker/EndTimePicker.container.react'

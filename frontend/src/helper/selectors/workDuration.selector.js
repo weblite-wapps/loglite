@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect'
 import * as R from 'ramda'
 // helpers
-import { sumTimes, formattedSeconds } from './Common.helper'
+import { sumTimes, formattedSeconds } from '../functions/time.helper'
 
 const getLogs = state => state.App.logs
 const getStaffLogs = state => state.Report.staffLogs

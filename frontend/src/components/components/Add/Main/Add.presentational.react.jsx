@@ -8,10 +8,10 @@ import format from 'date-fns/format'
 // local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
-import TextField from '../../common/TextField/TextField.presentational.react'
-import Autocomplete from '../../common/Autocomplete/Autocomplete.presentational.react'
-import TagList from '../../common/TagList/TagList.presentational.react'
-import Button from '../../common/Button/Button.presentational.react'
+import TextField from '../../../../helper/components/TextField/TextField.presentational.react'
+import Autocomplete from '../../../../helper/components/Autocomplete/Autocomplete.presentational.react'
+import TagList from '../../../../helper/components/TagList/TagList.presentational.react'
+import Button from '../../../../helper/components/Button/Button.presentational.react'
 import Custom from '../components/Custom/Main/Custom.presentational.react'
 // helpers
 import { formatTime, areTimesOverlapping } from './Add.helper'

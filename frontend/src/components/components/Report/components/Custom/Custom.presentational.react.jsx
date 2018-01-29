@@ -6,9 +6,9 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import StartDatePicker from '../common/StartDatePicker/StartDatePicker.container.react'
 import EndDatePicker from '../common/EndDatePicker/EndDatePicker.container.react'
-import Button from '../../../common/Button/Button.presentational.react'
-import TagList from '../../../common/TagList/TagList.presentational.react'
-import Autocomplete from '../../../common/Autocomplete/Autocomplete.presentational.react'
+import Button from '../../../../../helper/components/Button/Button.presentational.react'
+import TagList from '../../../../../helper/components/TagList/TagList.presentational.react'
+import Autocomplete from '../../../../../helper/components/Autocomplete/Autocomplete.presentational.react'
 // css
 import scssClasses from './Custom.scss'
 
