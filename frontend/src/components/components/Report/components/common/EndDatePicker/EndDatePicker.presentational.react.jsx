@@ -3,27 +3,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
+// css
+import { styles } from '../../../Main/Report.helper'
 
-const styles = theme => ({
-  container: {
-    margin: '10px',
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 300,
-  },
-  textFieldFormLabel: {
-    color: '#919191',
-  },
-  textFieldInkbar: {
-    '&:after': {
-      backgroundColor: '#919191',
-    },
-  },
-})
 
 function EndDatePicker(props) {
   const { isError, endDate, onEndDateChange, classes } = props
