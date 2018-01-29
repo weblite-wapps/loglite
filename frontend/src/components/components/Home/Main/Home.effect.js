@@ -29,13 +29,13 @@ import {
   INCREMENT_SECONDS_ELAPSED,
   SAVE_END_TIME,
   CHANGE_TAB,
-  setIsLoading,
+  dispatchSetIsLoading,
 } from '../../../Main/App.action'
 
 
-const refetchTotalDurationEpic = (action$, { getState, dispatch }) =>
+const refetchTotalDurationEpic = (action$, { getState }) =>
   action$.ofType(RESET_INPUTS, REFETCH_TOTAL_DURATION)
-    .do(() => dispatch(setIsLoading(true)))
+    .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => Promise.all([
       postRequest('/todayTotalDuration')
         .send({
@@ -58,7 +58,7 @@ const refetchTotalDurationEpic = (action$, { getState, dispatch }) =>
           endDate: new Date(),
         }),
     ]))
-    .do(() => dispatch(setIsLoading(false)))
+    .do(() => dispatchSetIsLoading(false))
     .mergeMap(success => ([
       loadTodayTotalDuration(success[0].text),
       loadThisWeekTotalDuration(success[1].text),

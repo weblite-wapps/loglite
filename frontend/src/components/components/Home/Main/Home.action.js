@@ -1,32 +1,37 @@
 // modules
 import { createAction } from 'redux-actions'
+import { dispatch } from '../../../../setup/redux'
 
 
 // actions
-const CHANGE_TEXT_SLIDER = 'CHANGE_TEXT_SLIDER'
-const changeTextSlider = createAction(CHANGE_TEXT_SLIDER, value => ({ value }))
+export const CHANGE_TEXT_SLIDER = 'CHANGE_TEXT_SLIDER'
+export const changeTextSlider = createAction(CHANGE_TEXT_SLIDER, value => ({ value }))
+export const dispatchChangeTextSlider = (...args) => dispatch(changeTextSlider(...args))
 
-const LOAD_TODAY_TOTAL_DURATION = 'LOAD_TODAY_TOTAL_DURATION'
-const loadTodayTotalDuration = createAction(LOAD_TODAY_TOTAL_DURATION, value => ({ value }))
+export const LOAD_TODAY_TOTAL_DURATION = 'LOAD_TODAY_TOTAL_DURATION'
+export const loadTodayTotalDuration = createAction(LOAD_TODAY_TOTAL_DURATION, value => ({ value }))
+export const dispatchLoadTodayTotalDuration = (...args) => dispatch(loadTodayTotalDuration(...args))
 
-const LOAD_THISWEEK_TOTAL_DURATION = 'LOAD_THISWEEK_TOTAL_DURATION'
-const loadThisWeekTotalDuration = createAction(LOAD_THISWEEK_TOTAL_DURATION, value => ({ value }))
+export const LOAD_THISWEEK_TOTAL_DURATION = 'LOAD_THISWEEK_TOTAL_DURATION'
+export const loadThisWeekTotalDuration = createAction(
+  LOAD_THISWEEK_TOTAL_DURATION,
+  value => ({ value }),
+)
+export const dispatchLoadThisWeekTotalDuration = (...args) =>
+  dispatch(loadThisWeekTotalDuration(...args))
 
-const LOAD_THISMONTH_TOTAL_DURATION = 'LOAD_THISMONTH_TOTAL_DURATION'
-const loadThisMonthTotalDuration = createAction(LOAD_THISMONTH_TOTAL_DURATION, value => ({ value }))
+export const LOAD_THISMONTH_TOTAL_DURATION = 'LOAD_THISMONTH_TOTAL_DURATION'
+export const loadThisMonthTotalDuration = createAction(
+  LOAD_THISMONTH_TOTAL_DURATION,
+  value => ({ value }),
+)
+export const dispatchLoadThisMonthTotalDuration = (...args) =>
+  dispatch(loadThisMonthTotalDuration(...args))
 
-const REFETCH_TOTAL_DURATION = 'REFETCH_TOTAL_DURATION'
-const refetchTotalDuration = createAction(REFETCH_TOTAL_DURATION)
+export const REFETCH_TOTAL_DURATION = 'REFETCH_TOTAL_DURATION'
+export const refetchTotalDuration = createAction(REFETCH_TOTAL_DURATION)
+export const dispatchRefetchTotalDuration = (...args) => dispatch(refetchTotalDuration(...args))
 
-const COUNTINUE_COUNTING = 'COUNTINUE_COUNTING'
-const countinueCounting = createAction(COUNTINUE_COUNTING, _id => ({ _id }))
-
-
-export {
-  CHANGE_TEXT_SLIDER, changeTextSlider,
-  LOAD_TODAY_TOTAL_DURATION, loadTodayTotalDuration,
-  LOAD_THISWEEK_TOTAL_DURATION, loadThisWeekTotalDuration,
-  LOAD_THISMONTH_TOTAL_DURATION, loadThisMonthTotalDuration,
-  REFETCH_TOTAL_DURATION, refetchTotalDuration,
-  COUNTINUE_COUNTING, countinueCounting,
-}
+export const COUNTINUE_COUNTING = 'COUNTINUE_COUNTING'
+export const countinueCounting = createAction(COUNTINUE_COUNTING, _id => ({ _id }))
+export const dispatchCountinueCounting = (...args) => dispatch(countinueCounting(...args))

@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 // components
 import TodayWork from './TodayWork.presentational.react'
 // actions
-import { countinueCounting } from '../../Main/Home.action'
+import { dispatchCountinueCounting } from '../../Main/Home.action'
 import {
-  toggleExpanded,
-  setSecondsElapsed,
-  saveStartTime,
-  saveEndTime,
-  addLogToNextDay,
-  changeRunningId,
+  dispatchToggleExpanded,
+  dispatchSetSecondsElapsed,
+  dispatchSaveStartTime,
+  dispatchSaveEndTime,
+  dispatchAddLogToNextDay,
+  dispatchChangeRunningId,
 } from '../../../../Main/App.action'
 // selectors
 import { getWorksDuration } from '../../../../../helper/selectors/workDuration.selector'
@@ -22,14 +22,14 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  toggleExpanded: _id => dispatch(toggleExpanded(_id)),
-  setSecondsElapsed: value => dispatch(setSecondsElapsed(ownProps.log._id, value)),
-  countinueCounting: _id => dispatch(countinueCounting(_id)),
-  onStartClick: () => dispatch(saveStartTime(ownProps.log._id)),
-  onStopClick: (_id, end) => dispatch(saveEndTime(_id, end)),
+  toggleExpanded: dispatchToggleExpanded,
+  setSecondsElapsed: value => dispatchSetSecondsElapsed(ownProps.log._id, value),
+  countinueCounting: dispatchCountinueCounting,
+  onStartClick: () => dispatchSaveStartTime(ownProps.log._id),
+  onStopClick: dispatchSaveEndTime,
   addLogToNextDay: (end, date) =>
-    dispatch(addLogToNextDay(ownProps.log.title, ownProps.log.tags, end, date)),
-  changeRunningId: _id => dispatch(changeRunningId(_id)),
+    dispatchAddLogToNextDay(ownProps.log.title, ownProps.log.tags, end, date),
+  changeRunningId: dispatchChangeRunningId,
 })
 
 

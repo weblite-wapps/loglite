@@ -3,15 +3,13 @@ import { connect } from 'react-redux'
 // components
 import Home from './Home.presentational.react'
 // actions
-import { changeTab } from '../../../Main/App.action'
+import { dispatchChangeTab } from '../../../Main/App.action'
 
 
 const mapStateToProps = state => ({
   logs: state.App.logs,
 })
 
-const mapDispatchToProps = dispatch => ({
-  changeTab: value => dispatch(changeTab(value)),
-})
+const mapDispatchToProps = () => ({ changeTab: dispatchChangeTab })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
