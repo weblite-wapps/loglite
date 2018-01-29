@@ -100,7 +100,7 @@ const addLogToNextDayEpic = (action$, { getState }) =>
         title: action.payload.title,
         expanded: false,
         tags: action.payload.tags,
-        times: [{ start: formatTime('00:00'), end: formatTime(action.payload.end) }],
+        times: [{ start: formatTime('00:00'), end: action.payload.end }],
         date: action.payload.date,
         id: getState().App.user.id,
         wis: getState().App.wis,
@@ -128,7 +128,7 @@ const saveEndTimeEpic = action$ =>
   action$.ofType(SAVE_END_TIME)
     .mergeMap(action => postRequest('/saveEndTime')
       .send({
-        endTime: new Date(),
+        endTime: action.payload.end
         _id: action.payload._id,
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))

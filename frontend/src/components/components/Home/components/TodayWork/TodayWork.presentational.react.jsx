@@ -72,9 +72,9 @@ export default class TodayWork extends React.Component {
     const len = log.times.length
     toggleExpanded(log._id)
     changeRunningId('')
-    if (isWithinRange(formatTime('24:00'), log.times[len - 1].start, new Date())) {
+    if (isWithinRange(formatTime('23:59'), log.times[len - 1].start, new Date())) {
       addLogToNextDay(new Date(), format(new Date(), 'YYYY-MM-DD'))
-      onStopClick(log._id, previousDay(formatTime('24:00')))
+      onStopClick(log._id, previousDay(formatTime('23:59')))
     } else {
       onStopClick(log._id, new Date())
     }
