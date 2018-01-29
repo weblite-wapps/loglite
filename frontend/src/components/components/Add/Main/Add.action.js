@@ -1,48 +1,46 @@
 // modules
 import { createAction } from 'redux-actions'
+import { dispatch } from '../../../../setup/redux'
 
 
 // actions
-const SET_QUERY_IN_ADD = 'SET_QUERY_IN_ADD'
-const setQueryInAdd = createAction(SET_QUERY_IN_ADD, queryTag => ({ queryTag }))
+export const SET_QUERY_IN_ADD = 'SET_QUERY_IN_ADD'
+export const setQueryInAdd = createAction(SET_QUERY_IN_ADD, queryTag => ({ queryTag }))
+export const dispatchSetQueryInAdd = (...args) => dispatch(setQueryInAdd(...args))
 
-const FETCH_TAGS_IN_ADD = 'FETCH_TAGS_IN_ADD'
-const fetchTagsInAdd = createAction(FETCH_TAGS_IN_ADD, tags => ({ tags }))
+export const FETCH_TAGS_IN_ADD = 'FETCH_TAGS_IN_ADD'
+export const fetchTagsInAdd = createAction(FETCH_TAGS_IN_ADD, tags => ({ tags }))
+export const dispatchFetchTagsInAdd = (...args) => dispatch(fetchTagsInAdd(...args))
 
-const CHANGE_DATE = 'CHANGE_DATE'
-const changeDate = createAction(CHANGE_DATE, value => ({ value }))
+export const CHANGE_DATE = 'CHANGE_DATE'
+export const changeDate = createAction(CHANGE_DATE, value => ({ value }))
+export const dispatchChangeDate = (...args) => dispatch(changeDate(...args))
 
-const CHANGE_START_TIME = 'CHANGE_START_TIME'
-const changeStartTime = createAction(CHANGE_START_TIME, value => ({ value }))
+export const CHANGE_START_TIME = 'CHANGE_START_TIME'
+export const changeStartTime = createAction(CHANGE_START_TIME, value => ({ value }))
+export const dispatchChangeStartTime = (...args) => dispatch(changeStartTime(...args))
 
-const CHANGE_END_TIME = 'CHANGE_END_TIME'
-const changeEndTime = createAction(CHANGE_END_TIME, value => ({ value }))
+export const CHANGE_END_TIME = 'CHANGE_END_TIME'
+export const changeEndTime = createAction(CHANGE_END_TIME, value => ({ value }))
+export const dispatchChangeEndTime = (...args) => dispatch(changeEndTime(...args))
 
-const LOAD_TAGS_DATA_IN_ADD = 'LOAD_TAGS_DATA_IN_ADD'
-const loadTagsDataInAdd = createAction(LOAD_TAGS_DATA_IN_ADD, tags => ({ tags }))
+export const LOAD_TAGS_DATA_IN_ADD = 'LOAD_TAGS_DATA_IN_ADD'
+export const loadTagsDataInAdd = createAction(LOAD_TAGS_DATA_IN_ADD, tags => ({ tags }))
+export const dispatchLoadTagsDataInAdd = (...args) => dispatch(loadTagsDataInAdd(...args))
 
-const CHANGE_TITLE = 'CHANGE_TITLE'
-const changeTitle = createAction(CHANGE_TITLE, value => ({ value }))
+export const CHANGE_TITLE = 'CHANGE_TITLE'
+export const changeTitle = createAction(CHANGE_TITLE, value => ({ value }))
+export const dispatchChangeTitle = (...args) => dispatch(changeTitle(...args))
 
-const ADD_TAG_IN_ADD = 'ADD_TAG_IN_ADD'
-const addTagInAdd = createAction(ADD_TAG_IN_ADD)
+export const ADD_TAG_IN_ADD = 'ADD_TAG_IN_ADD'
+export const addTagInAdd = createAction(ADD_TAG_IN_ADD)
+export const dispatchAddTagInAdd = (...args) => dispatch(addTagInAdd(...args))
 
-const CHANGE_SELECTED_TAGS_IN_ADD = 'CHANGE_SELECTED_TAGS_IN_ADD'
-const changeSelectedTagsInAdd = createAction(CHANGE_SELECTED_TAGS_IN_ADD, tag => ({ tag }))
+export const CHANGE_SELECTED_TAGS_IN_ADD = 'CHANGE_SELECTED_TAGS_IN_ADD'
+export const changeSelectedTagsInAdd = createAction(CHANGE_SELECTED_TAGS_IN_ADD, tag => ({ tag }))
+export const dispatchChangeSelectedTagsInAdd = (...args) =>
+  dispatch(changeSelectedTagsInAdd(...args))
 
-const RESET_INPUTS = 'RESET_INPUTS'
-const resetInputs = createAction(RESET_INPUTS)
-
-
-export {
-  SET_QUERY_IN_ADD, setQueryInAdd,
-  FETCH_TAGS_IN_ADD, fetchTagsInAdd,
-  CHANGE_DATE, changeDate,
-  CHANGE_START_TIME, changeStartTime,
-  CHANGE_END_TIME, changeEndTime,
-  LOAD_TAGS_DATA_IN_ADD, loadTagsDataInAdd,
-  CHANGE_TITLE, changeTitle,
-  ADD_TAG_IN_ADD, addTagInAdd,
-  CHANGE_SELECTED_TAGS_IN_ADD, changeSelectedTagsInAdd,
-  RESET_INPUTS, resetInputs,
-}
+export const RESET_INPUTS = 'RESET_INPUTS'
+export const resetInputs = createAction(RESET_INPUTS)
+export const dispatchResetInputs = (...args) => dispatch(resetInputs(...args))
