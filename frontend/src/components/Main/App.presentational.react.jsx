@@ -54,7 +54,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (window.W && window.W.id) this.handleWappMode()
+    if (window.W && window.W.wisId) this.handleWappMode()
     else this.handleNormalMode()
   }
 
@@ -72,9 +72,10 @@ class App extends React.Component {
 
   _handleWappMode() {
     const { setAPI, fetchTodayData, history, changeTab } = this.props
-    window.W.load()
-    window.WProto.wappCommunicateCoreLoad = ({ creator, user }) => {
-      setAPI(creator, user)
+    window.W.loadData()
+    window.WProto.coreLoadData = (x) => {
+      console.log(x)
+      setAPI(x.creator, x.user)
       fetchTodayData()
     }
     history.push('/')
