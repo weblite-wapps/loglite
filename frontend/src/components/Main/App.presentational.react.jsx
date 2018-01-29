@@ -80,8 +80,6 @@ class App extends React.Component {
       setAPI(x.creator, x.user)
       fetchTodayData()
     }
-    // history.push('/')
-    // changeTab('Home')
   }
 
   _handleNormalMode() {
