@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import * as R from 'ramda'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import { MuiThemeProvider } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Typography from 'material-ui/Typography'
 import Divider from 'material-ui/Divider'
@@ -12,26 +12,10 @@ import Popover from 'material-ui/Popover'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import TagShape from '../../../../common/TagShapeForReport/TagShapeForReport.presentational.react'
-// scssClasses
+// css
 import scssClasses from './WorkList.scss'
+import theme from './WorkList.helper'
 
-const theme = createMuiTheme({
-  overrides: {
-    MuiButton: {
-      raised: {
-        backgroundColor: '#505050',
-        fontSize: '13px',
-        color: 'white',
-        borderRadius: '0px',
-        padding: '5px 10px',
-        margin: '5px',
-        minWidth: '5px',
-        minHeight: '25px',
-        textTransform: 'capitalize',
-      },
-    },
-  },
-})
 
 export default class WorkList extends React.Component {
   constructor(props) {

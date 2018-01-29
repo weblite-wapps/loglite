@@ -9,7 +9,7 @@ import EndDatePicker from '../common/EndDatePicker/EndDatePicker.container.react
 import Button from '../../../common/Button/Button.presentational.react'
 import TagList from '../../../common/TagList/TagList.presentational.react'
 import Autocomplete from '../../../common/Autocomplete/Autocomplete.presentational.react'
-// scssClasses
+// css
 import scssClasses from './Custom.scss'
 
 

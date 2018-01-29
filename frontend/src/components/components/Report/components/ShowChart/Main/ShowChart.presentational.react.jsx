@@ -11,7 +11,7 @@ import StartDatePicker from '../../common/StartDatePicker/StartDatePicker.contai
 import EndDatePicker from '../../common/EndDatePicker/EndDatePicker.container.react'
 import Button from '../../../../common/Button/Button.presentational.react'
 import BarChart from '../components/BarChart.presentational.react'
-// scssClasses
+// css
 import scssClasses from './ShowChart.scss'
 
 

@@ -1,5 +1,6 @@
 // modules
 import * as R from 'ramda'
+import { createMuiTheme } from 'material-ui/styles'
 import differenceInSeconds from 'date-fns/difference_in_seconds'
 import addDays from 'date-fns/add_days'
 import subDays from 'date-fns/sub_days'
@@ -32,3 +33,23 @@ export const formattedSeconds = (seconds) => {
     `Total: ${Math.floor(seconds / 3600)}h` :
     `Total: ${Math.floor(seconds / 3600)}h & ${Math.floor((seconds % 3600) / 60)}m`
 }
+
+export const theme = createMuiTheme({
+  overrides: {
+    MuiButton: {
+      root: {
+        background: '#505050',
+        color: 'white',
+        minHeight: '35px',
+        minWidth: '35px',
+        padding: '0px',
+        borderRadius: '0px',
+        margin: '0px',
+        border: '0.5px solid white',
+      },
+      disabled: {
+        color: '#919191',
+      },
+    },
+  },
+})

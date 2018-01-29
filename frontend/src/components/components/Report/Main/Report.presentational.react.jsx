@@ -1,7 +1,7 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import { MuiThemeProvider } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import Typography from 'material-ui/Typography'
@@ -23,27 +23,8 @@ import CustomizedPieChart from '../components/WorkList/components/PieChart.prese
 import ShowChart from '../components/ShowChart/Main/ShowChart.container.react'
 // scssClasses
 import scssClasses from './Report.scss'
+import { theme } from './Report.helper'
 
-
-const theme = createMuiTheme({
-  overrides: {
-    MuiButton: {
-      root: {
-        background: '#505050',
-        color: 'white',
-        minHeight: '35px',
-        minWidth: '35px',
-        padding: '0px',
-        borderRadius: '0px',
-        margin: '0px',
-        border: '0.5px solid white',
-      },
-      disabled: {
-        color: '#919191',
-      },
-    },
-  },
-})
 
 export default class Report extends React.Component {
   constructor(props) {
