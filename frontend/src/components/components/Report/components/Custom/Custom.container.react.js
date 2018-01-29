@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 import Custom from './Custom.presentational.react'
 // actions
 import {
-  setQuery,
-  changeSelectedTags,
-  addTag,
-  calculateTotalDuration,
-  convertJSONToCSV,
+  dispatchSetQuery,
+  dispatchChangeSelectedTags,
+  dispatchAddTag,
+  dispatchCalculateTotalDuration,
+  dispatchConvertJSONToCSV,
 } from '../../Main/Report.action'
 // selector
 import { getReportFilteredSuggestions } from '../../../../Main/App.selector'
@@ -22,12 +22,12 @@ const mapStateToProps = state => ({
   suggestions: getReportFilteredSuggestions(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  onQueryTagChange: query => dispatch(setQuery(query)),
-  onTagClick: tag => dispatch(changeSelectedTags(tag)),
-  addTag: () => dispatch(addTag()),
-  calculateTotalDuration: () => dispatch(calculateTotalDuration()),
-  convertJSONToCSV: () => dispatch(convertJSONToCSV()),
+const mapDispatchToProps = () => ({
+  onQueryTagChange: dispatchSetQuery,
+  onTagClick: dispatchChangeSelectedTags,
+  addTag: dispatchAddTag,
+  calculateTotalDuration: dispatchCalculateTotalDuration,
+  convertJSONToCSV: dispatchConvertJSONToCSV,
 })
 
 

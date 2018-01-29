@@ -27,6 +27,9 @@ const store = createStore(
     Report: ReportReducer,
   }), composeEnhancers(applyMiddleware(epicMiddleware)))
 
+const { dispatch, getState } = store
+
 
 window.store = store
 export default store
+export { dispatch, getState }

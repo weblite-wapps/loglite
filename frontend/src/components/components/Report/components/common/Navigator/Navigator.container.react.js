@@ -3,7 +3,10 @@ import { connect } from 'react-redux'
 // components
 import Navigator from './Navigator.presentational.react'
 // actions
-import { decrementCurrentPage, incrementCurrentPage } from '../../../Main/Report.action'
+import {
+  dispatchDecrementCurrentPage,
+  dispatchIncrementCurrentPage,
+} from '../../../Main/Report.action'
 
 
 const mapStateToProps = (state, ownProps) => ({
@@ -11,9 +14,9 @@ const mapStateToProps = (state, ownProps) => ({
   currentPage: state.Report.currentPage,
 })
 
-const mapDispatchToProps = dispatch => ({
-  onPreviousClick: () => dispatch(decrementCurrentPage()),
-  onNextClick: () => dispatch(incrementCurrentPage()),
+const mapDispatchToProps = () => ({
+  onPreviousClick: dispatchDecrementCurrentPage,
+  onNextClick: dispatchIncrementCurrentPage,
 })
 
 

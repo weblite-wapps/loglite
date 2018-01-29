@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // components
 import SelectBar from './SelectBar.presentational.react'
 // actions
-import { changeSelectedUser } from '../../../Main/Report.action'
+import { dispatchChangeSelectedUser } from '../../../Main/Report.action'
 
 
 const mapStateToProps = state => ({
@@ -12,9 +12,7 @@ const mapStateToProps = state => ({
   selectedUser: state.Report.selectedUser,
 })
 
-const mapDispatchToProps = dispatch => ({
-  changeSelectedUser: user => dispatch(changeSelectedUser(user)),
-})
+const mapDispatchToProps = () => ({ changeSelectedUser: dispatchChangeSelectedUser })
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectBar)

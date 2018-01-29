@@ -1,94 +1,96 @@
 // modules
 import { createAction } from 'redux-actions'
-
+import { dispatch } from '../../../../setup/redux'
 
 // actions
-const SET_API = 'SET_API'
-const setAPI = createAction(SET_API, (creator, user) => ({ creator, user }))
+export const SET_API = 'SET_API'
+export const setAPI = createAction(SET_API, (creator, user) => ({ creator, user }))
+export const dispatchSetApi = (...args) => dispatch(setAPI(...args))
 
-const RESET_STAFF_LOGS = 'RESET_STAFF_LOGS'
-const resetStaffLogs = createAction(RESET_STAFF_LOGS, userId => ({ userId }))
+export const RESET_STAFF_LOGS = 'RESET_STAFF_LOGS'
+export const resetStaffLogs = createAction(RESET_STAFF_LOGS, userId => ({ userId }))
+export const dispatchResetStaffLogs = (...args) => dispatch(resetStaffLogs(...args))
 
-const LOAD_STAFF_LOGS = 'LOAD_STAFF_LOGS'
-const loadStaffLogs = createAction(LOAD_STAFF_LOGS, logs => ({ logs }))
 
-const LOAD_TAGS_DATA_IN_REPORT = 'LOAD_TAGS_DATA_IN_REPORT'
-const loadTagsDataInReport = createAction(LOAD_TAGS_DATA_IN_REPORT, tags => ({ tags }))
+export const LOAD_STAFF_LOGS = 'LOAD_STAFF_LOGS'
+export const loadStaffLogs = createAction(LOAD_STAFF_LOGS, logs => ({ logs }))
+export const dispatchLoadStaffLogs = (...args) => dispatch(loadStaffLogs(...args))
 
-const SET_QUERY = 'SET_QUERY'
-const setQuery = createAction(SET_QUERY, queryTag => ({ queryTag }))
+export const LOAD_TAGS_DATA_IN_REPORT = 'LOAD_TAGS_DATA_IN_REPORT'
+export const loadTagsDataInReport = createAction(LOAD_TAGS_DATA_IN_REPORT, tags => ({ tags }))
+export const dispatchLoadTagsDataInReport = (...args) => dispatch(loadTagsDataInReport(...args))
 
-const FETCH_TAGS = 'FETCH_TAGS'
-const fetchTags = createAction(FETCH_TAGS, tags => ({ tags }))
+export const SET_QUERY = 'SET_QUERY'
+export const setQuery = createAction(SET_QUERY, queryTag => ({ queryTag }))
+export const dispatchSetQuery = (...args) => dispatch(setQuery(...args))
 
-const ADD_TAG = 'ADD_TAG'
-const addTag = createAction(ADD_TAG)
+export const FETCH_TAGS = 'FETCH_TAGS'
+export const fetchTags = createAction(FETCH_TAGS, tags => ({ tags }))
+export const dispatchFetchTags = (...args) => dispatch(fetchTags(...args))
 
-const CHANGE_SELECTED_TAGS = 'CHANGE_SELECTED_TAGS'
-const changeSelectedTags = createAction(CHANGE_SELECTED_TAGS, tag => ({ tag }))
+export const ADD_TAG = 'ADD_TAG'
+export const addTag = createAction(ADD_TAG)
+export const dispatchAddTag = (...args) => dispatch(addTag(...args))
 
-const CHANGE_START_DATE = 'CHANGE_START_DATE'
-const changeStartDate = createAction(CHANGE_START_DATE, value => ({ value }))
+export const CHANGE_SELECTED_TAGS = 'CHANGE_SELECTED_TAGS'
+export const changeSelectedTags = createAction(CHANGE_SELECTED_TAGS, tag => ({ tag }))
+export const dispatchChangeSelectedTags = (...args) => dispatch(changeSelectedTags(...args))
 
-const CHANGE_END_DATE = 'CHANGE_END_DATE'
-const changeEndDate = createAction(CHANGE_END_DATE, value => ({ value }))
+export const CHANGE_START_DATE = 'CHANGE_START_DATE'
+export const changeStartDate = createAction(CHANGE_START_DATE, value => ({ value }))
+export const dispatchChangeStartDate = (...args) => dispatch(changeStartDate(...args))
 
-const CALCULATE_TOTAL_DURATION = 'CALCULATE_TOTAL_DURATION'
-const calculateTotalDuration = createAction(CALCULATE_TOTAL_DURATION)
+export const CHANGE_END_DATE = 'CHANGE_END_DATE'
+export const changeEndDate = createAction(CHANGE_END_DATE, value => ({ value }))
+export const dispatchChangeEndDate = (...args) => dispatch(changeEndDate(...args))
 
-const RESTORE_TOTAL_DUARTION = 'RESTORE_TOTAL_DUARTION'
-const restoreTotalDuration = createAction(
+export const CALCULATE_TOTAL_DURATION = 'CALCULATE_TOTAL_DURATION'
+export const calculateTotalDuration = createAction(CALCULATE_TOTAL_DURATION)
+export const dispatchCalculateTotalDuration = (...args) => dispatch(calculateTotalDuration(...args))
+
+export const RESTORE_TOTAL_DUARTION = 'RESTORE_TOTAL_DUARTION'
+export const restoreTotalDuration = createAction(
   RESTORE_TOTAL_DUARTION,
   totalDuration => ({ totalDuration }),
 )
+export const dispatchRestoreTotalDuration = (...args) => dispatch(restoreTotalDuration(...args))
 
-const CONVERT_JSON_TO_CSV = 'CONVERT_JSON_TO_CSV'
-const convertJSONToCSV = createAction(CONVERT_JSON_TO_CSV)
+export const CONVERT_JSON_TO_CSV = 'CONVERT_JSON_TO_CSV'
+export const convertJSONToCSV = createAction(CONVERT_JSON_TO_CSV)
+export const dispatchConvertJSONToCSV = (...args) => dispatch(convertJSONToCSV(...args))
 
-const RESTORE_CSV = 'RESTORE_CSV'
-const restoreCSV = createAction(RESTORE_CSV, CSV => ({ CSV }))
+export const RESTORE_CSV = 'RESTORE_CSV'
+export const restoreCSV = createAction(RESTORE_CSV, CSV => ({ CSV }))
+export const dispatchRestoreCSV = (...args) => dispatch(restoreCSV(...args))
 
-const RESET_CSV = 'RESET_CSV'
-const resetCSV = createAction(RESET_CSV)
+export const RESET_CSV = 'RESET_CSV'
+export const resetCSV = createAction(RESET_CSV)
+export const dispatchResetCSV = (...args) => dispatch(resetCSV(...args))
 
-const CHANGE_SELECTED_USER = 'CHANGE_SELECTED_USER'
-const changeSelectedUser = createAction(CHANGE_SELECTED_USER, value => ({ value }))
+export const CHANGE_SELECTED_USER = 'CHANGE_SELECTED_USER'
+export const changeSelectedUser = createAction(CHANGE_SELECTED_USER, value => ({ value }))
+export const dispatchChangeSelectedUser = (...args) => dispatch(changeSelectedUser(...args))
 
-const DECREMENT_CURRENT_PAGE = 'DECREMENT_CURRENT_PAGE'
-const decrementCurrentPage = createAction(DECREMENT_CURRENT_PAGE)
+export const DECREMENT_CURRENT_PAGE = 'DECREMENT_CURRENT_PAGE'
+export const decrementCurrentPage = createAction(DECREMENT_CURRENT_PAGE)
+export const dispatchDecrementCurrentPage = (...args) => dispatch(decrementCurrentPage(...args))
 
-const INCREMENT_CURRENT_PAGE = 'INCREMENT_CURRENT_PAGE'
-const incrementCurrentPage = createAction(INCREMENT_CURRENT_PAGE)
+export const INCREMENT_CURRENT_PAGE = 'INCREMENT_CURRENT_PAGE'
+export const incrementCurrentPage = createAction(INCREMENT_CURRENT_PAGE)
+export const dispatchIncrementCurrentPage = (...args) => dispatch(incrementCurrentPage(...args))
 
-const CHANGE_CURRENT_PAGES_INVENTORY = 'CHANGE_CURRENT_PAGES_INVENTORY'
-const changeCurrentPagesInventory = createAction(CHANGE_CURRENT_PAGES_INVENTORY)
+export const CHANGE_CURRENT_PAGES_INVENTORY = 'CHANGE_CURRENT_PAGES_INVENTORY'
+export const changeCurrentPagesInventory = createAction(CHANGE_CURRENT_PAGES_INVENTORY)
+export const dispatchChangeCurrentPagesInventory = (...args) =>
+  dispatch(changeCurrentPagesInventory(...args))
 
-const UPDATE_CHART = 'UPDATE_CHART'
-const updateChart = createAction(UPDATE_CHART, (startDate, endDate) => ({ startDate, endDate }))
+export const UPDATE_CHART = 'UPDATE_CHART'
+export const updateChart = createAction(
+  UPDATE_CHART,
+  (startDate, endDate) => ({ startDate, endDate }),
+)
+export const dispatchUpdateChart = (...args) => dispatch(updateChart(...args))
 
-const RESTORE_BAR_CHART_DATA = 'RESTORE_BAR_CHART_DATA'
-const restoreBarChartData = createAction(RESTORE_BAR_CHART_DATA, data => ({ data }))
-
-export {
-  SET_API, setAPI,
-  RESET_STAFF_LOGS, resetStaffLogs,
-  LOAD_STAFF_LOGS, loadStaffLogs,
-  LOAD_TAGS_DATA_IN_REPORT, loadTagsDataInReport,
-  SET_QUERY, setQuery,
-  FETCH_TAGS, fetchTags,
-  ADD_TAG, addTag,
-  CHANGE_SELECTED_TAGS, changeSelectedTags,
-  CHANGE_START_DATE, changeStartDate,
-  CHANGE_END_DATE, changeEndDate,
-  CALCULATE_TOTAL_DURATION, calculateTotalDuration,
-  RESTORE_TOTAL_DUARTION, restoreTotalDuration,
-  CONVERT_JSON_TO_CSV, convertJSONToCSV,
-  RESTORE_CSV, restoreCSV,
-  RESET_CSV, resetCSV,
-  CHANGE_SELECTED_USER, changeSelectedUser,
-  DECREMENT_CURRENT_PAGE, decrementCurrentPage,
-  INCREMENT_CURRENT_PAGE, incrementCurrentPage,
-  CHANGE_CURRENT_PAGES_INVENTORY, changeCurrentPagesInventory,
-  UPDATE_CHART, updateChart,
-  RESTORE_BAR_CHART_DATA, restoreBarChartData,
-}
+export const RESTORE_BAR_CHART_DATA = 'RESTORE_BAR_CHART_DATA'
+export const restoreBarChartData = createAction(RESTORE_BAR_CHART_DATA, data => ({ data }))
+export const dispatchRestoreBarChartData = (...args) => dispatch(restoreBarChartData(...args))

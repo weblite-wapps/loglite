@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // components
 import ShowChart from './ShowChart.presentational.react'
 // actions
-import { updateChart } from '../../../Main/Report.action'
+import { dispatchUpdateChart } from '../../../Main/Report.action'
 
 
 const mapStateToProps = state => ({
@@ -12,9 +12,7 @@ const mapStateToProps = state => ({
   barChartData: state.Report.barChartData,
 })
 
-const mapDispatchToProps = dispatch => ({
-  updateChart: (startDate, endDate) => dispatch(updateChart(startDate, endDate)),
-})
+const mapDispatchToProps = () => ({ updateChart: dispatchUpdateChart })
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShowChart)

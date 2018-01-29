@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // components
 import WorkList from './WorkList.presentational.react'
 // actions
-import { deleteLog, changePopoverStage } from '../../../../../Main/App.action'
+import { dispatchDeleteLog, dispatchChangePopoverStage } from '../../../../../Main/App.action'
 
 
 const mapStateToProps = (state, ownProps) => ({
@@ -13,8 +13,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  deleteLog: () => dispatch(deleteLog(ownProps.log._id)),
-  changePopoverStage: value => dispatch(changePopoverStage(ownProps.log._id, value)),
+  deleteLog: () => dispatchDeleteLog(ownProps.log._id),
+  changePopoverStage: value => dispatchChangePopoverStage(ownProps.log._id, value),
 })
 
 
