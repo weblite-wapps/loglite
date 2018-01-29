@@ -46,8 +46,6 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    console.log(window.location)
-    setInterval(() => console.log(window.location), 1000)
     const { changeTab, location } = this.props
     const tabIndex = R.slice(1, R.length(location.pathname), location.pathname)
     if (tabIndex === 'About') this.setState({ aboutMode: true })
