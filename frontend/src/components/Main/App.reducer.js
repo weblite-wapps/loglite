@@ -31,9 +31,9 @@ const initialState = {
   runningId: '',
   logs: [],
   users: [],
-  user: null,
+  user: {},
   wis: (window.W && window.W.id) || '110',
-  creator: null,
+  creator: false,
 }
 
 // lens & views

@@ -30,7 +30,7 @@ import {
 // state
 const initialState = {
   staffLogs: [],
-  selectedUser: '120',
+  selectedUser: '',
   queryTag: '',
   suggestions: [],
   selectedTags: [],
@@ -64,7 +64,7 @@ const reducers = {
   [RESET_STAFF_LOGS]: (state, { userId }) => ({ ...state,
     staffLogs: [],
     currentPagesInventory:
-      R.mapObjIndexed((num, key) => key === userId ? num : null, state.currentPagesInventory),
+      R.mapObjIndexed((num, key) => key === userId ? num : {}, state.currentPagesInventory),
   }),
 
   [LOAD_STAFF_LOGS]: (state, { logs }) => ({ ...state,

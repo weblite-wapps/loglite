@@ -3,6 +3,7 @@ import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs/add/operator/mergeMap'
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/mapTo'
 import 'rxjs/add/operator/delay'
 import 'rxjs/add/operator/do'
 import 'rxjs/add/operator/filter'
@@ -38,14 +39,15 @@ import {
 
 const resetStaffDataEpic = (action$, { getState }) =>
   action$.ofType(CHANGE_SELECTED_USER)
-    .mapTo({
-      type: RESET_STAFF_LOGS,
-      payload: { userId: getState().App.user && getState().App.user.id },
-    })
+    .map(() => resetStaffLogs(getState().App.user.id))
+
 
 const loadStaffDataEpic = (action$, { getState, dispatch }) =>
   action$.ofType(RESET_STAFF_LOGS)
-    .filter(() => getState().Report.currentPagesInventory)
+    .filter(() =>
+      R.prop(getState().Report.selectedUser, getState().Report.currentPagesInventory) === undefined
+      || !R.contains(format(getState().Report.currentPage, 'YYYY-MM-DD'),
+        getState().Report.currentPagesInventory[getState().Report.selectedUser]))
     .do(() => dispatch(setIsLoading(true)))
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
@@ -59,7 +61,8 @@ const loadStaffDataEpic = (action$, { getState, dispatch }) =>
         .query({
           wis: getState().App.wis,
           userId: getState().Report.selectedUser,
-        }),
+        })
+        .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
     ]))
     .do(() => dispatch(setIsLoading(false)))
     .mergeMap(success => ([
