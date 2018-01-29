@@ -1,7 +1,7 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import { MuiThemeProvider } from 'material-ui/styles'
 import Divider from 'material-ui/Divider'
 import List, { ListItem } from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
@@ -10,24 +10,10 @@ import Button from '../../../../common/Button/Button.presentational.react'
 import DatePicker from '../components/DatePicker/DatePicker.container.react'
 import StartTimePicker from '../components/StartTimePicker/StartTimePicker.container.react'
 import EndTimePicker from '../components/EndTimePicker/EndTimePicker.container.react'
-// scssClasses
+// css
 import scssClasses from './Custom.scss'
+import { theme } from '../../../Main/Add.helper'
 
-const theme = createMuiTheme({
-  overrides: {
-    MuiDivider: {
-      default: {
-        backgroundColor: '#000000',
-      },
-    },
-    MuiListItem: {
-      default: {
-        paddingTop: '0px',
-        paddingBottom: '0px',
-      },
-    },
-  },
-})
 
 export default class Custom extends React.Component {
   constructor(props) {

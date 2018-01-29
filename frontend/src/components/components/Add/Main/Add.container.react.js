@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 // components
 import Add from './Add.presentational.react'
 // actions
+import { changeTab, addLog, addCustomLog } from '../../../Main/App.action'
 import {
   changeTitle,
   setQueryInAdd,
   changeSelectedTagsInAdd,
   addTagInAdd,
 } from './Add.action'
-import { changeTab, addLog, addCustomLog } from '../../../Main/App.action'
 // selector
 import { getAddFilteredSuggestions } from '../../../Main/App.selector'
 

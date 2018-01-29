@@ -52,12 +52,7 @@ function StartDatePicker(props) {
 }
 
 StartDatePicker.propTypes = {
-  classes: PropTypes.shape({
-    container: PropTypes.string,
-    textField: PropTypes.string,
-    textFieldFormLabel: PropTypes.string,
-    textFieldInkbar: PropTypes.string,
-  }).isRequired,
+  classes: PropTypes.shape({}).isRequired,
   isError: PropTypes.bool.isRequired,
   startDate: PropTypes.string.isRequired,
   onStartDateChange: PropTypes.func.isRequired,

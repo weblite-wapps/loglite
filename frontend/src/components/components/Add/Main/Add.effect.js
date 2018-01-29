@@ -6,17 +6,13 @@ import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/pluck'
 import 'rxjs/add/operator/debounceTime'
 import format from 'date-fns/format'
+// local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './Add.helper'
 // actions
 import { ADD_LOG, ADD_CUSTOM_LOG, restoreLog } from '../../../Main/App.action'
-import {
-  SET_QUERY_IN_ADD,
-  fetchTagsInAdd,
-  loadTagsDataInAdd,
-  resetInputs,
-} from './Add.action'
+import { SET_QUERY_IN_ADD, fetchTagsInAdd, loadTagsDataInAdd, resetInputs } from './Add.action'
 
 const effectSearchTagsEpic = (action$, { getState }) =>
   action$.ofType(SET_QUERY_IN_ADD)

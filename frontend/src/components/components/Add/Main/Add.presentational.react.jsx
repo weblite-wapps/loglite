@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import isAfter from 'date-fns/is_after'
 import format from 'date-fns/format'
+// local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import TextField from '../../common/TextField/TextField.presentational.react'
@@ -46,16 +47,8 @@ class Add extends React.Component {
   }
 
   _handleAddCustomLog() {
-    const {
-      logs,
-      date,
-      startTime,
-      endTime,
-      title,
-      selectedTags,
-      addCustomLog,
-      history,
-      changeTab } = this.props
+    const { logs, date, startTime, endTime, title,
+      selectedTags, addCustomLog, history, changeTab } = this.props
     if (title && date && startTime && endTime) {
       if (isAfter(new Date(date), new Date())) {
         this.setState({ dateIsError: true })
@@ -112,15 +105,9 @@ class Add extends React.Component {
 
   render() {
     const { dateIsError, startTimeIsError, endTimeIsError } = this.state
-    const {
-      title,
-      onTitleChange,
-      suggestions,
-      queryTag,
-      onQueryTagChange,
-      tags,
-      onTagClick,
-    } = this.props
+    const { title, onTitleChange, suggestions, queryTag,
+      onQueryTagChange, tags, onTagClick } = this.props
+
     return (
       <div className={scssClasses.container}>
         <div className={scssClasses.textField}>

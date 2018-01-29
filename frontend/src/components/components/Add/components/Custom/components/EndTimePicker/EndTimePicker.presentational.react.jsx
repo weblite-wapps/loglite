@@ -3,27 +3,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
-
-const styles = theme => ({
-  container: {
-    margin: '20px 10px 20px 10px',
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 300,
-  },
-  textFieldFormLabel: {
-    color: '#919191',
-  },
-  textFieldInkbar: {
-    '&:after': {
-      backgroundColor: '#919191',
-    },
-  },
-})
+// helpers
+import { styles } from '../../../../Main/Add.helper'
 
 
 function EndTimePicker(props) {
@@ -55,12 +36,7 @@ function EndTimePicker(props) {
 }
 
 EndTimePicker.propTypes = {
-  classes: PropTypes.shape({
-    container: PropTypes.string,
-    textField: PropTypes.string,
-    textFieldFormLabel: PropTypes.string,
-    textFieldInkbar: PropTypes.string,
-  }).isRequired,
+  classes: PropTypes.shape({}).isRequired,
   isError: PropTypes.bool.isRequired,
   endTime: PropTypes.string.isRequired,
   onEndTimeChange: PropTypes.func.isRequired,

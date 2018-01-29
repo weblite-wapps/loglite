@@ -53,12 +53,7 @@ function EndDatePicker(props) {
 }
 
 EndDatePicker.propTypes = {
-  classes: PropTypes.shape({
-    container: PropTypes.string,
-    textField: PropTypes.string,
-    textFieldFormLabel: PropTypes.string,
-    textFieldInkbar: PropTypes.string,
-  }).isRequired,
+  classes: PropTypes.shape({}).isRequired,
   isError: PropTypes.bool.isRequired,
   endDate: PropTypes.string.isRequired,
   onEndDateChange: PropTypes.func.isRequired,
