@@ -73,7 +73,7 @@ class App extends React.Component {
   _handleWappMode() {
     const { setAPI, fetchTodayData, history, changeTab } = this.props
     window.W.loadData()
-    window.WProto.coreLoadData = (({ creator, user })) => {
+    window.WProto.coreLoadData = ({ creator, user }) => {
       setAPI(creator, user)
       fetchTodayData()
     }
