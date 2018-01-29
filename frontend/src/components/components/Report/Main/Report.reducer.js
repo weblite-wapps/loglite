@@ -59,7 +59,7 @@ const barChartDataLens = R.lensProp('barChartData')
 
 // reducers
 const reducers = {
-  [SET_API]: (state, { user, creator }) => ({ ...state, selectedUser: user.id }),
+  [SET_API]: (state, { user }) => ({ ...state, selectedUser: user.id }),
 
   [RESET_STAFF_LOGS]: (state, { userId }) => ({ ...state,
     staffLogs: [],

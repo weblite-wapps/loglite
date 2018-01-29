@@ -41,6 +41,8 @@ class App extends React.Component {
     }
     this.handleChange = this._handleChange.bind(this)
     this.goToAbout = this._goToAbout.bind(this)
+    this.handleWappMode = this._handleWappMode.bind(this)
+    this.handleNormalMode = this._handleNormalMode.bind(this)
   }
 
   componentWillMount() {
@@ -52,14 +54,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { setAPI, fetchTodayData, history, changeTab } = this.props
-    W.load()
-    WProto.wappCommunicateCoreLoad = ({ creator, user }) => {
-      setAPI(creator, user)
-      fetchTodayData()
-    }
-    history.push('/')
-    changeTab('Home')
+    if (window.W && window.W.id) this.handleWappMode()
+    else this.handleNormalMode()
   }
 
   _handleChange(value) {
@@ -72,6 +68,23 @@ class App extends React.Component {
   _goToAbout() {
     this.setState({ aboutMode: true })
     this.props.history.push('/About')
+  }
+
+  _handleWappMode() {
+    const { setAPI, fetchTodayData, history, changeTab } = this.props
+    window.W.load()
+    window.WProto.wappCommunicateCoreLoad = ({ creator, user }) => {
+      setAPI(creator, user)
+      fetchTodayData()
+    }
+    history.push('/')
+    changeTab('Home')
+  }
+
+  _handleNormalMode() {
+    const { setAPI, fetchTodayData } = this.props
+    setAPI(true, { name: 'Ali', id: '110' })
+    fetchTodayData()
   }
 
   render() {
