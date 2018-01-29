@@ -36,10 +36,8 @@ const theme = createMuiTheme({
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      aboutMode: false,
-    }
-    this.handleChange = this._handleChange.bind(this)
+    this.state = { aboutMode: false }
+    this.handleChangeTab = this._handleChangeTab.bind(this)
     this.goToAbout = this._goToAbout.bind(this)
     this.handleWappMode = this._handleWappMode.bind(this)
     this.handleNormalMode = this._handleNormalMode.bind(this)
@@ -58,11 +56,12 @@ class App extends React.Component {
     else this.handleNormalMode()
   }
 
-  _handleChange(value) {
+  _handleChangeTab(value) {
+    const { changeTab, history } = this.props
     this.setState({ aboutMode: false })
-    if (value === 'Home') this.props.history.push('/')
-    else this.props.history.push(`/${value}`)
-    this.props.changeTab(value)
+    if (value === 'Home') history.push('/')
+    else history.push(`/${value}`)
+    changeTab(value)
   }
 
   _goToAbout() {
@@ -105,7 +104,7 @@ class App extends React.Component {
           </div>
           <Tabs
             value={tabIndex}
-            onChange={(event, value) => this.handleChange(value)}
+            onChange={(event, value) => this.handleChangeTab(value)}
             indicatorColor={this.state.aboutMode ? '#cfcfcf' : '#000000'}
             fullWidth
             centered
@@ -133,9 +132,7 @@ class App extends React.Component {
 
 
 App.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
+  location: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

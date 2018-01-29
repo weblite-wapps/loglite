@@ -47,32 +47,38 @@ const secondsElapsedLens = R.lensProp('secondsElapsed')
 const reducers = {
   [SET_API]: (state, { user, creator }) => ({ ...state, user, creator }),
 
-  [SET_ISLOADING]: (state, { value }) => R.set(isLoadingLens, value)(state),
+  [SET_ISLOADING]: (state, { value }) => R.set(isLoadingLens, value, state),
 
   [CHANGE_TAB]: (state, { value }) => R.set(tabIndexLens, value, state),
 
-  [LOAD_USERS_DATA]: (state, { users }) => ({ ...state,
+  [LOAD_USERS_DATA]: (state, { users }) => ({
+    ...state,
     users: R.concat(state.users, users),
   }),
 
-  [LOAD_LOGS_DATA]: (state, { logs }) => ({ ...state,
+  [LOAD_LOGS_DATA]: (state, { logs }) => ({
+    ...state,
     logs: R.concat(state.logs,
-      R.map(log => ({ ...log,
+      R.map(log => ({
+        ...log,
         expanded: false,
         secondsElapsed: 0,
         popoverIsOpen: false,
       }), logs)),
   }),
 
-  [TOGGLE_EXPANDED]: (state, { _id }) => ({ ...state,
+  [TOGGLE_EXPANDED]: (state, { _id }) => ({
+    ...state,
     logs: R.map(log => (log._id === _id) ? { ...log, expanded: !log.expanded } : log, state.logs),
   }),
 
-  [CHANGE_POPOVER_STAGE]: (state, { _id, value }) => ({ ...state,
+  [CHANGE_POPOVER_STAGE]: (state, { _id, value }) => ({
+    ...state,
     logs: R.map(log => (log._id === _id) ? { ...log, popoverIsOpen: value } : log, state.logs),
   }),
 
-  [ADD_LOG]: (state, { title, tags }) => ({ ...state,
+  [ADD_LOG]: (state, { title, tags }) => ({
+    ...state,
     logs: R.prepend(
       {
         _id: state.logs.length,
@@ -105,7 +111,8 @@ const reducers = {
           }, state.logs),
       }) : state,
 
-  [ADD_LOG_TO_NEXT_DAY]: (state, { title, tags, end, date }) => ({ ...state,
+  [ADD_LOG_TO_NEXT_DAY]: (state, { title, tags, end, date }) => ({
+    ...state,
     logs: R.prepend(
       {
         _id: state.logs.length,
@@ -120,34 +127,42 @@ const reducers = {
       }, state.logs),
   }),
 
-  [RESTORE_LOG]: (state, { log }) => ({ ...state,
+  [RESTORE_LOG]: (state, { log }) => ({
+    ...state,
     logs: R.adjust(R.assoc('_id', log._id), 0, state.logs),
   }),
 
-  [DELETE_LOG]: (state, { _id }) => ({ ...state,
+  [DELETE_LOG]: (state, { _id }) => ({
+    ...state,
     logs: R.remove(R.findIndex(R.propEq('_id', _id))(state.logs), 1, state.logs),
   }),
 
-  [SET_SECONDS_ELAPSED]: (state, { _id, value }) => ({ ...state,
+  [SET_SECONDS_ELAPSED]: (state, { _id, value }) => ({
+    ...state,
     logs: R.map(log => (log._id === _id) ?
       R.set(secondsElapsedLens, value, log) : log, state.logs),
   }),
 
-  [INCREMENT_SECONDS_ELAPSED]: (state, { _id }) => ({ ...state,
+  [INCREMENT_SECONDS_ELAPSED]: (state, { _id }) => ({
+    ...state,
     logs: R.map(log => (log._id === _id) ?
       R.set(secondsElapsedLens, R.inc(log.secondsElapsed), log) : log, state.logs),
   }),
 
-  [SAVE_START_TIME]: (state, { _id }) => ({ ...state,
+  [SAVE_START_TIME]: (state, { _id }) => ({
+    ...state,
     logs: R.map(log => (log._id === _id) ?
       { ...log, times: R.append({ start: new Date(), end: 'running' }, log.times) } : log, state.logs),
   }),
 
-  [SAVE_END_TIME]: (state, { _id, end }) => ({ ...state,
+  [SAVE_END_TIME]: (state, { _id, end }) => ({
+    ...state,
     logs: R.map(log => (log._id === _id) ?
-      { ...log,
+      {
+        ...log,
         times: R.map(time => (time.end === 'running') ?
-          R.set(endLens, end, time) : time, log.times) } : log, state.logs),
+          R.set(endLens, end, time) : time, log.times),
+      } : log, state.logs),
   }),
 
   [CHANGE_RUNNING_ID]: (state, { _id }) => R.set(runningIdLens, _id, state),
