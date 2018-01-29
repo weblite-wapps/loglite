@@ -1,11 +1,20 @@
 // modules
 import json2csv from 'json2csv'
-import * as R from 'ramda'
+import R from 'ramda'
 import differenceInSeconds from 'date-fns/difference_in_seconds'
 import format from 'date-fns/format'
 import differenceInDays from 'date-fns/difference_in_days'
 import addDays from 'date-fns/add_days'
 
+
+const factoredQuery = query => ({
+  wis: query.wis,
+  userId: query.userId,
+  $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }],
+})
+
+const formattedTags = tags =>
+  R.slice(1, JSON.stringify(tags).length - 1, JSON.stringify(tags))
 
 const sumTimes = times =>
   R.reduce((acc, time) => time.end === 'running' ? acc : acc + differenceInSeconds(time.end, time.start), 0)(times)
@@ -30,29 +39,20 @@ export const formattedSeconds = (seconds, pageName) => {
     `Total: ${Math.floor(seconds / 3600)}h & ${Math.floor((seconds % 3600) / 60)}m`
 }
 
-const formattedTags = tags =>
-  R.slice(1, JSON.stringify(tags).length - 1, JSON.stringify(tags))
-
 export const modifiedQuery = (query) => {
   if (!query.selectedTags) {
     return {
-      wis: query.wis,
-      userId: query.userId,
-      $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }],
+      ...factoredQuery(query),
     }
   } else if (Array.isArray(query.selectedTags)) {
     return {
-      wis: query.wis,
-      userId: query.userId,
+      ...factoredQuery(query),
       tags: { $in: query.selectedTags },
-      $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }],
     }
   }
   return {
-    wis: query.wis,
-    userId: query.userId,
+    ...factoredQuery(query),
     tags: query.selectedTags,
-    $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }],
   }
 }
 

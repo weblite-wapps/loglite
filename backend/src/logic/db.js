@@ -44,14 +44,14 @@ export const countTags = async query => Tag
 export const saveTag = async tag => new Tag(tag)
   .save()
 
-export const updateTag = async (query, operation) => Tag
-  .update(query, operation)
+export const updateTag = async (query, updateObject) => Tag
+  .update(query, updateObject)
   .exec()
 
 export const deleteLog = async query => Log
   .remove(query)
   .exec()
 
-export const saveTime = async (query, operation) => Log
-  .update(query, operation)
+export const saveTime = async (query, updateObject) => Log
+  .update(query, updateObject)
   .exec()

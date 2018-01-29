@@ -1,6 +1,6 @@
 // modules
 import mongoose from 'mongoose'
-import * as R from 'ramda'
+import R from 'ramda'
 // components
 import app from '../setup/server'
 // db helpers
@@ -62,7 +62,7 @@ app.post('/saveUser', (req, res) => {
 
 app.post('/saveLog', (req, res) =>
   saveLog(req.body)
-    .then(result => res.send(result))
+    .then(log => res.send(log))
     .catch(logger))
 
 
@@ -116,7 +116,7 @@ app.post('/saveEndTime', (req, res) =>
 app.post('/todayTotalDuration', (req, res) =>
   fetchLogs({ wis: req.body.wis, userId: req.body.userId, date: req.body.date })
     .then(sumLogs)
-    .then(sum => formattedSeconds(sum, 'Home'))
+    .then(sum => formattedSeconds(sum, 'Home')) // TODO: you can curry these my man
     .then(totalDuration => res.send(totalDuration))
     .catch(logger))
 
@@ -160,7 +160,7 @@ app.get('/calculateTotalDuration', (req, res) => {
   fetchLogs(query, 'Report')
     .then(sumLogs)
     .then(sum => formattedSeconds(sum, 'Report'))
-    .then(totalDuration => res.send(totalDuration))
+    .then(totalDuration => res.json(totalDuration))
     .catch(logger)
 })
 
