@@ -1,89 +1,89 @@
 // modules
 import { createAction } from 'redux-actions'
-
+import { dispatch } from '../../setup/redux'
 
 // actions
-const SET_API = 'SET_API'
-const setAPI = createAction(SET_API, (creator, user) => ({ creator, user }))
+export const SET_API = 'SET_API'
+export const setAPI = createAction(SET_API, (creator, user) => ({ creator, user }))
+export const dispatchSetApi = (...args) => dispatch(setAPI(...args))
 
-const FETCH_TODAY_DATA = 'FETCH_TODAY_DATA'
-const fetchTodayData = createAction(FETCH_TODAY_DATA)
+export const FETCH_TODAY_DATA = 'FETCH_TODAY_DATA'
+export const fetchTodayData = createAction(FETCH_TODAY_DATA)
+export const dispatchFetchTodayData = (...args) => dispatch(fetchTodayData(...args))
 
-const SET_ISLOADING = 'SET_ISLOADING'
-const setIsLoading = createAction(SET_ISLOADING, value => ({ value }))
+export const SET_ISLOADING = 'SET_ISLOADING'
+export const setIsLoading = createAction(SET_ISLOADING, value => ({ value }))
+export const dispatchSetIsLoading = (...args) => dispatch(setIsLoading(...args))
 
-const CHANGE_TAB = 'CHANGE_TAB'
-const changeTab = createAction(CHANGE_TAB, value => ({ value }))
+export const CHANGE_TAB = 'CHANGE_TAB'
+export const changeTab = createAction(CHANGE_TAB, value => ({ value }))
+export const dispatchChangeTab = (...args) => changeTab(setAPI(...args))
 
-const LOAD_USERS_DATA = 'LOAD_USERS_DATA'
-const loadUsersData = createAction(LOAD_USERS_DATA, users => ({ users }))
+export const LOAD_USERS_DATA = 'LOAD_USERS_DATA'
+export const loadUsersData = createAction(LOAD_USERS_DATA, users => ({ users }))
+export const dispatchLoadUsersData = (...args) => dispatch(loadUsersData(...args))
 
-const LOAD_LOGS_DATA = 'LOAD_LOGS_DATA'
-const loadLogsData = createAction(LOAD_LOGS_DATA, logs => ({ logs }))
+export const LOAD_LOGS_DATA = 'LOAD_LOGS_DATA'
+export const loadLogsData = createAction(LOAD_LOGS_DATA, logs => ({ logs }))
+export const dispatchLoadLogsData = (...args) => dispatch(loadLogsData(...args))
 
-const TOGGLE_EXPANDED = 'TOGGLE_EXPANDED'
-const toggleExpanded = createAction(TOGGLE_EXPANDED, _id => ({ _id }))
+export const TOGGLE_EXPANDED = 'TOGGLE_EXPANDED'
+export const toggleExpanded = createAction(TOGGLE_EXPANDED, _id => ({ _id }))
+export const dispatchToggleExpanded = (...args) => dispatch(toggleExpanded(...args))
 
-const CHANGE_POPOVER_STAGE = 'CHANGE_POPOVER_STAGE'
-const changePopoverStage = createAction(CHANGE_POPOVER_STAGE, (_id, value) => ({ _id, value }))
+export const CHANGE_POPOVER_STAGE = 'CHANGE_POPOVER_STAGE'
+export const changePopoverStage = createAction(
+  CHANGE_POPOVER_STAGE,
+  (_id, value) => ({ _id, value }),
+)
+export const dispatchChangePopoverStage = (...args) => dispatch(changePopoverStage(...args))
 
-const ADD_LOG = 'ADD_LOG'
-const addLog = createAction(ADD_LOG, (title, tags) => ({ title, tags }))
+export const ADD_LOG = 'ADD_LOG'
+export const addLog = createAction(ADD_LOG, (title, tags) => ({ title, tags }))
+export const dispatchAddLog = (...args) => dispatch(addLog(...args))
 
-const ADD_CUSTOM_LOG = 'ADD_CUSTOM_LOG'
-const addCustomLog = createAction(
+export const ADD_CUSTOM_LOG = 'ADD_CUSTOM_LOG'
+export const addCustomLog = createAction(
   ADD_CUSTOM_LOG,
   (title, tags, date, start, end) => ({ title, tags, date, start, end }),
 )
+export const dispatchAddCustomLog = (...args) => dispatch(addCustomLog(...args))
 
-const ADD_LOG_TO_NEXT_DAY = 'ADD_LOG_TO_NEXT_DAY'
-const addLogToNextDay = createAction(
+export const ADD_LOG_TO_NEXT_DAY = 'ADD_LOG_TO_NEXT_DAY'
+export const addLogToNextDay = createAction(
   ADD_LOG_TO_NEXT_DAY,
   (title, tags, end, date) => ({ title, tags, end, date }),
 )
+export const dispatchAddLogToNextDay = (...args) => dispatch(addLogToNextDay(...args))
 
-const RESTORE_LOG = 'RESTORE_LOG'
-const restoreLog = createAction(RESTORE_LOG, log => ({ log }))
+export const RESTORE_LOG = 'RESTORE_LOG'
+export const restoreLog = createAction(RESTORE_LOG, log => ({ log }))
+export const dispatchRestoreLog = (...args) => dispatch(restoreLog(...args))
 
-const DELETE_LOG = 'DELETE_LOG'
-const deleteLog = createAction(DELETE_LOG, _id => ({ _id }))
+export const DELETE_LOG = 'DELETE_LOG'
+export const deleteLog = createAction(DELETE_LOG, _id => ({ _id }))
+export const dispatchDeleteLog = (...args) => dispatch(deleteLog(...args))
 
-const SET_SECONDS_ELAPSED = 'SET_SECONDS_ELAPSED'
-const setSecondsElapsed = createAction(SET_SECONDS_ELAPSED, (_id, value) => ({ _id, value }))
+export const SET_SECONDS_ELAPSED = 'SET_SECONDS_ELAPSED'
+export const setSecondsElapsed = createAction(SET_SECONDS_ELAPSED, (_id, value) => ({ _id, value }))
+export const dispatchSetSecondsElapsed = (...args) => dispatch(setSecondsElapsed(...args))
 
-const INCREMENT_SECONDS_ELAPSED = 'INCREMENT_SECONDS_ELAPSED'
-const incrementSecondsElapsed = createAction(INCREMENT_SECONDS_ELAPSED, _id => ({ _id }))
+export const INCREMENT_SECONDS_ELAPSED = 'INCREMENT_SECONDS_ELAPSED'
+export const incrementSecondsElapsed = createAction(INCREMENT_SECONDS_ELAPSED, _id => ({ _id }))
+export const dispatchIncrementSecondsElapsed = (...args) =>
+  dispatch(incrementSecondsElapsed(...args))
 
-const SAVE_START_TIME = 'SAVE_START_TIME'
-const saveStartTime = createAction(SAVE_START_TIME, _id => ({ _id }))
+export const SAVE_START_TIME = 'SAVE_START_TIME'
+export const saveStartTime = createAction(SAVE_START_TIME, _id => ({ _id }))
+export const dispatchSaveStartTime = (...args) => dispatch(saveStartTime(...args))
 
-const SAVE_END_TIME = 'SAVE_END_TIME'
-const saveEndTime = createAction(
+export const SAVE_END_TIME = 'SAVE_END_TIME'
+export const saveEndTime = createAction(
   SAVE_END_TIME,
   (_id, end) => ({ _id, end }),
 )
+export const dispatchSaveEndTime = (...args) => dispatch(saveEndTime(...args))
 
-const CHANGE_RUNNING_ID = 'CHANGE_RUNNING_ID'
-const changeRunningId = createAction(CHANGE_RUNNING_ID, _id => ({ _id }))
-
-
-export {
-  SET_API, setAPI,
-  FETCH_TODAY_DATA, fetchTodayData,
-  SET_ISLOADING, setIsLoading,
-  CHANGE_TAB, changeTab,
-  LOAD_USERS_DATA, loadUsersData,
-  LOAD_LOGS_DATA, loadLogsData,
-  TOGGLE_EXPANDED, toggleExpanded,
-  CHANGE_POPOVER_STAGE, changePopoverStage,
-  ADD_LOG, addLog,
-  ADD_CUSTOM_LOG, addCustomLog,
-  ADD_LOG_TO_NEXT_DAY, addLogToNextDay,
-  RESTORE_LOG, restoreLog,
-  DELETE_LOG, deleteLog,
-  SET_SECONDS_ELAPSED, setSecondsElapsed,
-  INCREMENT_SECONDS_ELAPSED, incrementSecondsElapsed,
-  SAVE_START_TIME, saveStartTime,
-  SAVE_END_TIME, saveEndTime,
-  CHANGE_RUNNING_ID, changeRunningId,
-}
+export const CHANGE_RUNNING_ID = 'CHANGE_RUNNING_ID'
+export const changeRunningId = createAction(CHANGE_RUNNING_ID, _id => ({ _id }))
+export const dispatchChangeRunningId = (...args) => dispatch(changeRunningId(...args))

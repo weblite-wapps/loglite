@@ -1,12 +1,12 @@
 // modules
 import * as R from 'ramda'
 import { createMuiTheme } from 'material-ui/styles'
+import request from 'superagent'
 import setMinutes from 'date-fns/set_minutes'
 import setHours from 'date-fns/set_hours'
 // components
 import host from '../../setup/config'
-// const
-const request = require('superagent')
+
 
 export const formatTime = time =>
   setHours(setMinutes(new Date(), R.slice(3, 5, time)), R.slice(0, 2, time))
