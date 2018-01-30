@@ -34,7 +34,7 @@ const initialState = {
   logs: [],
   users: [],
   user: {},
-  wis: (window.W && window.W.id) || '110',
+  wis: (window.W && window.W.wisId) || '110',
   creator: false,
 }
 

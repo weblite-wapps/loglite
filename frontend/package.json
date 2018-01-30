@@ -8,7 +8,6 @@
   },
   "buildlite": {
     "default": {
-      "analyzer": 8005,
       "dashboard": 8061,
       "style": "style.css"
     },

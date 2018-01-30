@@ -1,7 +1,7 @@
 // Modules
 import React from 'react'
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { MemoryRouter as Router, Route, Switch } from 'react-router-dom'
 // Setup
 import store from './redux'
 // Component
@@ -17,7 +17,7 @@ import scssClasses from './root.scss'
 export default function root() {
   return (
     <Provider store={store}>
-      <Router>
+      <Router history={history}>
         <div className={scssClasses.container}>
           <App />
           <Switch>
