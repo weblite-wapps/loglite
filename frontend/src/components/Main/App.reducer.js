@@ -38,12 +38,13 @@ const initialState = {
   creator: false,
 }
 
-// lens & views
+// lens
 const isLoadingLens = R.lensProp('isLoading')
 const tabIndexLens = R.lensProp('tabIndex')
 const endLens = R.lensProp('end')
 const runningIdLens = R.lensProp('runningId')
 const secondsElapsedLens = R.lensProp('secondsElapsed')
+// views
 export const wisView = () => R.path(['App', 'wis'])(getState())
 export const creatorView = () => R.path(['App', 'creator'])(getState())
 export const userIdView = () => R.path(['App', 'user', 'id'])(getState())

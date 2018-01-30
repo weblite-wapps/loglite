@@ -27,7 +27,7 @@ const initialState = {
 }
 
 
-// lens & views
+// lens
 const dateLens = R.lensProp('date')
 const startTimeLens = R.lensProp('startTime')
 const endTimeLens = R.lensProp('endTime')

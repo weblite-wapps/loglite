@@ -116,7 +116,7 @@ app.post('/saveEndTime', (req, res) =>
 app.post('/todayTotalDuration', (req, res) =>
   fetchLogs({ wis: req.body.wis, userId: req.body.userId, date: req.body.date })
     .then(sumLogs)
-    .then(sum => formattedSeconds(sum, 'Home')) // TODO: you can curry these my man
+    .then(sum => formattedSeconds(sum, 'Home'))
     .then(totalDuration => res.send(totalDuration))
     .catch(logger))
 

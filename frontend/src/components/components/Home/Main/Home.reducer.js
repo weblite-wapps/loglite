@@ -17,7 +17,7 @@ const initialState = {
 }
 
 
-// lens & views
+// lens
 const durationLens = R.lensProp('duration')
 const todayLens = R.lensProp('today')
 const thisWeekLens = R.lensProp('thisWeek')

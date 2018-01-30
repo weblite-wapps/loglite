@@ -7,7 +7,7 @@ import differenceInDays from 'date-fns/difference_in_days'
 import addDays from 'date-fns/add_days'
 
 
-const factoredQuery = query => ({
+const queryGenerator = query => ({
   wis: query.wis,
   userId: query.userId,
   $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }],
@@ -42,21 +42,22 @@ export const formattedSeconds = (seconds, pageName) => {
 export const modifiedQuery = (query) => {
   if (!query.selectedTags) {
     return {
-      ...factoredQuery(query),
+      ...queryGenerator(query),
     }
   } else if (Array.isArray(query.selectedTags)) {
     return {
-      ...factoredQuery(query),
+      ...queryGenerator(query),
       tags: { $in: query.selectedTags },
     }
   }
   return {
-    ...factoredQuery(query),
+    ...queryGenerator(query),
     tags: query.selectedTags,
   }
 }
 
 export const getJSON = (logs) => {
+  // let formattedData = logs.map( R.compose())
   let formattedData = R.map(log =>
     R.dissoc('times', R.assoc('duration', formattedSeconds(sumTimes(log.times), 'Home'), log)), logs)
   const tagsLens = R.lensProp('tags')

@@ -46,7 +46,7 @@ const initialState = {
   barChartData: [],
 }
 
-// lens & views
+// lens
 const selectedUserLens = R.lensProp('selectedUser')
 const queryTagLens = R.lensProp('queryTag')
 const startDateLens = R.lensProp('startDate')
@@ -56,6 +56,7 @@ const CSVLens = R.lensProp('CSV')
 const currentPageLens = R.lensProp('currentPage')
 const suggestionsLens = R.lensProp('suggestions')
 const barChartDataLens = R.lensProp('barChartData')
+// views
 export const selectedUserView = () => R.path(['Report', 'selectedUser'])(getState())
 export const currentPageView = () => R.path(['Report', 'currentPage'])(getState())
 export const currentPagesInventoryView = () => R.path(['Report', 'currentPagesInventory'])(getState())
