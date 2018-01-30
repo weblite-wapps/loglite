@@ -15,7 +15,6 @@ import subDays from 'date-fns/sub_days'
 // helpers
 import { postRequest } from './Home.helper'
 // actions
-
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
 import {
   REFETCH_TOTAL_DURATION,

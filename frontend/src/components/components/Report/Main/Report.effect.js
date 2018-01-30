@@ -86,7 +86,7 @@ const effectSearchTagsEpic = (action$, { getState }) =>
           label: payload.queryTag,
         })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
-    .map(success => fetchTags(JSON.parse(success.text)))
+    .map(({ text }) => fetchTags(JSON.parse(text)))
 
 const calculateTotalDurationEpic = (action$, { getState }) =>
   action$.ofType(CALCULATE_TOTAL_DURATION)
@@ -101,7 +101,8 @@ const calculateTotalDurationEpic = (action$, { getState }) =>
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatchSetIsLoading(false))
-    .map(success => restoreTotalDuration(success.text))
+    .map(({ text }) => restoreTotalDuration(text))
+
 
 const convertJSONToCSVEpic = (action$, { getState }) =>
   action$.ofType(CONVERT_JSON_TO_CSV)
@@ -116,7 +117,7 @@ const convertJSONToCSVEpic = (action$, { getState }) =>
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatchSetIsLoading(false))
-    .map(success => restoreCSV(success.text))
+    .map(({ text }) => restoreCSV(text))
 
 const fetchPreviousDayLogsDataEpic = (action$, { getState }) =>
   action$.ofType(DECREMENT_CURRENT_PAGE)
@@ -130,9 +131,9 @@ const fetchPreviousDayLogsDataEpic = (action$, { getState }) =>
         date: format(getState().Report.currentPage, 'YYYY-MM-DD') })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatchSetIsLoading(false))
-    .map(success =>
+    .map(({ text }) =>
       getState().Report.selectedUser === getState().App.user.id ?
-        loadLogsData(JSON.parse(success.text)) : loadStaffLogs(JSON.parse(success.text)))
+        loadLogsData(JSON.parse(text)) : loadStaffLogs(JSON.parse(text)))
 
 const fetchNextDayLogsDataEpic = (action$, { getState }) =>
   action$.ofType(INCREMENT_CURRENT_PAGE)
@@ -146,9 +147,9 @@ const fetchNextDayLogsDataEpic = (action$, { getState }) =>
         date: format(getState().Report.currentPage, 'YYYY-MM-DD') })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatchSetIsLoading(false))
-    .map(success =>
+    .map(({ text }) =>
       getState().Report.selectedUser === getState().App.user.id ?
-        loadLogsData(JSON.parse(success.text)) : loadStaffLogs(JSON.parse(success.text)))
+        loadLogsData(JSON.parse(text)) : loadStaffLogs(JSON.parse(text)))
 
 const loadDataEpic = action$ =>
   action$.ofType(LOAD_LOGS_DATA, LOAD_STAFF_LOGS, RESET_STAFF_LOGS)
@@ -172,7 +173,7 @@ const updateChartEpic = (action$, { getState }) =>
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatchSetIsLoading(false))
-    .map(success => restoreBarChartData(JSON.parse(success.text)))
+    .map(({ text }) => restoreBarChartData(JSON.parse(text)))
 
 export default combineEpics(
   resetStaffDataEpic,

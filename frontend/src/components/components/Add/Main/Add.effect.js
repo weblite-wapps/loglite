@@ -23,7 +23,7 @@ const effectSearchTagsEpic = (action$, { getState }) =>
       getRequest('/serachTags')
         .query({ wis: getState().App.wis, userId: getState().App.user.id, label: payload.queryTag })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
-    .map(success => fetchTagsInAdd(JSON.parse(success.text)))
+    .map(({ text }) => fetchTagsInAdd(JSON.parse(text)))
 
 const addLogEpic = (action$, { getState }) =>
   action$.ofType(ADD_LOG)
