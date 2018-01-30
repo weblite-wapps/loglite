@@ -22,7 +22,7 @@ class App extends React.Component {
     this.handleWappMode = this._handleWappMode.bind(this)
     this.handleNormalMode = this._handleNormalMode.bind(this)
   }
-
+  // TODO: componentDidCatch => could be used for react error handling
   componentWillMount() {
     const { changeTab, location } = this.props
     const tabIndex = R.slice(1, R.length(location.pathname), location.pathname)
@@ -113,9 +113,7 @@ class App extends React.Component {
 
 App.propTypes = {
   location: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   isLoading: PropTypes.bool.isRequired,
   tabIndex: PropTypes.string.isRequired,
   CSV: PropTypes.string.isRequired,

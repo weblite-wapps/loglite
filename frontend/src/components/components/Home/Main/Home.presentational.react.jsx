@@ -58,9 +58,7 @@ class Home extends React.Component {
 
 
 Home.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
   changeTab: PropTypes.func.isRequired,
 }
