@@ -1,7 +1,6 @@
 // Modules
 import React from 'react'
 import { CSVDownload } from 'react-csv'
-import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { MuiThemeProvider } from 'material-ui/styles'
@@ -11,11 +10,10 @@ import { CircularProgress } from 'material-ui/Progress'
 import Snackbar from 'weblite-web-snackbar'
 // css
 import scssClasses from './App.scss'
-import { theme } from './App.helper'
+import theme from '../../helper/style/appTheme'
 
 class App extends React.Component {
   constructor(props) {
-    // TODO: remove useless code
     super(props)
     this.state = { aboutMode: false }
     this.handleChangeTab = this._handleChangeTab.bind(this)
@@ -24,22 +22,12 @@ class App extends React.Component {
     this.handleNormalMode = this._handleNormalMode.bind(this)
   }
 
-  componentWillMount() {
-    // TODO: remove useless code
-    const { changeTab, location } = this.props
-    const tabIndex = R.slice(1, R.length(location.pathname), location.pathname)
-    if (tabIndex === 'About') this.setState({ aboutMode: true })
-    else if (!tabIndex) changeTab('Home')
-    else changeTab(tabIndex)
-  }
-
   componentDidMount() {
     if (window.W && window.W.wisId) this.handleWappMode()
     else this.handleNormalMode()
   }
 
   _handleChangeTab(value) {
-    // TODO: remove useless code
     const { changeTab, history } = this.props
     this.setState({ aboutMode: false })
     if (value === 'Home') history.push('/')
@@ -71,7 +59,6 @@ class App extends React.Component {
     const { isLoading, tabIndex, CSV } = this.props
     return (
       <MuiThemeProvider theme={theme}>
-        {/* TODO: one theme providor for whole app */}
         <div className={scssClasses.root}>
           <div
             className={scssClasses.logoContainer}
@@ -115,7 +102,6 @@ class App extends React.Component {
 
 
 App.propTypes = {
-  location: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   isLoading: PropTypes.bool.isRequired,
   tabIndex: PropTypes.string.isRequired,

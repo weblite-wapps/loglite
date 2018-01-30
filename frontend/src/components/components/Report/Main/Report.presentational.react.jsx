@@ -1,7 +1,6 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import Typography from 'material-ui/Typography'
@@ -23,7 +22,6 @@ import CustomizedPieChart from '../components/WorkList/components/PieChart.prese
 import ShowChart from '../components/ShowChart/Main/ShowChart.container.react'
 // scssClasses
 import scssClasses from './Report.scss'
-import { theme } from './Report.helper'
 
 
 export default class Report extends React.Component {
@@ -82,21 +80,19 @@ export default class Report extends React.Component {
       selectedUser === userId ? getWorksDuration : getStaffWorksDuration
     return (
       <div className={scssClasses.container}>
-        <MuiThemeProvider theme={theme}>
-          <SelectBar />
-          <div className={scssClasses.controllBar}>
-            <Navigator isCustom={isCustom} />
-            <MuiButton raised={expandedWorkList} onClick={this.handleClickWorkList}>
-              <ViewList />
-            </MuiButton>
-            <MuiButton raised={expandedCustom} onClick={this.handleClickCustom}>
-              <FileDownload />
-            </MuiButton>
-            <MuiButton raised={expandedShowChart} onClick={this.handleClickChart}>
-              <InsertChart />
-            </MuiButton>
-          </div>
-        </MuiThemeProvider>
+        <SelectBar />
+        <div className={scssClasses.controllBar}>
+          <Navigator isCustom={isCustom} />
+          <MuiButton raised={expandedWorkList} onClick={this.handleClickWorkList}>
+            <ViewList />
+          </MuiButton>
+          <MuiButton raised={expandedCustom} onClick={this.handleClickCustom}>
+            <FileDownload />
+          </MuiButton>
+          <MuiButton raised={expandedShowChart} onClick={this.handleClickChart}>
+            <InsertChart />
+          </MuiButton>
+        </div>
         <Divider />
 
         <List disablePadding className={scssClasses.list}>

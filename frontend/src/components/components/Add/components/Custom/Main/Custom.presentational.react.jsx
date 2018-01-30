@@ -1,7 +1,6 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider } from 'material-ui/styles'
 import Divider from 'material-ui/Divider'
 import List, { ListItem } from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
@@ -12,7 +11,6 @@ import StartTimePicker from '../components/StartTimePicker/StartTimePicker.conta
 import EndTimePicker from '../components/EndTimePicker/EndTimePicker.container.react'
 // css
 import scssClasses from './Custom.scss'
-import { theme } from '../../../Main/Add.helper'
 
 
 export default class Custom extends React.Component {
@@ -34,28 +32,26 @@ export default class Custom extends React.Component {
     const { dateIsError, startTimeIsError, endTimeIsError, onAdd, onCustomAdd } = this.props
 
     return (
-      <MuiThemeProvider theme={theme}>
-        <div>
-          <List disablePadding className={scssClasses.list}>
-            <ListItem disableGutters>
-              <div className={scssClasses.buttons}>
-                <Button isCustome label="Custome" onClick={this.handleClick} />
-                <Button label="ADD" onClick={onAdd} />
-              </div>
-            </ListItem>
-            <Collapse component="li" in={this.state.expanded} timeout="auto" unmountOnExit>
-              <Divider />
-              <DatePicker isError={dateIsError} />
-              <StartTimePicker isError={startTimeIsError} />
-              <EndTimePicker isError={endTimeIsError} />
-              <div className={scssClasses.buttons}>
-                <Button label="Add" onClick={onCustomAdd} />
-              </div>
-              <Divider />
-            </Collapse>
-          </List>
-        </div>
-      </MuiThemeProvider>
+      <div>
+        <List disablePadding className={scssClasses.list}>
+          <ListItem disableGutters>
+            <div className={scssClasses.buttons}>
+              <Button isCustome label="Custome" onClick={this.handleClick} />
+              <Button label="ADD" onClick={onAdd} />
+            </div>
+          </ListItem>
+          <Collapse component="li" in={this.state.expanded} timeout="auto" unmountOnExit>
+            <Divider />
+            <DatePicker isError={dateIsError} />
+            <StartTimePicker isError={startTimeIsError} />
+            <EndTimePicker isError={endTimeIsError} />
+            <div className={scssClasses.buttons}>
+              <Button label="Add" onClick={onCustomAdd} />
+            </div>
+            <Divider />
+          </Collapse>
+        </List>
+      </div>
     )
   }
 }

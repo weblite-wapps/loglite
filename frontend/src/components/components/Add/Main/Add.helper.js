@@ -1,5 +1,4 @@
 import * as R from 'ramda'
-import { createMuiTheme } from 'material-ui/styles'
 import setMinutes from 'date-fns/set_minutes'
 import setHours from 'date-fns/set_hours'
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping'
@@ -44,22 +43,6 @@ export const styles = theme => ({
   textFieldInkbar: {
     '&:after': {
       backgroundColor: '#919191',
-    },
-  },
-})
-
-export const theme = createMuiTheme({
-  overrides: {
-    MuiDivider: {
-      default: {
-        backgroundColor: '#000000',
-      },
-    },
-    MuiListItem: {
-      default: {
-        paddingTop: '0px',
-        paddingBottom: '0px',
-      },
     },
   },
 })
