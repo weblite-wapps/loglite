@@ -1,6 +1,8 @@
 // modules
 import * as R from 'ramda'
 import format from 'date-fns/format'
+// local modules
+import { getState } from '../../../../setup/redux'
 // helpers
 import { previousDay, nextDay } from './Report.helper'
 // actions
@@ -44,7 +46,6 @@ const initialState = {
   barChartData: [],
 }
 
-
 // lens & views
 const selectedUserLens = R.lensProp('selectedUser')
 const queryTagLens = R.lensProp('queryTag')
@@ -55,6 +56,12 @@ const CSVLens = R.lensProp('CSV')
 const currentPageLens = R.lensProp('currentPage')
 const suggestionsLens = R.lensProp('suggestions')
 const barChartDataLens = R.lensProp('barChartData')
+export const selectedUserView = () => R.path(['Report', 'selectedUser'])(getState())
+export const currentPageView = () => R.path(['Report', 'currentPage'])(getState())
+export const currentPagesInventoryView = () => R.path(['Report', 'currentPagesInventory'])(getState())
+export const startDateView = () => R.path(['Report', 'startDate'])(getState())
+export const endDateView = () => R.path(['Report', 'endDate'])(getState())
+export const selectedTagsView = () => R.path(['Report', 'selectedTags'])(getState())
 
 
 // reducers

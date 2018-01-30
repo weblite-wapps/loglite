@@ -17,7 +17,7 @@ export const dispatchSetIsLoading = (...args) => dispatch(setIsLoading(...args))
 
 export const CHANGE_TAB = 'CHANGE_TAB'
 export const changeTab = createAction(CHANGE_TAB, value => ({ value }))
-export const dispatchChangeTab = (...args) => changeTab(setAPI(...args))
+export const dispatchChangeTab = (...args) => dispatch(changeTab(...args))
 
 export const LOAD_USERS_DATA = 'LOAD_USERS_DATA'
 export const loadUsersData = createAction(LOAD_USERS_DATA, users => ({ users }))

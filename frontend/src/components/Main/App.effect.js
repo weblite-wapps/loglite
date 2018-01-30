@@ -15,10 +15,10 @@ import { formatTime, getRequest, postRequest } from './App.helper'
 // actions
 import { RESET_INPUTS, loadTagsDataInAdd, resetInputs } from '../components/Add/Main/Add.action'
 import {
+  REFETCH_TOTAL_DURATION,
   loadTodayTotalDuration,
   loadThisWeekTotalDuration,
   loadThisMonthTotalDuration,
-  REFETCH_TOTAL_DURATION,
 } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
@@ -31,56 +31,57 @@ import {
   loadLogsData,
   restoreLog,
 } from './App.action'
+// views
+import { wisView, userIdView, userNameView, creatorView } from './App.reducer'
 
-
-const fetchUsersEpic = (action$, { getState }) =>
+const fetchUsersEpic = action$ => // TODO: error handling patterns *subscribe*
   action$.ofType(FETCH_TODAY_DATA)
-    .filter(() => getState().App.creator)
+    .filter(() => creatorView())
     .mergeMap(() => getRequest('/fetchUsers')
       .query({
-        wis: getState().App.wis,
+        wis: wisView(),
       }),
-    ).map(success => loadUsersData(JSON.parse(success.text)))
+    ).map(({ text }) => loadUsersData(JSON.parse(text)))
 
-const fetchTodayDataEpic = (action$, { getState }) =>
+const fetchTodayDataEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
         .query({
-          wis: getState().App.wis,
-          userId: getState().App.user.id,
+          wis: wisView(),
+          userId: userIdView(),
           date: format(new Date(), 'YYYY-MM-DD'),
         }),
       getRequest('/fetchTags')
         .query({
-          wis: getState().App.wis,
-          userId: getState().App.user.id,
+          wis: wisView(),
+          userId: userIdView(),
         }),
       postRequest('/todayTotalDuration')
         .send({
-          wis: getState().App.wis,
-          userId: getState().App.user.id,
+          wis: wisView(),
+          userId: userIdView(),
           date: format(new Date(), 'YYYY-MM-DD'),
         }),
       postRequest('/thisWeekTotalDurations')
         .send({
-          wis: getState().App.wis,
-          userId: getState().App.user.id,
+          wis: wisView(),
+          userId: userIdView(),
           startDate: subDays(startOfWeek(new Date()), 1),
           endDate: new Date(),
         }),
       postRequest('/thisMonthTotalDurations')
         .send({
-          wis: getState().App.wis,
-          userId: getState().App.user.id,
+          wis: wisView(),
+          userId: userIdView(),
           startDate: startOfMonth(new Date()),
           endDate: new Date(),
         }),
       postRequest('/saveUser')
         .send({
-          wis: getState().App.wis,
-          userId: getState().App.user.id,
-          username: getState().App.user.name,
+          wis: wisView(),
+          userId: userIdView(),
+          username: userNameView(),
         }),
     ]))
     .mergeMap(success => ([
@@ -93,7 +94,7 @@ const fetchTodayDataEpic = (action$, { getState }) =>
     ]))
     .do(() => window.W && window.W.start())
 
-const addLogToNextDayEpic = (action$, { getState }) =>
+const addLogToNextDayEpic = action$ =>
   action$.ofType(ADD_LOG_TO_NEXT_DAY)
     .mergeMap(action => postRequest('/insertLogToNextDay')
       .send({
@@ -102,10 +103,10 @@ const addLogToNextDayEpic = (action$, { getState }) =>
         tags: action.payload.tags,
         times: [{ start: formatTime('00:00'), end: action.payload.end }],
         date: action.payload.date,
-        id: getState().App.user.id,
-        wis: getState().App.wis,
+        id: userIdView(),
+        wis: wisView(),
       }))
-    .map(success => restoreLog(JSON.parse(success.text)))
+    .map(({ text }) => restoreLog(JSON.parse(text)))
 
 const deleteLogEpic = action$ =>
   action$.ofType(DELETE_LOG)
@@ -117,7 +118,7 @@ const deleteLogEpic = action$ =>
 const saveStartTimeEpic = action$ =>
   action$.ofType(SAVE_START_TIME)
     .mergeMap(action => postRequest('/saveStartTime')
-      .send({
+      .send({ // TODO: probabel DRY
         startTime: new Date(),
         _id: action.payload._id,
       })
@@ -128,7 +129,7 @@ const saveEndTimeEpic = action$ =>
   action$.ofType(SAVE_END_TIME)
     .mergeMap(action => postRequest('/saveEndTime')
       .send({
-        endTime: action.payload.end
+        endTime: action.payload.end,
         _id: action.payload._id,
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))

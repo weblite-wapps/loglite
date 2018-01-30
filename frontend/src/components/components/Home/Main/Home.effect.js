@@ -30,29 +30,31 @@ import {
   CHANGE_TAB,
   dispatchSetIsLoading,
 } from '../../../Main/App.action'
+// views
+import { wisView, userIdView } from '../../../Main/App.reducer'
 
 
-const refetchTotalDurationEpic = (action$, { getState }) =>
+const refetchTotalDurationEpic = action$ =>
   action$.ofType(RESET_INPUTS, REFETCH_TOTAL_DURATION)
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => Promise.all([
       postRequest('/todayTotalDuration')
         .send({
-          wis: getState().App.wis,
-          userId: getState().App.user.id,
+          wis: wisView,
+          userId: userIdView,
           date: format(new Date(), 'YYYY-MM-DD'),
         }),
       postRequest('/thisWeekTotalDurations')
         .send({
-          wis: getState().App.wis,
-          userId: getState().App.user.id,
+          wis: wisView,
+          userId: userIdView,
           startDate: subDays(startOfWeek(new Date()), 1),
           endDate: new Date(),
         }),
       postRequest('/thisMonthTotalDurations')
         .send({
-          wis: getState().App.wis,
-          userId: getState().App.user.id,
+          wis: wisView,
+          userId: userIdView,
           startDate: startOfMonth(new Date()),
           endDate: new Date(),
         }),

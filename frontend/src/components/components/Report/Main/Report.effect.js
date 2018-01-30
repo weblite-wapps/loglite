@@ -34,37 +34,41 @@ import {
   loadTagsDataInReport,
   restoreBarChartData,
 } from './Report.action'
+// views
+import { wisView, userIdView } from '../../../Main/App.reducer'
+import { startDateView, endDateView, selectedTagsView, selectedUserView, currentPageView, currentPagesInventoryView } from './Report.reducer'
 
-const resetStaffDataEpic = (action$, { getState }) =>
+
+const resetStaffDataEpic = action$ =>
   action$.ofType(CHANGE_SELECTED_USER)
-    .map(() => resetStaffLogs(getState().App.user.id))
+    .map(() => resetStaffLogs(userIdView()))
 
 
-const loadStaffDataEpic = (action$, { getState }) =>
+const loadStaffDataEpic = action$ =>
   action$.ofType(RESET_STAFF_LOGS)
     .filter(() =>
-      R.prop(getState().Report.selectedUser, getState().Report.currentPagesInventory) === undefined
-      || !R.contains(format(getState().Report.currentPage, 'YYYY-MM-DD'),
-        getState().Report.currentPagesInventory[getState().Report.selectedUser]))
+      R.prop(selectedUserView(), currentPagesInventoryView()) === undefined
+      || !R.contains(format(currentPageView(), 'YYYY-MM-DD'),
+        currentPagesInventoryView()[selectedUserView()]))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
         .query({
-          wis: getState().App.wis,
-          userId: getState().Report.selectedUser,
-          date: format(getState().Report.currentPage, 'YYYY-MM-DD'),
+          wis: wisView(),
+          userId: selectedUserView(),
+          date: format(currentPageView(), 'YYYY-MM-DD'),
         })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
       getRequest('/fetchTags')
         .query({
-          wis: getState().App.wis,
-          userId: getState().Report.selectedUser,
+          wis: wisView(),
+          userId: selectedUserView(),
         })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
     ]))
     .do(() => dispatchSetIsLoading(false))
     .mergeMap(success => ([
-      getState().Report.selectedUser === getState().App.user.id ?
+      selectedUserView() === userIdView() ?
         loadLogsData(JSON.parse(success[0].text)) : loadStaffLogs(JSON.parse(success[0].text)),
       loadTagsDataInReport(JSON.parse(success[1].text)),
     ]))
@@ -73,7 +77,7 @@ const loadTagsDataEpic = action$ =>
   action$.ofType(LOAD_TAGS_DATA_IN_ADD)
     .map(action => loadTagsDataInReport(action.payload.tags))
 
-const effectSearchTagsEpic = (action$, { getState }) =>
+const effectSearchTagsEpic = action$ =>
   action$.ofType(SET_QUERY)
     .pluck('payload')
     .filter(payload => payload.queryTag.trim() !== '')
@@ -81,74 +85,74 @@ const effectSearchTagsEpic = (action$, { getState }) =>
     .mergeMap(payload =>
       getRequest('/serachTags')
         .query({
-          wis: getState().App.wis,
-          userId: getState().Report.selectedUser,
+          wis: wisView(),
+          userId: selectedUserView(),
           label: payload.queryTag,
         })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .map(({ text }) => fetchTags(JSON.parse(text)))
 
-const calculateTotalDurationEpic = (action$, { getState }) =>
+const calculateTotalDurationEpic = action$ =>
   action$.ofType(CALCULATE_TOTAL_DURATION)
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/calculateTotalDuration')
       .query({
-        wis: getState().App.wis,
-        userId: getState().Report.selectedUser,
-        startDate: getState().Report.startDate,
-        endDate: getState().Report.endDate,
-        selectedTags: getState().Report.selectedTags,
+        wis: wisView(),
+        userId: selectedUserView(),
+        startDate: startDateView(),
+        endDate: endDateView(),
+        selectedTags: selectedTagsView(),
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) => restoreTotalDuration(text))
 
 
-const convertJSONToCSVEpic = (action$, { getState }) =>
+const convertJSONToCSVEpic = action$ =>
   action$.ofType(CONVERT_JSON_TO_CSV)
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/convertJSONToCSV')
       .query({
-        wis: getState().App.wis,
-        userId: getState().Report.selectedUser,
-        startDate: getState().Report.startDate || new Date(),
-        endDate: getState().Report.endDate || new Date(),
-        selectedTags: getState().Report.selectedTags,
+        wis: wisView(),
+        userId: selectedUserView(),
+        startDate: startDateView() || new Date(),
+        endDate: endDateView() || new Date(),
+        selectedTags: selectedTagsView(),
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) => restoreCSV(text))
 
-const fetchPreviousDayLogsDataEpic = (action$, { getState }) =>
+const fetchPreviousDayLogsDataEpic = action$ =>
   action$.ofType(DECREMENT_CURRENT_PAGE)
-    .filter(() => !R.contains(format(getState().Report.currentPage, 'YYYY-MM-DD'),
-      getState().Report.currentPagesInventory[getState().Report.selectedUser]))
+    .filter(() => !R.contains(format(currentPageView(), 'YYYY-MM-DD'),
+      currentPagesInventoryView()[selectedUserView()]))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/fetchPreviousDayData')
       .query({
-        wis: getState().App.wis,
-        userId: getState().Report.selectedUser,
-        date: format(getState().Report.currentPage, 'YYYY-MM-DD') })
+        wis: wisView(),
+        userId: selectedUserView(),
+        date: format(currentPageView(), 'YYYY-MM-DD') })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) =>
-      getState().Report.selectedUser === getState().App.user.id ?
+      selectedUserView() === userIdView() ?
         loadLogsData(JSON.parse(text)) : loadStaffLogs(JSON.parse(text)))
 
-const fetchNextDayLogsDataEpic = (action$, { getState }) =>
+const fetchNextDayLogsDataEpic = action$ =>
   action$.ofType(INCREMENT_CURRENT_PAGE)
-    .filter(() => !R.contains(format(getState().Report.currentPage, 'YYYY-MM-DD'),
-      getState().Report.currentPagesInventory[getState().Report.selectedUser]))
+    .filter(() => !R.contains(format(currentPageView(), 'YYYY-MM-DD'),
+      currentPagesInventoryView()[selectedUserView()]))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/fetchNextDayData')
       .query({
-        wis: getState().App.wis,
-        userId: getState().Report.selectedUser,
-        date: format(getState().Report.currentPage, 'YYYY-MM-DD') })
+        wis: wisView(),
+        userId: selectedUserView(),
+        date: format(currentPageView(), 'YYYY-MM-DD') })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) =>
-      getState().Report.selectedUser === getState().App.user.id ?
+      selectedUserView() === userIdView() ?
         loadLogsData(JSON.parse(text)) : loadStaffLogs(JSON.parse(text)))
 
 const loadDataEpic = action$ =>
@@ -160,14 +164,14 @@ const resetCSVEpic = action$ =>
     .delay(1000)
     .mapTo({ type: RESET_CSV })
 
-const updateChartEpic = (action$, { getState }) =>
+const updateChartEpic = action$ =>
   action$.ofType(UPDATE_CHART)
     .do(() => dispatchSetIsLoading(true))
     .pluck('payload')
     .mergeMap(payload => getRequest('/barChartData')
       .query({
-        wis: getState().App.wis,
-        userId: getState().Report.selectedUser,
+        wis: wisView(),
+        userId: selectedUserView(),
         startDate: payload.startDate,
         endDate: payload.endDate,
       })

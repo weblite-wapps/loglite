@@ -11,21 +11,22 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './Add.helper'
 // actions
-import { ADD_LOG, ADD_CUSTOM_LOG, restoreLog } from '../../../Main/App.action'
+import { ADD_LOG, ADD_CUSTOM_LOG, restoreLog, wisView, userIdView } from '../../../Main/App.action'
 import { SET_QUERY_IN_ADD, fetchTagsInAdd, loadTagsDataInAdd, resetInputs } from './Add.action'
 
-const effectSearchTagsEpic = (action$, { getState }) =>
+
+const effectSearchTagsEpic = action$ =>
   action$.ofType(SET_QUERY_IN_ADD)
     .pluck('payload')
     .filter(payload => payload.queryTag.trim() !== '')
     .debounceTime(250)
     .mergeMap(payload =>
       getRequest('/serachTags')
-        .query({ wis: getState().App.wis, userId: getState().App.user.id, label: payload.queryTag })
+        .query({ wis: wisView(), userId: userIdView(), label: payload.queryTag })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .map(({ text }) => fetchTagsInAdd(JSON.parse(text)))
 
-const addLogEpic = (action$, { getState }) =>
+const addLogEpic = action$ =>
   action$.ofType(ADD_LOG)
     .pluck('payload')
     .mergeMap(payload => Promise.all([
@@ -35,21 +36,21 @@ const addLogEpic = (action$, { getState }) =>
           tags: payload.tags,
           times: [],
           date: format(new Date(), 'YYYY-MM-DD'),
-          userId: getState().App.user.id,
-          wis: getState().App.wis,
+          userId: userIdView(),
+          wis: wisView(),
         })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
       postRequest('/saveTags')
         .send({
           tags: payload.tags,
-          userId: getState().App.user.id,
-          wis: getState().App.wis,
+          userId: userIdView(),
+          wis: wisView(),
         }),
     ]))
     .mergeMap(success =>
       [restoreLog(JSON.parse(success[0].text)), loadTagsDataInAdd(JSON.parse(success[1].text))])
 
-const addCustomLogEpic = (action$, { getState }) =>
+const addCustomLogEpic = action$ =>
   action$.ofType(ADD_CUSTOM_LOG)
     .pluck('payload')
     .mergeMap(payload => Promise.all([
@@ -62,15 +63,15 @@ const addCustomLogEpic = (action$, { getState }) =>
             end: formatTime(payload.end),
           }],
           date: payload.date,
-          userId: getState().App.user.id,
-          wis: getState().App.wis,
+          userId: userIdView(),
+          wis: wisView(),
         })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
       postRequest('/saveTags')
         .send({
           tags: payload.tags,
-          userId: getState().App.user.id,
-          wis: getState().App.wis,
+          userId: userIdView(),
+          wis: wisView(),
         }),
     ]))
     .mergeMap(success => [

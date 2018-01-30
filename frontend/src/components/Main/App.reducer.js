@@ -1,6 +1,8 @@
 // modules
 import * as R from 'ramda'
 import format from 'date-fns/format'
+// local modules
+import { getState } from '../../setup/redux'
 // helpers
 import { formatTime } from './App.helper'
 // actions
@@ -42,9 +44,14 @@ const tabIndexLens = R.lensProp('tabIndex')
 const endLens = R.lensProp('end')
 const runningIdLens = R.lensProp('runningId')
 const secondsElapsedLens = R.lensProp('secondsElapsed')
+export const wisView = () => R.path(['App', 'wis'])(getState())
+export const creatorView = () => R.path(['App', 'creator'])(getState())
+export const userIdView = () => R.path(['App', 'user', 'id'])(getState())
+export const userNameView = () => R.path(['App', 'user', 'name'])(getState())
+
 
 // reducers
-const reducers = {
+const reducers = { // TODO: could be more abstract
   [SET_API]: (state, { user, creator }) => ({ ...state, user, creator }),
 
   [SET_ISLOADING]: (state, { value }) => R.set(isLoadingLens, value, state),
