@@ -69,8 +69,11 @@ const reducers = { // TODO: could be more abstract
     logs: R.concat(state.logs,
       R.map(log => ({
         ...log,
+        // TODO: Expanded must be deleted
         expanded: false,
+        // TODO: must be deleted
         secondsElapsed: 0,
+        // TODO: popover must be component { open, id }
         popoverIsOpen: false,
       }), logs)),
   }),

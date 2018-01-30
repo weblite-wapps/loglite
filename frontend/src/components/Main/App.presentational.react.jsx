@@ -15,6 +15,7 @@ import { theme } from './App.helper'
 
 class App extends React.Component {
   constructor(props) {
+    // TODO: remove useless code
     super(props)
     this.state = { aboutMode: false }
     this.handleChangeTab = this._handleChangeTab.bind(this)
@@ -24,6 +25,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
+    // TODO: remove useless code
     const { changeTab, location } = this.props
     const tabIndex = R.slice(1, R.length(location.pathname), location.pathname)
     if (tabIndex === 'About') this.setState({ aboutMode: true })
@@ -37,6 +39,7 @@ class App extends React.Component {
   }
 
   _handleChangeTab(value) {
+    // TODO: remove useless code
     const { changeTab, history } = this.props
     this.setState({ aboutMode: false })
     if (value === 'Home') history.push('/')
@@ -50,7 +53,7 @@ class App extends React.Component {
   }
 
   _handleWappMode() {
-    const { setAPI, fetchTodayData, history, changeTab } = this.props
+    const { setAPI, fetchTodayData } = this.props
     window.W.loadData()
     window.WProto.coreLoadData = ({ creator, user }) => {
       setAPI(creator, user)
@@ -68,6 +71,7 @@ class App extends React.Component {
     const { isLoading, tabIndex, CSV } = this.props
     return (
       <MuiThemeProvider theme={theme}>
+        {/* TODO: one theme providor for whole app */}
         <div className={scssClasses.root}>
           <div
             className={scssClasses.logoContainer}
@@ -93,6 +97,7 @@ class App extends React.Component {
             <Tab label="Report" value="Report" className={scssClasses.Tab} />
           </Tabs>
           <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} />
+          {/* { remove from here } */}
           {
             CSV ?
               <CSVDownload

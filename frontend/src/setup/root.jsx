@@ -1,7 +1,7 @@
 // Modules
 import React from 'react'
 import { Provider } from 'react-redux'
-import { MemoryRouter as Router, Route, Switch } from 'react-router-dom'
+import { MemoryRouter as Router, Route } from 'react-router-dom'
 // Setup
 import store from './redux'
 // Component
@@ -17,15 +17,13 @@ import scssClasses from './root.scss'
 export default function root() {
   return (
     <Provider store={store}>
-      <Router history={history}>
+      <Router>
         <div className={scssClasses.container}>
           <App />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/Add" component={Add} />
-            <Route path="/Report" component={Report} />
-            <Route path="/About" component={About} />
-          </Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/Add" component={Add} />
+          <Route path="/Report" component={Report} />
+          <Route path="/About" component={About} />
         </div>
       </Router>
     </Provider>

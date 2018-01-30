@@ -19,6 +19,7 @@ export const postRequest = path => request
   .post(host + path)
   .set('Access-Control-Allow-Origin', '*')
 
+// TODD: remove theme from here
 export const theme = createMuiTheme({
   overrides: {
     MuiTab: {

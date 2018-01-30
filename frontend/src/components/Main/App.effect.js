@@ -43,6 +43,7 @@ const fetchUsersEpic = action$ => // TODO: error handling patterns *subscribe*
       }),
     ).map(({ text }) => loadUsersData(JSON.parse(text)))
 
+// TODO: initialFetch
 const fetchTodayDataEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
     .mergeMap(() => Promise.all([
