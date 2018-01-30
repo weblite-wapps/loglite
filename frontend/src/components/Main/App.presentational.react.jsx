@@ -22,7 +22,7 @@ class App extends React.Component {
     this.handleWappMode = this._handleWappMode.bind(this)
     this.handleNormalMode = this._handleNormalMode.bind(this)
   }
-  // TODO: componentDidCatch => could be used for react error handling
+
   componentWillMount() {
     const { changeTab, location } = this.props
     const tabIndex = R.slice(1, R.length(location.pathname), location.pathname)

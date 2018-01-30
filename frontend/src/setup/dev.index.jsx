@@ -18,8 +18,4 @@ const renderLoglite = () => {
 renderLoglite()
 
 // Hot Module Replacement API
-if (module.hot) {
-  module.hot.accept('./root', () => {
-    renderLoglite()
-  })
-}
+if (module.hot) module.hot.accept('./root', renderLoglite)

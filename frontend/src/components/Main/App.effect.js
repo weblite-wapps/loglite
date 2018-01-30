@@ -118,7 +118,7 @@ const deleteLogEpic = action$ =>
 const saveStartTimeEpic = action$ =>
   action$.ofType(SAVE_START_TIME)
     .mergeMap(action => postRequest('/saveStartTime')
-      .send({ // TODO: probabel DRY
+      .send({
         startTime: new Date(),
         _id: action.payload._id,
       })
