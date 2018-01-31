@@ -34,21 +34,21 @@ const refetchTotalDurationEpic = action$ =>
     .mergeMap(() => Promise.all([
       postRequest('/todayTotalDuration')
         .send({
-          wis: wisView,
-          userId: userIdView,
+          wis: wisView(),
+          userId: userIdView(),
           date: format(new Date(), 'YYYY-MM-DD'),
         }),
       postRequest('/thisWeekTotalDurations')
         .send({
-          wis: wisView,
-          userId: userIdView,
+          wis: wisView(),
+          userId: userIdView(),
           startDate: subDays(startOfWeek(new Date()), 1),
           endDate: new Date(),
         }),
       postRequest('/thisMonthTotalDurations')
         .send({
-          wis: wisView,
-          userId: userIdView,
+          wis: wisView(),
+          userId: userIdView(),
           startDate: startOfMonth(new Date()),
           endDate: new Date(),
         }),
@@ -63,8 +63,8 @@ const refetchTotalDurationEpic = action$ =>
 const effectCountUpEpic = action$ =>
   action$.ofType(SAVE_START_TIME, COUNTINUE_COUNTING)
     .pluck('payload')
-    .mergeMap(payload => Observable.interval(1000)
-      .mapTo({ type: INCREMENT_SECONDS_ELAPSED, payload })
+    .mergeMap(() => Observable.interval(1000)
+      .mapTo({ type: INCREMENT_SECONDS_ELAPSED })
       .takeUntil(action$.ofType(SAVE_END_TIME, CHANGE_TAB)))
 
 

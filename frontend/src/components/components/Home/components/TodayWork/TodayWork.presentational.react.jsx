@@ -34,8 +34,6 @@ export default class TodayWork extends React.Component {
       setSecondsElapsed(sumTimes(log.times) + differenceInSeconds(new Date(),
         log.times[len - 1].start))
       countinueCounting(log._id)
-    } else {
-      setSecondsElapsed(sumTimes(log.times))
     }
   }
 
@@ -50,10 +48,11 @@ export default class TodayWork extends React.Component {
 
   _handleStartClick() {
     const now = new Date()
-    const { log, runningId, onStartClick, onStopClick } = this.props
+    const { log, runningId, onStartClick, onStopClick, setSecondsElapsed } = this.props
     if (runningId) {
       onStopClick(runningId, now)
     }
+    setSecondsElapsed(sumTimes(log.times))
     onStartClick(log._id, now)
   }
 
@@ -70,7 +69,7 @@ export default class TodayWork extends React.Component {
   }
 
   render() {
-    const { expandingId, log, workDuration, isLoading } = this.props
+    const { expandingId, secondsElapsed, log, workDuration, isLoading } = this.props
     const len = log.times.length
     return (
       <div>
@@ -113,7 +112,7 @@ export default class TodayWork extends React.Component {
             <Divider light inset />
             <div className={scssClasses.stopwatch}>
               <Typography type="subheading">
-                {formattedSeconds(log.secondsElapsed)}
+                {formattedSeconds(secondsElapsed)}
               </Typography>
             </div>
           </Collapse>
@@ -128,6 +127,7 @@ TodayWork.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   runningId: PropTypes.string.isRequired,
   expandingId: PropTypes.string.isRequired,
+  secondsElapsed: PropTypes.number.isRequired,
   log: PropTypes.shape({}).isRequired,
   workDuration: PropTypes.string.isRequired,
   changeExpandingId: PropTypes.func.isRequired,

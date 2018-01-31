@@ -20,12 +20,13 @@ const mapStateToProps = (state, ownProps) => ({
   isLoading: state.App.isLoading,
   expandingId: state.App.expandingId,
   runningId: state.App.runningId,
+  secondsElapsed: state.App.secondsElapsed,
   workDuration: getWorksDuration(state)[ownProps.log._id],
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   changeExpandingId: dispatchChangeExpandingId,
-  setSecondsElapsed: value => dispatchSetSecondsElapsed(ownProps.log._id, value),
+  setSecondsElapsed: dispatchSetSecondsElapsed,
   countinueCounting: dispatchCountinueCounting,
   onStartClick: dispatchSaveStartTime,
   onStopClick: dispatchSaveEndTime,

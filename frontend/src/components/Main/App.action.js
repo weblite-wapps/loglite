@@ -65,11 +65,11 @@ export const deleteLog = createAction(DELETE_LOG, _id => ({ _id }))
 export const dispatchDeleteLog = (...args) => dispatch(deleteLog(...args))
 
 export const SET_SECONDS_ELAPSED = 'SET_SECONDS_ELAPSED'
-export const setSecondsElapsed = createAction(SET_SECONDS_ELAPSED, (_id, value) => ({ _id, value }))
+export const setSecondsElapsed = createAction(SET_SECONDS_ELAPSED, value => ({ value }))
 export const dispatchSetSecondsElapsed = (...args) => dispatch(setSecondsElapsed(...args))
 
 export const INCREMENT_SECONDS_ELAPSED = 'INCREMENT_SECONDS_ELAPSED'
-export const incrementSecondsElapsed = createAction(INCREMENT_SECONDS_ELAPSED, _id => ({ _id }))
+export const incrementSecondsElapsed = createAction(INCREMENT_SECONDS_ELAPSED)
 export const dispatchIncrementSecondsElapsed = (...args) =>
   dispatch(incrementSecondsElapsed(...args))
 

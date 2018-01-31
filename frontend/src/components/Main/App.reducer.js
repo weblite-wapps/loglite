@@ -32,6 +32,7 @@ const initialState = {
   isLoading: false,
   expandingId: '',
   runningId: '',
+  secondsElapsed: 0,
   logs: [],
   users: [],
   user: {},
@@ -71,8 +72,6 @@ const reducers = {
     logs: R.concat(state.logs,
       R.map(log => ({
         ...log,
-        // TODO: must be deleted
-        secondsElapsed: 0,
         // TODO: popover must be component { open, id }
         popoverIsOpen: false,
       }), logs)),
@@ -94,7 +93,6 @@ const reducers = {
         popoverIsOpen: false,
         tags,
         times: [],
-        secondsElapsed: 0,
         date: format(new Date(), 'YYYY-MM-DD'),
         wis: state.wis,
       },
@@ -111,7 +109,6 @@ const reducers = {
             popoverIsOpen: false,
             tags,
             times: [{ start: formatTime(start), end: formatTime(end) }],
-            secondsElapsed: 0,
             date,
             wis: state.wis,
           }, state.logs),
@@ -126,7 +123,6 @@ const reducers = {
         popoverIsOpen: false,
         tags,
         times: [{ start: formatTime('00:00'), end }],
-        secondsElapsed: 0,
         date,
         wis: state.wis,
       }, state.logs),
@@ -142,17 +138,10 @@ const reducers = {
     logs: R.remove(R.findIndex(R.propEq('_id', _id))(state.logs), 1, state.logs),
   }),
 
-  [SET_SECONDS_ELAPSED]: (state, { _id, value }) => ({
-    ...state,
-    logs: R.map(log => (log._id === _id) ?
-      R.set(secondsElapsedLens, value, log) : log, state.logs),
-  }),
+  [SET_SECONDS_ELAPSED]: (state, { value }) => R.set(secondsElapsedLens, value, state),
 
-  [INCREMENT_SECONDS_ELAPSED]: (state, { _id }) => ({
-    ...state,
-    logs: R.map(log => (log._id === _id) ?
-      R.set(secondsElapsedLens, R.inc(log.secondsElapsed), log) : log, state.logs),
-  }),
+  [INCREMENT_SECONDS_ELAPSED]: state =>
+    R.set(secondsElapsedLens, R.inc(state.secondsElapsed), state),
 
   [SAVE_START_TIME]: (state, { _id }) => ({
     ...state,
