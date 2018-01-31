@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
 // helpers
-import { styles } from '../../../../Main/Add.helper'
-
+import styles from '../../../../../../../helper/style/appStyle'
 
 function DatePicker(props) {
   const { isError, date, onDateChange, classes } = props

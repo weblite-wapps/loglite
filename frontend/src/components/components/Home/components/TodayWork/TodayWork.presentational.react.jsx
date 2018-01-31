@@ -2,7 +2,6 @@
 import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider } from 'material-ui/styles'
 import List, { ListItem, ListItemSecondaryAction } from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import Typography from 'material-ui/Typography'
@@ -16,13 +15,7 @@ import differenceInSeconds from 'date-fns/difference_in_seconds'
 import Play from 'material-ui-icons/PlayArrow'
 import Pause from 'material-ui-icons/Pause'
 // helpers
-import { previousDay,
-  formattedSeconds,
-  formatTime,
-  sumTimes,
-  formattedName,
-  theme,
-} from './TodayWork.helper'
+import { previousDay, formattedSeconds, formatTime, sumTimes, formattedName } from './TodayWork.helper'
 // css
 import scssClasses from './TodayWork.scss'
 
@@ -84,49 +77,51 @@ export default class TodayWork extends React.Component {
     const { log, workDuration } = this.props
     const len = log.times.length
     return (
-      <MuiThemeProvider theme={theme}>
-        <div>
-          <List dense disablePadding className={scssClasses.list}>
-            <ListItem dense disableGutters>
-              <Typography type="body2">
-                {
-                  formattedName(log.title) === log.title ?
-                    <span>{formattedName(log.title)}</span> :
-                    <Tooltip title={log.title} placement="bottom" enterDelay={300} leaveDelay={300}>
-                      <span>{formattedName(log.title)}</span>
-                    </Tooltip>
-                }
-                <span className={scssClasses.time}>
-                  &nbsp;| { R.test(/^NaN/, workDuration) ? 'Running...' : workDuration }
-                </span>
+      <div>
+        <List dense disablePadding className={scssClasses.list}>
+          <ListItem dense disableGutters>
+            <Typography type="body2">
+              {
+                formattedName(log.title) === log.title ?
+                  <span>{formattedName(log.title)}</span> :
+                  <Tooltip title={log.title} placement="bottom" enterDelay={300} leaveDelay={300}>
+                    <span>{formattedName(log.title)}</span>
+                  </Tooltip>
+              }
+              <span className={scssClasses.time}>
+                &nbsp;| { R.test(/^NaN/, workDuration) ? 'Running...' : workDuration }
+              </span>
+            </Typography>
+            <ListItemSecondaryAction>
+              {
+                len && log.times[len - 1].end === 'running' ?
+                  (
+                    <IconButton
+                      onClick={this.handleStopClick}
+                    >
+                      <Pause className={scssClasses.icon} />
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      onClick={this.handleStartClick}
+                    >
+                      <Play className={scssClasses.icon} />
+                    </IconButton>
+                  )
+              }
+            </ListItemSecondaryAction>
+          </ListItem>
+          <Collapse component="li" in={log.expanded} timeout="auto" unmountOnExit>
+            <Divider light inset />
+            <div className={scssClasses.stopwatch}>
+              <Typography type="subheading">
+                {formattedSeconds(log.secondsElapsed)}
               </Typography>
-              <ListItemSecondaryAction>
-                {
-                  len && log.times[len - 1].end === 'running' ?
-                    (
-                      <IconButton onClick={this.handleStopClick}>
-                        <Pause className={scssClasses.icon} />
-                      </IconButton>
-                    ) : (
-                      <IconButton onClick={this.handleStartClick}>
-                        <Play className={scssClasses.icon} />
-                      </IconButton>
-                    )
-                }
-              </ListItemSecondaryAction>
-            </ListItem>
-            <Collapse component="li" in={log.expanded} timeout="auto" unmountOnExit>
-              <Divider light />
-              <div className={scssClasses.stopwatch}>
-                <Typography type="subheading">
-                  {formattedSeconds(log.secondsElapsed)}
-                </Typography>
-              </div>
-            </Collapse>
-          </List>
-          <Divider />
-        </div>
-      </MuiThemeProvider>
+            </div>
+          </Collapse>
+        </List>
+        <Divider light />
+      </div>
     )
   }
 }

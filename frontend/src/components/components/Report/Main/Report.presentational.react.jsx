@@ -1,6 +1,7 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withStyles } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import Typography from 'material-ui/Typography'
@@ -22,9 +23,10 @@ import CustomizedPieChart from '../components/WorkList/components/PieChart.prese
 import ShowChart from '../components/ShowChart/Main/ShowChart.container.react'
 // scssClasses
 import scssClasses from './Report.scss'
+import styles from './Report.style'
 
 
-export default class Report extends React.Component {
+class Report extends React.Component {
   constructor(props) {
     super(props)
     this.handleClickWorkList = this._handleClickWorkList.bind(this)
@@ -72,7 +74,7 @@ export default class Report extends React.Component {
 
   render() {
     const {
-      userId, logs, staffLogs, currentPage, totalDuration, staffTotalDuration,
+      classes, userId, logs, staffLogs, currentPage, totalDuration, staffTotalDuration,
       totalDurationFromServer, pieChartData, staffPieChartData, selectedUser,
     } = this.props
     const { expandedCustom, expandedWorkList, expandedShowChart, isCustom } = this.state
@@ -83,33 +85,45 @@ export default class Report extends React.Component {
         <SelectBar />
         <div className={scssClasses.controllBar}>
           <Navigator isCustom={isCustom} />
-          <MuiButton raised={expandedWorkList} onClick={this.handleClickWorkList}>
+          <MuiButton
+            raised={expandedWorkList}
+            onClick={this.handleClickWorkList}
+            classes={{ root: classes.root, raised: classes.raised }}
+          >
             <ViewList />
           </MuiButton>
-          <MuiButton raised={expandedCustom} onClick={this.handleClickCustom}>
+          <MuiButton
+            raised={expandedCustom}
+            onClick={this.handleClickCustom}
+            classes={{ root: classes.root, raised: classes.raised }}
+          >
             <FileDownload />
           </MuiButton>
-          <MuiButton raised={expandedShowChart} onClick={this.handleClickChart}>
+          <MuiButton
+            raised={expandedShowChart}
+            onClick={this.handleClickChart}
+            classes={{ root: classes.root, raised: classes.raised }}
+          >
             <InsertChart />
           </MuiButton>
         </div>
-        <Divider />
+        <Divider light />
 
         <List disablePadding className={scssClasses.list}>
           <Collapse component="li" in={expandedCustom} timeout="auto" unmountOnExit>
             <Custom />
-            <Divider />
+            <Divider light />
             <div className={scssClasses.text}>
               <Typography type="subheading" >
                 {totalDurationFromServer}
               </Typography>
             </div>
-            <Divider />
+            <Divider light />
           </Collapse>
 
           <Collapse component="li" in={expandedShowChart} timeout="auto" unmountOnExit>
             <ShowChart />
-            <Divider />
+            <Divider light />
           </Collapse>
 
           <Collapse component="li" in={expandedWorkList} timeout="auto" unmountOnExit>
@@ -118,14 +132,14 @@ export default class Report extends React.Component {
                 {selectedUser === userId ? totalDuration : staffTotalDuration}
               </Typography>
             </div>
-            <Divider />
+            <Divider light />
             <div className={scssClasses.chart}>
               <CustomizedPieChart
                 pieChartData={
                   selectedUser === userId ? pieChartData : staffPieChartData}
               />
             </div>
-            <Divider />
+            <Divider light />
             {(selectedUser === userId ? logs : staffLogs)
               .filter(log => log.date === format(currentPage, 'YYYY-MM-DD')).map(log => (
                 <WorkList
@@ -142,6 +156,7 @@ export default class Report extends React.Component {
 }
 
 Report.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
   userId: PropTypes.string.isRequired,
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
   staffLogs: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -153,3 +168,5 @@ Report.propTypes = {
   staffPieChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedUser: PropTypes.string.isRequired,
 }
+
+export default withStyles(styles)(Report)

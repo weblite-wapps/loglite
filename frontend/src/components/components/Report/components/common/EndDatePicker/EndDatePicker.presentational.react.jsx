@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
 // css
-import { styles } from '../../../Main/Report.helper'
+import styles from '../../../../../../helper/style/appStyle'
 
 
 function EndDatePicker(props) {

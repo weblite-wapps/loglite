@@ -32,24 +32,3 @@ export const formattedSeconds = (seconds) => {
     `Total: ${Math.floor(seconds / 3600)}h` :
     `Total: ${Math.floor(seconds / 3600)}h & ${Math.floor((seconds % 3600) / 60)}m`
 }
-
-export const styles = Muitheme => ({
-  container: {
-    margin: '10px',
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: Muitheme.spacing.unit,
-    marginRight: Muitheme.spacing.unit,
-    width: 300,
-  },
-  textFieldFormLabel: {
-    color: '#919191',
-  },
-  textFieldInkbar: {
-    '&:after': {
-      backgroundColor: '#919191',
-    },
-  },
-})

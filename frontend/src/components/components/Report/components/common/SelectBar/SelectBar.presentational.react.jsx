@@ -4,17 +4,7 @@ import { withStyles } from 'material-ui/styles'
 import MuiTextField from 'material-ui/TextField'
 // scssClasses
 import scssClasses from './SelectBar.scss'
-
-const styles = () => ({
-  textFieldFormLabel: {
-    color: '#919191',
-  },
-  textFieldInkbar: {
-    '&:after': {
-      backgroundColor: '#919191',
-    },
-  },
-})
+import styles from '../../../Main/Report.style'
 
 
 function SelectBar(props) {

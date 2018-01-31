@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = () =>
-  ({ onEndDateChange: ({ target: { value } }) => dispatchChangeEndTime(value) })
+  ({ onEndTimeChange: ({ target: { value } }) => dispatchChangeEndTime(value) })
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(EndTimePicker)

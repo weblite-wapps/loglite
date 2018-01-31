@@ -25,24 +25,3 @@ export const areRangesOverlappingForTimes = (times, startOfRange, endOfRange) =>
 export const areTimesOverlapping = (logs, startOfRange, endOfRange) =>
   R.reduce(R.or, false, R.map(log =>
     areRangesOverlappingForTimes(log.times, startOfRange, endOfRange), logs))
-
-export const styles = theme => ({
-  container: {
-    margin: '20px 10px 20px 10px',
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 300,
-  },
-  textFieldFormLabel: {
-    color: '#919191',
-  },
-  textFieldInkbar: {
-    '&:after': {
-      backgroundColor: '#919191',
-    },
-  },
-})

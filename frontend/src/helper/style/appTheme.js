@@ -2,24 +2,37 @@ import { createMuiTheme } from 'material-ui/styles'
 
 export default createMuiTheme({
   overrides: {
-    MuiButton: {
-      root: {
-        background: '#505050',
-        color: 'white',
-        minHeight: '35px',
-        minWidth: '35px',
-        padding: '0px',
-        borderRadius: '0px',
-        margin: '0px',
-        border: '0.5px solid white',
+    MuiTypography: {
+      display1: {
+        color: '#000000',
+        fontWeight: '500',
       },
+      display2: {
+        fontWeight: '100',
+        color: '#505050',
+      },
+      headline: {
+        color: '#919191',
+        textTransform: 'uppercase',
+        margin: '5px',
+        textAlign: 'center',
+        fontSize: '27px',
+        width: '165px',
+      },
+    },
+    MuiButton: {
       fab: {
         backgroundColor: '#505050',
+        color: 'white',
         height: '60px',
         width: '60px',
       },
-      disabled: {
-        color: '#919191',
+    },
+    MuiIconButton: {
+      root: {
+        height: '30px',
+        width: '30px',
+        marginTop: '10px',
       },
     },
     MuiTab: {
@@ -37,22 +50,30 @@ export default createMuiTheme({
         color: 'white',
       },
     },
-    MuiSvgIcon: {
-      root: {
-        color: 'white',
-        height: '50px',
-        width: '50px',
-      },
-    },
     MuiDivider: {
       default: {
         backgroundColor: '#000000',
+      },
+      light: {
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+      },
+      inset: {
+        marginRight: '20px',
+        marginLeft: '20px',
       },
     },
     MuiListItem: {
       default: {
         paddingTop: '0px',
         paddingBottom: '0px',
+      },
+      dense: {
+        paddingLeft: '30px',
+      },
+    },
+    MuiListItemSecondaryAction: {
+      root: {
+        paddingRight: '20px',
       },
     },
   },

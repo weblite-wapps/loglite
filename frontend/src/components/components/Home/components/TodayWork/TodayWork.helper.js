@@ -1,6 +1,5 @@
 // modules
 import * as R from 'ramda'
-import { createMuiTheme } from 'material-ui/styles'
 import subDays from 'date-fns/sub_days'
 import setMinutes from 'date-fns/set_minutes'
 import setHours from 'date-fns/set_hours'
@@ -23,34 +22,3 @@ export const formatTime = time =>
 
 export const formattedName = name =>
   name.length > 25 ? `${R.slice(0, 25, name)}...` : name
-
-export const theme = createMuiTheme({
-  overrides: {
-    MuiIconButton: {
-      root: {
-        height: '30px',
-        width: '30px',
-        marginTop: '10px',
-      },
-    },
-    MuiListItem: {
-      dense: {
-        paddingLeft: '30px',
-      },
-    },
-    MuiListItemSecondaryAction: {
-      root: {
-        paddingRight: '20px',
-      },
-    },
-    MuiDivider: {
-      root: {
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
-      },
-      light: {
-        marginRight: '20px',
-        marginLeft: '20px',
-      },
-    },
-  },
-})

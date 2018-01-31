@@ -11,8 +11,10 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './Add.helper'
 // actions
-import { ADD_LOG, ADD_CUSTOM_LOG, restoreLog, wisView, userIdView } from '../../../Main/App.action'
+import { ADD_LOG, ADD_CUSTOM_LOG, restoreLog } from '../../../Main/App.action'
 import { SET_QUERY_IN_ADD, fetchTagsInAdd, loadTagsDataInAdd, resetInputs } from './Add.action'
+// views
+import { wisView, userIdView } from '../../../Main/App.reducer'
 
 
 const effectSearchTagsEpic = action$ =>
