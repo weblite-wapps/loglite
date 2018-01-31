@@ -8,10 +8,10 @@ import List from 'material-ui/List'
 import Typography from 'material-ui/Typography'
 import Divider from 'material-ui/Divider'
 import Button from 'material-ui/Button'
-import Popover from 'material-ui/Popover'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import TagShape from '../../../../../../helper/components/TagShapeForReport/TagShapeForReport.presentational.react'
+import Popover from '../components/Popover.presentational.react'
 // css
 import scssClasses from './WorkList.scss'
 import styles from '../../../../../../helper/components/Button/Button.style'
@@ -49,7 +49,7 @@ class WorkList extends React.Component {
   }
 
   render() {
-    const { classes, userId, selectedUser, log, workDuration } = this.props
+    const { classes, userId, selectedUser, log, workDuration, popoverIsOpen } = this.props
     return (
       <div>
         <List disablePadding>
@@ -86,34 +86,12 @@ class WorkList extends React.Component {
                   Delete
                 </Button>
                 <Popover
-                  open={log.popoverIsOpen}
-                  onClose={this.handleClose}
+                  popoverIsOpen={popoverIsOpen}
                   anchorEl={this.state.anchorEl}
-                  anchorOrigin={{
-                    vertical: 'center',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                  }}
-                >
-                  <Typography type="subheading" style={{ margin: '5px' }}>
-                    Are you sure?
-                  </Typography>
-                  <Button
-                    raised
-                    onClick={this.handleYep}
-                    classes={{ raised: classes.WorkList }}
-                  >Yep
-                  </Button>
-                  <Button
-                    raised
-                    onClick={this.handleNop}
-                    classes={{ raised: classes.WorkList }}
-                  >Nop
-                  </Button>
-                </Popover>
+                  onClose={this.handleClose}
+                  onYep={this.handleYep}
+                  onNop={this.handleNop}
+                />
               </div> : null
           }
         </List>
@@ -129,6 +107,7 @@ WorkList.propTypes = {
   userId: PropTypes.string.isRequired,
   selectedUser: PropTypes.string.isRequired,
   workDuration: PropTypes.string.isRequired,
+  popoverIsOpen: PropTypes.bool.isRequired,
   deleteLog: PropTypes.func.isRequired,
   changePopoverStage: PropTypes.func.isRequired,
 }

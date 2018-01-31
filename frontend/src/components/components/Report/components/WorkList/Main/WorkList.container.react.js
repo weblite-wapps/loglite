@@ -10,11 +10,12 @@ const mapStateToProps = (state, ownProps) => ({
   workDuration: ownProps.getDuration(state)[ownProps.log._id],
   selectedUser: state.Report.selectedUser,
   userId: state.App.user.id,
+  popoverIsOpen: state.App.popoverIsOpen,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   deleteLog: () => dispatchDeleteLog(ownProps.log._id),
-  changePopoverStage: value => dispatchChangePopoverStage(ownProps.log._id, value),
+  changePopoverStage: dispatchChangePopoverStage,
 })
 
 

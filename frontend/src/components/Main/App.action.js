@@ -32,10 +32,7 @@ export const changeExpandingId = createAction(CHANGE_EXPANDING_ID, _id => ({ _id
 export const dispatchChangeExpandingId = (...args) => dispatch(changeExpandingId(...args))
 
 export const CHANGE_POPOVER_STAGE = 'CHANGE_POPOVER_STAGE'
-export const changePopoverStage = createAction(
-  CHANGE_POPOVER_STAGE,
-  (_id, value) => ({ _id, value }),
-)
+export const changePopoverStage = createAction(CHANGE_POPOVER_STAGE, value => ({ value }))
 export const dispatchChangePopoverStage = (...args) => dispatch(changePopoverStage(...args))
 
 export const ADD_LOG = 'ADD_LOG'

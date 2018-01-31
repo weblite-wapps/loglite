@@ -30,6 +30,7 @@ import {
 const initialState = {
   tabIndex: 'Home',
   isLoading: false,
+  popoverIsOpen: false,
   expandingId: '',
   runningId: '',
   secondsElapsed: 0,
@@ -47,6 +48,7 @@ const endLens = R.lensProp('end')
 const runningIdLens = R.lensProp('runningId')
 const expandingIdLens = R.lensProp('expandingId')
 const secondsElapsedLens = R.lensProp('secondsElapsed')
+const popoverIsOpenLens = R.lensProp('popoverIsOpen')
 // views
 export const wisView = () => R.path(['App', 'wis'])(getState())
 export const creatorView = () => R.path(['App', 'creator'])(getState())
@@ -79,10 +81,7 @@ const reducers = {
 
   [CHANGE_EXPANDING_ID]: (state, { _id }) => R.set(expandingIdLens, _id, state),
 
-  [CHANGE_POPOVER_STAGE]: (state, { _id, value }) => ({
-    ...state,
-    logs: R.map(log => (log._id === _id) ? { ...log, popoverIsOpen: value } : log, state.logs),
-  }),
+  [CHANGE_POPOVER_STAGE]: (state, { value }) => R.set(popoverIsOpenLens, value, state),
 
   [ADD_LOG]: (state, { title, tags }) => ({
     ...state,
