@@ -26,7 +26,7 @@ import {
   restoreLog,
   dispatchChangeRunningId,
   dispatchSetIsLoading,
-  dispatchToggleExpanded,
+  dispatchChangeExpandingId,
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, creatorView } from './App.reducer'
@@ -41,6 +41,19 @@ const fetchUsersEpic = action$ => // TODO: error handling patterns *subscribe*
     ).map(({ text }) => loadUsersData(JSON.parse(text)))
 
 // TODO: initialFetch
+// const initialFetchEpic = action$ =>
+//   action$.ofType(FETCH_TODAY_DATA)
+//     .mergeMap(() => getRequest('/initialFetch')
+//       .query({
+//         wis: wisView(),
+//         userId: userIdView(),
+//         username: userNameView(),
+//         today: format(new Date(), 'YYYY-MM-DD'),
+//         startOfWeek: subDays(startOfWeek(new Date()), 1),
+//         startOfMonth: startOfMonth(new Date()),
+//       }))
+//     .map(({ text }) => restoreData(text))
+//     .do(() => window.W && window.W.start())
 const fetchTodayDataEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
     .mergeMap(() => Promise.all([
@@ -117,7 +130,7 @@ const deleteLogEpic = action$ =>
 const saveStartTimeEpic = action$ =>
   action$.ofType(SAVE_START_TIME)
     .pluck('payload')
-    .do(payload => dispatchToggleExpanded(payload._id))
+    .do(payload => dispatchChangeExpandingId(payload._id))
     .do(payload => dispatchChangeRunningId(payload._id))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(payload => postRequest('/saveStartTime')
@@ -132,7 +145,7 @@ const saveStartTimeEpic = action$ =>
 const saveEndTimeEpic = action$ =>
   action$.ofType(SAVE_END_TIME)
     .pluck('payload')
-    .do(payload => dispatchToggleExpanded(payload._id))
+    .do(() => dispatchChangeExpandingId(''))
     .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(payload => postRequest('/saveEndTime')

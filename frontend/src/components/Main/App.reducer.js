@@ -12,7 +12,6 @@ import {
   CHANGE_TAB,
   LOAD_USERS_DATA,
   LOAD_LOGS_DATA,
-  TOGGLE_EXPANDED,
   CHANGE_POPOVER_STAGE,
   ADD_LOG,
   ADD_CUSTOM_LOG,
@@ -24,12 +23,14 @@ import {
   SAVE_START_TIME,
   SAVE_END_TIME,
   CHANGE_RUNNING_ID,
+  CHANGE_EXPANDING_ID,
 } from './App.action'
 
 // state
 const initialState = {
   tabIndex: 'Home',
   isLoading: false,
+  expandingId: '',
   runningId: '',
   logs: [],
   users: [],
@@ -43,6 +44,7 @@ const isLoadingLens = R.lensProp('isLoading')
 const tabIndexLens = R.lensProp('tabIndex')
 const endLens = R.lensProp('end')
 const runningIdLens = R.lensProp('runningId')
+const expandingIdLens = R.lensProp('expandingId')
 const secondsElapsedLens = R.lensProp('secondsElapsed')
 // views
 export const wisView = () => R.path(['App', 'wis'])(getState())
@@ -69,8 +71,6 @@ const reducers = {
     logs: R.concat(state.logs,
       R.map(log => ({
         ...log,
-        // TODO: Expanded must be deleted
-        expanded: false,
         // TODO: must be deleted
         secondsElapsed: 0,
         // TODO: popover must be component { open, id }
@@ -78,10 +78,7 @@ const reducers = {
       }), logs)),
   }),
 
-  [TOGGLE_EXPANDED]: (state, { _id }) => ({
-    ...state,
-    logs: R.map(log => (log._id === _id) ? { ...log, expanded: !log.expanded } : log, state.logs),
-  }),
+  [CHANGE_EXPANDING_ID]: (state, { _id }) => R.set(expandingIdLens, _id, state),
 
   [CHANGE_POPOVER_STAGE]: (state, { _id, value }) => ({
     ...state,
@@ -94,7 +91,6 @@ const reducers = {
       {
         _id: state.logs.length,
         title,
-        expanded: false,
         popoverIsOpen: false,
         tags,
         times: [],
@@ -112,7 +108,6 @@ const reducers = {
           {
             _id: state.logs.length,
             title,
-            expanded: false,
             popoverIsOpen: false,
             tags,
             times: [{ start: formatTime(start), end: formatTime(end) }],
@@ -128,7 +123,6 @@ const reducers = {
       {
         _id: state.logs.length,
         title,
-        expanded: false,
         popoverIsOpen: false,
         tags,
         times: [{ start: formatTime('00:00'), end }],

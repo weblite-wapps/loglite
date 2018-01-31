@@ -40,10 +40,10 @@ export default class TodayWork extends React.Component {
   }
 
   componentDidMount() {
-    const { log, toggleExpanded, changeRunningId } = this.props
+    const { log, changeExpandingId, changeRunningId } = this.props
     const len = log.times.length
     if (!log.expanded && len && log.times[len - 1].end === 'running') {
-      toggleExpanded(log._id)
+      changeExpandingId(log._id)
       changeRunningId(log._id)
     }
   }
@@ -70,7 +70,7 @@ export default class TodayWork extends React.Component {
   }
 
   render() {
-    const { log, workDuration, isLoading } = this.props
+    const { expandingId, log, workDuration, isLoading } = this.props
     const len = log.times.length
     return (
       <div>
@@ -109,7 +109,7 @@ export default class TodayWork extends React.Component {
               }
             </ListItemSecondaryAction>
           </ListItem>
-          <Collapse component="li" in={log.expanded} timeout="auto" unmountOnExit>
+          <Collapse component="li" in={log._id === expandingId} timeout="auto" unmountOnExit>
             <Divider light inset />
             <div className={scssClasses.stopwatch}>
               <Typography type="subheading">
@@ -127,9 +127,10 @@ export default class TodayWork extends React.Component {
 TodayWork.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   runningId: PropTypes.string.isRequired,
+  expandingId: PropTypes.string.isRequired,
   log: PropTypes.shape({}).isRequired,
   workDuration: PropTypes.string.isRequired,
-  toggleExpanded: PropTypes.func.isRequired,
+  changeExpandingId: PropTypes.func.isRequired,
   onStartClick: PropTypes.func.isRequired,
   onStopClick: PropTypes.func.isRequired,
   addLogToNextDay: PropTypes.func.isRequired,
