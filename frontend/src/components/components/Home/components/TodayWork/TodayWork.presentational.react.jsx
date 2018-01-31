@@ -49,27 +49,29 @@ export default class TodayWork extends React.Component {
   }
 
   _handleStartClick() {
+    const now = new Date()
     const { log, runningId, toggleExpanded, changeRunningId,
       onStartClick, onStopClick } = this.props
     if (runningId) {
-      onStopClick(runningId, new Date())
+      onStopClick(runningId, now)
       toggleExpanded(runningId)
     }
-    onStartClick()
+    onStartClick(log._id, now)
     changeRunningId(log._id)
     toggleExpanded(log._id)
   }
 
   _handleStopClick() {
+    const now = new Date()
     const { log, toggleExpanded, changeRunningId, addLogToNextDay, onStopClick } = this.props
     const len = log.times.length
     toggleExpanded(log._id)
     changeRunningId('')
-    if (isWithinRange(formatTime('23:59'), log.times[len - 1].start, new Date())) {
-      addLogToNextDay(new Date(), format(new Date(), 'YYYY-MM-DD'))
+    if (isWithinRange(formatTime('23:59'), log.times[len - 1].start, now)) {
+      addLogToNextDay(now, format(now, 'YYYY-MM-DD'))
       onStopClick(log._id, previousDay(formatTime('23:59')))
     } else {
-      onStopClick(log._id, new Date())
+      onStopClick(log._id, now)
     }
   }
 

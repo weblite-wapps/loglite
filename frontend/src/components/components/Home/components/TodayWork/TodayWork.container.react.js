@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   toggleExpanded: dispatchToggleExpanded,
   setSecondsElapsed: value => dispatchSetSecondsElapsed(ownProps.log._id, value),
   countinueCounting: dispatchCountinueCounting,
-  onStartClick: () => dispatchSaveStartTime(ownProps.log._id),
+  onStartClick: dispatchSaveStartTime,
   onStopClick: dispatchSaveEndTime,
   addLogToNextDay: (end, date) =>
     dispatchAddLogToNextDay(ownProps.log.title, ownProps.log.tags, end, date),
