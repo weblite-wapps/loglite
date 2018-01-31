@@ -2,6 +2,7 @@
 import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
+import { CSVDownload } from 'react-csv'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import StartDatePicker from '../common/StartDatePicker/StartDatePicker.container.react'
@@ -64,7 +65,7 @@ export default class Custom extends React.Component {
 
   render() {
     const { startDateIsError, endDateIsError } = this.state
-    const { tags, suggestions, onTagClick, queryTag, onQueryTagChange } = this.props
+    const { tags, suggestions, onTagClick, queryTag, onQueryTagChange, CSV } = this.props
     return (
       <div>
         <StartDatePicker isError={startDateIsError} />
@@ -86,6 +87,15 @@ export default class Custom extends React.Component {
           <span style={{ margin: '5px' }} />
           <Button label="Export" onClick={this.handleExport} />
         </div>
+        {
+          CSV ?
+            <CSVDownload
+              data={CSV}
+              separator=";"
+              filename="LogliteReport.csv"
+              target="_blank"
+            /> : null
+        }
       </div>
     )
   }
@@ -97,6 +107,7 @@ Custom.propTypes = {
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   suggestions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  CSV: PropTypes.string.isRequired,
   onQueryTagChange: PropTypes.func.isRequired,
   onTagClick: PropTypes.func.isRequired,
   addTag: PropTypes.func.isRequired,

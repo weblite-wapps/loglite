@@ -52,7 +52,7 @@ export const userNameView = () => R.path(['App', 'user', 'name'])(getState())
 
 
 // reducers
-const reducers = { // TODO: could be more abstract
+const reducers = {
   [SET_API]: (state, { user, creator }) => ({ ...state, user, creator }),
 
   [SET_ISLOADING]: (state, { value }) => R.set(isLoadingLens, value, state),

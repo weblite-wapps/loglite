@@ -20,6 +20,7 @@ const mapStateToProps = state => ({
   startDate: state.Report.startDate,
   endDate: state.Report.endDate,
   suggestions: getReportFilteredSuggestions(state),
+  CSV: state.Report.CSV,
 })
 
 const mapDispatchToProps = () => ({

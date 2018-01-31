@@ -1,6 +1,5 @@
 // Modules
 import React from 'react'
-import { CSVDownload } from 'react-csv'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import Tabs, { Tab } from 'material-ui/Tabs'
@@ -55,7 +54,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoading, tabIndex, CSV } = this.props
+    const { isLoading, tabIndex } = this.props
     return (
       <div className={scssClasses.root}>
         <div
@@ -82,16 +81,6 @@ class App extends React.Component {
           <Tab label="Report" value="Report" className={scssClasses.Tab} />
         </Tabs>
         <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} />
-        {/* { remove from here } */}
-        {
-          CSV ?
-            <CSVDownload
-              data={CSV}
-              separator=";"
-              filename="LogliteReport.csv"
-              target="_blank"
-            /> : null
-        }
       </div>
     )
   }
@@ -102,7 +91,6 @@ App.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   isLoading: PropTypes.bool.isRequired,
   tabIndex: PropTypes.string.isRequired,
-  CSV: PropTypes.string.isRequired,
   changeTab: PropTypes.func.isRequired,
   fetchTodayData: PropTypes.func.isRequired,
   setAPI: PropTypes.func.isRequired,
