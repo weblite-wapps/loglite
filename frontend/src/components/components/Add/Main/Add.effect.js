@@ -1,10 +1,6 @@
 // modules
 import { combineEpics } from 'redux-observable'
-import 'rxjs/add/operator/mergeMap'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/filter'
-import 'rxjs/add/operator/pluck'
-import 'rxjs/add/operator/debounceTime'
+import 'rxjs'
 import format from 'date-fns/format'
 // local modules
 import { snackbarMessage } from 'weblite-web-snackbar'

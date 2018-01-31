@@ -1,27 +1,18 @@
 // modules
 import { combineEpics } from 'redux-observable'
-import 'rxjs/add/operator/mergeMap'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/mapTo'
-import 'rxjs/add/operator/do'
-import 'rxjs/add/operator/pluck'
-import 'rxjs/add/operator/filter'
-import 'rxjs/add/operator/ignoreElements'
-import 'rxjs/add/operator/delay'
-import format from 'date-fns/format'
-import startOfWeek from 'date-fns/start_of_week'
-import startOfMonth from 'date-fns/start_of_month'
-import subDays from 'date-fns/sub_days'
+import 'rxjs'
+import { format, startOfWeek, startOfMonth, subDays } from 'date-fns'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './App.helper'
 // actions
-import { RESET_INPUTS, loadTagsDataInAdd, resetInputs } from '../components/Add/Main/Add.action'
+import { RESET_INPUTS, loadTagsDataInAdd } from '../components/Add/Main/Add.action'
 import {
   REFETCH_TOTAL_DURATION,
   loadTodayTotalDuration,
   loadThisWeekTotalDuration,
   loadThisMonthTotalDuration,
+  changeTextSlider,
 } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
@@ -97,8 +88,9 @@ const fetchTodayDataEpic = action$ =>
       loadTodayTotalDuration(success[2].text),
       loadThisWeekTotalDuration(success[3].text),
       loadThisMonthTotalDuration(success[4].text),
-      resetInputs(),
+      changeTextSlider('Back'),
     ]))
+    .do()
     .do(() => window.W && window.W.start())
 
 const addLogToNextDayEpic = action$ =>
