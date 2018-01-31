@@ -108,7 +108,7 @@ app.post('/saveStartTime', (req, res) =>
 
 
 app.post('/saveEndTime', (req, res) =>
-  saveTime({ _id: mongoose.Types.ObjectId(req.body._id), 'times.end': 'running' }, { $set: { 'times.$.end': req.body.endTime } })
+  saveTime({ _id: mongoose.Types.ObjectId(req.body._id), 'times.end': 'running' }, { $set: { 'times.$.end': new Date(req.body.endTime) } })
     .then(() => res.send('saved successfully!'))
     .catch(logger))
 

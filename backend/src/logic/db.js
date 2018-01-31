@@ -5,6 +5,7 @@ import User from '../models/user'
 import Log from '../models/log'
 import Tag from '../models/tag'
 
+
 export const fetchUsers = async query => User
   .find(query)
   .sort({ name: 1 })

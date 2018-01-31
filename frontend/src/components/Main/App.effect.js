@@ -113,17 +113,17 @@ const deleteLogEpic = action$ =>
   action$.ofType(DELETE_LOG)
     .mergeMap(action => postRequest('/deleteLog')
       .query({ _id: action.payload._id })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server disconnected!' }) : null))
     .mapTo({ type: REFETCH_TOTAL_DURATION })
 
 const saveStartTimeEpic = action$ =>
   action$.ofType(SAVE_START_TIME)
     .mergeMap(action => postRequest('/saveStartTime')
       .send({
-        startTime: new Date(),
+        startTime: action.payload.start,
         _id: action.payload._id,
       })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server disconnected!' }) : null))
     .ignoreElements()
 
 const saveEndTimeEpic = action$ =>
@@ -133,7 +133,7 @@ const saveEndTimeEpic = action$ =>
         endTime: action.payload.end,
         _id: action.payload._id,
       })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server disconnected!' }) : null))
     .mapTo({ type: REFETCH_TOTAL_DURATION })
 
 const resetEpic = action$ =>
