@@ -80,7 +80,9 @@ export const incrementCurrentPage = createAction(INCREMENT_CURRENT_PAGE)
 export const dispatchIncrementCurrentPage = (...args) => dispatch(incrementCurrentPage(...args))
 
 export const CHANGE_CURRENT_PAGES_INVENTORY = 'CHANGE_CURRENT_PAGES_INVENTORY'
-export const changeCurrentPagesInventory = createAction(CHANGE_CURRENT_PAGES_INVENTORY)
+export const changeCurrentPagesInventory = createAction(CHANGE_CURRENT_PAGES_INVENTORY,
+  date => ({ date }),
+)
 export const dispatchChangeCurrentPagesInventory = (...args) =>
   dispatch(changeCurrentPagesInventory(...args))
 

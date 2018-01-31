@@ -7,25 +7,27 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest } from './Report.helper'
 // actions
-import { LOAD_LOGS_DATA, loadLogsData, dispatchSetIsLoading } from '../../../Main/App.action'
+import { loadLogsData, dispatchSetIsLoading } from '../../../Main/App.action'
 import { LOAD_TAGS_DATA_IN_ADD } from '../../Add/Main/Add.action'
 import {
-  RESET_STAFF_LOGS, resetStaffLogs,
-  LOAD_STAFF_LOGS, loadStaffLogs,
-  RESTORE_CSV, restoreCSV,
+  RESET_STAFF_LOGS,
+  RESTORE_CSV,
   CHANGE_SELECTED_USER,
   SET_QUERY,
   CALCULATE_TOTAL_DURATION,
   CONVERT_JSON_TO_CSV,
   DECREMENT_CURRENT_PAGE,
   INCREMENT_CURRENT_PAGE,
-  CHANGE_CURRENT_PAGES_INVENTORY,
   RESET_CSV,
   UPDATE_CHART,
+  restoreCSV,
+  loadStaffLogs,
+  resetStaffLogs,
   fetchTags,
   restoreTotalDuration,
   loadTagsDataInReport,
   restoreBarChartData,
+  dispatchChangeCurrentPagesInventory,
 } from './Report.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
@@ -43,6 +45,7 @@ const loadStaffDataEpic = action$ =>
       R.prop(selectedUserView(), currentPagesInventoryView()) === undefined
       || !R.contains(format(currentPageView(), 'YYYY-MM-DD'),
         currentPagesInventoryView()[selectedUserView()]))
+    .do(dispatchChangeCurrentPagesInventory)
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
@@ -51,13 +54,13 @@ const loadStaffDataEpic = action$ =>
           userId: selectedUserView(),
           date: format(currentPageView(), 'YYYY-MM-DD'),
         })
-        .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
+        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
       getRequest('/fetchTags')
         .query({
           wis: wisView(),
           userId: selectedUserView(),
         })
-        .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
+        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
     ]))
     .do(() => dispatchSetIsLoading(false))
     .mergeMap(success => ([
@@ -81,7 +84,7 @@ const effectSearchTagsEpic = action$ =>
         userId: selectedUserView(),
         label: payload.queryTag,
       })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .map(({ text }) => fetchTags(JSON.parse(text)))
 
 const calculateTotalDurationEpic = action$ =>
@@ -95,7 +98,7 @@ const calculateTotalDurationEpic = action$ =>
         endDate: endDateView(),
         selectedTags: selectedTagsView(),
       })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) => restoreTotalDuration(text))
 
@@ -111,7 +114,7 @@ const convertJSONToCSVEpic = action$ =>
         endDate: endDateView() || new Date(),
         selectedTags: selectedTagsView(),
       })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) => restoreCSV(text))
 
@@ -119,13 +122,15 @@ const fetchPreviousDayLogsDataEpic = action$ =>
   action$.ofType(DECREMENT_CURRENT_PAGE)
     .filter(() => !R.contains(format(currentPageView(), 'YYYY-MM-DD'),
       currentPagesInventoryView()[selectedUserView()]))
+    .do(() => dispatchChangeCurrentPagesInventory())
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/fetchPreviousDayData')
       .query({
         wis: wisView(),
         userId: selectedUserView(),
         date: format(currentPageView(), 'YYYY-MM-DD') })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .delay(1500)
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) =>
       selectedUserView() === userIdView() ?
@@ -135,21 +140,24 @@ const fetchNextDayLogsDataEpic = action$ =>
   action$.ofType(INCREMENT_CURRENT_PAGE)
     .filter(() => !R.contains(format(currentPageView(), 'YYYY-MM-DD'),
       currentPagesInventoryView()[selectedUserView()]))
+    .do(() => dispatchChangeCurrentPagesInventory())
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/fetchNextDayData')
       .query({
         wis: wisView(),
         userId: selectedUserView(),
         date: format(currentPageView(), 'YYYY-MM-DD') })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+      .on('error', (err) => {
+        if (err.status !== 304) {
+          snackbarMessage({ message: 'Server disconnected!' })
+          
+        }
+      }))
+    .delay(1500)
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) =>
       selectedUserView() === userIdView() ?
         loadLogsData(JSON.parse(text)) : loadStaffLogs(JSON.parse(text)))
-
-const loadDataEpic = action$ =>
-  action$.ofType(LOAD_LOGS_DATA, LOAD_STAFF_LOGS, RESET_STAFF_LOGS)
-    .mapTo({ type: CHANGE_CURRENT_PAGES_INVENTORY })
 
 const resetCSVEpic = action$ =>
   action$.ofType(RESTORE_CSV)
@@ -167,7 +175,7 @@ const updateChartEpic = action$ =>
         startDate: payload.startDate,
         endDate: payload.endDate,
       })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) => restoreBarChartData(JSON.parse(text)))
 
@@ -180,7 +188,7 @@ export default combineEpics(
   convertJSONToCSVEpic,
   fetchPreviousDayLogsDataEpic,
   fetchNextDayLogsDataEpic,
-  loadDataEpic,
+  // loadDataEpic,
   resetCSVEpic,
   updateChartEpic,
 )

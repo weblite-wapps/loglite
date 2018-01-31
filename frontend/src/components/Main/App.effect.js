@@ -7,6 +7,7 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 import { formatTime, getRequest, postRequest } from './App.helper'
 // actions
 import { RESET_INPUTS, loadTagsDataInAdd } from '../components/Add/Main/Add.action'
+import { dispatchChangeCurrentPagesInventory } from '../components/Report/Main/Report.action'
 import {
   REFETCH_TOTAL_DURATION,
   loadTodayTotalDuration,
@@ -56,6 +57,7 @@ const fetchUsersEpic = action$ => // TODO: error handling patterns *subscribe*
 //     .do(() => window.W && window.W.start())
 const fetchTodayDataEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
+    .do(dispatchChangeCurrentPagesInventory)
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
         .query({
