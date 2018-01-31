@@ -17,6 +17,7 @@ import { getWorksDuration } from '../../../../../helper/selectors/workDuration.s
 
 
 const mapStateToProps = (state, ownProps) => ({
+  isLoading: state.App.isLoading,
   runningId: state.App.runningId,
   workDuration: getWorksDuration(state)[ownProps.log._id],
 })

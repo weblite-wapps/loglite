@@ -82,14 +82,13 @@ const effectSearchTagsEpic = action$ =>
     .pluck('payload')
     .filter(payload => payload.queryTag.trim() !== '')
     .debounceTime(250)
-    .mergeMap(payload =>
-      getRequest('/serachTags')
-        .query({
-          wis: wisView(),
-          userId: selectedUserView(),
-          label: payload.queryTag,
-        })
-        .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+    .mergeMap(payload => getRequest('/serachTags')
+      .query({
+        wis: wisView(),
+        userId: selectedUserView(),
+        label: payload.queryTag,
+      })
+      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
     .map(({ text }) => fetchTags(JSON.parse(text)))
 
 const calculateTotalDurationEpic = action$ =>

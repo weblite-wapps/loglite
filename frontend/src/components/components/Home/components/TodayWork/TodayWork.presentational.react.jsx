@@ -50,23 +50,17 @@ export default class TodayWork extends React.Component {
 
   _handleStartClick() {
     const now = new Date()
-    const { log, runningId, toggleExpanded, changeRunningId,
-      onStartClick, onStopClick } = this.props
+    const { log, runningId, onStartClick, onStopClick } = this.props
     if (runningId) {
       onStopClick(runningId, now)
-      toggleExpanded(runningId)
     }
     onStartClick(log._id, now)
-    changeRunningId(log._id)
-    toggleExpanded(log._id)
   }
 
   _handleStopClick() {
     const now = new Date()
-    const { log, toggleExpanded, changeRunningId, addLogToNextDay, onStopClick } = this.props
+    const { log, addLogToNextDay, onStopClick } = this.props
     const len = log.times.length
-    toggleExpanded(log._id)
-    changeRunningId('')
     if (isWithinRange(formatTime('23:59'), log.times[len - 1].start, now)) {
       addLogToNextDay(now, format(now, 'YYYY-MM-DD'))
       onStopClick(log._id, previousDay(formatTime('23:59')))
@@ -76,7 +70,7 @@ export default class TodayWork extends React.Component {
   }
 
   render() {
-    const { log, workDuration } = this.props
+    const { log, workDuration, isLoading } = this.props
     const len = log.times.length
     return (
       <div>
@@ -99,12 +93,14 @@ export default class TodayWork extends React.Component {
                 len && log.times[len - 1].end === 'running' ?
                   (
                     <IconButton
+                      disabled={isLoading}
                       onClick={this.handleStopClick}
                     >
                       <Pause className={scssClasses.icon} />
                     </IconButton>
                   ) : (
                     <IconButton
+                      disabled={isLoading}
                       onClick={this.handleStartClick}
                     >
                       <Play className={scssClasses.icon} />
@@ -129,6 +125,7 @@ export default class TodayWork extends React.Component {
 }
 
 TodayWork.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   runningId: PropTypes.string.isRequired,
   log: PropTypes.shape({}).isRequired,
   workDuration: PropTypes.string.isRequired,

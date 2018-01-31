@@ -3,8 +3,11 @@ import { combineEpics } from 'redux-observable'
 import 'rxjs/add/operator/mergeMap'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/mapTo'
-import 'rxjs/add/operator/ignoreElements'
+import 'rxjs/add/operator/do'
+import 'rxjs/add/operator/pluck'
 import 'rxjs/add/operator/filter'
+import 'rxjs/add/operator/ignoreElements'
+import 'rxjs/add/operator/delay'
 import format from 'date-fns/format'
 import startOfWeek from 'date-fns/start_of_week'
 import startOfMonth from 'date-fns/start_of_month'
@@ -30,6 +33,9 @@ import {
   loadUsersData,
   loadLogsData,
   restoreLog,
+  dispatchChangeRunningId,
+  dispatchSetIsLoading,
+  dispatchToggleExpanded,
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, creatorView } from './App.reducer'
@@ -118,22 +124,32 @@ const deleteLogEpic = action$ =>
 
 const saveStartTimeEpic = action$ =>
   action$.ofType(SAVE_START_TIME)
-    .mergeMap(action => postRequest('/saveStartTime')
+    .pluck('payload')
+    .do(payload => dispatchToggleExpanded(payload._id))
+    .do(payload => dispatchChangeRunningId(payload._id))
+    .do(() => dispatchSetIsLoading(true))
+    .mergeMap(payload => postRequest('/saveStartTime')
       .send({
-        startTime: action.payload.start,
-        _id: action.payload._id,
+        startTime: payload.start,
+        _id: payload._id,
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server disconnected!' }) : null))
+    .do(() => dispatchSetIsLoading(false))
     .ignoreElements()
 
 const saveEndTimeEpic = action$ =>
   action$.ofType(SAVE_END_TIME)
-    .mergeMap(action => postRequest('/saveEndTime')
+    .pluck('payload')
+    .do(payload => dispatchToggleExpanded(payload._id))
+    .do(() => dispatchChangeRunningId(''))
+    .do(() => dispatchSetIsLoading(true))
+    .mergeMap(payload => postRequest('/saveEndTime')
       .send({
-        endTime: action.payload.end,
-        _id: action.payload._id,
+        endTime: payload.end,
+        _id: payload._id,
       })
       .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server disconnected!' }) : null))
+    .do(() => dispatchSetIsLoading(false))
     .mapTo({ type: REFETCH_TOTAL_DURATION })
 
 const resetEpic = action$ =>
