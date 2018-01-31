@@ -21,7 +21,6 @@ export default class ShowChart extends React.Component {
     this.handleUpdateChart = this._handleUpdateChart.bind(this)
     this.handleInsertThisWeek = this._handleInsertThisWeek.bind(this)
     this.handleInsertThisMonth = this._handleInsertThisMonth.bind(this)
-
     this.state = {
       startDateIsError: false,
       endDateIsError: false,
@@ -65,11 +64,19 @@ export default class ShowChart extends React.Component {
         <StartDatePicker isError={startDateIsError} />
         <EndDatePicker isError={endDateIsError} />
         <div className={scssClasses.insertButton}>
-          <Button label="Insert Chart" onClick={this.handleUpdateChart} />
+          <Button label="Insert Chart" onClick={this.handleUpdateChart} componentName="Add" />
         </div>
         <div className={scssClasses.buttons}>
-          <Button isCustome label="This Week" onClick={this.handleInsertThisWeek} />
-          <Button isCustome label="This Month" onClick={this.handleInsertThisMonth} />
+          <Button
+            label="This Week"
+            onClick={this._handleInsertThisWeek}
+            componentName="CustomAdd"
+          />
+          <Button
+            label="This Month"
+            onClick={this.handleInsertThisMonth}
+            componentName="CustomAdd"
+          />
         </div>
         <Divider />
         {

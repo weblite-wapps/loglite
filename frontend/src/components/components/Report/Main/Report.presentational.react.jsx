@@ -1,12 +1,10 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import Typography from 'material-ui/Typography'
 import Divider from 'material-ui/Divider'
-import MuiButton from 'material-ui/Button'
 import format from 'date-fns/format'
 // icons
 import ViewList from 'material-ui-icons/ViewList'
@@ -21,12 +19,12 @@ import Custom from '../components/Custom/Custom.container.react'
 import WorkList from '../components/WorkList/Main/WorkList.container.react'
 import CustomizedPieChart from '../components/WorkList/components/PieChart.presentational.react'
 import ShowChart from '../components/ShowChart/Main/ShowChart.container.react'
+import Button from '../../../../helper/components/Button/Button.presentational.react'
 // scssClasses
 import scssClasses from './Report.scss'
-import styles from './Report.style'
 
 
-class Report extends React.Component {
+export default class Report extends React.Component {
   constructor(props) {
     super(props)
     this.handleClickWorkList = this._handleClickWorkList.bind(this)
@@ -74,7 +72,7 @@ class Report extends React.Component {
 
   render() {
     const {
-      classes, userId, logs, staffLogs, currentPage, totalDuration, staffTotalDuration,
+      userId, logs, staffLogs, currentPage, totalDuration, staffTotalDuration,
       totalDurationFromServer, pieChartData, staffPieChartData, selectedUser,
     } = this.props
     const { expandedCustom, expandedWorkList, expandedShowChart, isCustom } = this.state
@@ -85,27 +83,27 @@ class Report extends React.Component {
         <SelectBar />
         <div className={scssClasses.controllBar}>
           <Navigator isCustom={isCustom} />
-          <MuiButton
+          <Button
             raised={expandedWorkList}
             onClick={this.handleClickWorkList}
-            classes={{ root: classes.root, raised: classes.raised }}
+            componentName="Report"
           >
             <ViewList />
-          </MuiButton>
-          <MuiButton
+          </Button>
+          <Button
             raised={expandedCustom}
             onClick={this.handleClickCustom}
-            classes={{ root: classes.root, raised: classes.raised }}
+            componentName="Report"
           >
             <FileDownload />
-          </MuiButton>
-          <MuiButton
+          </Button>
+          <Button
             raised={expandedShowChart}
             onClick={this.handleClickChart}
-            classes={{ root: classes.root, raised: classes.raised }}
+            componentName="Report"
           >
             <InsertChart />
-          </MuiButton>
+          </Button>
         </div>
         <Divider light />
 
@@ -156,7 +154,6 @@ class Report extends React.Component {
 }
 
 Report.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   userId: PropTypes.string.isRequired,
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
   staffLogs: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -168,5 +165,3 @@ Report.propTypes = {
   staffPieChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedUser: PropTypes.string.isRequired,
 }
-
-export default withStyles(styles)(Report)

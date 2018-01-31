@@ -36,8 +36,8 @@ export default class Custom extends React.Component {
         <List disablePadding className={scssClasses.list}>
           <ListItem disableGutters>
             <div className={scssClasses.buttons}>
-              <Button isCustome label="Custome" onClick={this.handleClick} />
-              <Button label="ADD" onClick={onAdd} />
+              <Button label="Custome" onClick={this.handleClick} componentName="CustomAdd" />
+              <Button label="Add" onClick={onAdd} componentName="Add" />
             </div>
           </ListItem>
           <Collapse component="li" in={this.state.expanded} timeout="auto" unmountOnExit>
@@ -46,7 +46,7 @@ export default class Custom extends React.Component {
             <StartTimePicker isError={startTimeIsError} />
             <EndTimePicker isError={endTimeIsError} />
             <div className={scssClasses.buttons}>
-              <Button label="Add" onClick={onCustomAdd} />
+              <Button label="Add" onClick={onCustomAdd} componentName="Add" />
             </div>
             <Divider />
           </Collapse>

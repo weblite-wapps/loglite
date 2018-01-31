@@ -1,34 +1,46 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider } from 'material-ui/styles'
+import { withStyles } from 'material-ui/styles'
 import Button from 'material-ui/Button'
 // css
-import theme from './Button.helper'
+import styles from './Button.style'
 
-export default function CustomButton(props) {
-  const { isCustome, label, onClick } = props
-
+function CustomizedButton(props) {
+  const { componentName, label, fab, disabled, raised, onClick, classes } = props
   return (
-    <MuiThemeProvider theme={theme}>
-      { isCustome ?
-        <Button onClick={onClick}>
-          {label}
-        </Button> :
-        <Button dense onClick={onClick}>
-          {label}
-        </Button> }
-    </MuiThemeProvider>
+    <Button
+      fab={fab}
+      disabled={disabled}
+      raised={raised}
+      onClick={onClick}
+      classes={{ root: classes[componentName], raised: classes[`${componentName}Raised`] }}
+    >
+      {props.children}
+      {label}
+    </Button>
   )
 }
 
-CustomButton.propTypes = {
-  isCustome: PropTypes.bool,
-  label: PropTypes.string.isRequired,
+CustomizedButton.propTypes = {
+  children: PropTypes.element,
+  classes: PropTypes.shape({}).isRequired,
+  componentName: PropTypes.string,
+  label: PropTypes.string,
+  fab: PropTypes.bool,
+  raised: PropTypes.bool,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func,
 }
 
-CustomButton.defaultProps = {
-  isCustome: false,
+CustomizedButton.defaultProps = {
+  componentName: 'default',
+  children: null,
+  label: null,
+  raised: false,
+  disabled: false,
+  fab: false,
   onClick: null,
 }
+
+export default withStyles(styles)(CustomizedButton)

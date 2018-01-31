@@ -14,7 +14,7 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 import TagShape from '../../../../../../helper/components/TagShapeForReport/TagShapeForReport.presentational.react'
 // css
 import scssClasses from './WorkList.scss'
-import styles from './WorkList.style'
+import styles from '../../../../../../helper/components/Button/Button.style'
 
 
 class WorkList extends React.Component {
@@ -81,7 +81,7 @@ class WorkList extends React.Component {
                   }}
                   raised
                   onClick={this.handleOpenPopover}
-                  classes={{ raised: classes.MuiButtonRaised }}
+                  classes={{ raised: classes.WorkList }}
                 >
                   Delete
                 </Button>
@@ -104,13 +104,13 @@ class WorkList extends React.Component {
                   <Button
                     raised
                     onClick={this.handleYep}
-                    classes={{ raised: classes.MuiButtonRaised }}
+                    classes={{ raised: classes.WorkList }}
                   >Yep
                   </Button>
                   <Button
                     raised
                     onClick={this.handleNop}
-                    classes={{ raised: classes.MuiButtonRaised }}
+                    classes={{ raised: classes.WorkList }}
                   >Nop
                   </Button>
                 </Popover>

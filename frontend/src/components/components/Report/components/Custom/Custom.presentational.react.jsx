@@ -79,13 +79,13 @@ export default class Custom extends React.Component {
             onSelect={value => onQueryTagChange(value)}
             onAdd={this.handleAddTag}
           />
-          <Button label="Add" onClick={this.handleAddTag} />
+          <Button label="Add" onClick={this.handleAddTag} componentName="Add" />
         </div>
         <TagList tags={tags} onTagClick={tag => onTagClick(tag)} />
         <div className={scssClasses.buttons}>
-          <Button label="Calculate" onClick={this.handleCalculation} />
+          <Button label="Calculate" onClick={this.handleCalculation} componentName="Add" />
           <span style={{ margin: '5px' }} />
-          <Button label="Export" onClick={this.handleExport} />
+          <Button label="Export" onClick={this.handleExport} componentName="Add" />
         </div>
         {
           CSV ?

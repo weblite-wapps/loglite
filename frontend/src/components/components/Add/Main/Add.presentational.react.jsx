@@ -127,7 +127,7 @@ class Add extends React.Component {
             onSelect={value => onQueryTagChange(value)}
             onAdd={this.handleAddTag}
           />
-          <Button label="Add" onClick={this.handleAddTag} />
+          <Button label="Add" onClick={this.handleAddTag} componentName="Add" />
         </div>
         <TagList tags={tags} onTagClick={tag => onTagClick(tag)} />
         <Custom

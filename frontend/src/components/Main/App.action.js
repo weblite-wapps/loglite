@@ -74,7 +74,7 @@ export const dispatchIncrementSecondsElapsed = (...args) =>
   dispatch(incrementSecondsElapsed(...args))
 
 export const SAVE_START_TIME = 'SAVE_START_TIME'
-export const saveStartTime = createAction(SAVE_START_TIME, _id => ({ _id }))
+export const saveStartTime = createAction(SAVE_START_TIME, (_id, start) => ({ _id, start }))
 export const dispatchSaveStartTime = (...args) => dispatch(saveStartTime(...args))
 
 export const SAVE_END_TIME = 'SAVE_END_TIME'
