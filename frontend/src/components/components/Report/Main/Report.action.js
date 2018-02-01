@@ -11,7 +11,6 @@ export const RESET_STAFF_LOGS = 'RESET_STAFF_LOGS'
 export const resetStaffLogs = createAction(RESET_STAFF_LOGS, userId => ({ userId }))
 export const dispatchResetStaffLogs = (...args) => dispatch(resetStaffLogs(...args))
 
-
 export const LOAD_STAFF_LOGS = 'LOAD_STAFF_LOGS'
 export const loadStaffLogs = createAction(LOAD_STAFF_LOGS, logs => ({ logs }))
 export const dispatchLoadStaffLogs = (...args) => dispatch(loadStaffLogs(...args))
@@ -71,20 +70,21 @@ export const CHANGE_SELECTED_USER = 'CHANGE_SELECTED_USER'
 export const changeSelectedUser = createAction(CHANGE_SELECTED_USER, value => ({ value }))
 export const dispatchChangeSelectedUser = (...args) => dispatch(changeSelectedUser(...args))
 
-export const DECREMENT_CURRENT_PAGE = 'DECREMENT_CURRENT_PAGE'
-export const decrementCurrentPage = createAction(DECREMENT_CURRENT_PAGE)
-export const dispatchDecrementCurrentPage = (...args) => dispatch(decrementCurrentPage(...args))
+export const PREVIOUS_PAGE = 'PREVIOUS_PAGE'
+export const previousPage = createAction(PREVIOUS_PAGE)
+export const dispatchPreviousPage = (...args) => dispatch(previousPage(...args))
 
-export const INCREMENT_CURRENT_PAGE = 'INCREMENT_CURRENT_PAGE'
-export const incrementCurrentPage = createAction(INCREMENT_CURRENT_PAGE)
-export const dispatchIncrementCurrentPage = (...args) => dispatch(incrementCurrentPage(...args))
+export const NEXT_PAGE = 'NEXT_PAGE'
+export const nextPage = createAction(NEXT_PAGE)
+export const dispatchNextPage = (...args) => dispatch(nextPage(...args))
 
-export const CHANGE_CURRENT_PAGES_INVENTORY = 'CHANGE_CURRENT_PAGES_INVENTORY'
-export const changeCurrentPagesInventory = createAction(CHANGE_CURRENT_PAGES_INVENTORY,
-  date => ({ date }),
-)
-export const dispatchChangeCurrentPagesInventory = (...args) =>
-  dispatch(changeCurrentPagesInventory(...args))
+export const ADD_PAGE = 'ADD_PAGE'
+export const addPage = createAction(ADD_PAGE, (date, user) => ({ date, user }))
+export const dispatchAddPage = (...args) => dispatch(addPage(...args))
+
+export const REMOVE_PAGE = 'REMOVE_PAGE'
+export const removePage = createAction(REMOVE_PAGE, (date, user) => ({ date, user }))
+export const dispatchRemovePage = (...args) => dispatch(removePage(...args))
 
 export const UPDATE_CHART = 'UPDATE_CHART'
 export const updateChart = createAction(

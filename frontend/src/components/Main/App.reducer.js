@@ -64,20 +64,9 @@ const reducers = {
 
   [CHANGE_TAB]: (state, { value }) => R.set(tabIndexLens, value, state),
 
-  [LOAD_USERS_DATA]: (state, { users }) => ({
-    ...state,
-    users: R.concat(state.users, users),
-  }),
+  [LOAD_USERS_DATA]: (state, { users }) => ({ ...state, users: R.concat(state.users, users) }),
 
-  [LOAD_LOGS_DATA]: (state, { logs }) => ({
-    ...state,
-    logs: R.concat(state.logs,
-      R.map(log => ({
-        ...log,
-        // TODO: popover must be component { open, id }
-        popoverIsOpen: false,
-      }), logs)),
-  }),
+  [LOAD_LOGS_DATA]: (state, { logs }) => ({ ...state, logs: R.concat(state.logs, logs) }),
 
   [CHANGE_EXPANDING_ID]: (state, { _id }) => R.set(expandingIdLens, _id, state),
 
@@ -89,7 +78,6 @@ const reducers = {
       {
         _id: state.logs.length,
         title,
-        popoverIsOpen: false,
         tags,
         times: [],
         date: formattedDate(new Date()),
@@ -105,7 +93,6 @@ const reducers = {
           {
             _id: state.logs.length,
             title,
-            popoverIsOpen: false,
             tags,
             times: [{ start: formatTime(start), end: formatTime(end) }],
             date,
@@ -119,7 +106,6 @@ const reducers = {
       {
         _id: state.logs.length,
         title,
-        popoverIsOpen: false,
         tags,
         times: [{ start: formatTime('00:00'), end }],
         date,

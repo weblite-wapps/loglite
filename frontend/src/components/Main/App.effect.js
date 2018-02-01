@@ -8,13 +8,12 @@ import { formatTime, getRequest, postRequest } from './App.helper'
 import { formattedDate } from '../../helper/functions/date.helper'
 // actions
 import { RESET_INPUTS, loadTagsDataInAdd } from '../components/Add/Main/Add.action'
-import { dispatchChangeCurrentPagesInventory } from '../components/Report/Main/Report.action'
+import { dispatchAddPage } from '../components/Report/Main/Report.action'
 import {
   REFETCH_TOTAL_DURATION,
   loadTodayTotalDuration,
   loadThisWeekTotalDuration,
   loadThisMonthTotalDuration,
-  changeTextSlider,
 } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
@@ -32,15 +31,14 @@ import {
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, creatorView } from './App.reducer'
+import { currentPageView, selectedUserView } from '../components/Report/Main/Report.reducer'
 
-const fetchUsersEpic = action$ => // TODO: error handling patterns *subscribe*
+const fetchUsersEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
     .filter(() => creatorView())
     .mergeMap(() => getRequest('/fetchUsers')
-      .query({
-        wis: wisView(),
-      }),
-    ).map(({ text }) => loadUsersData(JSON.parse(text)))
+      .query({ wis: wisView() }))
+    .map(({ text }) => loadUsersData(JSON.parse(text)))
 
 // TODO: initialFetch
 // const initialFetchEpic = action$ =>
@@ -56,9 +54,9 @@ const fetchUsersEpic = action$ => // TODO: error handling patterns *subscribe*
 //       }))
 //     .map(({ text }) => restoreData(text))
 //     .do(() => window.W && window.W.start())
+
 const fetchTodayDataEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
-    .do(dispatchChangeCurrentPagesInventory)
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
         .query({
@@ -104,9 +102,8 @@ const fetchTodayDataEpic = action$ =>
       loadTodayTotalDuration(success[2].text),
       loadThisWeekTotalDuration(success[3].text),
       loadThisMonthTotalDuration(success[4].text),
-      changeTextSlider('Back'),
+      dispatchAddPage(formattedDate(currentPageView()), selectedUserView()),
     ]))
-    .do()
     .do(() => window.W && window.W.start())
 
 const addLogToNextDayEpic = action$ =>

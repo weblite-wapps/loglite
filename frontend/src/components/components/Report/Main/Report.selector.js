@@ -35,7 +35,7 @@ const getStaffPieChartData = createSelector(
   [getStaffLogs, getCurrentPage],
   (logs, currentPage) => R.compose(
     R.map(log => ({ name: log.title, value: sumTimes(log.times) })),
-    R.filter(log => log.date === currentPage(currentPage)),
+    R.filter(log => log.date === formattedDate(currentPage)),
   )(logs),
 )
 
