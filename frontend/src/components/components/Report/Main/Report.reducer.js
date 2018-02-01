@@ -1,6 +1,5 @@
 // modules
 import * as R from 'ramda'
-import format from 'date-fns/format'
 // local modules
 import { getState } from '../../../../setup/redux'
 // helpers
@@ -23,9 +22,10 @@ import {
   RESTORE_CSV,
   RESET_CSV,
   CHANGE_SELECTED_USER,
-  DECREMENT_CURRENT_PAGE,
-  INCREMENT_CURRENT_PAGE,
-  CHANGE_CURRENT_PAGES_INVENTORY,
+  PREVIOUS_PAGE,
+  NEXT_PAGE,
+  ADD_PAGE,
+  REMOVE_PAGE,
   RESTORE_BAR_CHART_DATA,
 } from './Report.action'
 
@@ -42,7 +42,7 @@ const initialState = {
   totalDuration: 'Not calculated',
   CSV: '',
   currentPage: new Date(),
-  currentPagesInventory: {},
+  pages: {},
   barChartData: [],
 }
 
@@ -59,7 +59,7 @@ const barChartDataLens = R.lensProp('barChartData')
 // views
 export const selectedUserView = () => R.path(['Report', 'selectedUser'])(getState())
 export const currentPageView = () => R.path(['Report', 'currentPage'])(getState())
-export const currentPagesInventoryView = () => R.path(['Report', 'currentPagesInventory'])(getState())
+export const pagesView = () => R.path(['Report', 'pages'])(getState())
 export const startDateView = () => R.path(['Report', 'startDate'])(getState())
 export const endDateView = () => R.path(['Report', 'endDate'])(getState())
 export const selectedTagsView = () => R.path(['Report', 'selectedTags'])(getState())
@@ -71,8 +71,8 @@ const reducers = {
 
   [RESET_STAFF_LOGS]: (state, { userId }) => ({ ...state,
     staffLogs: [],
-    currentPagesInventory:
-      R.mapObjIndexed((num, key) => key === userId ? num : {}, state.currentPagesInventory),
+    pages:
+      R.mapObjIndexed((num, key) => key === userId ? num : {}, state.pages),
   }),
 
   [LOAD_STAFF_LOGS]: (state, { logs }) => ({ ...state,
@@ -125,14 +125,18 @@ const reducers = {
 
   [CHANGE_SELECTED_USER]: (state, { value }) => R.set(selectedUserLens, value)(state),
 
-  [DECREMENT_CURRENT_PAGE]: state => R.set(currentPageLens, previousDay(state.currentPage), state),
+  [PREVIOUS_PAGE]: state => R.set(currentPageLens, previousDay(state.currentPage), state),
 
-  [INCREMENT_CURRENT_PAGE]: state => R.set(currentPageLens, nextDay(state.currentPage), state),
+  [NEXT_PAGE]: state => R.set(currentPageLens, nextDay(state.currentPage), state),
 
-  [CHANGE_CURRENT_PAGES_INVENTORY]: state => ({ ...state,
-    currentPagesInventory: { ...state.currentPagesInventory,
-      [state.selectedUser]: R.uniq(R.append(format(state.currentPage, 'YYYY-MM-DD'),
-        state.currentPagesInventory[state.selectedUser])),
+  [ADD_PAGE]: (state, { date, user }) => ({ ...state,
+    pages: { ...state.pages, [user]: R.uniq(R.append(date, state.pages[user])) },
+  }),
+
+  [REMOVE_PAGE]: (state, { date, user }) => ({ ...state,
+    pages: {
+      ...state.pages,
+      [user]: R.remove(R.indexOf(date, state.pages[user]), 1, state.pages.user),
     },
   }),
 

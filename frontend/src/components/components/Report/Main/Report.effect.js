@@ -16,8 +16,8 @@ import {
   SET_QUERY,
   CALCULATE_TOTAL_DURATION,
   CONVERT_JSON_TO_CSV,
-  DECREMENT_CURRENT_PAGE,
-  INCREMENT_CURRENT_PAGE,
+  PREVIOUS_PAGE,
+  NEXT_PAGE,
   RESET_CSV,
   UPDATE_CHART,
   restoreCSV,
@@ -27,11 +27,12 @@ import {
   restoreTotalDuration,
   loadTagsDataInReport,
   restoreBarChartData,
-  dispatchChangeCurrentPagesInventory,
+  dispatchAddPage,
+  dispatchRemovePage,
 } from './Report.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
-import { startDateView, endDateView, selectedTagsView, selectedUserView, currentPageView, currentPagesInventoryView } from './Report.reducer'
+import { startDateView, endDateView, selectedTagsView, selectedUserView, currentPageView, pagesView } from './Report.reducer'
 
 
 const resetStaffDataEpic = action$ =>
@@ -42,11 +43,11 @@ const resetStaffDataEpic = action$ =>
 const loadStaffDataEpic = action$ =>
   action$.ofType(RESET_STAFF_LOGS)
     .filter(() =>
-      R.prop(selectedUserView(), currentPagesInventoryView()) === undefined
+      R.prop(selectedUserView(), pagesView()) === undefined
       || !R.contains(formattedDate(currentPageView()),
-        currentPagesInventoryView()[selectedUserView()]))
+        pagesView()[selectedUserView()]))
     .do(() =>
-      dispatchChangeCurrentPagesInventory(formattedDate(currentPageView()), selectedUserView()))
+      dispatchAddPage(formattedDate(currentPageView()), selectedUserView()))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
@@ -55,7 +56,12 @@ const loadStaffDataEpic = action$ =>
           userId: selectedUserView(),
           date: formattedDate(currentPageView()),
         })
-        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
+        .on('error', (err) => {
+          if (err.status !== 304) {
+            snackbarMessage({ message: 'Server disconnected!' })
+            dispatchRemovePage(formattedDate(currentPageView()), selectedUserView())
+          }
+        }),
       getRequest('/fetchTags')
         .query({
           wis: wisView(),
@@ -120,18 +126,23 @@ const convertJSONToCSVEpic = action$ =>
     .map(({ text }) => restoreCSV(text))
 
 const fetchPreviousDayLogsDataEpic = action$ =>
-  action$.ofType(DECREMENT_CURRENT_PAGE)
+  action$.ofType(PREVIOUS_PAGE)
     .filter(() => !R.contains(formattedDate(currentPageView()),
-      currentPagesInventoryView()[selectedUserView()]))
+      pagesView()[selectedUserView()]))
     .do(() =>
-      dispatchChangeCurrentPagesInventory(formattedDate(currentPageView()), selectedUserView()))
+      dispatchAddPage(formattedDate(currentPageView()), selectedUserView()))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/fetchPreviousDayData')
       .query({
         wis: wisView(),
         userId: selectedUserView(),
         date: formattedDate(currentPageView()) })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      .on('error', (err) => {
+        if (err.status !== 304) {
+          snackbarMessage({ message: 'Server disconnected!' })
+          dispatchRemovePage(formattedDate(currentPageView()), selectedUserView())
+        }
+      }))
     .delay(1500)
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) =>
@@ -139,11 +150,11 @@ const fetchPreviousDayLogsDataEpic = action$ =>
         loadLogsData(JSON.parse(text)) : loadStaffLogs(JSON.parse(text)))
 
 const fetchNextDayLogsDataEpic = action$ =>
-  action$.ofType(INCREMENT_CURRENT_PAGE)
+  action$.ofType(NEXT_PAGE)
     .filter(() => !R.contains(formattedDate(currentPageView()),
-      currentPagesInventoryView()[selectedUserView()]))
+      pagesView()[selectedUserView()]))
     .do(() =>
-      dispatchChangeCurrentPagesInventory(formattedDate(currentPageView()), selectedUserView()))
+      dispatchAddPage(formattedDate(currentPageView()), selectedUserView()))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/fetchNextDayData')
       .query({
@@ -153,7 +164,7 @@ const fetchNextDayLogsDataEpic = action$ =>
       .on('error', (err) => {
         if (err.status !== 304) {
           snackbarMessage({ message: 'Server disconnected!' })
-          dispatchChangeCurrentPagesInventory(formattedDate(currentPageView()), selectedUserView())
+          dispatchRemovePage(formattedDate(currentPageView()), selectedUserView())
         }
       }))
     .delay(1500)
