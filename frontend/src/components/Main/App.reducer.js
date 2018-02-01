@@ -1,10 +1,10 @@
 // modules
 import * as R from 'ramda'
-import format from 'date-fns/format'
 // local modules
 import { getState } from '../../setup/redux'
 // helpers
 import { formatTime } from './App.helper'
+import { formattedDate } from '../../helper/functions/date.helper'
 // actions
 import {
   SET_API,
@@ -92,14 +92,14 @@ const reducers = {
         popoverIsOpen: false,
         tags,
         times: [],
-        date: format(new Date(), 'YYYY-MM-DD'),
+        date: formattedDate(new Date()),
         wis: state.wis,
       },
       state.logs),
   }),
 
   [ADD_CUSTOM_LOG]: (state, { title, tags, date, start, end }) =>
-    date === format(new Date(), 'YYYY-MM-DD') ?
+    date === formattedDate(new Date()) ?
       ({ ...state,
         logs: R.prepend(
           {

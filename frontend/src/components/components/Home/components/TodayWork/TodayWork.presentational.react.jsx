@@ -8,7 +8,6 @@ import Typography from 'material-ui/Typography'
 import IconButton from 'material-ui/IconButton'
 import Tooltip from 'material-ui/Tooltip'
 import Divider from 'material-ui/Divider'
-import format from 'date-fns/format'
 import isWithinRange from 'date-fns/is_within_range'
 import differenceInSeconds from 'date-fns/difference_in_seconds'
 // icons
@@ -16,6 +15,7 @@ import Play from 'material-ui-icons/PlayArrow'
 import Pause from 'material-ui-icons/Pause'
 // helpers
 import { previousDay, formattedSeconds, formatTime, sumTimes, formattedName } from './TodayWork.helper'
+import { formattedDate } from '../../../../../helper/functions/date.helper'
 // css
 import scssClasses from './TodayWork.scss'
 
@@ -61,7 +61,7 @@ export default class TodayWork extends React.Component {
     const { log, addLogToNextDay, onStopClick } = this.props
     const len = log.times.length
     if (isWithinRange(formatTime('23:59'), log.times[len - 1].start, now)) {
-      addLogToNextDay(now, format(now, 'YYYY-MM-DD'))
+      addLogToNextDay(now, formattedDate(now))
       onStopClick(log._id, previousDay(formatTime('23:59')))
     } else {
       onStopClick(log._id, now)

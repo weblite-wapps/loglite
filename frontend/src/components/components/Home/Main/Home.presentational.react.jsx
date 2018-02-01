@@ -4,12 +4,13 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import Divider from 'material-ui/Divider'
 import Button from 'material-ui/Button'
-import format from 'date-fns/format'
 // icons
 import AddIcon from 'material-ui-icons/Add'
 // components
 import Summary from '../components/Summary/Summary.container.react'
 import TodayWork from '../components/TodayWork/TodayWork.container.react'
+// helpers
+import { formattedDate } from '../../../../helper/functions/date.helper'
 // css
 import scssClasses from './Home.scss'
 
@@ -33,7 +34,7 @@ class Home extends React.Component {
         <Divider />
         <div>
           {
-            logs.filter(log => log.date === format(new Date(), 'YYYY-MM-DD') ||
+            logs.filter(log => log.date === formattedDate(new Date()) ||
             (len(log) && log.times[len(log) - 1].end === 'running')).map(log => (
               <TodayWork
                 key={log._id}

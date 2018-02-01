@@ -4,13 +4,14 @@ import PropTypes from 'prop-types'
 import Divider from 'material-ui/Divider'
 import isAfter from 'date-fns/is_after'
 import subDays from 'date-fns/sub_days'
-import format from 'date-fns/format'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import StartDatePicker from '../../common/StartDatePicker/StartDatePicker.container.react'
 import EndDatePicker from '../../common/EndDatePicker/EndDatePicker.container.react'
 import Button from '../../../../../../helper/components/Button/Button.presentational.react'
 import BarChart from '../components/BarChart.presentational.react'
+// helpers
+import { formattedDate } from '../../../../../../helper/functions/date.helper'
 // css
 import scssClasses from './ShowChart.scss'
 
@@ -48,12 +49,12 @@ export default class ShowChart extends React.Component {
 
   _handleInsertThisWeek() {
     this.props.updateChart(
-      format(subDays(new Date(), 6), 'YYYY-MM-DD'), format(new Date(), 'YYYY-MM-DD'))
+      formattedDate(subDays(new Date(), 6)), formattedDate(new Date()))
   }
 
   _handleInsertThisMonth() {
     this.props.updateChart(
-      format(subDays(new Date(), 29), 'YYYY-MM-DD'), format(new Date(), 'YYYY-MM-DD'))
+      formattedDate(subDays(new Date(), 29)), formattedDate(new Date()))
   }
 
   render() {

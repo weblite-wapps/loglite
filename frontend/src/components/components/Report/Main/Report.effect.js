@@ -2,10 +2,10 @@
 import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-import format from 'date-fns/format'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest } from './Report.helper'
+import { formattedDate } from '../../../../helper/functions/date.helper'
 // actions
 import { loadLogsData, dispatchSetIsLoading } from '../../../Main/App.action'
 import { LOAD_TAGS_DATA_IN_ADD } from '../../Add/Main/Add.action'
@@ -43,16 +43,17 @@ const loadStaffDataEpic = action$ =>
   action$.ofType(RESET_STAFF_LOGS)
     .filter(() =>
       R.prop(selectedUserView(), currentPagesInventoryView()) === undefined
-      || !R.contains(format(currentPageView(), 'YYYY-MM-DD'),
+      || !R.contains(formattedDate(currentPageView()),
         currentPagesInventoryView()[selectedUserView()]))
-    .do(dispatchChangeCurrentPagesInventory)
+    .do(() =>
+      dispatchChangeCurrentPagesInventory(formattedDate(currentPageView()), selectedUserView()))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
         .query({
           wis: wisView(),
           userId: selectedUserView(),
-          date: format(currentPageView(), 'YYYY-MM-DD'),
+          date: formattedDate(currentPageView()),
         })
         .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
       getRequest('/fetchTags')
@@ -120,15 +121,16 @@ const convertJSONToCSVEpic = action$ =>
 
 const fetchPreviousDayLogsDataEpic = action$ =>
   action$.ofType(DECREMENT_CURRENT_PAGE)
-    .filter(() => !R.contains(format(currentPageView(), 'YYYY-MM-DD'),
+    .filter(() => !R.contains(formattedDate(currentPageView()),
       currentPagesInventoryView()[selectedUserView()]))
-    .do(() => dispatchChangeCurrentPagesInventory())
+    .do(() =>
+      dispatchChangeCurrentPagesInventory(formattedDate(currentPageView()), selectedUserView()))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/fetchPreviousDayData')
       .query({
         wis: wisView(),
         userId: selectedUserView(),
-        date: format(currentPageView(), 'YYYY-MM-DD') })
+        date: formattedDate(currentPageView()) })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .delay(1500)
     .do(() => dispatchSetIsLoading(false))
@@ -138,19 +140,20 @@ const fetchPreviousDayLogsDataEpic = action$ =>
 
 const fetchNextDayLogsDataEpic = action$ =>
   action$.ofType(INCREMENT_CURRENT_PAGE)
-    .filter(() => !R.contains(format(currentPageView(), 'YYYY-MM-DD'),
+    .filter(() => !R.contains(formattedDate(currentPageView()),
       currentPagesInventoryView()[selectedUserView()]))
-    .do(() => dispatchChangeCurrentPagesInventory())
+    .do(() =>
+      dispatchChangeCurrentPagesInventory(formattedDate(currentPageView()), selectedUserView()))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/fetchNextDayData')
       .query({
         wis: wisView(),
         userId: selectedUserView(),
-        date: format(currentPageView(), 'YYYY-MM-DD') })
+        date: formattedDate(currentPageView()) })
       .on('error', (err) => {
         if (err.status !== 304) {
           snackbarMessage({ message: 'Server disconnected!' })
-          
+          dispatchChangeCurrentPagesInventory(formattedDate(currentPageView()), selectedUserView())
         }
       }))
     .delay(1500)

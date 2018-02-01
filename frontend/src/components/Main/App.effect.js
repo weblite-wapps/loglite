@@ -1,10 +1,11 @@
 // modules
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-import { format, startOfWeek, startOfMonth, subDays } from 'date-fns'
+import { startOfWeek, startOfMonth, subDays } from 'date-fns'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './App.helper'
+import { formattedDate } from '../../helper/functions/date.helper'
 // actions
 import { RESET_INPUTS, loadTagsDataInAdd } from '../components/Add/Main/Add.action'
 import { dispatchChangeCurrentPagesInventory } from '../components/Report/Main/Report.action'
@@ -49,7 +50,7 @@ const fetchUsersEpic = action$ => // TODO: error handling patterns *subscribe*
 //         wis: wisView(),
 //         userId: userIdView(),
 //         username: userNameView(),
-//         today: format(new Date(), 'YYYY-MM-DD'),
+//         today: formattedDate(new Date()),
 //         startOfWeek: subDays(startOfWeek(new Date()), 1),
 //         startOfMonth: startOfMonth(new Date()),
 //       }))
@@ -63,7 +64,7 @@ const fetchTodayDataEpic = action$ =>
         .query({
           wis: wisView(),
           userId: userIdView(),
-          date: format(new Date(), 'YYYY-MM-DD'),
+          date: formattedDate(new Date()),
         }),
       getRequest('/fetchTags')
         .query({
@@ -74,7 +75,7 @@ const fetchTodayDataEpic = action$ =>
         .send({
           wis: wisView(),
           userId: userIdView(),
-          date: format(new Date(), 'YYYY-MM-DD'),
+          date: formattedDate(new Date()),
         }),
       postRequest('/thisWeekTotalDurations')
         .send({

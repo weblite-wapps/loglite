@@ -2,12 +2,12 @@
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import { Observable } from 'rxjs/Observable'
-import format from 'date-fns/format'
 import startOfWeek from 'date-fns/start_of_week'
 import startOfMonth from 'date-fns/start_of_month'
 import subDays from 'date-fns/sub_days'
 // helpers
 import { postRequest } from './Home.helper'
+import { formattedDate } from '../../../../helper/functions/date.helper'
 // actions
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
 import {
@@ -36,7 +36,7 @@ const refetchTotalDurationEpic = action$ =>
         .send({
           wis: wisView(),
           userId: userIdView(),
-          date: format(new Date(), 'YYYY-MM-DD'),
+          date: formattedDate(new Date()),
         }),
       postRequest('/thisWeekTotalDurations')
         .send({

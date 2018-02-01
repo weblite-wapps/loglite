@@ -4,7 +4,6 @@ import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import isAfter from 'date-fns/is_after'
-import format from 'date-fns/format'
 // local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
@@ -15,6 +14,7 @@ import Button from '../../../../helper/components/Button/Button.presentational.r
 import Custom from '../components/Custom/Main/Custom.presentational.react'
 // helpers
 import { formatTime, areTimesOverlapping } from './Add.helper'
+import { formattedDate } from '../../../../helper/functions/date.helper'
 // scssClasses
 import scssClasses from './Add.scss'
 
@@ -53,10 +53,10 @@ class Add extends React.Component {
       if (isAfter(new Date(date), new Date())) {
         this.setState({ dateIsError: true })
         snackbarMessage({ message: 'Are you predictor?!' })
-      } else if (date === format(new Date(), 'YYYY-MM-DD') && isAfter(formatTime(startTime), new Date())) {
+      } else if (date === formattedDate(new Date()) && isAfter(formatTime(startTime), new Date())) {
         this.setState({ startTimeIsError: true })
         snackbarMessage({ message: 'Are you predictor?!' })
-      } else if (date === format(new Date(), 'YYYY-MM-DD') && isAfter(formatTime(endTime), new Date())) {
+      } else if (date === formattedDate(new Date()) && isAfter(formatTime(endTime), new Date())) {
         this.setState({ endTimeIsError: true })
         snackbarMessage({ message: 'Are you predictor?!' })
       } else if (isAfter(formatTime(endTime), formatTime(startTime))) {

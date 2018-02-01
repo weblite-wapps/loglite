@@ -5,13 +5,10 @@ import List from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import Typography from 'material-ui/Typography'
 import Divider from 'material-ui/Divider'
-import format from 'date-fns/format'
 // icons
 import ViewList from 'material-ui-icons/ViewList'
 import FileDownload from 'material-ui-icons/FileDownload'
 import InsertChart from 'material-ui-icons/InsertChart'
-// selectors
-import { getWorksDuration, getStaffWorksDuration } from '../../../../helper/selectors/workDuration.selector'
 // components
 import SelectBar from '../components/common/SelectBar/SelectBar.container.react'
 import Navigator from '../components/common/Navigator/Navigator.container.react'
@@ -20,6 +17,10 @@ import WorkList from '../components/WorkList/Main/WorkList.container.react'
 import CustomizedPieChart from '../components/WorkList/components/PieChart.presentational.react'
 import ShowChart from '../components/ShowChart/Main/ShowChart.container.react'
 import Button from '../../../../helper/components/Button/Button.presentational.react'
+// selectors
+import { getWorksDuration, getStaffWorksDuration } from '../../../../helper/selectors/workDuration.selector'
+// helpers
+import { formattedDate } from '../../../../helper/functions/date.helper'
 // scssClasses
 import scssClasses from './Report.scss'
 
@@ -139,7 +140,7 @@ export default class Report extends React.Component {
             </div>
             <Divider light />
             {(selectedUser === userId ? logs : staffLogs)
-              .filter(log => log.date === format(currentPage, 'YYYY-MM-DD')).map(log => (
+              .filter(log => log.date === formattedDate(currentPage)).map(log => (
                 <WorkList
                   key={log._id}
                   log={log}

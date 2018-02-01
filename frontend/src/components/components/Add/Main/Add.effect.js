@@ -1,11 +1,11 @@
 // modules
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-import format from 'date-fns/format'
 // local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './Add.helper'
+import { formattedDate } from '../../../../helper/functions/date.helper'
 // actions
 import { ADD_LOG, ADD_CUSTOM_LOG, restoreLog } from '../../../Main/App.action'
 import { SET_QUERY_IN_ADD, fetchTagsInAdd, loadTagsDataInAdd, resetInputs } from './Add.action'
@@ -33,7 +33,7 @@ const addLogEpic = action$ =>
           title: payload.title,
           tags: payload.tags,
           times: [],
-          date: format(new Date(), 'YYYY-MM-DD'),
+          date: formattedDate(new Date()),
           userId: userIdView(),
           wis: wisView(),
         })
