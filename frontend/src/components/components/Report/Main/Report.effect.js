@@ -143,7 +143,6 @@ const fetchPreviousDayLogsDataEpic = action$ =>
           dispatchRemovePage(formattedDate(currentPageView()), selectedUserView())
         }
       }))
-    .delay(1500)
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) =>
       selectedUserView() === userIdView() ?
@@ -167,7 +166,6 @@ const fetchNextDayLogsDataEpic = action$ =>
           dispatchRemovePage(formattedDate(currentPageView()), selectedUserView())
         }
       }))
-    .delay(1500)
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) =>
       selectedUserView() === userIdView() ?

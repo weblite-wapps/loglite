@@ -1,19 +1,17 @@
 // modules
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-import { startOfWeek, startOfMonth, subDays } from 'date-fns'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './App.helper'
-import { formattedDate } from '../../helper/functions/date.helper'
+import { formattedDate, startDayOfWeek, startDayOfMonth } from '../../helper/functions/date.helper'
 // actions
-import { RESET_INPUTS, loadTagsDataInAdd } from '../components/Add/Main/Add.action'
-import { dispatchAddPage } from '../components/Report/Main/Report.action'
+import { RESET_INPUTS, dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
 import {
   REFETCH_TOTAL_DURATION,
-  loadTodayTotalDuration,
-  loadThisWeekTotalDuration,
-  loadThisMonthTotalDuration,
+  dispatchLoadTodayTotalDuration,
+  dispatchLoadThisWeekTotalDuration,
+  dispatchLoadThisMonthTotalDuration,
 } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
@@ -31,79 +29,40 @@ import {
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, creatorView } from './App.reducer'
-import { currentPageView, selectedUserView } from '../components/Report/Main/Report.reducer'
 
 const fetchUsersEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
     .filter(() => creatorView())
     .mergeMap(() => getRequest('/fetchUsers')
       .query({ wis: wisView() }))
-    .map(({ text }) => loadUsersData(JSON.parse(text)))
+    .map(({ body }) => loadUsersData((body)))
 
-// TODO: initialFetch
-// const initialFetchEpic = action$ =>
-//   action$.ofType(FETCH_TODAY_DATA)
-//     .mergeMap(() => getRequest('/initialFetch')
-//       .query({
-//         wis: wisView(),
-//         userId: userIdView(),
-//         username: userNameView(),
-//         today: formattedDate(new Date()),
-//         startOfWeek: subDays(startOfWeek(new Date()), 1),
-//         startOfMonth: startOfMonth(new Date()),
-//       }))
-//     .map(({ text }) => restoreData(text))
-//     .do(() => window.W && window.W.start())
-
-const fetchTodayDataEpic = action$ =>
+const saveUsersEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
-    .mergeMap(() => Promise.all([
-      getRequest('/fetchLogs')
-        .query({
-          wis: wisView(),
-          userId: userIdView(),
-          date: formattedDate(new Date()),
-        }),
-      getRequest('/fetchTags')
-        .query({
-          wis: wisView(),
-          userId: userIdView(),
-        }),
-      postRequest('/todayTotalDuration')
-        .send({
-          wis: wisView(),
-          userId: userIdView(),
-          date: formattedDate(new Date()),
-        }),
-      postRequest('/thisWeekTotalDurations')
-        .send({
-          wis: wisView(),
-          userId: userIdView(),
-          startDate: subDays(startOfWeek(new Date()), 1),
-          endDate: new Date(),
-        }),
-      postRequest('/thisMonthTotalDurations')
-        .send({
-          wis: wisView(),
-          userId: userIdView(),
-          startDate: startOfMonth(new Date()),
-          endDate: new Date(),
-        }),
-      postRequest('/saveUser')
-        .send({
-          wis: wisView(),
-          userId: userIdView(),
-          username: userNameView(),
-        }),
-    ]))
-    .mergeMap(success => ([
-      loadLogsData(JSON.parse(success[0].text)),
-      loadTagsDataInAdd(JSON.parse(success[1].text)),
-      loadTodayTotalDuration(success[2].text),
-      loadThisWeekTotalDuration(success[3].text),
-      loadThisMonthTotalDuration(success[4].text),
-      dispatchAddPage(formattedDate(currentPageView()), selectedUserView()),
-    ]))
+    .mergeMap(() => postRequest('/saveUser')
+      .send({
+        wis: wisView(),
+        userId: userIdView(),
+        username: userNameView(),
+      }))
+    .ignoreElements()
+
+const initialFetchEpic = action$ =>
+  action$.ofType(FETCH_TODAY_DATA)
+    .mergeMap(() => getRequest('/initialFetch')
+      .query({
+        wis: wisView(),
+        userId: userIdView(),
+        username: userNameView(),
+        today: formattedDate(new Date()),
+        startOfWeek: startDayOfWeek(new Date()),
+        startOfMonth: startDayOfMonth(new Date()),
+      }))
+    .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
+    .do(({ body: { today } }) => dispatchLoadTodayTotalDuration(today))
+    .do(({ body: { thisWeek } }) => dispatchLoadThisWeekTotalDuration(thisWeek))
+    .do(({ body: { thisMonth } }) => dispatchLoadThisMonthTotalDuration(thisMonth))
+    .map(({ body: { logs } }) => loadLogsData(logs))
     .do(() => window.W && window.W.start())
 
 const addLogToNextDayEpic = action$ =>
@@ -164,7 +123,8 @@ const resetEpic = action$ =>
 
 export default combineEpics(
   fetchUsersEpic,
-  fetchTodayDataEpic,
+  saveUsersEpic,
+  initialFetchEpic,
   addLogToNextDayEpic,
   deleteLogEpic,
   saveStartTimeEpic,
