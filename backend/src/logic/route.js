@@ -48,7 +48,7 @@ app.get('/initialFetch', (req, res) =>
 
 
 app.get('/fetchUsers', (req, res) =>
-  fetchUsers({ wis: req.query.wis, id: { $regex: `${req.query.userId}` } })
+  fetchUsers({ wis: req.query.wis })
     .then(users => res.json(users))
     .catch(logger))
 

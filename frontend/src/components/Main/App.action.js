@@ -23,6 +23,10 @@ export const LOAD_USERS_DATA = 'LOAD_USERS_DATA'
 export const loadUsersData = createAction(LOAD_USERS_DATA, users => ({ users }))
 export const dispatchLoadUsersData = (...args) => dispatch(loadUsersData(...args))
 
+export const FETCH_ADMIN_DATA = 'FETCH_ADMIN_DATA'
+export const fetchAdminData = createAction(FETCH_ADMIN_DATA)
+export const dispatchFetchAdminData = (...args) => dispatch(fetchAdminData(...args))
+
 export const LOAD_LOGS_DATA = 'LOAD_LOGS_DATA'
 export const loadLogsData = createAction(LOAD_LOGS_DATA, logs => ({ logs }))
 export const dispatchLoadLogsData = (...args) => dispatch(loadLogsData(...args))

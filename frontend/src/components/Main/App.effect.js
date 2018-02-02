@@ -21,10 +21,12 @@ import {
   DELETE_LOG,
   SAVE_START_TIME,
   SAVE_END_TIME,
+  FETCH_ADMIN_DATA,
   loadUsersData,
   loadLogsData,
   restoreLog,
   dispatchLoadUsersData,
+  dispatchFetchAdminData,
   dispatchChangeRunningId,
   dispatchSetIsLoading,
   dispatchChangeExpandingId,
@@ -35,10 +37,10 @@ import { currentPageView, selectedUserView } from '../components/Report/Main/Rep
 
 
 const fetchUsersEpic = action$ =>
-  action$.ofType(FETCH_TODAY_DATA)
+  action$.ofType(FETCH_ADMIN_DATA)
     .filter(() => creatorView())
     .mergeMap(() => getRequest('/fetchUsers')
-      .query({ wis: wisView(), userId: userIdView() })
+      .query({ wis: wisView() })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .map(({ body }) => loadUsersData((body)))
 
@@ -47,8 +49,8 @@ const saveUsersEpic = action$ =>
     .mergeMap(() => postRequest('/saveUser')
       .send({ wis: wisView(), userId: userIdView(), username: userNameView() })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
-    .do(({ body }) => dispatchLoadUsersData([body]))
-    .map(() => addPage(formattedDate(currentPageView()), selectedUserView()))
+    .do(({ body }) => body && dispatchLoadUsersData([body]))
+    .map(() => dispatchFetchAdminData())
 
 const initialFetchEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
@@ -67,6 +69,7 @@ const initialFetchEpic = action$ =>
     .do(({ body: { thisWeek } }) => dispatchLoadThisWeekTotalDuration(thisWeek))
     .do(({ body: { thisMonth } }) => dispatchLoadThisMonthTotalDuration(thisMonth))
     .map(({ body: { logs } }) => loadLogsData(logs))
+    .map(() => addPage(formattedDate(currentPageView()), selectedUserView()))
     .do(() => window.W && window.W.start())
 
 const addLogToNextDayEpic = action$ =>
