@@ -46,8 +46,9 @@ app.get('/initialFetch', (req, res) =>
     thisMonth: formattedSeconds(sumLogs(success[4]), 'Home'),
   })).catch(logger))
 
+
 app.get('/fetchUsers', (req, res) =>
-  fetchUsers({ wis: req.query.wis })
+  fetchUsers({ wis: req.query.wis, id: { $regex: `${req.query.userId}` } })
     .then(users => res.json(users))
     .catch(logger))
 
@@ -74,10 +75,9 @@ app.post('/saveUser', (req, res) => {
   countUser({ wis: req.body.wis, id: req.body.userId }).then((number) => {
     if (number === 0) {
       saveUser({ wis: req.body.wis, name: req.body.username, id: req.body.userId })
-        .then(() => res.send('saved successfully!'))
+        .then(user => res.json(user))
         .catch(logger)
-    }
-    res.send('user was saved before!')
+    } else res.send('user was saved before!')
   })
 })
 
@@ -100,9 +100,7 @@ app.post('/saveTags', (req, res) => {
       .then((number) => {
         if (number === 0) {
           saveTag({ label: tag, number: 1, userId: req.body.userId, wis: req.body.wis })
-        } else {
-          updateTag({ label: tag }, { $inc: { number: 1 } })
-        }
+        } else updateTag({ label: tag }, { $inc: { number: 1 } })
       })
   R.forEach(addOrUpdateTag, req.body.tags)
   fetchTags({ wis: req.body.wis, userId: req.body.userId })

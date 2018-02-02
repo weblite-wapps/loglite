@@ -24,6 +24,7 @@ import {
   loadUsersData,
   loadLogsData,
   restoreLog,
+  dispatchLoadUsersData,
   dispatchChangeRunningId,
   dispatchSetIsLoading,
   dispatchChangeExpandingId,
@@ -37,17 +38,14 @@ const fetchUsersEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
     .filter(() => creatorView())
     .mergeMap(() => getRequest('/fetchUsers')
-      .query({ wis: wisView() }))
+      .query({ wis: wisView(), userId: userIdView() }))
     .map(({ body }) => loadUsersData((body)))
 
 const saveUsersEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
     .mergeMap(() => postRequest('/saveUser')
-      .send({
-        wis: wisView(),
-        userId: userIdView(),
-        username: userNameView(),
-      }))
+      .send({ wis: wisView(), userId: userIdView(), username: userNameView() }))
+    .do(({ body }) => dispatchLoadUsersData([body]))
     .map(() => addPage(formattedDate(currentPageView()), selectedUserView()))
 
 const initialFetchEpic = action$ =>

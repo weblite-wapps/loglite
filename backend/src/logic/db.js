@@ -37,10 +37,12 @@ export const saveCustomLog = async log => new Log(log)
 export const countUser = async query => User
   .find(query)
   .count()
+  .exec()
 
 export const countTags = async query => Tag
   .find(query)
   .count()
+  .exec()
 
 export const saveTag = async tag => new Tag(tag)
   .save()
