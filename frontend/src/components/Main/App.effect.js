@@ -4,7 +4,7 @@ import 'rxjs'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { formatTime, getRequest, postRequest } from './App.helper'
-import { formattedDate, startDayOfWeek, startDayOfMonth } from '../../helper/functions/date.helper'
+import { getToday, getStartDayOfWeek, getStartDayOfMonth } from '../../helper/functions/date.helper'
 // actions
 import { RESET_INPUTS, dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
 import {
@@ -54,9 +54,9 @@ const initialFetchEpic = action$ =>
         wis: wisView(),
         userId: userIdView(),
         username: userNameView(),
-        today: formattedDate(new Date()),
-        startOfWeek: startDayOfWeek(new Date()),
-        startOfMonth: startDayOfMonth(new Date()),
+        today: getToday(),
+        startOfWeek: getStartDayOfWeek(),
+        startOfMonth: getStartDayOfMonth(),
       }))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { today } }) => dispatchLoadTodayTotalDuration(today))
@@ -77,7 +77,7 @@ const addLogToNextDayEpic = action$ =>
         id: userIdView(),
         wis: wisView(),
       }))
-    .map(({ text }) => restoreLog(JSON.parse(text)))
+    .map(({ body }) => restoreLog(body))
 
 const deleteLogEpic = action$ =>
   action$.ofType(DELETE_LOG)

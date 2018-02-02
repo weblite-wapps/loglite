@@ -22,7 +22,7 @@ const effectSearchTagsEpic = action$ =>
       getRequest('/serachTags')
         .query({ wis: wisView(), userId: userIdView(), label: payload.queryTag })
         .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
-    .map(({ text }) => fetchTagsInAdd(JSON.parse(text)))
+    .map(({ body }) => fetchTagsInAdd(body))
 
 const addLogEpic = action$ =>
   action$.ofType(ADD_LOG)
@@ -46,7 +46,7 @@ const addLogEpic = action$ =>
         }),
     ]))
     .mergeMap(success =>
-      [restoreLog(JSON.parse(success[0].text)), loadTagsDataInAdd(JSON.parse(success[1].text))])
+      [restoreLog(success[0].body), loadTagsDataInAdd(success[1].body)])
 
 const addCustomLogEpic = action$ =>
   action$.ofType(ADD_CUSTOM_LOG)
@@ -73,8 +73,8 @@ const addCustomLogEpic = action$ =>
         }),
     ]))
     .mergeMap(success => [
-      success[0].text === 'added successfully!' ? resetInputs() : restoreLog(JSON.parse(success[0].text)),
-      loadTagsDataInAdd(JSON.parse(success[1].text))])
+      success[0].text === 'added successfully!' ? resetInputs() : restoreLog(success[0].body),
+      loadTagsDataInAdd(success[1].body)])
 
 export default combineEpics(
   effectSearchTagsEpic,

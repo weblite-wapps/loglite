@@ -8,6 +8,8 @@ export const previousDay = date => subDays(date, 1)
 
 export const nextDay = date => addDays(date, 1)
 
-export const startDayOfWeek = date => subDays(startOfWeek(date), 1)
+export const getToday = () => formattedDate(new Date())
 
-export const startDayOfMonth = date => startOfMonth(date)
+export const getStartDayOfWeek = () => formattedDate(subDays(startOfWeek(new Date()), 1))
+
+export const getStartDayOfMonth = () => formattedDate(startOfMonth(new Date()))

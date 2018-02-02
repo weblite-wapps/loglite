@@ -3,8 +3,8 @@ import host from '../../../../setup/config'
 // const
 const request = require('superagent')
 
-export const postRequest = path => request
-  .post(host + path)
+export const getRequest = path => request
+  .get(host + path)
   .set('Access-Control-Allow-Origin', '*')
 
 export const NextTextSliderName = (currentStage, direction) => {

@@ -72,8 +72,8 @@ const loadStaffDataEpic = action$ =>
     .do(() => dispatchSetIsLoading(false))
     .mergeMap(success => ([
       selectedUserView() === userIdView() ?
-        loadLogsData(JSON.parse(success[0].text)) : loadStaffLogs(JSON.parse(success[0].text)),
-      loadTagsDataInReport(JSON.parse(success[1].text)),
+        loadLogsData(success[0].body) : loadStaffLogs(success[0].body),
+      loadTagsDataInReport(success[1].body),
     ]))
 
 const loadTagsDataEpic = action$ =>
@@ -92,7 +92,7 @@ const effectSearchTagsEpic = action$ =>
         label: payload.queryTag,
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
-    .map(({ text }) => fetchTags(JSON.parse(text)))
+    .map(({ body }) => fetchTags(body))
 
 const calculateTotalDurationEpic = action$ =>
   action$.ofType(CALCULATE_TOTAL_DURATION)
@@ -144,9 +144,9 @@ const fetchPreviousDayLogsDataEpic = action$ =>
         }
       }))
     .do(() => dispatchSetIsLoading(false))
-    .map(({ text }) =>
+    .map(({ body }) =>
       selectedUserView() === userIdView() ?
-        loadLogsData(JSON.parse(text)) : loadStaffLogs(JSON.parse(text)))
+        loadLogsData(body) : loadStaffLogs(body))
 
 const fetchNextDayLogsDataEpic = action$ =>
   action$.ofType(NEXT_PAGE)
@@ -167,9 +167,9 @@ const fetchNextDayLogsDataEpic = action$ =>
         }
       }))
     .do(() => dispatchSetIsLoading(false))
-    .map(({ text }) =>
+    .map(({ body }) =>
       selectedUserView() === userIdView() ?
-        loadLogsData(JSON.parse(text)) : loadStaffLogs(JSON.parse(text)))
+        loadLogsData(body) : loadStaffLogs(body))
 
 const resetCSVEpic = action$ =>
   action$.ofType(RESTORE_CSV)
@@ -189,7 +189,7 @@ const updateChartEpic = action$ =>
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .map(({ text }) => restoreBarChartData(JSON.parse(text)))
+    .map(({ body }) => restoreBarChartData(body))
 
 export default combineEpics(
   resetStaffDataEpic,
@@ -200,7 +200,6 @@ export default combineEpics(
   convertJSONToCSVEpic,
   fetchPreviousDayLogsDataEpic,
   fetchNextDayLogsDataEpic,
-  // loadDataEpic,
   resetCSVEpic,
   updateChartEpic,
 )
