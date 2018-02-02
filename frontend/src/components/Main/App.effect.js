@@ -38,13 +38,15 @@ const fetchUsersEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
     .filter(() => creatorView())
     .mergeMap(() => getRequest('/fetchUsers')
-      .query({ wis: wisView(), userId: userIdView() }))
+      .query({ wis: wisView(), userId: userIdView() })
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .map(({ body }) => loadUsersData((body)))
 
 const saveUsersEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
     .mergeMap(() => postRequest('/saveUser')
-      .send({ wis: wisView(), userId: userIdView(), username: userNameView() }))
+      .send({ wis: wisView(), userId: userIdView(), username: userNameView() })
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(({ body }) => dispatchLoadUsersData([body]))
     .map(() => addPage(formattedDate(currentPageView()), selectedUserView()))
 
@@ -58,7 +60,8 @@ const initialFetchEpic = action$ =>
         today: getToday(),
         startOfWeek: getStartDayOfWeek(),
         startOfMonth: getStartDayOfMonth(),
-      }))
+      })
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { today } }) => dispatchLoadTodayTotalDuration(today))
     .do(({ body: { thisWeek } }) => dispatchLoadThisWeekTotalDuration(thisWeek))
@@ -77,14 +80,15 @@ const addLogToNextDayEpic = action$ =>
         date: action.payload.date,
         id: userIdView(),
         wis: wisView(),
-      }))
+      })
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .map(({ body }) => restoreLog(body))
 
 const deleteLogEpic = action$ =>
   action$.ofType(DELETE_LOG)
     .mergeMap(action => postRequest('/deleteLog')
       .query({ _id: action.payload._id })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server disconnected!' }) : null))
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .mapTo({ type: REFETCH_TOTAL_DURATION })
 
 const saveStartTimeEpic = action$ =>
@@ -98,7 +102,7 @@ const saveStartTimeEpic = action$ =>
         startTime: payload.start,
         _id: payload._id,
       })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server disconnected!' }) : null))
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .ignoreElements()
 
@@ -113,7 +117,7 @@ const saveEndTimeEpic = action$ =>
         endTime: payload.end,
         _id: payload._id,
       })
-      .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server disconnected!' }) : null))
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .mapTo({ type: REFETCH_TOTAL_DURATION })
 

@@ -63,10 +63,7 @@ const loadStaffDataEpic = action$ =>
           }
         }),
       getRequest('/fetchTags')
-        .query({
-          wis: wisView(),
-          userId: selectedUserView(),
-        })
+        .query({ wis: wisView(), userId: selectedUserView() })
         .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
     ]))
     .do(() => dispatchSetIsLoading(false))
@@ -86,11 +83,7 @@ const effectSearchTagsEpic = action$ =>
     .filter(payload => payload.queryTag.trim() !== '')
     .debounceTime(250)
     .mergeMap(payload => getRequest('/serachTags')
-      .query({
-        wis: wisView(),
-        userId: selectedUserView(),
-        label: payload.queryTag,
-      })
+      .query({ wis: wisView(), userId: selectedUserView(), label: payload.queryTag })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .map(({ body }) => fetchTags(body))
 
