@@ -134,35 +134,22 @@ app.post('/saveEndTime', (req, res) =>
     .then(() => res.send('saved successfully!'))
     .catch(logger))
 
-
-app.post('/todayTotalDuration', (req, res) =>
-  fetchLogs({ wis: req.body.wis, userId: req.body.userId, date: req.body.date })
-    .then(sumLogs)
-    .then(sum => formattedSeconds(sum, 'Home'))
-    .then(totalDuration => res.send(totalDuration))
-    .catch(logger))
-
-
-app.post('/thisWeekTotalDurations', (req, res) =>
-  fetchLogs({
-    wis: req.body.wis,
-    userId: req.body.userId,
-    $and: [{ date: { $gte: req.body.startDate } }, { date: { $lte: req.body.endDate } }] })
-    .then(sumLogs)
-    .then(sum => formattedSeconds(sum, 'Home'))
-    .then(totalDuration => res.send(totalDuration))
-    .catch(logger))
-
-
-app.post('/thisMonthTotalDurations', (req, res) =>
-  fetchLogs({
-    wis: req.body.wis,
-    userId: req.body.userId,
-    $and: [{ date: { $gte: req.body.startDate } }, { date: { $lte: req.body.endDate } }] })
-    .then(sumLogs)
-    .then(sum => formattedSeconds(sum, 'Home'))
-    .then(totalDuration => res.send(totalDuration))
-    .catch(logger))
+app.get('/fetchTotalDurations', (req, res) =>
+  Promise.all([
+    fetchLogs({ ...defaultQueryGenerator(req.query), date: req.query.today }),
+    fetchLogs({
+      ...defaultQueryGenerator(req.query),
+      $and: [{ date: { $gte: req.query.startOfWeek } }, { date: { $lte: req.query.today } }],
+    }),
+    fetchLogs({
+      ...defaultQueryGenerator(req.query),
+      $and: [{ date: { $gte: req.query.startOfMonth } }, { date: { $lte: req.query.today } }],
+    }),
+  ]).then(success => res.json({
+    today: formattedSeconds(sumLogs(success[0]), 'Home'),
+    thisWeek: formattedSeconds(sumLogs(success[1]), 'Home'),
+    thisMonth: formattedSeconds(sumLogs(success[2]), 'Home'),
+  })).catch(logger))
 
 
 app.get('/fetchPreviousDayData', (req, res) =>

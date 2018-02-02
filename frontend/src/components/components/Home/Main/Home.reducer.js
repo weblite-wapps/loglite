@@ -3,6 +3,7 @@ import * as R from 'ramda'
 // actions
 import {
   CHANGE_TEXT_SLIDER,
+  LOAD_TOTAL_DURATIONS,
   LOAD_TODAY_TOTAL_DURATION,
   LOAD_THISWEEK_TOTAL_DURATION,
   LOAD_THISMONTH_TOTAL_DURATION,
@@ -31,6 +32,12 @@ const reducers = {
       duration: R.view(R.lensProp(NextTextSliderDuration(state.textSlider.name, value)),
         state.homeTotalDuration),
     },
+  }),
+
+  [LOAD_TOTAL_DURATIONS]: (state, { totalDurations }) => ({
+    ...state,
+    homeTotalDuration: totalDurations,
+    textSlider: R.set(durationLens, totalDurations.today, state.textSlider),
   }),
 
   [LOAD_TODAY_TOTAL_DURATION]: (state, { value }) => ({ ...state,

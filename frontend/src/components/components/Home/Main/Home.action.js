@@ -8,6 +8,11 @@ export const CHANGE_TEXT_SLIDER = 'CHANGE_TEXT_SLIDER'
 export const changeTextSlider = createAction(CHANGE_TEXT_SLIDER, value => ({ value }))
 export const dispatchChangeTextSlider = (...args) => dispatch(changeTextSlider(...args))
 
+export const LOAD_TOTAL_DURATIONS = 'LOAD_TOTAL_DURATIONS'
+export const loadTotalDurations = createAction(LOAD_TOTAL_DURATIONS,
+  totalDurations => ({ totalDurations }))
+export const dispatchLoadTotalDurations = (...args) => dispatch(loadTotalDurations(...args))
+
 export const LOAD_TODAY_TOTAL_DURATION = 'LOAD_TODAY_TOTAL_DURATION'
 export const loadTodayTotalDuration = createAction(LOAD_TODAY_TOTAL_DURATION, value => ({ value }))
 export const dispatchLoadTodayTotalDuration = (...args) => dispatch(loadTodayTotalDuration(...args))
