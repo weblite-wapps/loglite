@@ -19,10 +19,32 @@ import {
   saveTime,
 } from './db'
 // helpers
-import { sumLogs, formattedSeconds, modifiedQuery, getBarChartData, getJSON } from './helper'
+import { sumLogs, formattedSeconds, modifiedQuery, getBarChartData,
+  getJSON, defaultQueryGenerator } from './helper'
 // const
 const logger = console.log
 
+
+app.get('/initialFetch', (req, res) =>
+  Promise.all([
+    fetchLogs({ ...defaultQueryGenerator(req.query), date: req.query.today }),
+    fetchTags({ ...defaultQueryGenerator(req.query) }),
+    fetchLogs({ ...defaultQueryGenerator(req.query), date: req.query.today }),
+    fetchLogs({
+      ...defaultQueryGenerator(req.query),
+      $and: [{ date: { $gte: req.query.startOfWeek } }, { date: { $lte: req.query.today } }],
+    }),
+    fetchLogs({
+      ...defaultQueryGenerator(req.query),
+      $and: [{ date: { $gte: req.query.startOfMonth } }, { date: { $lte: req.query.today } }],
+    }),
+  ]).then(success => res.json({
+    logs: success[0],
+    tags: success[1],
+    today: formattedSeconds(sumLogs(success[2]), 'Home'),
+    thisWeek: formattedSeconds(sumLogs(success[3]), 'Home'),
+    thisMonth: formattedSeconds(sumLogs(success[4]), 'Home'),
+  })).catch(logger))
 
 app.get('/fetchUsers', (req, res) =>
   fetchUsers({ wis: req.query.wis })
