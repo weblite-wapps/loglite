@@ -41,9 +41,11 @@ app.get('/initialFetch', (req, res) =>
   ]).then(success => res.json({
     logs: success[0],
     tags: success[1],
-    today: formattedSeconds(sumLogs(success[2]), 'Home'),
-    thisWeek: formattedSeconds(sumLogs(success[3]), 'Home'),
-    thisMonth: formattedSeconds(sumLogs(success[4]), 'Home'),
+    totalDurations: {
+      today: formattedSeconds(sumLogs(success[2]), 'Home'),
+      thisWeek: formattedSeconds(sumLogs(success[3]), 'Home'),
+      thisMonth: formattedSeconds(sumLogs(success[4]), 'Home'),
+    },
   })).catch(logger))
 
 

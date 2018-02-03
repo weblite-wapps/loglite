@@ -4,9 +4,6 @@ import * as R from 'ramda'
 import {
   CHANGE_TEXT_SLIDER,
   LOAD_TOTAL_DURATIONS,
-  LOAD_TODAY_TOTAL_DURATION,
-  LOAD_THISWEEK_TOTAL_DURATION,
-  LOAD_THISMONTH_TOTAL_DURATION,
 } from './Home.action'
 // helpers
 import { NextTextSliderName, NextTextSliderDuration } from './Home.helper'
@@ -20,9 +17,6 @@ const initialState = {
 
 // lens
 const durationLens = R.lensProp('duration')
-const todayLens = R.lensProp('today')
-const thisWeekLens = R.lensProp('thisWeek')
-const thisMonthLens = R.lensProp('thisMonth')
 
 // reducers
 const reducers = {
@@ -38,19 +32,6 @@ const reducers = {
     ...state,
     homeTotalDuration: totalDurations,
     textSlider: R.set(durationLens, totalDurations.today, state.textSlider),
-  }),
-
-  [LOAD_TODAY_TOTAL_DURATION]: (state, { value }) => ({ ...state,
-    homeTotalDuration: R.set(todayLens, value, state.homeTotalDuration),
-    textSlider: R.set(durationLens, value, state.textSlider),
-  }),
-
-  [LOAD_THISWEEK_TOTAL_DURATION]: (state, { value }) => ({ ...state,
-    homeTotalDuration: R.set(thisWeekLens, value, state.homeTotalDuration),
-  }),
-
-  [LOAD_THISMONTH_TOTAL_DURATION]: (state, { value }) => ({ ...state,
-    homeTotalDuration: R.set(thisMonthLens, value, state.homeTotalDuration),
   }),
 }
 

@@ -8,12 +8,7 @@ import { formattedDate, getToday, getStartDayOfWeek, getStartDayOfMonth } from '
 // actions
 import { RESET_INPUTS, dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
 import { addPage } from '../components/Report/Main/Report.action'
-import {
-  REFETCH_TOTAL_DURATION,
-  dispatchLoadTodayTotalDuration,
-  dispatchLoadThisWeekTotalDuration,
-  dispatchLoadThisMonthTotalDuration,
-} from '../components/Home/Main/Home.action'
+import { REFETCH_TOTAL_DURATION, dispatchLoadTotalDurations } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
   ADD_LOG_TO_NEXT_DAY,
@@ -23,8 +18,8 @@ import {
   SAVE_END_TIME,
   FETCH_ADMIN_DATA,
   loadUsersData,
-  loadLogsData,
   restoreLog,
+  dispatchLoadLogsData,
   dispatchLoadUsersData,
   dispatchFetchAdminData,
   dispatchChangeRunningId,
@@ -64,11 +59,9 @@ const initialFetchEpic = action$ =>
         startOfMonth: getStartDayOfMonth(),
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(({ body: { logs } }) => dispatchLoadLogsData(logs))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
-    .do(({ body: { today } }) => dispatchLoadTodayTotalDuration(today))
-    .do(({ body: { thisWeek } }) => dispatchLoadThisWeekTotalDuration(thisWeek))
-    .do(({ body: { thisMonth } }) => dispatchLoadThisMonthTotalDuration(thisMonth))
-    .map(({ body: { logs } }) => loadLogsData(logs))
+    .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
     .map(() => addPage(formattedDate(currentPageView()), selectedUserView()))
     .do(() => window.W && window.W.start())
 

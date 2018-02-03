@@ -13,26 +13,6 @@ export const loadTotalDurations = createAction(LOAD_TOTAL_DURATIONS,
   totalDurations => ({ totalDurations }))
 export const dispatchLoadTotalDurations = (...args) => dispatch(loadTotalDurations(...args))
 
-export const LOAD_TODAY_TOTAL_DURATION = 'LOAD_TODAY_TOTAL_DURATION'
-export const loadTodayTotalDuration = createAction(LOAD_TODAY_TOTAL_DURATION, value => ({ value }))
-export const dispatchLoadTodayTotalDuration = (...args) => dispatch(loadTodayTotalDuration(...args))
-
-export const LOAD_THISWEEK_TOTAL_DURATION = 'LOAD_THISWEEK_TOTAL_DURATION'
-export const loadThisWeekTotalDuration = createAction(
-  LOAD_THISWEEK_TOTAL_DURATION,
-  value => ({ value }),
-)
-export const dispatchLoadThisWeekTotalDuration = (...args) =>
-  dispatch(loadThisWeekTotalDuration(...args))
-
-export const LOAD_THISMONTH_TOTAL_DURATION = 'LOAD_THISMONTH_TOTAL_DURATION'
-export const loadThisMonthTotalDuration = createAction(
-  LOAD_THISMONTH_TOTAL_DURATION,
-  value => ({ value }),
-)
-export const dispatchLoadThisMonthTotalDuration = (...args) =>
-  dispatch(loadThisMonthTotalDuration(...args))
-
 export const REFETCH_TOTAL_DURATION = 'REFETCH_TOTAL_DURATION'
 export const refetchTotalDuration = createAction(REFETCH_TOTAL_DURATION)
 export const dispatchRefetchTotalDuration = (...args) => dispatch(refetchTotalDuration(...args))
