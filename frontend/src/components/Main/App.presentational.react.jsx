@@ -23,6 +23,7 @@ class App extends React.Component {
   componentDidMount() {
     if (window.W && window.W.wisId) this.handleWappMode()
     else this.handleNormalMode()
+    window.addEventListener('focus', () => this.props.checkToSetSecondsElapsed())
   }
 
   _handleChangeTab(value) {
@@ -94,6 +95,7 @@ App.propTypes = {
   changeTab: PropTypes.func.isRequired,
   fetchTodayData: PropTypes.func.isRequired,
   setAPI: PropTypes.func.isRequired,
+  checkToSetSecondsElapsed: PropTypes.func.isRequired,
 }
 
 export default withRouter(App)

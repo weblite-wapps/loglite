@@ -1,7 +1,17 @@
 // components
+import * as R from 'ramda'
+import request from 'superagent'
+import differenceInSeconds from 'date-fns/difference_in_seconds'
+// components
 import host from '../../../../setup/config'
-// const
-const request = require('superagent')
+// helpers
+import { sumTimes } from '../../../../helper/functions/time.helper'
+
+const timesLens = R.lensProp('times')
+export const getTimes = (logs, _id) => R.view(timesLens, R.find(R.propEq('_id', _id))(logs))
+
+const startLens = R.lensProp('start')
+export const getStartTime = times => R.view(startLens, times[R.length(times) - 1])
 
 export const getRequest = path => request
   .get(host + path)
@@ -24,3 +34,6 @@ export const NextTextSliderDuration = (currentStage, direction) => {
     default: return null
   }
 }
+
+export const getSecondsElapsed = (logs, _id) =>
+  sumTimes(getTimes(logs, _id)) + differenceInSeconds(new Date(), getStartTime(getTimes(logs, _id)))

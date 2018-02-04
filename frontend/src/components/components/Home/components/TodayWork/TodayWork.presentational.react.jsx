@@ -14,8 +14,9 @@ import differenceInSeconds from 'date-fns/difference_in_seconds'
 import Play from 'material-ui-icons/PlayArrow'
 import Pause from 'material-ui-icons/Pause'
 // helpers
-import { previousDay, formattedSeconds, formatTime, sumTimes, formattedName } from './TodayWork.helper'
-import { formattedDate } from '../../../../../helper/functions/date.helper'
+import { formattedSeconds, formattedName } from './TodayWork.helper'
+import { formatTime, sumTimes } from '../../../../../helper/functions/time.helper'
+import { previousDay, formattedDate } from '../../../../../helper/functions/date.helper'
 // css
 import scssClasses from './TodayWork.scss'
 

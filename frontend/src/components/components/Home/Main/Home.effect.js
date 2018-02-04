@@ -3,7 +3,7 @@ import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import { Observable } from 'rxjs/Observable'
 // helpers
-import { getRequest } from './Home.helper'
+import { getRequest, getSecondsElapsed } from './Home.helper'
 import { getToday, getStartDayOfWeek, getStartDayOfMonth } from '../../../../helper/functions/date.helper'
 // actions
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
@@ -17,10 +17,12 @@ import {
   INCREMENT_SECONDS_ELAPSED,
   SAVE_END_TIME,
   CHANGE_TAB,
+  CHECK_TO_SET_SECONDS_ELAPSED,
+  setSecondsElapsed,
   dispatchSetIsLoading,
 } from '../../../Main/App.action'
 // views
-import { wisView, userIdView } from '../../../Main/App.reducer'
+import { wisView, userIdView, logsView, runningIdView } from '../../../Main/App.reducer'
 
 
 const refetchTotalDurationEpic = action$ =>
@@ -45,8 +47,14 @@ const effectCountUpEpic = action$ =>
       .mapTo({ type: INCREMENT_SECONDS_ELAPSED })
       .takeUntil(action$.ofType(SAVE_END_TIME, CHANGE_TAB)))
 
+const checkToCountEpic = action$ =>
+  action$.ofType(CHECK_TO_SET_SECONDS_ELAPSED)
+    .filter(() => runningIdView())
+    .map(() => setSecondsElapsed(getSecondsElapsed(logsView(), runningIdView())))
+
 
 export default combineEpics(
   refetchTotalDurationEpic,
   effectCountUpEpic,
+  checkToCountEpic,
 )

@@ -3,6 +3,11 @@ import { createAction } from 'redux-actions'
 import { dispatch } from '../../setup/redux'
 
 // actions
+export const CHECK_TO_SET_SECONDS_ELAPSED = 'CHECK_TO_SET_SECONDS_ELAPSED'
+export const checkToSetSecondsElapsed = createAction(CHECK_TO_SET_SECONDS_ELAPSED)
+export const dispatchCheckToSetSecondsElapsed = (...args) =>
+  dispatch(checkToSetSecondsElapsed(...args))
+
 export const SET_API = 'SET_API'
 export const setAPI = createAction(SET_API, (creator, user) => ({ creator, user }))
 export const dispatchSetApi = (...args) => dispatch(setAPI(...args))

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // components
 import App from './App.presentational.react'
 // actions
-import { dispatchChangeTab, dispatchSetApi, dispatchFetchTodayData } from './App.action'
+import { dispatchChangeTab, dispatchSetApi, dispatchFetchTodayData, dispatchCheckToSetSecondsElapsed } from './App.action'
 
 
 const mapStateToProps = state => ({
@@ -15,6 +15,7 @@ const mapDispatchToProps = () => ({
   changeTab: dispatchChangeTab,
   setAPI: dispatchSetApi,
   fetchTodayData: dispatchFetchTodayData,
+  checkToSetSecondsElapsed: dispatchCheckToSetSecondsElapsed,
 })
 
 

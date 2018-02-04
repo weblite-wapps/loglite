@@ -1,10 +1,16 @@
 // modules
 import * as R from 'ramda'
 import differenceInSeconds from 'date-fns/difference_in_seconds'
+import setMinutes from 'date-fns/set_minutes'
+import setHours from 'date-fns/set_hours'
 
+
+export const formatTime = time =>
+  setHours(setMinutes(new Date(), R.slice(3, 5, time)), R.slice(0, 2, time))
 
 export const sumTimes = times =>
-  R.reduce((acc, time) => acc + differenceInSeconds(time.end, time.start), 0)(times)
+  R.reduce((acc, time) =>
+    time.end === 'running' ? acc : acc + differenceInSeconds(time.end, time.start), 0)(times)
 
 export const formattedSeconds = (seconds) => {
   if (Math.floor(seconds / 60) === 0) {
