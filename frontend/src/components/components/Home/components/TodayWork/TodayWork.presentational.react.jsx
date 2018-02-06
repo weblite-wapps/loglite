@@ -1,6 +1,5 @@
 // modules
 import React from 'react'
-import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import List, { ListItem, ListItemSecondaryAction } from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
@@ -29,67 +28,66 @@ export default class TodayWork extends React.Component {
   }
 
   componentWillMount() {
-    const { log, setSecondsElapsed, countinueCounting } = this.props
-    const len = log.times.length
-    if (len && log.times[len - 1].end === 'running') {
-      setSecondsElapsed(sumTimes(log.times) + differenceInSeconds(new Date(),
-        log.times[len - 1].start))
-      countinueCounting(log._id)
+    const { log: { _id, times }, setSecondsElapsed, countinueCounting } = this.props
+    const len = times.length
+    if (len && times[len - 1].end === 'running') {
+      setSecondsElapsed(sumTimes(times) + differenceInSeconds(new Date(),
+        times[len - 1].start))
+      countinueCounting(_id)
     }
   }
 
   componentDidMount() {
-    const { log, changeRunningId } = this.props
-    const len = log.times.length
-    if (!log.expanded && len && log.times[len - 1].end === 'running') {
-      changeRunningId(log._id)
-    }
+    const { log: { _id }, runningId, changeRunningId } = this.props
+    if (runningId === _id) changeRunningId(_id)
   }
 
   _handleStartClick() {
     const now = new Date()
-    const { log, runningId, onStartClick, onStopClick, setSecondsElapsed } = this.props
-    if (runningId) {
-      onStopClick(runningId, now)
-    }
-    setSecondsElapsed(sumTimes(log.times))
-    onStartClick(log._id, now)
+    const {
+      log: { _id, times }, runningId, onStartClick, onStopClick, setSecondsElapsed,
+    } = this.props
+    if (runningId) onStopClick(runningId, now)
+    setSecondsElapsed(sumTimes(times))
+    onStartClick(_id, now)
   }
 
   _handleStopClick() {
     const now = new Date()
-    const { log, addLogToNextDay, onStopClick } = this.props
-    const len = log.times.length
-    if (isWithinRange(formatTime('23:59'), log.times[len - 1].start, now)) {
+    const { log: { _id, times }, addLogToNextDay, onStopClick } = this.props
+    const len = times.length
+    if (isWithinRange(formatTime('23:59'), times[len - 1].start, now)) {
       addLogToNextDay(now, formattedDate(now))
-      onStopClick(log._id, previousDay(formatTime('23:59')))
+      onStopClick(_id, previousDay(formatTime('23:59')))
     } else {
-      onStopClick(log._id, now)
+      onStopClick(_id, now)
     }
   }
 
   render() {
-    const { runningId, secondsElapsed, log, workDuration, isLoading } = this.props
-    const len = log.times.length
+    const {
+      runningId, secondsElapsed, log: { _id, title, times }, workDuration, isLoading,
+    } = this.props
+    const len = times.length
     return (
       <div>
         <List dense disablePadding className={scssClasses.list}>
           <ListItem dense disableGutters>
             <Typography type="body2">
               {
-                formattedName(log.title) === log.title ?
-                  <span>{formattedName(log.title)}</span> :
-                  <Tooltip title={log.title} placement="bottom" enterDelay={300} leaveDelay={300}>
-                    <span>{formattedName(log.title)}</span>
+                formattedName(title) === title ?
+                  <span>{formattedName(title)}</span> :
+                  <Tooltip title={title} placement="bottom" enterDelay={300} leaveDelay={300}>
+                    <span>{formattedName(title)}</span>
                   </Tooltip>
               }
               <span className={scssClasses.time}>
-                &nbsp;| { R.test(/^NaN/, workDuration) ? 'Running...' : workDuration }
+                &nbsp;| { runningId === _id ? 'Running...' : workDuration }
               </span>
             </Typography>
             <ListItemSecondaryAction>
               {
-                len && log.times[len - 1].end === 'running' ?
+                len && times[len - 1].end === 'running' ?
                   (
                     <IconButton
                       disabled={isLoading}
@@ -108,7 +106,7 @@ export default class TodayWork extends React.Component {
               }
             </ListItemSecondaryAction>
           </ListItem>
-          <Collapse component="li" in={log._id === runningId} timeout="auto" unmountOnExit>
+          <Collapse component="li" in={_id === runningId} timeout="auto" unmountOnExit>
             <Divider light inset />
             <div className={scssClasses.stopwatch}>
               <Typography type="subheading">
@@ -127,7 +125,11 @@ TodayWork.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   runningId: PropTypes.string.isRequired,
   secondsElapsed: PropTypes.number.isRequired,
-  log: PropTypes.shape({}).isRequired,
+  log: PropTypes.shape({
+    _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    times: PropTypes.arrayOf(PropTypes.object),
+    title: PropTypes.string,
+  }).isRequired,
   workDuration: PropTypes.string.isRequired,
   onStartClick: PropTypes.func.isRequired,
   onStopClick: PropTypes.func.isRequired,
