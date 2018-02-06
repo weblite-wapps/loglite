@@ -30,26 +30,28 @@ class WorkList extends React.Component {
   }
 
   _handleOpenPopover() {
+    const { changePopoverId, log: { _id } } = this.props
     this.setState({ anchorEl: findDOMNode(this.button) })
-    this.props.changePopoverStage(true)
+    changePopoverId(_id)
   }
 
   _handleClose() {
-    this.props.changePopoverStage(false)
+    this.props.changePopoverId('')
   }
 
   _handleYep() {
-    this.props.changePopoverStage(false)
+    const { changePopoverId, deleteLog } = this.props
+    changePopoverId('')
     snackbarMessage({ message: 'Deleted successfully !' })
-    this.props.deleteLog()
+    deleteLog()
   }
 
   _handleNop() {
-    this.props.changePopoverStage(false)
+    this.props.changePopoverId('')
   }
 
   render() {
-    const { classes, userId, selectedUser, log, workDuration, popoverIsOpen } = this.props
+    const { classes, userId, selectedUser, log, workDuration, popoverId } = this.props
     return (
       <div>
         <List disablePadding>
@@ -86,7 +88,7 @@ class WorkList extends React.Component {
                   Delete
                 </Button>
                 <Popover
-                  popoverIsOpen={popoverIsOpen}
+                  popoverIsOpen={log._id === popoverId}
                   anchorEl={this.state.anchorEl}
                   onClose={this.handleClose}
                   onYep={this.handleYep}
@@ -103,13 +105,13 @@ class WorkList extends React.Component {
 
 WorkList.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  log: PropTypes.shape({}).isRequired,
+  log: PropTypes.shape({ _id: PropTypes.string.isRequired }).isRequired,
   userId: PropTypes.string.isRequired,
   selectedUser: PropTypes.string.isRequired,
   workDuration: PropTypes.string.isRequired,
-  popoverIsOpen: PropTypes.bool.isRequired,
+  popoverId: PropTypes.string.isRequired,
   deleteLog: PropTypes.func.isRequired,
-  changePopoverStage: PropTypes.func.isRequired,
+  changePopoverId: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(WorkList)

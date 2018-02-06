@@ -12,7 +12,7 @@ import {
   CHANGE_TAB,
   LOAD_USERS_DATA,
   LOAD_LOGS_DATA,
-  CHANGE_POPOVER_STAGE,
+  CHANGE_POPOVER_ID,
   ADD_LOG,
   ADD_CUSTOM_LOG,
   ADD_LOG_TO_NEXT_DAY,
@@ -23,14 +23,13 @@ import {
   SAVE_START_TIME,
   SAVE_END_TIME,
   CHANGE_RUNNING_ID,
-  CHANGE_EXPANDING_ID,
 } from './App.action'
 
 // state
 const initialState = {
   tabIndex: 'Home',
   isLoading: false,
-  popoverIsOpen: false,
+  popoverId: '',
   runningId: '',
   secondsElapsed: 0,
   logs: [],
@@ -45,9 +44,8 @@ const isLoadingLens = R.lensProp('isLoading')
 const tabIndexLens = R.lensProp('tabIndex')
 const endLens = R.lensProp('end')
 const runningIdLens = R.lensProp('runningId')
-const expandingIdLens = R.lensProp('expandingId')
 const secondsElapsedLens = R.lensProp('secondsElapsed')
-const popoverIsOpenLens = R.lensProp('popoverIsOpen')
+const popoverIdLens = R.lensProp('popoverId')
 // views
 export const wisView = () => R.path(['App', 'wis'])(getState())
 export const creatorView = () => R.path(['App', 'creator'])(getState())
@@ -70,7 +68,7 @@ const reducers = {
 
   [LOAD_LOGS_DATA]: (state, { logs }) => ({ ...state, logs: R.concat(state.logs, logs) }),
 
-  [CHANGE_POPOVER_STAGE]: (state, { value }) => R.set(popoverIsOpenLens, value, state),
+  [CHANGE_POPOVER_ID]: (state, { value }) => R.set(popoverIdLens, value, state),
 
   [ADD_LOG]: (state, { title, tags }) => ({
     ...state,

@@ -36,9 +36,9 @@ export const LOAD_LOGS_DATA = 'LOAD_LOGS_DATA'
 export const loadLogsData = createAction(LOAD_LOGS_DATA, logs => ({ logs }))
 export const dispatchLoadLogsData = (...args) => dispatch(loadLogsData(...args))
 
-export const CHANGE_POPOVER_STAGE = 'CHANGE_POPOVER_STAGE'
-export const changePopoverStage = createAction(CHANGE_POPOVER_STAGE, value => ({ value }))
-export const dispatchChangePopoverStage = (...args) => dispatch(changePopoverStage(...args))
+export const CHANGE_POPOVER_ID = 'CHANGE_POPOVER_ID'
+export const changePopoverId = createAction(CHANGE_POPOVER_ID, value => ({ value }))
+export const dispatchChangePopoverId = (...args) => dispatch(changePopoverId(...args))
 
 export const ADD_LOG = 'ADD_LOG'
 export const addLog = createAction(ADD_LOG, (title, tags) => ({ title, tags }))
