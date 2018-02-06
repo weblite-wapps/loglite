@@ -2,7 +2,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
-import * as R from 'ramda'
 import { withStyles } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Typography from 'material-ui/Typography'
@@ -51,24 +50,26 @@ class WorkList extends React.Component {
   }
 
   render() {
-    const { classes, userId, selectedUser, log, workDuration, popoverId } = this.props
+    const {
+      classes, runningId, userId, selectedUser, log: { _id, title, tags }, workDuration, popoverId,
+    } = this.props
     return (
       <div>
         <List disablePadding>
           <div className={scssClasses.text}>
             <div>
               <Typography type="subheading">
-                { log.title }
+                { title }
               </Typography>
             </div>
             <div>
               <Typography type="body2" align="right">
-                {R.test(/^NaN/, workDuration) ? 'Running...' : workDuration}
+                {_id === runningId ? 'Running...' : workDuration}
               </Typography>
             </div>
           </div>
           <div className={scssClasses.tags}>
-            {log.tags.map((tag, index) => (
+            {tags.map((tag, index) => (
               <TagShape
                 key={index}
                 tag={tag}
@@ -88,7 +89,7 @@ class WorkList extends React.Component {
                   Delete
                 </Button>
                 <Popover
-                  popoverIsOpen={log._id === popoverId}
+                  popoverIsOpen={_id === popoverId}
                   anchorEl={this.state.anchorEl}
                   onClose={this.handleClose}
                   onYep={this.handleYep}
@@ -105,7 +106,12 @@ class WorkList extends React.Component {
 
 WorkList.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  log: PropTypes.shape({ _id: PropTypes.string.isRequired }).isRequired,
+  log: PropTypes.shape({
+    _id: PropTypes.string,
+    tags: PropTypes.arrayOf(PropTypes.string),
+    title: PropTypes.string,
+  }).isRequired,
+  runningId: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
   selectedUser: PropTypes.string.isRequired,
   workDuration: PropTypes.string.isRequired,

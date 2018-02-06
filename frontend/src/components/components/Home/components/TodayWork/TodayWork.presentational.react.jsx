@@ -38,8 +38,9 @@ export default class TodayWork extends React.Component {
   }
 
   componentDidMount() {
-    const { log: { _id }, runningId, changeRunningId } = this.props
-    if (runningId === _id) changeRunningId(_id)
+    const { log: { _id, times }, changeRunningId } = this.props
+    const len = times.length
+    if (len && times[len - 1].end === 'running') changeRunningId(_id)
   }
 
   _handleStartClick() {
