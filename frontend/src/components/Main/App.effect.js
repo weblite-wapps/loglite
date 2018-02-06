@@ -24,7 +24,6 @@ import {
   dispatchFetchAdminData,
   dispatchChangeRunningId,
   dispatchSetIsLoading,
-  dispatchChangeExpandingId,
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, creatorView } from './App.reducer'
@@ -70,7 +69,6 @@ const addLogToNextDayEpic = action$ =>
     .mergeMap(action => postRequest('/insertLogToNextDay')
       .send({
         title: action.payload.title,
-        expanded: false,
         tags: action.payload.tags,
         times: [{ start: formatTime('00:00'), end: action.payload.end }],
         date: action.payload.date,
@@ -90,7 +88,6 @@ const deleteLogEpic = action$ =>
 const saveStartTimeEpic = action$ =>
   action$.ofType(SAVE_START_TIME)
     .pluck('payload')
-    .do(payload => dispatchChangeExpandingId(payload._id))
     .do(payload => dispatchChangeRunningId(payload._id))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(payload => postRequest('/saveStartTime')
@@ -105,7 +102,6 @@ const saveStartTimeEpic = action$ =>
 const saveEndTimeEpic = action$ =>
   action$.ofType(SAVE_END_TIME)
     .pluck('payload')
-    .do(() => dispatchChangeExpandingId(''))
     .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(payload => postRequest('/saveEndTime')

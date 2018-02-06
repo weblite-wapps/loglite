@@ -42,7 +42,6 @@ const refetchTotalDurationEpic = action$ =>
 
 const effectCountUpEpic = action$ =>
   action$.ofType(SAVE_START_TIME, COUNTINUE_COUNTING)
-    .pluck('payload')
     .mergeMap(() => Observable.interval(1000)
       .mapTo({ type: INCREMENT_SECONDS_ELAPSED })
       .takeUntil(action$.ofType(SAVE_END_TIME, CHANGE_TAB)))
