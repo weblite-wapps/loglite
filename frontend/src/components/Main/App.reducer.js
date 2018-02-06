@@ -31,7 +31,6 @@ const initialState = {
   tabIndex: 'Home',
   isLoading: false,
   popoverIsOpen: false,
-  expandingId: '',
   runningId: '',
   secondsElapsed: 0,
   logs: [],
@@ -70,8 +69,6 @@ const reducers = {
     ({ ...state, users: R.uniq(R.concat(state.users, users)) }),
 
   [LOAD_LOGS_DATA]: (state, { logs }) => ({ ...state, logs: R.concat(state.logs, logs) }),
-
-  [CHANGE_EXPANDING_ID]: (state, { _id }) => R.set(expandingIdLens, _id, state),
 
   [CHANGE_POPOVER_STAGE]: (state, { value }) => R.set(popoverIsOpenLens, value, state),
 

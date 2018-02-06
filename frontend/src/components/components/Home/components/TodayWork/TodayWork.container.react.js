@@ -5,7 +5,6 @@ import TodayWork from './TodayWork.presentational.react'
 // actions
 import { dispatchCountinueCounting } from '../../Main/Home.action'
 import {
-  dispatchChangeExpandingId,
   dispatchSetSecondsElapsed,
   dispatchSaveStartTime,
   dispatchSaveEndTime,
@@ -18,14 +17,12 @@ import { getWorksDuration } from '../../../../../helper/selectors/workDuration.s
 
 const mapStateToProps = (state, ownProps) => ({
   isLoading: state.App.isLoading,
-  expandingId: state.App.expandingId,
   runningId: state.App.runningId,
   secondsElapsed: state.App.secondsElapsed,
   workDuration: getWorksDuration(state)[ownProps.log._id],
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  changeExpandingId: dispatchChangeExpandingId,
   setSecondsElapsed: dispatchSetSecondsElapsed,
   countinueCounting: dispatchCountinueCounting,
   onStartClick: dispatchSaveStartTime,
