@@ -26,21 +26,20 @@ class Home extends React.Component {
     this.props.history.push('/Add')
   }
   render() {
-    const { logs } = this.props
-    const len = log => log.times.length
+    const { logs, runningId } = this.props
     return (
       <div className={scssClasses.container}>
         <Summary />
         <Divider />
         <div>
           {
-            logs.filter(log => log.date === formattedDate(new Date()) ||
-            (len(log) && log.times[len(log) - 1].end === 'running')).map(log => (
-              <TodayWork
-                key={log._id}
-                log={log}
-              />
-            ))
+            logs.filter(log => log.date === formattedDate(new Date()) || (log._id === runningId))
+              .map(log => (
+                <TodayWork
+                  key={log._id}
+                  log={log}
+                />
+              ))
           }
         </div>
         <div className={scssClasses.button}>
@@ -56,6 +55,7 @@ class Home extends React.Component {
 
 Home.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  runningId: PropTypes.string.isRequired,
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
   changeTab: PropTypes.func.isRequired,
 }

@@ -8,6 +8,7 @@ import { dispatchChangeTab } from '../../../Main/App.action'
 
 const mapStateToProps = state => ({
   logs: state.App.logs,
+  runningId: state.App.runningId,
 })
 
 const mapDispatchToProps = () => ({ changeTab: dispatchChangeTab })
