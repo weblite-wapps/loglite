@@ -23,6 +23,7 @@ const reducers = {
   [CHANGE_TEXT_SLIDER]: (state, { value }) => ({ ...state,
     textSlider: {
       name: NextTextSliderName(state.textSlider.name, value),
+      // TODO: wtf???
       duration: R.view(R.lensProp(NextTextSliderDuration(state.textSlider.name, value)),
         state.homeTotalDuration),
     },

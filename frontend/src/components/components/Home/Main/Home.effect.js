@@ -48,7 +48,7 @@ const effectCountUpEpic = action$ =>
 
 const checkToCountEpic = action$ =>
   action$.ofType(CHECK_TO_SET_SECONDS_ELAPSED)
-    .filter(() => runningIdView())
+    .filter(runningIdView)
     .map(() => setSecondsElapsed(getSecondsElapsed(logsView(), runningIdView())))
 
 

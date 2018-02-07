@@ -16,6 +16,7 @@ import { getWorksDuration } from '../../../../../helper/selectors/workDuration.s
 
 
 const mapStateToProps = (state, ownProps) => ({
+  // TODO: view
   isLoading: state.App.isLoading,
   runningId: state.App.runningId,
   secondsElapsed: state.App.secondsElapsed,

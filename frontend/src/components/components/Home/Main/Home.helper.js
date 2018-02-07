@@ -26,6 +26,7 @@ export const NextTextSliderName = (currentStage, direction) => {
   }
 }
 
+// TODO: refactor me
 export const NextTextSliderDuration = (currentStage, direction) => {
   switch (currentStage) {
     case 'Today': return 'thisWeek'
