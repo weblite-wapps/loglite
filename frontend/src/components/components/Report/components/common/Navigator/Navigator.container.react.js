@@ -2,6 +2,8 @@
 import { connect } from 'react-redux'
 // components
 import Navigator from './Navigator.presentational.react'
+// views
+import { currentPageView } from '../../../Main/Report.reducer'
 // actions
 import {
   dispatchPreviousPage,
@@ -11,7 +13,7 @@ import {
 
 const mapStateToProps = (state, ownProps) => ({
   isCustom: ownProps.isCustom,
-  currentPage: state.Report.currentPage,
+  currentPage: currentPageView(),
 })
 
 const mapDispatchToProps = () => ({

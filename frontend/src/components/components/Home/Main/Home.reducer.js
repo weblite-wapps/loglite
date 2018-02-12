@@ -1,5 +1,7 @@
 // modules
 import * as R from 'ramda'
+// local modules
+import { getState } from '../../../../setup/redux'
 // actions
 import {
   CHANGE_TEXT_SLIDER,
@@ -14,9 +16,10 @@ const initialState = {
   homeTotalDuration: { today: '', thisWeek: '', thisMonth: '' },
 }
 
-
 // lens
 const durationLens = R.lensProp('duration')
+// views
+export const textSliderView = () => R.path(['Home', 'textSlider'])(getState())
 
 // reducers
 const reducers = {

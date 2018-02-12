@@ -2,6 +2,9 @@
 import { connect } from 'react-redux'
 // components
 import Report from './Report.presentational.react'
+// views
+import { userIdView, logsView } from '../../../Main/App.reducer'
+import { selectedUserView, staffLogsView, currentPageView, totalDurationView } from './Report.reducer'
 // selectors
 import {
   getTotalDuration,
@@ -12,14 +15,14 @@ import {
 
 
 const mapStateToProps = state => ({
-  userId: state.App.user.id,
-  selectedUser: state.Report.selectedUser,
-  logs: state.App.logs,
-  staffLogs: state.Report.staffLogs,
-  currentPage: state.Report.currentPage,
+  userId: userIdView(),
+  selectedUser: selectedUserView(),
+  logs: logsView(),
+  staffLogs: staffLogsView(),
+  currentPage: currentPageView(),
   totalDuration: getTotalDuration(state),
   staffTotalDuration: getStaffTotalDuration(state),
-  totalDurationFromServer: state.Report.totalDuration,
+  totalDurationFromServer: totalDurationView(),
   pieChartData: getPieChartData(state),
   staffPieChartData: getStaffPieChartData(state),
 })

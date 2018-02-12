@@ -2,6 +2,8 @@
 import { connect } from 'react-redux'
 // components
 import TodayWork from './TodayWork.presentational.react'
+// views
+import { isLoadingView, runningIdView, secondsElapsedView } from '../../../../Main/App.reducer'
 // actions
 import { dispatchCountinueCounting } from '../../Main/Home.action'
 import {
@@ -17,9 +19,9 @@ import { getWorksDuration } from '../../../../../helper/selectors/workDuration.s
 
 const mapStateToProps = (state, ownProps) => ({
   // TODO: view
-  isLoading: state.App.isLoading,
-  runningId: state.App.runningId,
-  secondsElapsed: state.App.secondsElapsed,
+  isLoading: isLoadingView(),
+  runningId: runningIdView(),
+  secondsElapsed: secondsElapsedView(),
   workDuration: getWorksDuration(state)[ownProps.log._id],
 })
 

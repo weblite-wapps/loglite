@@ -70,7 +70,7 @@ export default class ShowChart extends React.Component {
         <div className={scssClasses.buttons}>
           <Button
             label="This Week"
-            onClick={this._handleInsertThisWeek}
+            onClick={this.handleInsertThisWeek}
             componentName="CustomAdd"
           />
           <Button

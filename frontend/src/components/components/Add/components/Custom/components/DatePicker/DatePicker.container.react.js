@@ -2,13 +2,12 @@
 import { connect } from 'react-redux'
 // components
 import DatePicker from './DatePicker.presentational.react'
+import { dateView } from '../../../../Main/Add.reducer'
 // actions
 import { dispatchChangeDate } from '../../../../Main/Add.action'
 
 
-const mapStateToProps = state => ({
-  date: state.Add.date,
-})
+const mapStateToProps = () => ({ date: dateView() })
 
 const mapDispatchToProps = () =>
   ({ onDateChange: ({ target: { value } }) => dispatchChangeDate(value) })
