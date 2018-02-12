@@ -126,7 +126,7 @@ const fetchPreviousDayLogsDataEpic = action$ =>
     .do(() =>
       dispatchAddPage(formattedDate(currentPageView()), selectedUserView()))
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(() => getRequest('/fetchPreviousDayData')
+    .mergeMap(() => getRequest('/fetchLogs')
       .query({
         wis: wisView(),
         userId: selectedUserView(),
@@ -149,7 +149,7 @@ const fetchNextDayLogsDataEpic = action$ =>
     .do(() =>
       dispatchAddPage(formattedDate(currentPageView()), selectedUserView()))
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(() => getRequest('/fetchNextDayData')
+    .mergeMap(() => getRequest('/fetchLogs')
       .query({
         wis: wisView(),
         userId: selectedUserView(),
