@@ -40,15 +40,11 @@ const resetStaffDataEpic = action$ =>
     .map(() => resetStaffLogs(userIdView()))
 
 
-// TODO: Read Me Please
 const loadStaffDataEpic = action$ =>
   action$.ofType(RESET_STAFF_LOGS)
-    .filter(() =>
-      R.prop(selectedUserView(), pagesView()) === undefined
-      || !R.contains(formattedDate(currentPageView()),
-        pagesView()[selectedUserView()]))
-    .do(() =>
-      dispatchAddPage(formattedDate(currentPageView()), selectedUserView()))
+    .filter(() => R.prop(selectedUserView(), pagesView()) === undefined ||
+      !R.contains(formattedDate(currentPageView()), pagesView()[selectedUserView()]))
+    .do(() => dispatchAddPage(formattedDate(currentPageView()), selectedUserView()))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => Promise.all([
       getRequest('/fetchLogs')
@@ -121,10 +117,8 @@ const convertJSONToCSVEpic = action$ =>
 
 const fetchPreviousDayLogsDataEpic = action$ =>
   action$.ofType(PREVIOUS_PAGE)
-    .filter(() => !R.contains(formattedDate(currentPageView()),
-      pagesView()[selectedUserView()]))
-    .do(() =>
-      dispatchAddPage(formattedDate(currentPageView()), selectedUserView()))
+    .filter(() => !R.contains(formattedDate(currentPageView()), pagesView()[selectedUserView()]))
+    .do(() => dispatchAddPage(formattedDate(currentPageView()), selectedUserView()))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/fetchLogs')
       .query({
@@ -144,10 +138,8 @@ const fetchPreviousDayLogsDataEpic = action$ =>
 
 const fetchNextDayLogsDataEpic = action$ =>
   action$.ofType(NEXT_PAGE)
-    .filter(() => !R.contains(formattedDate(currentPageView()),
-      pagesView()[selectedUserView()]))
-    .do(() =>
-      dispatchAddPage(formattedDate(currentPageView()), selectedUserView()))
+    .filter(() => !R.contains(formattedDate(currentPageView()), pagesView()[selectedUserView()]))
+    .do(() => dispatchAddPage(formattedDate(currentPageView()), selectedUserView()))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/fetchLogs')
       .query({
