@@ -21,7 +21,7 @@ const effectSearchTagsEpic = action$ =>
     .mergeMap(payload =>
       getRequest('/serachTags')
         .query({ wis: wisView(), userId: userIdView(), label: payload.queryTag })
-        .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null))
+        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .map(({ body }) => fetchTagsInAdd(body))
 
 const addLogEpic = action$ =>
@@ -37,13 +37,14 @@ const addLogEpic = action$ =>
           userId: userIdView(),
           wis: wisView(),
         })
-        .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
+        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
       postRequest('/saveTags')
         .send({
           tags: payload.tags,
           userId: userIdView(),
           wis: wisView(),
-        }),
+        })
+        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
     ]))
     .mergeMap(success =>
       [restoreLog(success[0].body), loadTagsDataInAdd(success[1].body)])
@@ -56,21 +57,19 @@ const addCustomLogEpic = action$ =>
         .send({
           title: payload.title,
           tags: payload.tags,
-          times: [{
-            start: formatTime(payload.start),
-            end: formatTime(payload.end),
-          }],
+          times: [{ start: formatTime(payload.start), end: formatTime(payload.end) }],
           date: payload.date,
           userId: userIdView(),
           wis: wisView(),
         })
-        .on('error', err => err.status !== 304 ? snackbarMessage({ message: 'Server dissonncted!' }) : null),
+        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
       postRequest('/saveTags')
         .send({
           tags: payload.tags,
           userId: userIdView(),
           wis: wisView(),
-        }),
+        })
+        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
     ]))
     .mergeMap(success => [
       success[0].text === 'added successfully!' ? resetInputs() : restoreLog(success[0].body),

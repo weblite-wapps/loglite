@@ -2,6 +2,8 @@
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import { Observable } from 'rxjs/Observable'
+// local modules
+import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest, getSecondsElapsed } from './Home.helper'
 import { getToday, getStartDayOfWeek, getStartDayOfMonth } from '../../../../helper/functions/date.helper'
@@ -35,7 +37,8 @@ const refetchTotalDurationEpic = action$ =>
         today: getToday(),
         startOfWeek: getStartDayOfWeek(),
         startOfMonth: getStartDayOfMonth(),
-      }))
+      })
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ body }) => loadTotalDurations(body))
 
