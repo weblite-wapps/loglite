@@ -8,8 +8,7 @@ import {
   LOAD_TOTAL_DURATIONS,
 } from './Home.action'
 // helpers
-import { NextTextSliderName, NextTextSliderDuration } from './Home.helper'
-
+import { NextName, NextDuration } from './Home.helper'
 // state
 const initialState = {
   textSlider: { name: 'Today', duration: '' },
@@ -25,10 +24,8 @@ export const textSliderView = () => R.path(['Home', 'textSlider'])(getState())
 const reducers = {
   [CHANGE_TEXT_SLIDER]: (state, { value }) => ({ ...state,
     textSlider: {
-      name: NextTextSliderName(state.textSlider.name, value),
-      // TODO: wtf???
-      duration: R.view(R.lensProp(NextTextSliderDuration(state.textSlider.name, value)),
-        state.homeTotalDuration),
+      name: NextName(state.textSlider.name, value),
+      duration: state.homeTotalDuration[NextDuration(state.textSlider.name, value)],
     },
   }),
 
