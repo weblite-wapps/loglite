@@ -1,6 +1,6 @@
 // modules
 import mongoose from 'mongoose'
-import R from 'ramda'
+import * as R from 'ramda'
 // components
 import app from '../setup/server'
 // db helpers

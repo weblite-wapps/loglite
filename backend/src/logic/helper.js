@@ -1,6 +1,6 @@
 // modules
 import json2csv from 'json2csv'
-import R from 'ramda'
+import * as R from 'ramda'
 import differenceInSeconds from 'date-fns/difference_in_seconds'
 import format from 'date-fns/format'
 import differenceInDays from 'date-fns/difference_in_days'
