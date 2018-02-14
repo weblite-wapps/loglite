@@ -2,7 +2,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { createEpicMiddleware, combineEpics } from 'redux-observable'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
-import createHistory from 'history/createBrowserHistory'
+import createHistory from 'history/createMemoryHistory'
 // reducers
 import AppReducer from '../components/Main/App.reducer'
 import HomeReducer from '../components/components/Home/Main/Home.reducer'
