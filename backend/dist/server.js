@@ -142,6 +142,19 @@ eval("/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mongoose__ = __webpac
 
 /***/ }),
 
+/***/ "./setup/dev.index.js":
+/*!****************************!*\
+  !*** ./setup/dev.index.js ***!
+  \****************************/
+/*! no exports provided */
+/*! all exports used */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("Object.defineProperty(__webpack_exports__, \"__esModule\", { value: true });\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_http__ = __webpack_require__(/*! http */ \"http\");\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_http___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_http__);\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__server__ = __webpack_require__(/*! ./server */ \"./setup/server.js\");\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mongodb__ = __webpack_require__(/*! ./mongodb */ \"./setup/mongodb.js\");\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__logic_route__ = __webpack_require__(/*! ../logic/route */ \"./logic/route.js\");\n// modules\n\n\n\n\n\n__WEBPACK_IMPORTED_MODULE_0_http___default.a.createServer(__WEBPACK_IMPORTED_MODULE_1__server__[\"a\" /* default */]).listen(3080);\n\n//////////////////\n// WEBPACK FOOTER\n// ./setup/dev.index.js\n// module id = ./setup/dev.index.js\n// module chunks = 0\n\n//# sourceURL=webpack:///./setup/dev.index.js?");
+
+/***/ }),
+
 /***/ "./setup/mongodb.js":
 /*!**************************!*\
   !*** ./setup/mongodb.js ***!
@@ -151,19 +164,6 @@ eval("/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mongoose__ = __webpac
 
 "use strict";
 eval("/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mongoose__ = __webpack_require__(/*! mongoose */ \"mongoose\");\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mongoose___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mongoose__);\n\n\n__WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.connect('mongodb://localhost:27017/Loglite');\n__WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.Promise = Promise;\nconst db = __WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.connection;\ndb.on('error', console.log);\n\n//////////////////\n// WEBPACK FOOTER\n// ./setup/mongodb.js\n// module id = ./setup/mongodb.js\n// module chunks = 0\n\n//# sourceURL=webpack:///./setup/mongodb.js?");
-
-/***/ }),
-
-/***/ "./setup/prod.index.js":
-/*!*****************************!*\
-  !*** ./setup/prod.index.js ***!
-  \*****************************/
-/*! no exports provided */
-/*! all exports used */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("Object.defineProperty(__webpack_exports__, \"__esModule\", { value: true });\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path__ = __webpack_require__(/*! path */ \"path\");\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_path__);\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_https__ = __webpack_require__(/*! https */ \"https\");\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_https___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_https__);\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fs__ = __webpack_require__(/*! fs */ \"fs\");\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_fs__);\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__server__ = __webpack_require__(/*! ./server */ \"./setup/server.js\");\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mongodb__ = __webpack_require__(/*! ./mongodb */ \"./setup/mongodb.js\");\n/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__logic_route__ = __webpack_require__(/*! ../logic/route */ \"./logic/route.js\");\n// modules\n\n\n\n\n\n\n\nconst privateKey = __WEBPACK_IMPORTED_MODULE_2_fs___default.a.readFileSync(__WEBPACK_IMPORTED_MODULE_0_path___default.a.resolve('./src/certs/express.key'), 'utf8');\nconst certificate = __WEBPACK_IMPORTED_MODULE_2_fs___default.a.readFileSync(__WEBPACK_IMPORTED_MODULE_0_path___default.a.resolve('./src/certs/express.crt'), 'utf8');\n\n__WEBPACK_IMPORTED_MODULE_1_https___default.a.createServer({ key: privateKey, cert: certificate }, __WEBPACK_IMPORTED_MODULE_3__server__[\"a\" /* default */]).listen(3080);\n\n//////////////////\n// WEBPACK FOOTER\n// ./setup/prod.index.js\n// module id = ./setup/prod.index.js\n// module chunks = 0\n\n//# sourceURL=webpack:///./setup/prod.index.js?");
 
 /***/ }),
 
@@ -181,14 +181,14 @@ eval("/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack
 /***/ }),
 
 /***/ 0:
-/*!***********************************!*\
-  !*** multi ./setup/prod.index.js ***!
-  \***********************************/
+/*!**********************************!*\
+  !*** multi ./setup/dev.index.js ***!
+  \**********************************/
 /*! dynamic exports provided */
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! ./setup/prod.index.js */\"./setup/prod.index.js\");\n\n\n//////////////////\n// WEBPACK FOOTER\n// multi ./setup/prod.index.js\n// module id = 0\n// module chunks = 0\n\n//# sourceURL=webpack:///multi_./setup/prod.index.js?");
+eval("module.exports = __webpack_require__(/*! ./setup/dev.index.js */\"./setup/dev.index.js\");\n\n\n//////////////////\n// WEBPACK FOOTER\n// multi ./setup/dev.index.js\n// module id = 0\n// module chunks = 0\n\n//# sourceURL=webpack:///multi_./setup/dev.index.js?");
 
 /***/ }),
 
@@ -276,27 +276,15 @@ eval("module.exports = require(\"express\");\n\n//////////////////\n// WEBPACK F
 
 /***/ }),
 
-/***/ "fs":
-/*!*********************!*\
-  !*** external "fs" ***!
-  \*********************/
+/***/ "http":
+/*!***********************!*\
+  !*** external "http" ***!
+  \***********************/
 /*! dynamic exports provided */
 /*! exports used: default */
 /***/ (function(module, exports) {
 
-eval("module.exports = require(\"fs\");\n\n//////////////////\n// WEBPACK FOOTER\n// external \"fs\"\n// module id = fs\n// module chunks = 0\n\n//# sourceURL=webpack:///external_%22fs%22?");
-
-/***/ }),
-
-/***/ "https":
-/*!************************!*\
-  !*** external "https" ***!
-  \************************/
-/*! dynamic exports provided */
-/*! exports used: default */
-/***/ (function(module, exports) {
-
-eval("module.exports = require(\"https\");\n\n//////////////////\n// WEBPACK FOOTER\n// external \"https\"\n// module id = https\n// module chunks = 0\n\n//# sourceURL=webpack:///external_%22https%22?");
+eval("module.exports = require(\"http\");\n\n//////////////////\n// WEBPACK FOOTER\n// external \"http\"\n// module id = http\n// module chunks = 0\n\n//# sourceURL=webpack:///external_%22http%22?");
 
 /***/ }),
 
@@ -321,18 +309,6 @@ eval("module.exports = require(\"json2csv\");\n\n//////////////////\n// WEBPACK 
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"mongoose\");\n\n//////////////////\n// WEBPACK FOOTER\n// external \"mongoose\"\n// module id = mongoose\n// module chunks = 0\n\n//# sourceURL=webpack:///external_%22mongoose%22?");
-
-/***/ }),
-
-/***/ "path":
-/*!***********************!*\
-  !*** external "path" ***!
-  \***********************/
-/*! dynamic exports provided */
-/*! exports used: default */
-/***/ (function(module, exports) {
-
-eval("module.exports = require(\"path\");\n\n//////////////////\n// WEBPACK FOOTER\n// external \"path\"\n// module id = path\n// module chunks = 0\n\n//# sourceURL=webpack:///external_%22path%22?");
 
 /***/ }),
 

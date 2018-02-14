@@ -51,8 +51,10 @@ class WorkList extends React.Component {
 
   render() {
     const {
-      classes, runningId, userId, selectedUser, log: { _id, title, tags }, workDuration, popoverId,
+      classes, userId, selectedUser, log: { _id, title, tags, times }, workDuration, popoverId,
     } = this.props
+    const len = times.length
+
     return (
       <div>
         <List disablePadding>
@@ -64,7 +66,7 @@ class WorkList extends React.Component {
             </div>
             <div>
               <Typography type="body2" align="right">
-                {_id === runningId ? 'Running...' : workDuration}
+                {times[len - 1].end === 'running' ? 'Running...' : workDuration}
               </Typography>
             </div>
           </div>
@@ -110,8 +112,8 @@ WorkList.propTypes = {
     _id: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),
     title: PropTypes.string,
+    times: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
-  runningId: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
   selectedUser: PropTypes.string.isRequired,
   workDuration: PropTypes.string.isRequired,

@@ -11,7 +11,6 @@ const mapStateToProps = (state, ownProps) => ({
   selectedUser: state.Report.selectedUser,
   userId: state.App.user.id,
   popoverId: state.App.popoverId,
-  runningId: state.App.runningId,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
