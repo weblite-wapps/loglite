@@ -97,7 +97,7 @@ const calculateTotalDurationEpic = action$ =>
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .map(({ text }) => restoreTotalDuration(text))
+    .map(({ body }) => restoreTotalDuration(body))
 
 
 const convertJSONToCSVEpic = action$ =>

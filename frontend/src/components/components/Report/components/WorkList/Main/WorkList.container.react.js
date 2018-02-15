@@ -11,16 +11,10 @@ import { dispatchDeleteLog, dispatchChangePopoverId } from '../../../../../Main/
 
 const mapStateToProps = (state, ownProps) => ({
   workDuration: ownProps.getDuration(state)[ownProps.log._id],
-<<<<<<< HEAD
-  selectedUser: state.Report.selectedUser,
-  userId: state.App.user.id,
-  popoverId: state.App.popoverId,
-=======
   selectedUser: selectedUserView(),
   userId: userIdView(),
   popoverId: popoverIdView(),
   runningId: runningIdView(),
->>>>>>> dev
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
