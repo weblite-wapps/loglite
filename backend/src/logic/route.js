@@ -134,6 +134,7 @@ app.post('/saveEndTime', (req, res) =>
     .then(() => res.send('saved successfully!'))
     .catch(logger))
 
+
 app.get('/fetchTotalDurations', (req, res) =>
   Promise.all([
     fetchLogs({ ...defaultQueryGenerator(req.query), date: req.query.today }),
@@ -150,18 +151,6 @@ app.get('/fetchTotalDurations', (req, res) =>
     thisWeek: formattedSeconds(sumLogs(success[1]), 'Home'),
     thisMonth: formattedSeconds(sumLogs(success[2]), 'Home'),
   })).catch(logger))
-
-
-app.get('/fetchPreviousDayData', (req, res) =>
-  fetchLogs({ wis: req.query.wis, userId: req.query.userId, date: req.query.date })
-    .then(logs => res.json(logs))
-    .catch(logger))
-
-
-app.get('/fetchNextDayData', (req, res) =>
-  fetchLogs({ wis: req.query.wis, userId: req.query.userId, date: req.query.date })
-    .then(logs => res.json(logs))
-    .catch(logger))
 
 
 app.get('/calculateTotalDuration', (req, res) => {

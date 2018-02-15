@@ -2,11 +2,13 @@
 import { connect } from 'react-redux'
 // components
 import StartTimePicker from './StartTimePicker.presentational.react'
+// views
+import { startTimeView } from '../../../../Main/Add.reducer'
 // actions
 import { dispatchChangeStartTime } from '../../../../Main/Add.action'
 
 
-const mapStateToProps = state => ({ startTime: state.Add.startTime })
+const mapStateToProps = () => ({ startTime: startTimeView() })
 
 const mapDispatchToProps = () =>
   ({ onStartTimeChange: ({ target: { value } }) => dispatchChangeStartTime(value) })

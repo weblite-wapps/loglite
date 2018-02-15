@@ -2,13 +2,13 @@
 import { connect } from 'react-redux'
 // components
 import StartDatePicker from './StartDatePicker.presentational.react'
+// views
+import { startDateView } from '../../../Main/Report.reducer'
 // actions
 import { dispatchChangeStartDate } from '../../../Main/Report.action'
 
 
-const mapStateToProps = state => ({
-  startDate: state.Report.startDate,
-})
+const mapStateToProps = () => ({ startDate: startDateView() })
 
 const mapDispatchToProps = () =>
   ({ onStartDateChange: ({ target: { value } }) => dispatchChangeStartDate(value) })

@@ -17,21 +17,21 @@ export const getRequest = path => request
   .get(host + path)
   .set('Access-Control-Allow-Origin', '*')
 
-export const NextTextSliderName = (currentStage, direction) => {
+export const NextName = (currentStage, direction) => {
   switch (currentStage) {
     case 'Today': return 'This Week'
     case 'This Week': return (direction === 'Next') ? 'This Month' : 'Today'
     case 'This Month': return 'This Week'
-    default: return null
+    default: return 'Today'
   }
 }
 
-export const NextTextSliderDuration = (currentStage, direction) => {
+export const NextDuration = (currentStage, direction) => {
   switch (currentStage) {
     case 'Today': return 'thisWeek'
     case 'This Week': return (direction === 'Next') ? 'thisMonth' : 'today'
     case 'This Month': return 'thisWeek'
-    default: return null
+    default: return 'today'
   }
 }
 

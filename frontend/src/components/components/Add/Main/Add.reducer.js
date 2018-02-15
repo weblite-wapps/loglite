@@ -1,5 +1,7 @@
 // modules
 import * as R from 'ramda'
+// local modules
+import { getState } from '../../../../setup/redux'
 // actions
 import {
   CHANGE_DATE,
@@ -34,6 +36,14 @@ const endTimeLens = R.lensProp('endTime')
 const titleLens = R.lensProp('title')
 const queryTagLens = R.lensProp('queryTag')
 const suggestionsLens = R.lensProp('suggestions')
+// views
+export const titleView = () => R.path(['Add', 'title'])(getState())
+export const queryTagView = () => R.path(['Add', 'queryTag'])(getState())
+export const selectedTagsView = () => R.path(['Add', 'selectedTags'])(getState())
+export const dateView = () => R.path(['Add', 'date'])(getState())
+export const startTimeView = () => R.path(['Add', 'startTime'])(getState())
+export const endTimeView = () => R.path(['Add', 'endTime'])(getState())
+export const tagsView = () => R.path(['Add', 'tags'])(getState())
 
 
 // reducers

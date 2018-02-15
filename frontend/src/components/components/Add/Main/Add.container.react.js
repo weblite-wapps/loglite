@@ -2,6 +2,9 @@
 import { connect } from 'react-redux'
 // components
 import Add from './Add.presentational.react'
+// views
+import { logsView } from '../../../Main/App.reducer'
+import { titleView, selectedTagsView, queryTagView, tagsView, dateView, startTimeView, endTimeView } from './Add.reducer'
 // actions
 import { dispatchChangeTab, dispatchAddLog, dispatchAddCustomLog } from '../../../Main/App.action'
 import {
@@ -15,15 +18,15 @@ import { getAddFilteredSuggestions } from '../../../Main/App.selector'
 
 
 const mapStateToProps = state => ({
-  logs: state.App.logs,
-  title: state.Add.title,
-  selectedTags: state.Add.selectedTags,
-  queryTag: state.Add.queryTag,
+  logs: logsView(),
+  title: titleView(),
+  selectedTags: selectedTagsView(),
+  queryTag: queryTagView(),
   suggestions: getAddFilteredSuggestions(state),
-  tags: state.Add.tags,
-  date: state.Add.date,
-  startTime: state.Add.startTime,
-  endTime: state.Add.endTime,
+  tags: tagsView(),
+  date: dateView(),
+  startTime: startTimeView(),
+  endTime: endTimeView(),
 })
 
 const mapDispatchToProps = () => ({

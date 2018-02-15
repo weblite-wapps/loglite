@@ -2,14 +2,17 @@
 import { connect } from 'react-redux'
 // components
 import SelectBar from './SelectBar.presentational.react'
+// views
+import { selectedUserView } from '../../../Main/Report.reducer'
+import { creatorView, usersView } from '../../../../../Main/App.reducer'
 // actions
 import { dispatchChangeSelectedUser } from '../../../Main/Report.action'
 
 
-const mapStateToProps = state => ({
-  creator: state.App.creator,
-  users: state.App.users,
-  selectedUser: state.Report.selectedUser,
+const mapStateToProps = () => ({
+  creator: creatorView(),
+  users: usersView(),
+  selectedUser: selectedUserView(),
 })
 
 const mapDispatchToProps = () => ({ changeSelectedUser: dispatchChangeSelectedUser })

@@ -52,8 +52,12 @@ export const creatorView = () => R.path(['App', 'creator'])(getState())
 export const userIdView = () => R.path(['App', 'user', 'id'])(getState())
 export const userNameView = () => R.path(['App', 'user', 'name'])(getState())
 export const logsView = () => R.path(['App', 'logs'])(getState())
+export const usersView = () => R.path(['App', 'users'])(getState())
+export const popoverIdView = () => R.path(['App', 'popoverId'])(getState())
 export const runningIdView = () => R.path(['App', 'runningId'])(getState())
-
+export const isLoadingView = () => R.path(['App', 'isLoading'])(getState())
+export const secondsElapsedView = () => R.path(['App', 'secondsElapsed'])(getState())
+export const tabIndexView = () => R.path(['App', 'tabIndex'])(getState())
 
 // reducers
 const reducers = {

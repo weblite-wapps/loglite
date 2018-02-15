@@ -41,11 +41,10 @@ class App extends React.Component {
 
   _handleWappMode() {
     const { setAPI, fetchTodayData } = this.props
-    window.W.loadData()
-    window.WProto.coreLoadData = ({ creator, user }) => {
+    window.W.loadData().then(({ creator, user }) => {
       setAPI(creator, user)
       fetchTodayData()
-    }
+    })
   }
 
   _handleNormalMode() {

@@ -33,7 +33,8 @@ class Home extends React.Component {
         <Divider />
         <div>
           {
-            logs.filter(log => log.date === formattedDate(new Date()) || (log._id === runningId))
+            logs
+              .filter(log => log.date === formattedDate(new Date()) || (log._id === runningId))
               .map(log => (
                 <TodayWork
                   key={log._id}

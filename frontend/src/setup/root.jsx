@@ -1,10 +1,11 @@
 // Modules
 import React from 'react'
 import { Provider } from 'react-redux'
-import { MemoryRouter as Router, Route } from 'react-router-dom'
+import { Route } from 'react-router'
+import { ConnectedRouter } from 'react-router-redux'
 import { MuiThemeProvider } from 'material-ui/styles'
 // Setup
-import store from './redux'
+import store, { history } from './redux'
 // Component
 import App from '../components/Main/App.container.react'
 import Home from '../components/components/Home/Main/Home.container.react'
@@ -20,7 +21,7 @@ export default function root() {
   return (
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
-        <Router>
+        <ConnectedRouter history={history}>
           <div className={scssClasses.container}>
             <App />
             <Route exact path="/" component={Home} />
@@ -28,7 +29,7 @@ export default function root() {
             <Route path="/Report" component={Report} />
             <Route path="/About" component={About} />
           </div>
-        </Router>
+        </ConnectedRouter>
       </MuiThemeProvider>
     </Provider>
   )

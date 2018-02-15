@@ -57,12 +57,18 @@ const currentPageLens = R.lensProp('currentPage')
 const suggestionsLens = R.lensProp('suggestions')
 const barChartDataLens = R.lensProp('barChartData')
 // views
+export const staffLogsView = () => R.path(['Report', 'staffLogs'])(getState())
 export const selectedUserView = () => R.path(['Report', 'selectedUser'])(getState())
-export const currentPageView = () => R.path(['Report', 'currentPage'])(getState())
-export const pagesView = () => R.path(['Report', 'pages'])(getState())
+export const queryTagView = () => R.path(['Report', 'queryTag'])(getState())
+export const selectedTagsView = () => R.path(['Report', 'selectedTags'])(getState())
+export const tagsView = () => R.path(['Report', 'tags'])(getState())
 export const startDateView = () => R.path(['Report', 'startDate'])(getState())
 export const endDateView = () => R.path(['Report', 'endDate'])(getState())
-export const selectedTagsView = () => R.path(['Report', 'selectedTags'])(getState())
+export const totalDurationView = () => R.path(['Report', 'totalDuration'])(getState())
+export const CSVView = () => R.path(['Report', 'CSV'])(getState())
+export const currentPageView = () => R.path(['Report', 'currentPage'])(getState())
+export const pagesView = () => R.path(['Report', 'pages'])(getState())
+export const barChartDataView = () => R.path(['Report', 'barChartData'])(getState())
 
 
 // reducers

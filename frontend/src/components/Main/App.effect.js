@@ -44,7 +44,7 @@ const saveUsersEpic = action$ =>
       .send({ wis: wisView(), userId: userIdView(), username: userNameView() })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(({ body }) => body && dispatchLoadUsersData([body]))
-    .map(() => dispatchFetchAdminData())
+    .map(dispatchFetchAdminData)
 
 const initialFetchEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
