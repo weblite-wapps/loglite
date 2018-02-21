@@ -66,7 +66,7 @@ class WorkList extends React.Component {
             </div>
             <div>
               <Typography type="body2" align="right">
-                {times[len - 1].end === 'running' ? 'Running...' : workDuration}
+                {len && times[len - 1].end === 'running' ? 'Running...' : workDuration}
               </Typography>
             </div>
           </div>
