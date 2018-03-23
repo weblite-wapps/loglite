@@ -6,6 +6,7 @@ import { getState } from '../../../../setup/redux'
 import { previousDay, nextDay } from './Report.helper'
 // actions
 import {
+  CHANGE_EXPANAD_MODE,
   SET_API,
   RESET_STAFF_LOGS,
   LOAD_STAFF_LOGS,
@@ -31,6 +32,7 @@ import {
 
 // state
 const initialState = {
+  expandMode: 'workList',
   staffLogs: [],
   selectedUser: '',
   queryTag: '',
@@ -56,6 +58,7 @@ const CSVLens = R.lensProp('CSV')
 const currentPageLens = R.lensProp('currentPage')
 const suggestionsLens = R.lensProp('suggestions')
 const barChartDataLens = R.lensProp('barChartData')
+const expandModeLens = R.lensProp('expandMode')
 // views
 export const staffLogsView = () => R.path(['Report', 'staffLogs'])(getState())
 export const selectedUserView = () => R.path(['Report', 'selectedUser'])(getState())
@@ -69,10 +72,13 @@ export const CSVView = () => R.path(['Report', 'CSV'])(getState())
 export const currentPageView = () => R.path(['Report', 'currentPage'])(getState())
 export const pagesView = () => R.path(['Report', 'pages'])(getState())
 export const barChartDataView = () => R.path(['Report', 'barChartData'])(getState())
+export const expandModeView = () => R.path(['Report', 'expandMode'])(getState())
 
 
 // reducers
 const reducers = {
+  [CHANGE_EXPANAD_MODE]: (state, { value }) => R.set(expandModeLens, value)(state),
+
   [SET_API]: (state, { user }) => ({ ...state, selectedUser: user.id }),
 
   [RESET_STAFF_LOGS]: (state, { userId }) => ({ ...state,

@@ -25,133 +25,84 @@ import { formattedDate } from '../../../../helper/functions/date.helper'
 import scssClasses from './Report.scss'
 
 
-export default class Report extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleClickWorkList = this._handleClickWorkList.bind(this)
-    this.handleClickCustom = this._handleClickCustom.bind(this)
-    this.handleClickChart = this._handleClickChart.bind(this)
-    this.handleChangeSelect = this._handleChangeSelect.bind(this)
-    this.state = {
-      expandedShowChart: false,
-      expandedCustom: false,
-      expandedWorkList: true,
-      isCustom: false,
-    }
-  }
+const Report = ({
+  userId, selectedUser, logs, staffLogs, currentPage, totalDuration, staffTotalDuration,
+  totalDurationFromServer, pieChartData, staffPieChartData, expandMode, changeExpandMode,
+}) => {
+  const getDuration = selectedUser === userId ? getWorksDuration : getStaffWorksDuration
 
-  _handleChangeSelect() {
-    this.porps.changeSelectedUser()
-  }
-
-  _handleClickWorkList() {
-    this.setState({
-      expandedShowChart: false,
-      expandedCustom: false,
-      expandedWorkList: true,
-      isCustom: false,
-    })
-  }
-
-  _handleClickCustom() {
-    this.setState({
-      expandedShowChart: false,
-      expandedCustom: true,
-      expandedWorkList: false,
-      isCustom: true,
-    })
-  }
-
-  _handleClickChart() {
-    this.setState({
-      expandedCustom: false,
-      expandedWorkList: false,
-      expandedShowChart: true,
-      isCustom: true,
-    })
-  }
-
-  render() {
-    const {
-      userId, logs, staffLogs, currentPage, totalDuration, staffTotalDuration,
-      totalDurationFromServer, pieChartData, staffPieChartData, selectedUser,
-    } = this.props
-    const { expandedCustom, expandedWorkList, expandedShowChart, isCustom } = this.state
-    const getDuration =
-      selectedUser === userId ? getWorksDuration : getStaffWorksDuration
-    return (
-      <div className={scssClasses.container}>
-        <SelectBar />
-        <div className={scssClasses.controllBar}>
-          <Navigator isCustom={isCustom} />
-          <Button
-            raised={expandedWorkList}
-            onClick={this.handleClickWorkList}
-            componentName="Report"
-          >
-            <ViewList />
-          </Button>
-          <Button
-            raised={expandedCustom}
-            onClick={this.handleClickCustom}
-            componentName="Report"
-          >
-            <FileDownload />
-          </Button>
-          <Button
-            raised={expandedShowChart}
-            onClick={this.handleClickChart}
-            componentName="Report"
-          >
-            <InsertChart />
-          </Button>
-        </div>
-        <Divider light />
-
-        <List disablePadding className={scssClasses.list}>
-          <Collapse component="li" in={expandedCustom} timeout="auto" unmountOnExit>
-            <Custom />
-            <Divider light />
-            <div className={scssClasses.text}>
-              <Typography type="subheading" >
-                {totalDurationFromServer}
-              </Typography>
-            </div>
-            <Divider light />
-          </Collapse>
-
-          <Collapse component="li" in={expandedShowChart} timeout="auto" unmountOnExit>
-            <ShowChart />
-            <Divider light />
-          </Collapse>
-
-          <Collapse component="li" in={expandedWorkList} timeout="auto" unmountOnExit>
-            <div className={scssClasses.text}>
-              <Typography type="subheading" >
-                {selectedUser === userId ? totalDuration : staffTotalDuration}
-              </Typography>
-            </div>
-            <Divider light />
-            <div className={scssClasses.chart}>
-              <CustomizedPieChart
-                pieChartData={
-                  selectedUser === userId ? pieChartData : staffPieChartData}
-              />
-            </div>
-            <Divider light />
-            {(selectedUser === userId ? logs : staffLogs)
-              .filter(log => log.date === formattedDate(currentPage)).map(log => (
-                <WorkList
-                  key={log._id}
-                  log={log}
-                  getDuration={getDuration}
-                />))
-            }
-          </Collapse>
-        </List>
+  return (
+    <div className={scssClasses.container}>
+      <SelectBar />
+      <div className={scssClasses.controllBar}>
+        <Navigator isCustom={expandMode === 'custome'} />
+        <Button
+          raised={expandMode === 'workList'}
+          onClick={() => changeExpandMode('workList')}
+          componentName="Report"
+        >
+          <ViewList />
+        </Button>
+        <Button
+          raised={expandMode === 'custome'}
+          onClick={() => changeExpandMode('custome')}
+          componentName="Report"
+        >
+          <FileDownload />
+        </Button>
+        <Button
+          raised={expandMode === 'showChart'}
+          onClick={() => changeExpandMode('showChart')}
+          componentName="Report"
+        >
+          <InsertChart />
+        </Button>
       </div>
-    )
-  }
+      <Divider light />
+
+      <List disablePadding className={scssClasses.list}>
+        <Collapse component="li" in={expandMode === 'custome'} timeout="auto" unmountOnExit>
+          <Custom />
+          <Divider light />
+          <div className={scssClasses.text}>
+            <Typography type="subheading" >
+              {totalDurationFromServer}
+            </Typography>
+          </div>
+          <Divider light />
+        </Collapse>
+
+        <Collapse component="li" in={expandMode === 'showChart'} timeout="auto" unmountOnExit>
+          <ShowChart />
+          <Divider light />
+        </Collapse>
+
+        <Collapse component="li" in={expandMode === 'workList'} timeout="auto" unmountOnExit>
+          <div className={scssClasses.text}>
+            <Typography type="subheading" >
+              {selectedUser === userId ? totalDuration : staffTotalDuration}
+            </Typography>
+          </div>
+          <Divider light />
+          <div className={scssClasses.chart}>
+            <CustomizedPieChart
+              pieChartData={
+                selectedUser === userId ? pieChartData : staffPieChartData}
+            />
+          </div>
+          <Divider light />
+          {(selectedUser === userId ? logs : staffLogs)
+            .filter(log => log.date === formattedDate(currentPage)).map(log => (
+              <WorkList
+                key={log._id}
+                log={log}
+                getDuration={getDuration}
+              />))
+          }
+        </Collapse>
+      </List>
+    </div>
+  )
 }
 
 Report.propTypes = {
@@ -165,4 +116,8 @@ Report.propTypes = {
   pieChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
   staffPieChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedUser: PropTypes.string.isRequired,
+  expandMode: PropTypes.string.isRequired,
+  changeExpandMode: PropTypes.func.isRequired,
 }
+
+export default Report

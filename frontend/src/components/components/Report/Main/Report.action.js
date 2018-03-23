@@ -3,6 +3,10 @@ import { createAction } from 'redux-actions'
 import { dispatch } from '../../../../setup/redux'
 
 // actions
+export const CHANGE_EXPANAD_MODE = 'CHANGE_EXPANAD_MODE'
+export const changeExpandMode = createAction(CHANGE_EXPANAD_MODE, value => ({ value }))
+export const dispatchChangeExpandMode = (...args) => dispatch(changeExpandMode(...args))
+
 export const SET_API = 'SET_API'
 export const setAPI = createAction(SET_API, (creator, user) => ({ creator, user }))
 export const dispatchSetApi = (...args) => dispatch(setAPI(...args))

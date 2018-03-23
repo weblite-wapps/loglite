@@ -2,9 +2,11 @@
 import { connect } from 'react-redux'
 // components
 import Report from './Report.presentational.react'
+// actions
+import { dispatchChangeExpandMode } from './Report.action'
 // views
 import { userIdView, logsView } from '../../../Main/App.reducer'
-import { selectedUserView, staffLogsView, currentPageView, totalDurationView } from './Report.reducer'
+import { expandModeView, selectedUserView, staffLogsView, currentPageView, totalDurationView } from './Report.reducer'
 // selectors
 import {
   getTotalDuration,
@@ -15,6 +17,7 @@ import {
 
 
 const mapStateToProps = state => ({
+  expandMode: expandModeView(),
   userId: userIdView(),
   selectedUser: selectedUserView(),
   logs: logsView(),
@@ -27,5 +30,7 @@ const mapStateToProps = state => ({
   staffPieChartData: getStaffPieChartData(state),
 })
 
+const mapDispatchToProps = () => ({ changeExpandMode: dispatchChangeExpandMode })
 
-export default connect(mapStateToProps, null)(Report)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Report)
