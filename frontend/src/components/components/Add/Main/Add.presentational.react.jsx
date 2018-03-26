@@ -2,7 +2,6 @@
 import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router'
 import isAfter from 'date-fns/is_after'
 // local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
@@ -34,12 +33,11 @@ class Add extends React.Component {
   }
 
   _handleAddLog() {
-    const { title, selectedTags, addLog, changeTab, history } = this.props
+    const { title, selectedTags, addLog, changeTab } = this.props
     if (title) {
       addLog(title, selectedTags)
       snackbarMessage({ message: 'Added successfully!' })
       changeTab('Home')
-      history.push('/')
     } else {
       this.setState({ nameIsError: true })
       snackbarMessage({ message: 'Enter name first!' })
@@ -48,7 +46,7 @@ class Add extends React.Component {
 
   _handleAddCustomLog() {
     const { logs, date, startTime, endTime, title,
-      selectedTags, addCustomLog, history, changeTab } = this.props
+      selectedTags, addCustomLog, changeTab } = this.props
     if (title && date && startTime && endTime) {
       if (isAfter(new Date(date), new Date())) {
         this.setState({ dateIsError: true })
@@ -68,7 +66,6 @@ class Add extends React.Component {
           addCustomLog(title, selectedTags, date, startTime, endTime)
           snackbarMessage({ message: 'Added successfully!' })
           changeTab('Home')
-          history.push('/')
         }
       } else {
         this.setState({ startTimeIsError: true })
@@ -144,7 +141,6 @@ class Add extends React.Component {
 }
 
 Add.propTypes = {
-  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
   title: PropTypes.string.isRequired,
   selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -163,4 +159,4 @@ Add.propTypes = {
   addCustomLog: PropTypes.func.isRequired,
 }
 
-export default withRouter(Add)
+export default Add

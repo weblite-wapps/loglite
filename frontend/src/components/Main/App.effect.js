@@ -2,6 +2,7 @@
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import { snackbarMessage } from 'weblite-web-snackbar'
+import { push } from 'react-router-redux'
 // helpers
 import { formatTime, getRequest, postRequest } from './App.helper'
 import { formattedDate, getToday, getStartDayOfWeek, getStartDayOfMonth } from '../../helper/functions/date.helper'
@@ -17,6 +18,8 @@ import {
   SAVE_START_TIME,
   SAVE_END_TIME,
   FETCH_ADMIN_DATA,
+  CHANGE_TAB,
+  SET_ABOUT_MODE,
   loadUsersData,
   restoreLog,
   dispatchLoadLogsData,
@@ -24,9 +27,10 @@ import {
   dispatchFetchAdminData,
   dispatchChangeRunningId,
   dispatchSetIsLoading,
+  dispatchSetAboutMode,
 } from './App.action'
 // views
-import { wisView, userIdView, userNameView, creatorView } from './App.reducer'
+import { wisView, userIdView, userNameView, creatorView, aboutModeView } from './App.reducer'
 import { currentPageView, selectedUserView } from '../components/Report/Main/Report.reducer'
 
 
@@ -118,6 +122,18 @@ const resetEpic = action$ =>
   action$.ofType(RESTORE_LOG)
     .mapTo({ type: RESET_INPUTS })
 
+const changeTabEpic = (action$, { dispatch }) =>
+  action$.ofType(CHANGE_TAB)
+    .pluck('payload')
+    .do(() => aboutModeView() === true && dispatchSetAboutMode(false))
+    .do(({ value }) => value === 'Home' && dispatch(push('/')))
+    .do(({ value }) => value !== 'Home' && dispatch(push(`/${value}`)))
+    .ignoreElements()
+
+const setAboutModeEpic = action$ =>
+  action$.ofType(SET_ABOUT_MODE)
+    .map(() => push('/About'))
+
 
 export default combineEpics(
   fetchUsersEpic,
@@ -128,4 +144,6 @@ export default combineEpics(
   saveStartTimeEpic,
   saveEndTimeEpic,
   resetEpic,
+  changeTabEpic,
+  setAboutModeEpic,
 )

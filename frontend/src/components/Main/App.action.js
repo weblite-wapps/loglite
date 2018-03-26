@@ -89,3 +89,7 @@ export const dispatchSaveEndTime = (...args) => dispatch(saveEndTime(...args))
 export const CHANGE_RUNNING_ID = 'CHANGE_RUNNING_ID'
 export const changeRunningId = createAction(CHANGE_RUNNING_ID, _id => ({ _id }))
 export const dispatchChangeRunningId = (...args) => dispatch(changeRunningId(...args))
+
+export const SET_ABOUT_MODE = 'SET_ABOUT_MODE'
+export const setAboutMode = createAction(SET_ABOUT_MODE, value => ({ value }))
+export const dispatchSetAboutMode = (...args) => dispatch(setAboutMode(...args))

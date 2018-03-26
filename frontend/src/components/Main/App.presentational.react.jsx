@@ -1,7 +1,6 @@
 // Modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router'
 import Tabs, { Tab } from 'material-ui/Tabs'
 import { CircularProgress } from 'material-ui/Progress'
 // components
@@ -13,9 +12,6 @@ import scssClasses from './App.scss'
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { aboutMode: false }
-    this.handleChangeTab = this._handleChangeTab.bind(this)
-    this.goToAbout = this._goToAbout.bind(this)
     this.handleWappMode = this._handleWappMode.bind(this)
     this.handleNormalMode = this._handleNormalMode.bind(this)
   }
@@ -24,19 +20,6 @@ class App extends React.Component {
     if (window.W && window.W.wisId) this.handleWappMode()
     else this.handleNormalMode()
     window.addEventListener('focus', () => this.props.checkToSetSecondsElapsed())
-  }
-
-  _handleChangeTab(value) {
-    const { changeTab, history } = this.props
-    this.setState({ aboutMode: false })
-    if (value === 'Home') history.push('/')
-    else history.push(`/${value}`)
-    changeTab(value)
-  }
-
-  _goToAbout() {
-    this.setState({ aboutMode: true })
-    this.props.history.push('/About')
   }
 
   _handleWappMode() {
@@ -54,12 +37,12 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoading, tabIndex } = this.props
+    const { isLoading, tabIndex, aboutMode, setAboutMode, changeTab } = this.props
     return (
       <div className={scssClasses.root}>
         <div
           className={scssClasses.logoContainer}
-          onClick={this.goToAbout}
+          onClick={() => setAboutMode(true)}
           role="button"
           tabIndex="0"
         >
@@ -70,8 +53,8 @@ class App extends React.Component {
         </div>
         <Tabs
           value={tabIndex}
-          onChange={(event, value) => this.handleChangeTab(value)}
-          indicatorColor={this.state.aboutMode ? '#cfcfcf' : '#000000'}
+          onChange={(event, value) => changeTab(value)}
+          indicatorColor={aboutMode ? '#cfcfcf' : '#000000'}
           fullWidth
           centered
           className={scssClasses.Tabs}
@@ -88,13 +71,14 @@ class App extends React.Component {
 
 
 App.propTypes = {
-  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   isLoading: PropTypes.bool.isRequired,
   tabIndex: PropTypes.string.isRequired,
+  aboutMode: PropTypes.bool.isRequired,
+  setAboutMode: PropTypes.func.isRequired,
   changeTab: PropTypes.func.isRequired,
   fetchTodayData: PropTypes.func.isRequired,
   setAPI: PropTypes.func.isRequired,
   checkToSetSecondsElapsed: PropTypes.func.isRequired,
 }
 
-export default withRouter(App)
+export default App
