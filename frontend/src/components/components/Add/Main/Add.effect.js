@@ -27,11 +27,11 @@ const effectSearchTagsEpic = action$ =>
 const addLogEpic = action$ =>
   action$.ofType(ADD_LOG)
     .pluck('payload')
-    .mergeMap(payload => Promise.all([
+    .mergeMap(({ title, tags }) => Promise.all([
       postRequest('/saveLog')
         .send({
-          title: payload.title,
-          tags: payload.tags,
+          title,
+          tags,
           times: [],
           date: formattedDate(new Date()),
           userId: userIdView(),
@@ -40,7 +40,7 @@ const addLogEpic = action$ =>
         .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
       postRequest('/saveTags')
         .send({
-          tags: payload.tags,
+          tags,
           userId: userIdView(),
           wis: wisView(),
         })
@@ -52,20 +52,20 @@ const addLogEpic = action$ =>
 const addCustomLogEpic = action$ =>
   action$.ofType(ADD_CUSTOM_LOG)
     .pluck('payload')
-    .mergeMap(payload => Promise.all([
+    .mergeMap(({ title, tags, start, end, date }) => Promise.all([
       postRequest('/saveCustomLog')
         .send({
-          title: payload.title,
-          tags: payload.tags,
-          times: [{ start: formatTime(payload.start), end: formatTime(payload.end) }],
-          date: payload.date,
+          title,
+          tags,
+          times: [{ start: formatTime(start), end: formatTime(end) }],
+          date,
           userId: userIdView(),
           wis: wisView(),
         })
         .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
       postRequest('/saveTags')
         .send({
-          tags: payload.tags,
+          tags,
           userId: userIdView(),
           wis: wisView(),
         })

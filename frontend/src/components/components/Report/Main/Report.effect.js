@@ -166,12 +166,12 @@ const updateChartEpic = action$ =>
   action$.ofType(UPDATE_CHART)
     .do(() => dispatchSetIsLoading(true))
     .pluck('payload')
-    .mergeMap(payload => getRequest('/barChartData')
+    .mergeMap(({ startDate, endDate }) => getRequest('/barChartData')
       .query({
         wis: wisView(),
         userId: selectedUserView(),
-        startDate: payload.startDate,
-        endDate: payload.endDate,
+        startDate,
+        endDate,
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))

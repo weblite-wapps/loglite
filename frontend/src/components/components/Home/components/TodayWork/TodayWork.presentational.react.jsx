@@ -57,9 +57,9 @@ export default class TodayWork extends React.Component {
     const now = new Date()
     const { log: { _id, times }, addLogToNextDay, onStopClick } = this.props
     const len = times.length
-    if (isWithinRange(formatTime('23:59'), times[len - 1].start, now)) {
+    if (isWithinRange(previousDay(formatTime('24:00')), times[len - 1].start, now)) {
       addLogToNextDay(now, formattedDate(now))
-      onStopClick(_id, previousDay(formatTime('23:59')))
+      onStopClick(_id, previousDay(formatTime('24:00')))
     } else {
       onStopClick(_id, now)
     }

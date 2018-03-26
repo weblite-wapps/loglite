@@ -25,18 +25,18 @@ import { sumLogs, formattedSeconds, modifiedQuery, getBarChartData,
 const logger = console.log
 
 
-app.get('/initialFetch', (req, res) =>
+app.get('/initialFetch', ({ query }, res) =>
   Promise.all([
-    fetchLogs({ ...defaultQueryGenerator(req.query), date: req.query.today }),
-    fetchTags({ ...defaultQueryGenerator(req.query) }),
-    fetchLogs({ ...defaultQueryGenerator(req.query), date: req.query.today }),
+    fetchLogs({ ...defaultQueryGenerator(query), date: query.today }),
+    fetchTags({ ...defaultQueryGenerator(query) }),
+    fetchLogs({ ...defaultQueryGenerator(query), date: query.today }),
     fetchLogs({
-      ...defaultQueryGenerator(req.query),
-      $and: [{ date: { $gte: req.query.startOfWeek } }, { date: { $lte: req.query.today } }],
+      ...defaultQueryGenerator(query),
+      $and: [{ date: { $gte: query.startOfWeek } }, { date: { $lte: query.today } }],
     }),
     fetchLogs({
-      ...defaultQueryGenerator(req.query),
-      $and: [{ date: { $gte: req.query.startOfMonth } }, { date: { $lte: req.query.today } }],
+      ...defaultQueryGenerator(query),
+      $and: [{ date: { $gte: query.startOfMonth } }, { date: { $lte: query.today } }],
     }),
   ]).then(success => res.json({
     logs: success[0],
@@ -55,28 +55,28 @@ app.get('/fetchUsers', (req, res) =>
     .catch(logger))
 
 
-app.get('/fetchLogs', (req, res) =>
-  fetchLogs({ wis: req.query.wis, userId: req.query.userId, date: req.query.date })
+app.get('/fetchLogs', ({ query: { wis, userId, date } }, res) =>
+  fetchLogs({ wis, userId, date })
     .then(logs => res.json(R.reverse(logs)))
     .catch(logger))
 
 
-app.get('/fetchTags', (req, res) =>
-  fetchTags({ wis: req.query.wis, userId: req.query.userId })
+app.get('/fetchTags', ({ query: { wis, userId } }, res) =>
+  fetchTags({ wis, userId })
     .then(logs => res.json(logs))
     .catch(logger))
 
 
-app.get('/serachTags', (req, res) =>
-  fetchTags({ wis: req.query.wis, userId: req.query.userId, label: { $regex: `.*${req.query.label}.*` } })
+app.get('/serachTags', ({ query: { wis, userId, label } }, res) =>
+  fetchTags({ wis, userId, label: { $regex: `.*${label}.*` } })
     .then(tags => res.json(tags))
     .catch(logger))
 
 
-app.post('/saveUser', (req, res) => {
-  countUser({ wis: req.body.wis, id: req.body.userId }).then((number) => {
+app.post('/saveUser', ({ body: { wis, userId, username } }, res) => {
+  countUser({ wis, id: userId }).then((number) => {
     if (number === 0) {
-      saveUser({ wis: req.body.wis, name: req.body.username, id: req.body.userId })
+      saveUser({ wis, name: username, id: userId })
         .then(user => res.json(user))
         .catch(logger)
     } else res.send('user was saved before!')
@@ -96,17 +96,17 @@ app.post('/saveCustomLog', (req, res) =>
     .catch(logger))
 
 
-app.post('/saveTags', (req, res) => {
+app.post('/saveTags', ({ body: { wis, userId, tags } }, res) => {
   const addOrUpdateTag = tag =>
-    countTags({ wis: req.body.wis, userId: req.body.userId, label: tag })
+    countTags({ wis, userId, label: tag })
       .then((number) => {
         if (number === 0) {
-          saveTag({ label: tag, number: 1, userId: req.body.userId, wis: req.body.wis })
+          saveTag({ label: tag, number: 1, userId, wis })
         } else updateTag({ label: tag }, { $inc: { number: 1 } })
       })
-  R.forEach(addOrUpdateTag, req.body.tags)
-  fetchTags({ wis: req.body.wis, userId: req.body.userId })
-    .then(tags => res.json(tags))
+  R.forEach(addOrUpdateTag, tags)
+  fetchTags({ wis, userId })
+    .then(fetchedTags => res.json(fetchedTags))
     .catch(logger)
 })
 
@@ -123,28 +123,28 @@ app.post('/deleteLog', (req, res) =>
     .catch(logger))
 
 
-app.post('/saveStartTime', (req, res) =>
-  saveTime({ _id: mongoose.Types.ObjectId(req.body._id) }, { $push: { times: { start: req.body.startTime, end: 'running' } } })
+app.post('/saveStartTime', ({ body: { _id, start } }, res) =>
+  saveTime({ _id: mongoose.Types.ObjectId(_id) }, { $push: { times: { start, end: 'running' } } })
     .then(() => res.send('saved successfully!'))
     .catch(logger))
 
 
-app.post('/saveEndTime', (req, res) =>
-  saveTime({ _id: mongoose.Types.ObjectId(req.body._id), 'times.end': 'running' }, { $set: { 'times.$.end': new Date(req.body.endTime) } })
+app.post('/saveEndTime', ({ body: { _id, end } }, res) =>
+  saveTime({ _id: mongoose.Types.ObjectId(_id), 'times.end': 'running' }, { $set: { 'times.$.end': new Date(end) } })
     .then(() => res.send('saved successfully!'))
     .catch(logger))
 
 
-app.get('/fetchTotalDurations', (req, res) =>
+app.get('/fetchTotalDurations', ({ query }, res) =>
   Promise.all([
-    fetchLogs({ ...defaultQueryGenerator(req.query), date: req.query.today }),
+    fetchLogs({ ...defaultQueryGenerator(query), date: query.today }),
     fetchLogs({
-      ...defaultQueryGenerator(req.query),
-      $and: [{ date: { $gte: req.query.startOfWeek } }, { date: { $lte: req.query.today } }],
+      ...defaultQueryGenerator(query),
+      $and: [{ date: { $gte: query.startOfWeek } }, { date: { $lte: query.today } }],
     }),
     fetchLogs({
-      ...defaultQueryGenerator(req.query),
-      $and: [{ date: { $gte: req.query.startOfMonth } }, { date: { $lte: req.query.today } }],
+      ...defaultQueryGenerator(query),
+      $and: [{ date: { $gte: query.startOfMonth } }, { date: { $lte: query.today } }],
     }),
   ]).then(success => res.json({
     today: formattedSeconds(sumLogs(success[0]), 'Home'),
@@ -176,13 +176,13 @@ app.get('/convertJSONToCSV', (req, res) => {
 })
 
 
-app.get('/barChartData', (req, res) => {
-  const query = {
-    wis: req.query.wis,
-    userId: req.query.userId,
-    $and: [{ date: { $gte: req.query.startDate } }, { date: { $lte: req.query.endDate } }],
+app.get('/barChartData', ({ query }, res) => {
+  const newQuery = {
+    wis: query.wis,
+    userId: query.userId,
+    $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }],
   }
-  fetchLogs(query)
-    .then(logs => res.send(getBarChartData(logs, req.query)))
+  fetchLogs(newQuery)
+    .then(logs => res.send(getBarChartData(logs, query)))
     .catch(logger)
 })

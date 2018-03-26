@@ -66,12 +66,13 @@ const initialFetchEpic = action$ =>
 
 const addLogToNextDayEpic = action$ =>
   action$.ofType(ADD_LOG_TO_NEXT_DAY)
-    .mergeMap(action => postRequest('/insertLogToNextDay')
+    .pluck('payload')
+    .mergeMap(({ title, tags, end, date }) => postRequest('/insertLogToNextDay')
       .send({
-        title: action.payload.title,
-        tags: action.payload.tags,
-        times: [{ start: formatTime('00:00'), end: action.payload.end }],
-        date: action.payload.date,
+        title,
+        tags,
+        times: [{ start: formatTime('00:00'), end }],
+        date,
         id: userIdView(),
         wis: wisView(),
       })
@@ -90,10 +91,10 @@ const saveStartTimeEpic = action$ =>
     .pluck('payload')
     .do(payload => dispatchChangeRunningId(payload._id))
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(payload => postRequest('/saveStartTime')
+    .mergeMap(({ _id, start }) => postRequest('/saveStartTime')
       .send({
-        startTime: payload.start,
-        _id: payload._id,
+        start,
+        _id,
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
@@ -104,10 +105,10 @@ const saveEndTimeEpic = action$ =>
     .pluck('payload')
     .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(payload => postRequest('/saveEndTime')
+    .mergeMap(({ end, _id }) => postRequest('/saveEndTime')
       .send({
-        endTime: payload.end,
-        _id: payload._id,
+        end,
+        _id,
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
