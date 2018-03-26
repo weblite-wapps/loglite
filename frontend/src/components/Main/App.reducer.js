@@ -3,8 +3,8 @@ import * as R from 'ramda'
 // local modules
 import { getState } from '../../setup/redux'
 // helpers
-import { formatTime } from './App.helper'
-import { formattedDate } from '../../helper/functions/date.helper'
+import { formatTime } from '../../helper/functions/time.helper'
+import { formattedDate, previousDay } from '../../helper/functions/date.helper'
 // actions
 import {
   SET_API,
@@ -113,7 +113,7 @@ const reducers = {
         _id: state.logs.length,
         title,
         tags,
-        times: [{ start: formatTime('00:00'), end }],
+        times: [{ start: previousDay(formatTime('24:00:00')), end }],
         date,
         wis: state.wis,
       }, state.logs),

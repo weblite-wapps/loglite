@@ -4,7 +4,8 @@ import 'rxjs'
 import { snackbarMessage } from 'weblite-web-snackbar'
 import { push } from 'react-router-redux'
 // helpers
-import { formatTime, getRequest, postRequest } from './App.helper'
+import { getRequest, postRequest } from './App.helper'
+import { formatTime } from '../../helper/functions/time.helper'
 import { formattedDate, getToday, previousDay } from '../../helper/functions/date.helper'
 // actions
 import { RESET_INPUTS, dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
@@ -75,12 +76,13 @@ const addLogToNextDayEpic = action$ =>
       .send({
         title,
         tags,
-        times: [{ start: formatTime('00:00'), end }],
+        times: [{ start: previousDay(formatTime('24:00:00')), end }],
         date,
-        id: userIdView(),
+        userId: userIdView(),
         wis: wisView(),
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
     .map(({ body }) => restoreLog(body))
 
 const deleteLogEpic = action$ =>

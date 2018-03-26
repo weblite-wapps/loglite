@@ -12,7 +12,8 @@ import TagList from '../../../../helper/components/TagList/TagList.presentationa
 import Button from '../../../../helper/components/Button/Button.presentational.react'
 import Custom from '../components/Custom/Main/Custom.presentational.react'
 // helpers
-import { formatTime, areTimesOverlapping } from './Add.helper'
+import { areTimesOverlapping } from './Add.helper'
+import { formatTime } from '../../../../helper/functions/time.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 // scssClasses
 import scssClasses from './Add.scss'

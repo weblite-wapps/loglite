@@ -57,9 +57,9 @@ export default class TodayWork extends React.Component {
     const now = new Date()
     const { log: { _id, times }, addLogToNextDay, onStopClick } = this.props
     const len = times.length
-    if (isWithinRange(previousDay(formatTime('24:00')), times[len - 1].start, now)) {
+    if (isWithinRange(previousDay(formatTime('24:00:00')), times[len - 1].start, now)) {
       addLogToNextDay(now, formattedDate(now))
-      onStopClick(_id, previousDay(formatTime('24:00')))
+      onStopClick(_id, previousDay(formatTime('24:00:00')))
     } else {
       onStopClick(_id, now)
     }
@@ -126,11 +126,7 @@ TodayWork.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   runningId: PropTypes.string.isRequired,
   secondsElapsed: PropTypes.number.isRequired,
-  log: PropTypes.shape({
-    _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    times: PropTypes.arrayOf(PropTypes.object),
-    title: PropTypes.string,
-  }).isRequired,
+  log: PropTypes.shape({}).isRequired,
   workDuration: PropTypes.string.isRequired,
   onStartClick: PropTypes.func.isRequired,
   onStopClick: PropTypes.func.isRequired,
