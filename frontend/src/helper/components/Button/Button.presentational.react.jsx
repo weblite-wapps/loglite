@@ -23,7 +23,10 @@ function CustomizedButton(props) {
 }
 
 CustomizedButton.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+  ]),
   classes: PropTypes.shape({}).isRequired,
   componentName: PropTypes.string,
   label: PropTypes.string,

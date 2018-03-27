@@ -7,7 +7,7 @@ import MuiButton from 'material-ui/Button'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 // helpers
-import { formattedDate } from '../../../../../../helper/functions/date.helper'
+import { formattedDate } from '../../../../../helper/functions/date.helper'
 // scssClasses
 import scssClasses from './Navigator.scss'
 

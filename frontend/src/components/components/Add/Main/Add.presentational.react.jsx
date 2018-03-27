@@ -6,9 +6,10 @@ import isAfter from 'date-fns/is_after'
 // local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
-import Custom from '../components/Custom/Main/Custom.container.react'
+import Custom from '../components/Custom/Custom.container.react'
 // helpers
-import { TextField, TagPanel } from './Add.helper.component'
+import { TextField } from './Add.helper.component'
+import { TagPanel } from '../../../../helper/functions/Tagpanel.helper.component'
 import { areTimesOverlapping } from './Add.helper'
 import { formatTime } from '../../../../helper/functions/time.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'

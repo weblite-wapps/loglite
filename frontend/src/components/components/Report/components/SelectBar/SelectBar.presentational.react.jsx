@@ -4,7 +4,7 @@ import { withStyles } from 'material-ui/styles'
 import MuiTextField from 'material-ui/TextField'
 // scssClasses
 import scssClasses from './SelectBar.scss'
-import styles from '../../../../../../helper/style/appStyle'
+import styles from '../../../../../helper/style/appStyle'
 
 
 function SelectBar(props) {

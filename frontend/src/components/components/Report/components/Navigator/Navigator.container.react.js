@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 // components
 import Navigator from './Navigator.presentational.react'
 // views
-import { currentPageView } from '../../../Main/Report.reducer'
+import { currentPageView } from '../../Main/Report.reducer'
 // actions
 import {
   dispatchPreviousPage,
   dispatchNextPage,
-} from '../../../Main/Report.action'
+} from '../../Main/Report.action'
 
 
 const mapStateToProps = (state, ownProps) => ({

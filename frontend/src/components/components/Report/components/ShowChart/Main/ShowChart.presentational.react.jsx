@@ -3,25 +3,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Divider from 'material-ui/Divider'
 import isAfter from 'date-fns/is_after'
-import subDays from 'date-fns/sub_days'
+// local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import StartDatePicker from '../../common/StartDatePicker/StartDatePicker.container.react'
 import EndDatePicker from '../../common/EndDatePicker/EndDatePicker.container.react'
-import Button from '../../../../../../helper/components/Button/Button.presentational.react'
-import BarChart from '../components/BarChart.presentational.react'
 // helpers
-import { formattedDate } from '../../../../../../helper/functions/date.helper'
-// css
-import scssClasses from './ShowChart.scss'
+import { BarChart, Buttons } from './ShowChart.helper.component'
 
 
 export default class ShowChart extends React.Component {
   constructor(props) {
     super(props)
     this.handleUpdateChart = this._handleUpdateChart.bind(this)
-    this.handleInsertThisWeek = this._handleInsertThisWeek.bind(this)
-    this.handleInsertThisMonth = this._handleInsertThisMonth.bind(this)
     this.state = {
       startDateIsError: false,
       endDateIsError: false,
@@ -47,52 +41,22 @@ export default class ShowChart extends React.Component {
     }
   }
 
-  _handleInsertThisWeek() {
-    this.props.updateChart(
-      formattedDate(subDays(new Date(), 6)), formattedDate(new Date()))
-  }
-
-  _handleInsertThisMonth() {
-    this.props.updateChart(
-      formattedDate(subDays(new Date(), 29)), formattedDate(new Date()))
-  }
-
   render() {
     const { startDateIsError, endDateIsError } = this.state
-    const { barChartData } = this.props
+
     return (
       <div>
         <StartDatePicker isError={startDateIsError} />
         <EndDatePicker isError={endDateIsError} />
-        <div className={scssClasses.insertButton}>
-          <Button label="Insert Chart" onClick={this.handleUpdateChart} componentName="Add" />
-        </div>
-        <div className={scssClasses.buttons}>
-          <Button
-            label="This Week"
-            onClick={this.handleInsertThisWeek}
-            componentName="CustomAdd"
-          />
-          <Button
-            label="This Month"
-            onClick={this.handleInsertThisMonth}
-            componentName="CustomAdd"
-          />
-        </div>
+        <Buttons {...this.props} handleUpdateChart={this.handleUpdateChart} />
         <Divider />
-        {
-          barChartData.length ?
-            <div className={scssClasses.chart}>
-              <BarChart barChartData={barChartData} />
-            </div> : null
-        }
+        <BarChart {...this.props} />
       </div>
     )
   }
 }
 
 ShowChart.propTypes = {
-  barChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   updateChart: PropTypes.func.isRequired,
