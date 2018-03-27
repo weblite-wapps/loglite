@@ -1,15 +1,15 @@
 // Modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import Tabs, { Tab } from 'material-ui/Tabs'
-import { CircularProgress } from 'material-ui/Progress'
-// components
+// local modules
 import Snackbar from 'weblite-web-snackbar'
+// helpers
+import { Logo, Tabs } from './App.helper.component'
 // css
 import scssClasses from './App.scss'
 
 
-class App extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.handleWappMode = this._handleWappMode.bind(this)
@@ -37,48 +37,18 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoading, tabIndex, aboutMode, setAboutMode, changeTab } = this.props
     return (
-      <div className={scssClasses.root}>
-        <div
-          className={scssClasses.logoContainer}
-          onClick={() => setAboutMode(true)}
-          role="button"
-          tabIndex="0"
-        >
-          <div className={isLoading ? scssClasses.loading : scssClasses.normal}>
-            <CircularProgress size={40} color="primary" className={scssClasses.progress} />
-            <img alt="loglite logo" src="assets/logo.jpg" className={scssClasses.logo} />
-          </div>
-        </div>
-        <Tabs
-          value={tabIndex}
-          onChange={(event, value) => changeTab(value)}
-          indicatorColor={aboutMode ? '#cfcfcf' : '#000000'}
-          fullWidth
-          centered
-          className={scssClasses.Tabs}
-        >
-          <Tab label="Home" value="Home" className={scssClasses.Tab} />
-          <Tab label="Add" value="Add" className={scssClasses.Tab} />
-          <Tab label="Report" value="Report" className={scssClasses.Tab} />
-        </Tabs>
+      <div className={scssClasses.AppBar}>
+        <Logo {...this.props} />
+        <Tabs {...this.props} />
         <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} />
       </div>
     )
   }
 }
 
-
 App.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  tabIndex: PropTypes.string.isRequired,
-  aboutMode: PropTypes.bool.isRequired,
-  setAboutMode: PropTypes.func.isRequired,
-  changeTab: PropTypes.func.isRequired,
   fetchTodayData: PropTypes.func.isRequired,
   setAPI: PropTypes.func.isRequired,
   checkToSetSecondsElapsed: PropTypes.func.isRequired,
 }
-
-export default App

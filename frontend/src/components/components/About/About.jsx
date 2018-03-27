@@ -8,7 +8,7 @@ export default () => (
   <div className={scssClasses.container}>
     <img alt="loglite about" src="assets/about.jpg" align="middle" />
     <Typography type="subheading" align="center" gutterBottom>
-      Version 1.1.0
+      Version 2.0.0
     </Typography>
     <Typography type="subheading" align="center" gutterBottom>
       All right reserved

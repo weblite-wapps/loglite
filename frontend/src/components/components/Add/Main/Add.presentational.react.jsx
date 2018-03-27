@@ -6,12 +6,9 @@ import isAfter from 'date-fns/is_after'
 // local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
 // components
-import TextField from '../../../../helper/components/TextField/TextField.presentational.react'
-import Autocomplete from '../../../../helper/components/Autocomplete/Autocomplete.presentational.react'
-import TagList from '../../../../helper/components/TagList/TagList.presentational.react'
-import Button from '../../../../helper/components/Button/Button.presentational.react'
 import Custom from '../components/Custom/Main/Custom.container.react'
 // helpers
+import { TextField, TagPanel } from './Add.helper.component'
 import { areTimesOverlapping } from './Add.helper'
 import { formatTime } from '../../../../helper/functions/time.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
@@ -102,33 +99,12 @@ class Add extends React.Component {
   }
 
   render() {
-    const { dateIsError, startTimeIsError, endTimeIsError } = this.state
-    const {
-      title, onTitleChange, suggestions, queryTag, onQueryTagChange, tags, onTagClick,
-    } = this.props
+    const { nameIsError, dateIsError, startTimeIsError, endTimeIsError } = this.state
 
     return (
       <div className={scssClasses.container}>
-        <div className={scssClasses.textField}>
-          <TextField
-            label="Title"
-            value={title}
-            onChange={e => onTitleChange(e.target.value)}
-            isError={this.state.nameIsError}
-          />
-        </div>
-        <div className={scssClasses.textField}>
-          <Autocomplete
-            label="Tags"
-            suggestions={suggestions}
-            inputValue={queryTag}
-            onInputValueChange={e => onQueryTagChange(e.target.value)}
-            onSelect={value => onQueryTagChange(value)}
-            onAdd={this.handleAddTag}
-          />
-          <Button label="Add" onClick={this.handleAddTag} componentName="Add" />
-        </div>
-        <TagList tags={tags} onTagClick={tag => onTagClick(tag)} />
+        <TextField {...this.props} isError={nameIsError} />
+        <TagPanel {...this.props} handleAddTag={this.handleAddTag} />
         <Custom
           onAdd={this.handleAddLog}
           onCustomAdd={this.handleAddCustomLog}
