@@ -7,34 +7,30 @@ import TextField from 'material-ui/TextField'
 import styles from '../../../../../../../helper/style/appStyle'
 
 
-function StartTimePicker(props) {
-  const { isError, startTime, onStartTimeChange, classes } = props
-
-  return (
-    <form className={classes.container} noValidate>
-      <TextField
-        id="time"
-        label="Start time"
-        type="time"
-        value={startTime}
-        onChange={onStartTimeChange}
-        className={classes.textField}
-        required
-        error={isError}
-        InputProps={{
-            classes: {
-              inkbar: classes.textFieldInkbar,
-            },
-            step: 60, // 1 min
-          }}
-        InputLabelProps={{
-          className: classes.textFieldFormLabel,
-          shrink: true,
-          }}
-      />
-    </form>
-  )
-}
+const StartTimePicker = ({ isError, startTime, onStartTimeChange, classes }) => (
+  <form className={classes.container} noValidate>
+    <TextField
+      id="time"
+      label="Start time"
+      type="time"
+      value={startTime}
+      onChange={onStartTimeChange}
+      className={classes.textField}
+      required
+      error={isError}
+      InputProps={{
+          classes: {
+            inkbar: classes.textFieldInkbar,
+          },
+          step: 60, // 1 min
+        }}
+      InputLabelProps={{
+        className: classes.textFieldFormLabel,
+        shrink: true,
+        }}
+    />
+  </form>
+)
 
 StartTimePicker.propTypes = {
   classes: PropTypes.shape({}).isRequired,

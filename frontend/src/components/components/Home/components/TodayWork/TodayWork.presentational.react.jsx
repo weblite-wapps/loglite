@@ -1,19 +1,11 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import List, { ListItem, ListItemSecondaryAction } from 'material-ui/List'
-import Collapse from 'material-ui/transitions/Collapse'
-import Typography from 'material-ui/Typography'
-import IconButton from 'material-ui/IconButton'
-import Tooltip from 'material-ui/Tooltip'
+import List, { ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
-import isWithinRange from 'date-fns/is_within_range'
-import differenceInSeconds from 'date-fns/difference_in_seconds'
-// icons
-import Play from 'material-ui-icons/PlayArrow'
-import Pause from 'material-ui-icons/Pause'
+import { isWithinRange, differenceInSeconds } from 'date-fns'
 // helpers
-import { formattedSeconds, formattedName } from './TodayWork.helper'
+import { BriefInfo, ActionButtons, Collapse } from './TodayWork.helper.component'
 import { formatTime, sumTimes } from '../../../../../helper/functions/time.helper'
 import { previousDay, formattedDate } from '../../../../../helper/functions/date.helper'
 // css
@@ -66,58 +58,25 @@ export default class TodayWork extends React.Component {
   }
 
   render() {
-    const {
-      runningId, secondsElapsed, log: { _id, title, times }, workDuration, isLoading,
-    } = this.props
+    const { log: { times } } = this.props
     const len = times.length
+
     return (
-      <div>
+      <React.Fragment>
         <List dense disablePadding className={scssClasses.list}>
           <ListItem dense disableGutters>
-            <Typography type="body2">
-              {
-                formattedName(title) === title ?
-                  <span>{formattedName(title)}</span> :
-                  <Tooltip title={title} placement="bottom" enterDelay={300} leaveDelay={300}>
-                    <span>{formattedName(title)}</span>
-                  </Tooltip>
-              }
-              <span className={scssClasses.time}>
-                &nbsp;| { runningId === _id ? 'Running...' : workDuration }
-              </span>
-            </Typography>
-            <ListItemSecondaryAction>
-              {
-                len && times[len - 1].end === 'running' ?
-                  (
-                    <IconButton
-                      disabled={isLoading}
-                      onClick={this.handleStopClick}
-                    >
-                      <Pause className={scssClasses.icon} />
-                    </IconButton>
-                  ) : (
-                    <IconButton
-                      disabled={isLoading}
-                      onClick={this.handleStartClick}
-                    >
-                      <Play className={scssClasses.icon} />
-                    </IconButton>
-                  )
-              }
-            </ListItemSecondaryAction>
+            <BriefInfo {...this.props} />
+            <ActionButtons
+              {...this.props}
+              len={len}
+              onStart={this.handleStartClick}
+              onStop={this.handleStopClick}
+            />
           </ListItem>
-          <Collapse component="li" in={_id === runningId} timeout="auto" unmountOnExit>
-            <Divider light inset />
-            <div className={scssClasses.stopwatch}>
-              <Typography type="subheading">
-                {formattedSeconds(secondsElapsed)}
-              </Typography>
-            </div>
-          </Collapse>
+          <Collapse {...this.props} />
         </List>
         <Divider light />
-      </div>
+      </React.Fragment>
     )
   }
 }

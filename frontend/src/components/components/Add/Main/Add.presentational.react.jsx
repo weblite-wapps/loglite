@@ -10,7 +10,7 @@ import TextField from '../../../../helper/components/TextField/TextField.present
 import Autocomplete from '../../../../helper/components/Autocomplete/Autocomplete.presentational.react'
 import TagList from '../../../../helper/components/TagList/TagList.presentational.react'
 import Button from '../../../../helper/components/Button/Button.presentational.react'
-import Custom from '../components/Custom/Main/Custom.presentational.react'
+import Custom from '../components/Custom/Main/Custom.container.react'
 // helpers
 import { areTimesOverlapping } from './Add.helper'
 import { formatTime } from '../../../../helper/functions/time.helper'

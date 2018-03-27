@@ -5,33 +5,29 @@ import TextField from 'material-ui/TextField'
 // helpers
 import styles from '../../../../../../../helper/style/appStyle'
 
-function DatePicker(props) {
-  const { isError, date, onDateChange, classes } = props
-
-  return (
-    <form className={classes.container} noValidate>
-      <TextField
-        id="date"
-        label="Date"
-        type="date"
-        value={date}
-        onChange={onDateChange}
-        className={classes.textField}
-        required
-        error={isError}
-        InputProps={{
-            classes: {
-              inkbar: classes.textFieldInkbar,
-            },
-          }}
-        InputLabelProps={{
-          className: classes.textFieldFormLabel,
-          shrink: true,
-          }}
-      />
-    </form>
-  )
-}
+const DatePicker = ({ isError, date, onDateChange, classes }) => (
+  <form className={classes.container} noValidate>
+    <TextField
+      id="date"
+      label="Date"
+      type="date"
+      value={date}
+      onChange={onDateChange}
+      className={classes.textField}
+      required
+      error={isError}
+      InputProps={{
+          classes: {
+            inkbar: classes.textFieldInkbar,
+          },
+        }}
+      InputLabelProps={{
+        className: classes.textFieldFormLabel,
+        shrink: true,
+        }}
+    />
+  </form>
+)
 
 DatePicker.propTypes = {
   classes: PropTypes.shape({}).isRequired,

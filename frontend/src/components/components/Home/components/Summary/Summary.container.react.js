@@ -9,7 +9,8 @@ import { dispatchChangeTextSlider } from '../../Main/Home.action'
 
 
 const mapStateToProps = () => ({
-  textSlider: textSliderView(),
+  name: textSliderView().name,
+  duration: textSliderView().duration,
 })
 
 const mapDispatchToProps = () => ({ changeTextSlider: dispatchChangeTextSlider })

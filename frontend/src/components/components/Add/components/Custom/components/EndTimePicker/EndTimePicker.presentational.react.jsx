@@ -7,34 +7,30 @@ import TextField from 'material-ui/TextField'
 import styles from '../../../../../../../helper/style/appStyle'
 
 
-function EndTimePicker(props) {
-  const { isError, endTime, onEndTimeChange, classes } = props
-
-  return (
-    <form className={classes.container} noValidate>
-      <TextField
-        id="time"
-        label="End time"
-        type="time"
-        value={endTime}
-        onChange={onEndTimeChange}
-        className={classes.textField}
-        required
-        error={isError}
-        InputProps={{
-            classes: {
-              inkbar: classes.textFieldInkbar,
-            },
-            step: 60, // 1 min
-          }}
-        InputLabelProps={{
-          className: classes.textFieldFormLabel,
-          shrink: true,
-          }}
-      />
-    </form>
-  )
-}
+const EndTimePicker = ({ isError, endTime, onEndTimeChange, classes }) => (
+  <form className={classes.container} noValidate>
+    <TextField
+      id="time"
+      label="End time"
+      type="time"
+      value={endTime}
+      onChange={onEndTimeChange}
+      className={classes.textField}
+      required
+      error={isError}
+      InputProps={{
+          classes: {
+            inkbar: classes.textFieldInkbar,
+          },
+          step: 60, // 1 min
+        }}
+      InputLabelProps={{
+        className: classes.textFieldFormLabel,
+        shrink: true,
+        }}
+    />
+  </form>
+)
 
 EndTimePicker.propTypes = {
   classes: PropTypes.shape({}).isRequired,
