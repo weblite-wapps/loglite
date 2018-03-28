@@ -4,8 +4,8 @@ import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
-import { TagPanel } from '../../../../../helper/functions/Tagpanel.helper.component'
-import { Buttons, CSVDownloader, Pickers } from './Custom.helper.component'
+import { TagPanel, Pickers } from '../../../../../helper/functions/common.helper.component'
+import { Buttons, CSVDownloader } from './Custom.helper.component'
 
 
 export default class Custom extends React.Component {

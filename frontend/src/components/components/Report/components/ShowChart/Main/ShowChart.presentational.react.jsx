@@ -5,10 +5,8 @@ import Divider from 'material-ui/Divider'
 import isAfter from 'date-fns/is_after'
 // local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
-// components
-import StartDatePicker from '../../common/StartDatePicker/StartDatePicker.container.react'
-import EndDatePicker from '../../common/EndDatePicker/EndDatePicker.container.react'
 // helpers
+import { Pickers } from '../../../../../../helper/functions/common.helper.component'
 import { BarChart, Buttons } from './ShowChart.helper.component'
 
 
@@ -42,12 +40,9 @@ export default class ShowChart extends React.Component {
   }
 
   render() {
-    const { startDateIsError, endDateIsError } = this.state
-
     return (
       <div>
-        <StartDatePicker isError={startDateIsError} />
-        <EndDatePicker isError={endDateIsError} />
+        <Pickers {...this.props} {...this.state} />
         <Buttons {...this.props} handleUpdateChart={this.handleUpdateChart} />
         <Divider />
         <BarChart {...this.props} />

@@ -100,3 +100,8 @@ export const dispatchUpdateChart = (...args) => dispatch(updateChart(...args))
 export const RESTORE_BAR_CHART_DATA = 'RESTORE_BAR_CHART_DATA'
 export const restoreBarChartData = createAction(RESTORE_BAR_CHART_DATA, data => ({ data }))
 export const dispatchRestoreBarChartData = (...args) => dispatch(restoreBarChartData(...args))
+
+
+export const CHANGE_ANCHOR_EL = 'CHANGE_ANCHOR_EL'
+export const changeAnchorEl = createAction(CHANGE_ANCHOR_EL, value => ({ value }))
+export const dispatchChangeAnchorEl = (...args) => dispatch(changeAnchorEl(...args))

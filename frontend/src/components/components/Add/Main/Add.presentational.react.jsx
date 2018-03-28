@@ -8,8 +8,8 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 // components
 import Custom from '../components/Custom/Custom.container.react'
 // helpers
+import { TagPanel } from '../../../../helper/functions/common.helper.component'
 import { TextField } from './Add.helper.component'
-import { TagPanel } from '../../../../helper/functions/Tagpanel.helper.component'
 import { areTimesOverlapping } from './Add.helper'
 import { formatTime } from '../../../../helper/functions/time.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'

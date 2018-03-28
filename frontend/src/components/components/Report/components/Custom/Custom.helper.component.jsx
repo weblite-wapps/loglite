@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { CSVDownload } from 'react-csv'
 // components
 import Button from '../../../../../helper/components/Button/Button.presentational.react'
-import Picker from '../../../../../helper/components/Picker/Picker.presentational'
 // styles
 import scssClasses from './Custom.scss'
 
@@ -28,35 +27,4 @@ export const CSVDownloader = ({ CSV }) => (
 
 CSVDownloader.propTypes = {
   CSV: PropTypes.string.isRequired,
-}
-
-
-export const Pickers = ({
-  startDateIsError, endDateIsError, startDate, endDate, onStartDateChange, onEndDateChange,
-}) => (
-  <React.Fragment>
-    <Picker
-      label="Start date"
-      type="date"
-      isError={startDateIsError}
-      value={startDate}
-      onChange={onStartDateChange}
-    />
-    <Picker
-      label="End date"
-      type="date"
-      isError={endDateIsError}
-      value={endDate}
-      onChange={onEndDateChange}
-    />
-  </React.Fragment>
-)
-
-Pickers.propTypes = {
-  startDateIsError: PropTypes.bool.isRequired,
-  endDateIsError: PropTypes.bool.isRequired,
-  startDate: PropTypes.string.isRequired,
-  endDate: PropTypes.string.isRequired,
-  onStartDateChange: PropTypes.func.isRequired,
-  onEndDateChange: PropTypes.func.isRequired,
 }

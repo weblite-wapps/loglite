@@ -39,7 +39,6 @@ const resetStaffDataEpic = action$ =>
   action$.ofType(CHANGE_SELECTED_USER)
     .map(() => resetStaffLogs(userIdView()))
 
-
 const loadStaffDataEpic = action$ =>
   action$.ofType(RESET_STAFF_LOGS)
     .filter(() => R.prop(selectedUserView(), pagesView()) === undefined ||
@@ -176,6 +175,7 @@ const updateChartEpic = action$ =>
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ body }) => restoreBarChartData(body))
+
 
 export default combineEpics(
   resetStaffDataEpic,

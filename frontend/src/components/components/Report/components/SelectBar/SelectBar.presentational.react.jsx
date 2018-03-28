@@ -7,44 +7,41 @@ import scssClasses from './SelectBar.scss'
 import styles from '../../../../../helper/style/appStyle'
 
 
-function SelectBar(props) {
-  const { creator, selectedUser, users, changeSelectedUser, classes } = props
-  return (
-    <div>
-      { creator ?
-        <div className={scssClasses.textField}>
-          <MuiTextField
-            select
-            fullWidth
-            label="user name"
-            value={selectedUser}
-            onChange={e => changeSelectedUser(e.target.value)}
-            style={{ marginTop: '0' }}
-            InputProps={{
-                classes: {
-                  inkbar: classes.textFieldInkbar,
-                },
-              }}
-            InputLabelProps={{
-              className: classes.textFieldFormLabel,
-              shrink: true,
-              }}
-            SelectProps={{
-              native: true,
-              MenuProps: {
-                className: scssClasses.menu,
-              },
-            }}
-            margin="normal"
-          >
-            {users.map(user =>
-              <option key={user.id} value={user.id}>{user.name}</option>)}
-          </MuiTextField>
-        </div> : null
-      }
-    </div>
-  )
-}
+const SelectBar = ({ creator, selectedUser, users, changeSelectedUser, classes }) => (
+  <div>
+    { creator ?
+      <div className={scssClasses.textField}>
+        <MuiTextField
+          select
+          fullWidth
+          label="user name"
+          value={selectedUser}
+          onChange={e => changeSelectedUser(e.target.value)}
+          style={{ marginTop: '0' }}
+          InputProps={{
+            classes: {
+              inkbar: classes.textFieldInkbar,
+            },
+          }}
+          InputLabelProps={{
+            className: classes.textFieldFormLabel,
+            shrink: true,
+          }}
+          SelectProps={{
+            native: true,
+            MenuProps: {
+              className: scssClasses.menu,
+            },
+          }}
+          margin="normal"
+        >
+          {users.map(user =>
+            <option key={user.id} value={user.id}>{user.name}</option>)}
+        </MuiTextField>
+      </div> : null
+    }
+  </div>
+)
 
 SelectBar.propTypes = {
   classes: PropTypes.shape({}).isRequired,

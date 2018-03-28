@@ -29,6 +29,7 @@ import {
   dispatchChangeRunningId,
   dispatchSetIsLoading,
   dispatchSetAboutMode,
+  dispatchChangePopoverId,
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, creatorView, aboutModeView } from './App.reducer'
@@ -90,6 +91,8 @@ const deleteLogEpic = action$ =>
     .mergeMap(action => postRequest('/deleteLog')
       .query({ _id: action.payload._id })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => snackbarMessage({ message: 'Deleted successfully !' }))
+    .do(() => dispatchChangePopoverId(''))
     .mapTo({ type: REFETCH_TOTAL_DURATION })
 
 const saveStartTimeEpic = action$ =>

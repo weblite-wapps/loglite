@@ -5,8 +5,9 @@ import PropTypes from 'prop-types'
 import Autocomplete from '../components/Autocomplete/Autocomplete.presentational.react'
 import CustomizedButton from '../components/Button/Button.presentational.react'
 import TagList from '../components/TagList/TagList.presentational.react'
+import Picker from '../components/Picker/Picker.presentational'
 // styles
-import scssClasses from './TagPanel.scss'
+import scssClasses from './common.scss'
 
 
 export const TagPanel = (
@@ -36,4 +37,33 @@ TagPanel.propTypes = {
   handleAddTag: PropTypes.func.isRequired,
 }
 
-export const nothing = null
+
+export const Pickers = ({
+  startDateIsError, endDateIsError, startDate, endDate, onStartDateChange, onEndDateChange,
+}) => (
+  <React.Fragment>
+    <Picker
+      label="Start date"
+      type="date"
+      isError={startDateIsError}
+      value={startDate}
+      onChange={onStartDateChange}
+    />
+    <Picker
+      label="End date"
+      type="date"
+      isError={endDateIsError}
+      value={endDate}
+      onChange={onEndDateChange}
+    />
+  </React.Fragment>
+)
+
+Pickers.propTypes = {
+  startDateIsError: PropTypes.bool.isRequired,
+  endDateIsError: PropTypes.bool.isRequired,
+  startDate: PropTypes.string.isRequired,
+  endDate: PropTypes.string.isRequired,
+  onStartDateChange: PropTypes.func.isRequired,
+  onEndDateChange: PropTypes.func.isRequired,
+}
