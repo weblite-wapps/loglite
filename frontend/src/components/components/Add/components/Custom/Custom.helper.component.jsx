@@ -5,7 +5,7 @@ import Divider from 'material-ui/Divider'
 import { ListItem } from 'material-ui/List'
 import MuiCollapse from 'material-ui/transitions/Collapse'
 // components
-import Button from '../../../../../helper/components/Button/Button.presentational.react'
+import Button from '../../../../../helper/components/Button/Button.presentational'
 import Picker from '../../../../../helper/components/Picker/Picker.presentational'
 // styles
 import scssClasses from './Custom.scss'

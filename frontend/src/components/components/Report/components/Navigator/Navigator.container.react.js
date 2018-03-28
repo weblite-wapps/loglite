@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import Navigator from './Navigator.presentational.react'
+import Navigator from './Navigator.presentational'
 // views
 import { currentPageView } from '../../Main/Report.reducer'
 // actions

@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import Custom from './Custom.presentational.react'
+import Custom from './Custom.presentational'
 // views
 import { queryTagView, tagsView, CSVView, startDateView, endDateView } from '../../Main/Report.reducer'
 // actions

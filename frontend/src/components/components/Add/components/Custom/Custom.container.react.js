@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import Custom from './Custom.presentational.react'
+import Custom from './Custom.presentational'
 // views
 import { expandedView, startTimeView, endTimeView, dateView } from '../../Main/Add.reducer'
 // actions

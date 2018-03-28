@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import Report from './Report.presentational.react'
+import Report from './Report.presentational'
 // actions
 import { dispatchChangeExpandMode } from './Report.action'
 // views

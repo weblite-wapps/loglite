@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Typography from 'material-ui/Typography'
 // components
-import TagShape from '../../../../../../helper/components/TagShapeForReport/TagShapeForReport.presentational.react'
+import TagShape from '../../../../../../helper/components/TagShapeForReport/TagShapeForReport.presentational'
 // styles
 import scssClasses from './WorkList.scss'
 

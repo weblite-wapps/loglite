@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import Home from './Home.presentational.react'
+import Home from './Home.presentational'
 // views
 import { logsView } from '../../../Main/App.reducer'
 // actions

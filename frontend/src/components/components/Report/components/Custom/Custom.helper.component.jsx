@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { CSVDownload } from 'react-csv'
 // components
-import Button from '../../../../../helper/components/Button/Button.presentational.react'
+import Button from '../../../../../helper/components/Button/Button.presentational'
 // styles
 import scssClasses from './Custom.scss'
 

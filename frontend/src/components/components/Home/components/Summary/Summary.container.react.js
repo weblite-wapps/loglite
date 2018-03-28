@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import Summary from './Summary.presentational.react'
+import Summary from './Summary.presentational'
 // views
 import { textSliderView } from '../../Main/Home.reducer'
 // actions

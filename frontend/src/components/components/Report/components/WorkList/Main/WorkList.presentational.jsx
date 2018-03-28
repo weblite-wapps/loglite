@@ -7,7 +7,7 @@ import List from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Button from 'material-ui/Button'
 // components
-import Popover from '../components/Popover.presentational.react'
+import Popover from '../components/Popover.presentational'
 // helpers
 import { TitleAndDuration, Tags } from './WorkList.helper.component'
 // styles

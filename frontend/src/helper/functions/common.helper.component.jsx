@@ -2,9 +2,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // components
-import Autocomplete from '../components/Autocomplete/Autocomplete.presentational.react'
-import CustomizedButton from '../components/Button/Button.presentational.react'
-import TagList from '../components/TagList/TagList.presentational.react'
+import Autocomplete from '../components/Autocomplete/Autocomplete.presentational'
+import CustomizedButton from '../components/Button/Button.presentational'
+import TagList from '../components/TagList/TagList.presentational'
 import Picker from '../components/Picker/Picker.presentational'
 // styles
 import scssClasses from './common.scss'

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 import TextField from 'material-ui/TextField'
-// css
+// styles
 import styles from '../../style/appStyle'
 
 const Picker = ({ classes, label, type, isError, value, onChange }) => (

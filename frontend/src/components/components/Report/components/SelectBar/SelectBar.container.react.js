@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import SelectBar from './SelectBar.presentational.react'
+import SelectBar from './SelectBar.presentational'
 // views
 import { selectedUserView } from '../../Main/Report.reducer'
 import { creatorView, usersView } from '../../../../Main/App.reducer'

@@ -9,7 +9,6 @@ export const formatTime = time =>
       setSeconds(
         new Date(), R.slice(6, 8, time)), R.slice(3, 5, time)), R.slice(0, 2, time))
 
-
 export const sumTimes = times =>
   R.reduce((acc, time) =>
     time.end === 'running' ? acc : acc + differenceInSeconds(time.end, time.start), 0)(times)

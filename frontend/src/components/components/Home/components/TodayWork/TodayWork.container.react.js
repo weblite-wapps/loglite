@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import TodayWork from './TodayWork.presentational.react'
+import TodayWork from './TodayWork.presentational'
 // views
 import { isLoadingView, runningIdView, secondsElapsedView } from '../../../../Main/App.reducer'
 // actions

@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import App from './App.presentational.react'
+import App from './App.presentational'
 // views
 import { isLoadingView, tabIndexView, aboutModeView } from './App.reducer'
 // actions

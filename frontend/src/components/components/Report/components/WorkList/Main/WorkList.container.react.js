@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import WorkList from './WorkList.presentational.react'
+import WorkList from './WorkList.presentational'
 // views
 import { selectedUserView, anchorElView } from '../../../Main/Report.reducer'
 import { userIdView, popoverIdView, runningIdView } from '../../../../../Main/App.reducer'

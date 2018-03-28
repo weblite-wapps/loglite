@@ -3,8 +3,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import subDays from 'date-fns/sub_days'
 // components
-import Button from '../../../../../../helper/components/Button/Button.presentational.react'
-import CustomizedBarChart from '../components/BarChart.presentational.react'
+import Button from '../../../../../../helper/components/Button/Button.presentational'
+import CustomizedBarChart from '../components/BarChart.presentational'
 // helpers
 import { formattedDate } from '../../../../../../helper/functions/date.helper'
 // styles

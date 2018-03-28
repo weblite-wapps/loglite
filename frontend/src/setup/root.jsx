@@ -17,20 +17,18 @@ import scssClasses from './root.scss'
 import theme from '../helper/style/appTheme'
 
 
-export default function root() {
-  return (
-    <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
-        <ConnectedRouter history={history}>
-          <div className={scssClasses.container}>
-            <App />
-            <Route exact path="/" component={Home} />
-            <Route path="/Add" component={Add} />
-            <Route path="/Report" component={Report} />
-            <Route path="/About" component={About} />
-          </div>
-        </ConnectedRouter>
-      </MuiThemeProvider>
-    </Provider>
-  )
-}
+export default () => (
+  <Provider store={store}>
+    <MuiThemeProvider theme={theme}>
+      <ConnectedRouter history={history}>
+        <div className={scssClasses.container}>
+          <App />
+          <Route exact path="/" component={Home} />
+          <Route path="/Add" component={Add} />
+          <Route path="/Report" component={Report} />
+          <Route path="/About" component={About} />
+        </div>
+      </ConnectedRouter>
+    </MuiThemeProvider>
+  </Provider>
+)

@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // components
-import CustomizedTextField from '../../../../helper/components/TextField/TextField.presentational.react'
+import CustomizedTextField from '../../../../helper/components/TextField/TextField.presentational'
 // styles
 import scssClasses from './Add.scss'
 
