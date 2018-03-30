@@ -19,24 +19,26 @@ import {
   saveTime,
 } from './db'
 // helpers
-import { sumLogs, formattedSeconds, modifiedQuery, getBarChartData,
-  getJSON, defaultQueryGenerator } from './helper'
+import { sumLogs, formattedSeconds, modifiedQuery, getBarChartData, getJSON, defaultQueryGenerator,
+  getYesterday, getStartDayOfWeek, getStartDayOfMonth } from './helper'
 // const
 const logger = console.log
 
 
 app.get('/initialFetch', ({ query }, res) =>
   Promise.all([
-    fetchLogs({ ...defaultQueryGenerator(query), date: query.today }),
+    fetchLogs({ ...defaultQueryGenerator(query),
+      $and: [{ date: { $gte: getYesterday(query.today) } }, { date: { $lte: query.today } }],
+    }),
     fetchTags({ ...defaultQueryGenerator(query) }),
     fetchLogs({ ...defaultQueryGenerator(query), date: query.today }),
     fetchLogs({
       ...defaultQueryGenerator(query),
-      $and: [{ date: { $gte: query.startOfWeek } }, { date: { $lte: query.today } }],
+      $and: [{ date: { $gte: getStartDayOfWeek(query.today) } }, { date: { $lte: query.today } }],
     }),
     fetchLogs({
       ...defaultQueryGenerator(query),
-      $and: [{ date: { $gte: query.startOfMonth } }, { date: { $lte: query.today } }],
+      $and: [{ date: { $gte: getStartDayOfMonth(query.today) } }, { date: { $lte: query.today } }],
     }),
   ]).then(success => res.json({
     logs: success[0],
@@ -140,11 +142,11 @@ app.get('/fetchTotalDurations', ({ query }, res) =>
     fetchLogs({ ...defaultQueryGenerator(query), date: query.today }),
     fetchLogs({
       ...defaultQueryGenerator(query),
-      $and: [{ date: { $gte: query.startOfWeek } }, { date: { $lte: query.today } }],
+      $and: [{ date: { $gte: getStartDayOfWeek(query.today) } }, { date: { $lte: query.today } }],
     }),
     fetchLogs({
       ...defaultQueryGenerator(query),
-      $and: [{ date: { $gte: query.startOfMonth } }, { date: { $lte: query.today } }],
+      $and: [{ date: { $gte: getStartDayOfMonth(query.today) } }, { date: { $lte: query.today } }],
     }),
   ]).then(success => res.json({
     today: formattedSeconds(sumLogs(success[0]), 'Home'),

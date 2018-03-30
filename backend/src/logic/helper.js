@@ -1,10 +1,7 @@
 // modules
 import json2csv from 'json2csv'
 import * as R from 'ramda'
-import differenceInSeconds from 'date-fns/difference_in_seconds'
-import format from 'date-fns/format'
-import differenceInDays from 'date-fns/difference_in_days'
-import addDays from 'date-fns/add_days'
+import { startOfDay, startOfWeek, startOfMonth, addDays, subDays, format, differenceInSeconds, differenceInDays } from 'date-fns'
 
 
 export const defaultQueryGenerator = query => ({
@@ -81,3 +78,11 @@ export const getBarChartData = (logs, query) => {
     name: date,
     duration: Math.floor(sumLogs(R.filter(log => log.date === date, logs)) / 60) }), dates)
 }
+
+export const formattedDate = date => format(date, 'YYYY-MM-DD')
+
+export const getYesterday = date => formattedDate(subDays(startOfDay(date), 1))
+
+export const getStartDayOfWeek = date => formattedDate(subDays(startOfWeek(date), 1))
+
+export const getStartDayOfMonth = date => formattedDate(startOfMonth(date))

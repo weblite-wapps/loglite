@@ -5,10 +5,10 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 import { push } from 'react-router-redux'
 // helpers
 import { formatTime, getRequest, postRequest } from './App.helper'
-import { formattedDate, getToday, getStartDayOfWeek, getStartDayOfMonth } from '../../helper/functions/date.helper'
+import { formattedDate, getToday, previousDay } from '../../helper/functions/date.helper'
 // actions
 import { RESET_INPUTS, dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
-import { addPage } from '../components/Report/Main/Report.action'
+import { dispatchAddPage } from '../components/Report/Main/Report.action'
 import { REFETCH_TOTAL_DURATION, dispatchLoadTotalDurations } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
@@ -31,7 +31,7 @@ import {
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, creatorView, aboutModeView } from './App.reducer'
-import { currentPageView, selectedUserView } from '../components/Report/Main/Report.reducer'
+import { selectedUserView } from '../components/Report/Main/Report.reducer'
 
 
 const fetchUsersEpic = action$ =>
@@ -58,15 +58,15 @@ const initialFetchEpic = action$ =>
         userId: userIdView(),
         username: userNameView(),
         today: getToday(),
-        startOfWeek: getStartDayOfWeek(),
-        startOfMonth: getStartDayOfMonth(),
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(({ body: { logs } }) => dispatchLoadLogsData(logs))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
-    .map(() => addPage(formattedDate(currentPageView()), selectedUserView()))
+    .do(() => dispatchAddPage(formattedDate(previousDay(new Date())), selectedUserView()))
+    .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
     .do(() => window.W && window.W.start())
+    .ignoreElements()
 
 const addLogToNextDayEpic = action$ =>
   action$.ofType(ADD_LOG_TO_NEXT_DAY)
@@ -96,10 +96,7 @@ const saveStartTimeEpic = action$ =>
     .do(payload => dispatchChangeRunningId(payload._id))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(({ _id, start }) => postRequest('/saveStartTime')
-      .send({
-        start,
-        _id,
-      })
+      .send({ start, _id })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .ignoreElements()
@@ -110,10 +107,7 @@ const saveEndTimeEpic = action$ =>
     .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(({ end, _id }) => postRequest('/saveEndTime')
-      .send({
-        end,
-        _id,
-      })
+      .send({ end, _id })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .mapTo({ type: REFETCH_TOTAL_DURATION })

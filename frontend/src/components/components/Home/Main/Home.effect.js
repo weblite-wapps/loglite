@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest, getSecondsElapsed } from './Home.helper'
-import { getToday, getStartDayOfWeek, getStartDayOfMonth } from '../../../../helper/functions/date.helper'
+import { getToday } from '../../../../helper/functions/date.helper'
 // actions
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
 import {
@@ -35,8 +35,6 @@ const refetchTotalDurationEpic = action$ =>
         wis: wisView(),
         userId: userIdView(),
         today: getToday(),
-        startOfWeek: getStartDayOfWeek(),
-        startOfMonth: getStartDayOfMonth(),
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
