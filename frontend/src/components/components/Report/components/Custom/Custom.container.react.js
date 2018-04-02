@@ -1,9 +1,9 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import Custom from './Custom.presentational.react'
+import Custom from './Custom.presentational'
 // views
-import { queryTagView, tagsView, startDateView, endDateView, CSVView } from '../../Main/Report.reducer'
+import { queryTagView, tagsView, CSVView, startDateView, endDateView } from '../../Main/Report.reducer'
 // actions
 import {
   dispatchSetQuery,
@@ -11,6 +11,8 @@ import {
   dispatchAddTag,
   dispatchCalculateTotalDuration,
   dispatchConvertJSONToCSV,
+  dispatchChangeStartDate,
+  dispatchChangeEndDate,
 } from '../../Main/Report.action'
 // selector
 import { getReportFilteredSuggestions } from '../../../../Main/App.selector'
@@ -19,10 +21,10 @@ import { getReportFilteredSuggestions } from '../../../../Main/App.selector'
 const mapStateToProps = state => ({
   queryTag: queryTagView(),
   tags: tagsView(),
-  startDate: startDateView(),
-  endDate: endDateView(),
   suggestions: getReportFilteredSuggestions(state),
   CSV: CSVView(),
+  startDate: startDateView(),
+  endDate: endDateView(),
 })
 
 const mapDispatchToProps = () => ({
@@ -31,6 +33,8 @@ const mapDispatchToProps = () => ({
   addTag: dispatchAddTag,
   calculateTotalDuration: dispatchCalculateTotalDuration,
   convertJSONToCSV: dispatchConvertJSONToCSV,
+  onStartDateChange: ({ target: { value } }) => dispatchChangeStartDate(value),
+  onEndDateChange: ({ target: { value } }) => dispatchChangeEndDate(value),
 })
 
 

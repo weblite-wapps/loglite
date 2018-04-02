@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import Summary from './Summary.presentational.react'
+import Summary from './Summary.presentational'
 // views
 import { textSliderView } from '../../Main/Home.reducer'
 // actions
@@ -9,7 +9,8 @@ import { dispatchChangeTextSlider } from '../../Main/Home.action'
 
 
 const mapStateToProps = () => ({
-  textSlider: textSliderView(),
+  name: textSliderView().name,
+  duration: textSliderView().duration,
 })
 
 const mapDispatchToProps = () => ({ changeTextSlider: dispatchChangeTextSlider })

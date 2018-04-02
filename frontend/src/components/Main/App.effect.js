@@ -2,12 +2,14 @@
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import { snackbarMessage } from 'weblite-web-snackbar'
+import { push } from 'react-router-redux'
 // helpers
-import { formatTime, getRequest, postRequest } from './App.helper'
-import { formattedDate, getToday, getStartDayOfWeek, getStartDayOfMonth } from '../../helper/functions/date.helper'
+import { getRequest, postRequest } from './App.helper'
+import { formatTime } from '../../helper/functions/time.helper'
+import { formattedDate, getToday, previousDay } from '../../helper/functions/date.helper'
 // actions
 import { RESET_INPUTS, dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
-import { addPage } from '../components/Report/Main/Report.action'
+import { dispatchAddPage } from '../components/Report/Main/Report.action'
 import { REFETCH_TOTAL_DURATION, dispatchLoadTotalDurations } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
@@ -17,6 +19,8 @@ import {
   SAVE_START_TIME,
   SAVE_END_TIME,
   FETCH_ADMIN_DATA,
+  CHANGE_TAB,
+  SET_ABOUT_MODE,
   loadUsersData,
   restoreLog,
   dispatchLoadLogsData,
@@ -24,10 +28,12 @@ import {
   dispatchFetchAdminData,
   dispatchChangeRunningId,
   dispatchSetIsLoading,
+  dispatchSetAboutMode,
+  dispatchChangePopoverId,
 } from './App.action'
 // views
-import { wisView, userIdView, userNameView, creatorView } from './App.reducer'
-import { currentPageView, selectedUserView } from '../components/Report/Main/Report.reducer'
+import { wisView, userIdView, userNameView, creatorView, aboutModeView } from './App.reducer'
+import { selectedUserView } from '../components/Report/Main/Report.reducer'
 
 
 const fetchUsersEpic = action$ =>
@@ -54,28 +60,30 @@ const initialFetchEpic = action$ =>
         userId: userIdView(),
         username: userNameView(),
         today: getToday(),
-        startOfWeek: getStartDayOfWeek(),
-        startOfMonth: getStartDayOfMonth(),
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(({ body: { logs } }) => dispatchLoadLogsData(logs))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
-    .map(() => addPage(formattedDate(currentPageView()), selectedUserView()))
+    .do(() => dispatchAddPage(formattedDate(previousDay(new Date())), selectedUserView()))
+    .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
     .do(() => window.W && window.W.start())
+    .ignoreElements()
 
 const addLogToNextDayEpic = action$ =>
   action$.ofType(ADD_LOG_TO_NEXT_DAY)
-    .mergeMap(action => postRequest('/insertLogToNextDay')
+    .pluck('payload')
+    .mergeMap(({ title, tags, end, date }) => postRequest('/insertLogToNextDay')
       .send({
-        title: action.payload.title,
-        tags: action.payload.tags,
-        times: [{ start: formatTime('00:00'), end: action.payload.end }],
-        date: action.payload.date,
-        id: userIdView(),
+        title,
+        tags,
+        times: [{ start: previousDay(formatTime('24:00:00')), end }],
+        date,
+        userId: userIdView(),
         wis: wisView(),
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
     .map(({ body }) => restoreLog(body))
 
 const deleteLogEpic = action$ =>
@@ -83,6 +91,8 @@ const deleteLogEpic = action$ =>
     .mergeMap(action => postRequest('/deleteLog')
       .query({ _id: action.payload._id })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => snackbarMessage({ message: 'Deleted successfully !' }))
+    .do(() => dispatchChangePopoverId(''))
     .mapTo({ type: REFETCH_TOTAL_DURATION })
 
 const saveStartTimeEpic = action$ =>
@@ -90,11 +100,8 @@ const saveStartTimeEpic = action$ =>
     .pluck('payload')
     .do(payload => dispatchChangeRunningId(payload._id))
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(payload => postRequest('/saveStartTime')
-      .send({
-        startTime: payload.start,
-        _id: payload._id,
-      })
+    .mergeMap(({ _id, start }) => postRequest('/saveStartTime')
+      .send({ start, _id })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .ignoreElements()
@@ -104,11 +111,8 @@ const saveEndTimeEpic = action$ =>
     .pluck('payload')
     .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(payload => postRequest('/saveEndTime')
-      .send({
-        endTime: payload.end,
-        _id: payload._id,
-      })
+    .mergeMap(({ end, _id }) => postRequest('/saveEndTime')
+      .send({ end, _id })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .mapTo({ type: REFETCH_TOTAL_DURATION })
@@ -116,6 +120,18 @@ const saveEndTimeEpic = action$ =>
 const resetEpic = action$ =>
   action$.ofType(RESTORE_LOG)
     .mapTo({ type: RESET_INPUTS })
+
+const changeTabEpic = (action$, { dispatch }) =>
+  action$.ofType(CHANGE_TAB)
+    .pluck('payload')
+    .do(() => aboutModeView() === true && dispatchSetAboutMode(false))
+    .do(({ value }) => value === 'Home' && dispatch(push('/')))
+    .do(({ value }) => value !== 'Home' && dispatch(push(`/${value}`)))
+    .ignoreElements()
+
+const setAboutModeEpic = action$ =>
+  action$.ofType(SET_ABOUT_MODE)
+    .map(() => push('/About'))
 
 
 export default combineEpics(
@@ -127,4 +143,6 @@ export default combineEpics(
   saveStartTimeEpic,
   saveEndTimeEpic,
   resetEpic,
+  changeTabEpic,
+  setAboutModeEpic,
 )

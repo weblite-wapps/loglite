@@ -44,3 +44,7 @@ export const dispatchChangeSelectedTagsInAdd = (...args) =>
 export const RESET_INPUTS = 'RESET_INPUTS'
 export const resetInputs = createAction(RESET_INPUTS)
 export const dispatchResetInputs = (...args) => dispatch(resetInputs(...args))
+
+export const TOGGLE_EXPANDED = 'TOGGLE_EXPANDED'
+export const toggleExpanded = createAction(TOGGLE_EXPANDED)
+export const dispatchToggleExpanded = (...args) => dispatch(toggleExpanded(...args))

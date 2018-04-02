@@ -1,16 +1,23 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import App from './App.presentational.react'
+import App from './App.presentational'
 // views
-import { isLoadingView, tabIndexView } from './App.reducer'
+import { isLoadingView, tabIndexView, aboutModeView } from './App.reducer'
 // actions
-import { dispatchChangeTab, dispatchSetApi, dispatchFetchTodayData, dispatchCheckToSetSecondsElapsed } from './App.action'
+import {
+  dispatchChangeTab,
+  dispatchSetApi,
+  dispatchFetchTodayData,
+  dispatchCheckToSetSecondsElapsed,
+  dispatchSetAboutMode,
+} from './App.action'
 
 
 const mapStateToProps = () => ({
   isLoading: isLoadingView(),
   tabIndex: tabIndexView(),
+  aboutMode: aboutModeView(),
 })
 
 const mapDispatchToProps = () => ({
@@ -18,6 +25,7 @@ const mapDispatchToProps = () => ({
   setAPI: dispatchSetApi,
   fetchTodayData: dispatchFetchTodayData,
   checkToSetSecondsElapsed: dispatchCheckToSetSecondsElapsed,
+  setAboutMode: dispatchSetAboutMode,
 })
 
 

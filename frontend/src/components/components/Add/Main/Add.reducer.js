@@ -14,10 +14,12 @@ import {
   ADD_TAG_IN_ADD,
   CHANGE_SELECTED_TAGS_IN_ADD,
   RESET_INPUTS,
+  TOGGLE_EXPANDED,
 } from './Add.action'
 
 // state
 const initialState = {
+  expanded: false,
   title: '',
   queryTag: '',
   suggestions: [],
@@ -30,6 +32,7 @@ const initialState = {
 
 
 // lens
+const expandedLens = R.lensProp('expanded')
 const dateLens = R.lensProp('date')
 const startTimeLens = R.lensProp('startTime')
 const endTimeLens = R.lensProp('endTime')
@@ -37,6 +40,7 @@ const titleLens = R.lensProp('title')
 const queryTagLens = R.lensProp('queryTag')
 const suggestionsLens = R.lensProp('suggestions')
 // views
+export const expandedView = () => R.path(['Add', 'expanded'])(getState())
 export const titleView = () => R.path(['Add', 'title'])(getState())
 export const queryTagView = () => R.path(['Add', 'queryTag'])(getState())
 export const selectedTagsView = () => R.path(['Add', 'selectedTags'])(getState())
@@ -91,6 +95,8 @@ const reducers = {
       selectedTags: [],
       queryTag: '',
     }),
+
+  [TOGGLE_EXPANDED]: state => R.set(expandedLens, !state.expanded, state),
 }
 
 

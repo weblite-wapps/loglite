@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import Add from './Add.presentational.react'
+import Add from './Add.presentational'
 // views
 import { logsView } from '../../../Main/App.reducer'
 import { titleView, selectedTagsView, queryTagView, tagsView, dateView, startTimeView, endTimeView } from './Add.reducer'
@@ -13,7 +13,7 @@ import {
   dispatchChangeSelectedTagsInAdd,
   dispatchAddTagInAdd,
 } from './Add.action'
-// selector
+// selectors
 import { getAddFilteredSuggestions } from '../../../Main/App.selector'
 
 

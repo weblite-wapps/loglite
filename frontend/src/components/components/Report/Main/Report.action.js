@@ -3,6 +3,10 @@ import { createAction } from 'redux-actions'
 import { dispatch } from '../../../../setup/redux'
 
 // actions
+export const CHANGE_EXPANAD_MODE = 'CHANGE_EXPANAD_MODE'
+export const changeExpandMode = createAction(CHANGE_EXPANAD_MODE, value => ({ value }))
+export const dispatchChangeExpandMode = (...args) => dispatch(changeExpandMode(...args))
+
 export const SET_API = 'SET_API'
 export const setAPI = createAction(SET_API, (creator, user) => ({ creator, user }))
 export const dispatchSetApi = (...args) => dispatch(setAPI(...args))
@@ -96,3 +100,8 @@ export const dispatchUpdateChart = (...args) => dispatch(updateChart(...args))
 export const RESTORE_BAR_CHART_DATA = 'RESTORE_BAR_CHART_DATA'
 export const restoreBarChartData = createAction(RESTORE_BAR_CHART_DATA, data => ({ data }))
 export const dispatchRestoreBarChartData = (...args) => dispatch(restoreBarChartData(...args))
+
+
+export const CHANGE_ANCHOR_EL = 'CHANGE_ANCHOR_EL'
+export const changeAnchorEl = createAction(CHANGE_ANCHOR_EL, value => ({ value }))
+export const dispatchChangeAnchorEl = (...args) => dispatch(changeAnchorEl(...args))

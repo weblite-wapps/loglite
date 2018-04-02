@@ -3,8 +3,8 @@ import * as R from 'ramda'
 // local modules
 import { getState } from '../../setup/redux'
 // helpers
-import { formatTime } from './App.helper'
-import { formattedDate } from '../../helper/functions/date.helper'
+import { formatTime } from '../../helper/functions/time.helper'
+import { formattedDate, previousDay } from '../../helper/functions/date.helper'
 // actions
 import {
   SET_API,
@@ -23,11 +23,13 @@ import {
   SAVE_START_TIME,
   SAVE_END_TIME,
   CHANGE_RUNNING_ID,
+  SET_ABOUT_MODE,
 } from './App.action'
 
 // state
 const initialState = {
   tabIndex: 'Home',
+  aboutMode: false,
   isLoading: false,
   popoverId: '',
   runningId: '',
@@ -46,6 +48,7 @@ const endLens = R.lensProp('end')
 const runningIdLens = R.lensProp('runningId')
 const secondsElapsedLens = R.lensProp('secondsElapsed')
 const popoverIdLens = R.lensProp('popoverId')
+const aboutModeLens = R.lensProp('aboutMode')
 // views
 export const wisView = () => R.path(['App', 'wis'])(getState())
 export const creatorView = () => R.path(['App', 'creator'])(getState())
@@ -58,6 +61,7 @@ export const runningIdView = () => R.path(['App', 'runningId'])(getState())
 export const isLoadingView = () => R.path(['App', 'isLoading'])(getState())
 export const secondsElapsedView = () => R.path(['App', 'secondsElapsed'])(getState())
 export const tabIndexView = () => R.path(['App', 'tabIndex'])(getState())
+export const aboutModeView = () => R.path(['App', 'aboutMode'])(getState())
 
 // reducers
 const reducers = {
@@ -109,7 +113,7 @@ const reducers = {
         _id: state.logs.length,
         title,
         tags,
-        times: [{ start: formatTime('00:00'), end }],
+        times: [{ start: previousDay(formatTime('24:00:00')), end }],
         date,
         wis: state.wis,
       }, state.logs),
@@ -147,6 +151,8 @@ const reducers = {
   }),
 
   [CHANGE_RUNNING_ID]: (state, { _id }) => R.set(runningIdLens, _id, state),
+
+  [SET_ABOUT_MODE]: (state, { value }) => R.set(aboutModeLens, value, state),
 }
 
 

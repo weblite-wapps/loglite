@@ -6,14 +6,10 @@ import { Observable } from 'rxjs/Observable'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest, getSecondsElapsed } from './Home.helper'
-import { getToday, getStartDayOfWeek, getStartDayOfMonth } from '../../../../helper/functions/date.helper'
+import { getToday } from '../../../../helper/functions/date.helper'
 // actions
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
-import {
-  REFETCH_TOTAL_DURATION,
-  COUNTINUE_COUNTING,
-  loadTotalDurations,
-} from './Home.action'
+import { REFETCH_TOTAL_DURATION, COUNTINUE_COUNTING, loadTotalDurations } from './Home.action'
 import {
   SAVE_START_TIME,
   INCREMENT_SECONDS_ELAPSED,
@@ -35,13 +31,10 @@ const refetchTotalDurationEpic = action$ =>
         wis: wisView(),
         userId: userIdView(),
         today: getToday(),
-        startOfWeek: getStartDayOfWeek(),
-        startOfMonth: getStartDayOfMonth(),
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ body }) => loadTotalDurations(body))
-
 
 const effectCountUpEpic = action$ =>
   action$.ofType(SAVE_START_TIME, COUNTINUE_COUNTING)

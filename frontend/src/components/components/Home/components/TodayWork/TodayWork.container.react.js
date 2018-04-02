@@ -1,7 +1,7 @@
 // modules
 import { connect } from 'react-redux'
 // components
-import TodayWork from './TodayWork.presentational.react'
+import TodayWork from './TodayWork.presentational'
 // views
 import { isLoadingView, runningIdView, secondsElapsedView } from '../../../../Main/App.reducer'
 // actions
@@ -17,20 +17,19 @@ import {
 import { getWorksDuration } from '../../../../../helper/selectors/workDuration.selector'
 
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, { log: { _id } }) => ({
   isLoading: isLoadingView(),
   runningId: runningIdView(),
   secondsElapsed: secondsElapsedView(),
-  workDuration: getWorksDuration(state)[ownProps.log._id],
+  workDuration: getWorksDuration(state)[_id],
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch, { log: { title, tags } }) => ({
   setSecondsElapsed: dispatchSetSecondsElapsed,
   countinueCounting: dispatchCountinueCounting,
   onStartClick: dispatchSaveStartTime,
   onStopClick: dispatchSaveEndTime,
-  addLogToNextDay: (end, date) =>
-    dispatchAddLogToNextDay(ownProps.log.title, ownProps.log.tags, end, date),
+  addLogToNextDay: (end, date) => dispatchAddLogToNextDay(title, tags, end, date),
   changeRunningId: dispatchChangeRunningId,
 })
 
