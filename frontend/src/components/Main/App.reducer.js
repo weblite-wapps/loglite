@@ -18,11 +18,8 @@ import {
   ADD_LOG_TO_NEXT_DAY,
   RESTORE_LOG,
   DELETE_LOG,
-  SET_SECONDS_ELAPSED,
-  INCREMENT_SECONDS_ELAPSED,
   SAVE_START_TIME,
   SAVE_END_TIME,
-  CHANGE_RUNNING_ID,
   SET_ABOUT_MODE,
 } from './App.action'
 
@@ -32,8 +29,6 @@ const initialState = {
   aboutMode: false,
   isLoading: false,
   popoverId: '',
-  runningId: '',
-  secondsElapsed: 0,
   logs: [],
   users: [],
   user: {},
@@ -45,8 +40,6 @@ const initialState = {
 const isLoadingLens = R.lensProp('isLoading')
 const tabIndexLens = R.lensProp('tabIndex')
 const endLens = R.lensProp('end')
-const runningIdLens = R.lensProp('runningId')
-const secondsElapsedLens = R.lensProp('secondsElapsed')
 const popoverIdLens = R.lensProp('popoverId')
 const aboutModeLens = R.lensProp('aboutMode')
 // views
@@ -57,9 +50,7 @@ export const userNameView = () => R.path(['App', 'user', 'name'])(getState())
 export const logsView = () => R.path(['App', 'logs'])(getState())
 export const usersView = () => R.path(['App', 'users'])(getState())
 export const popoverIdView = () => R.path(['App', 'popoverId'])(getState())
-export const runningIdView = () => R.path(['App', 'runningId'])(getState())
 export const isLoadingView = () => R.path(['App', 'isLoading'])(getState())
-export const secondsElapsedView = () => R.path(['App', 'secondsElapsed'])(getState())
 export const tabIndexView = () => R.path(['App', 'tabIndex'])(getState())
 export const aboutModeView = () => R.path(['App', 'aboutMode'])(getState())
 
@@ -129,11 +120,6 @@ const reducers = {
     logs: R.remove(R.findIndex(R.propEq('_id', _id))(state.logs), 1, state.logs),
   }),
 
-  [SET_SECONDS_ELAPSED]: (state, { value }) => R.set(secondsElapsedLens, value, state),
-
-  [INCREMENT_SECONDS_ELAPSED]: state =>
-    R.set(secondsElapsedLens, R.inc(state.secondsElapsed), state),
-
   [SAVE_START_TIME]: (state, { _id }) => ({
     ...state,
     logs: R.map(log => (log._id === _id) ?
@@ -149,8 +135,6 @@ const reducers = {
           R.set(endLens, end, time) : time, log.times),
       } : log, state.logs),
   }),
-
-  [CHANGE_RUNNING_ID]: (state, { _id }) => R.set(runningIdLens, _id, state),
 
   [SET_ABOUT_MODE]: (state, { value }) => R.set(aboutModeLens, value, state),
 }

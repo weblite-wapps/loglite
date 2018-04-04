@@ -3,16 +3,11 @@ import { connect } from 'react-redux'
 // components
 import TodayWork from './TodayWork.presentational'
 // views
-import { isLoadingView, runningIdView, secondsElapsedView } from '../../../../Main/App.reducer'
+import { isLoadingView } from '../../../../Main/App.reducer'
+import { secondsElapsedView, runningIdView } from '../../Main/Home.reducer'
 // actions
-import { dispatchCountinueCounting } from '../../Main/Home.action'
-import {
-  dispatchSetSecondsElapsed,
-  dispatchSaveStartTime,
-  dispatchSaveEndTime,
-  dispatchAddLogToNextDay,
-  dispatchChangeRunningId,
-} from '../../../../Main/App.action'
+import { dispatchCountinueCounting, dispatchSetSecondsElapsed, dispatchChangeRunningId } from '../../Main/Home.action'
+import { dispatchSaveStartTime, dispatchSaveEndTime, dispatchAddLogToNextDay } from '../../../../Main/App.action'
 // selectors
 import { getWorksDuration } from '../../../../../helper/selectors/workDuration.selector'
 

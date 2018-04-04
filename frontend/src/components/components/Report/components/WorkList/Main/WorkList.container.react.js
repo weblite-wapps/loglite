@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import WorkList from './WorkList.presentational'
 // views
 import { selectedUserView, anchorElView } from '../../../Main/Report.reducer'
-import { userIdView, popoverIdView, runningIdView } from '../../../../../Main/App.reducer'
+import { userIdView, popoverIdView } from '../../../../../Main/App.reducer'
+import { runningIdView } from '../../../../Home/Main/Home.reducer'
 // actions
 import { dispatchDeleteLog, dispatchChangePopoverId } from '../../../../../Main/App.action'
 import { dispatchChangeAnchorEl } from '../../../Main/Report.action'

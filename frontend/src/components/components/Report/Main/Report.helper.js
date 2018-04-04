@@ -3,16 +3,9 @@ import * as R from 'ramda'
 import differenceInSeconds from 'date-fns/difference_in_seconds'
 import addDays from 'date-fns/add_days'
 import subDays from 'date-fns/sub_days'
-// components
-import host from '../../../../setup/config'
-// const
-const request = require('superagent')
+
 
 export const isTime = time => R.test(/^Total/, time)
-
-export const getRequest = path => request
-  .get(host + path)
-  .set('Access-Control-Allow-Origin', '*')
 
 export const previousDay = date => subDays(date, 1)
 

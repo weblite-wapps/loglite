@@ -4,7 +4,7 @@ import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
-import { getRequest } from './Report.helper'
+import { getRequest } from '../../../../helper/functions/request.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 // actions
 import { loadLogsData, dispatchSetIsLoading } from '../../../Main/App.action'
@@ -39,6 +39,7 @@ const resetStaffDataEpic = action$ =>
   action$.ofType(CHANGE_SELECTED_USER)
     .map(() => resetStaffLogs(userIdView()))
 
+
 const loadStaffDataEpic = action$ =>
   action$.ofType(RESET_STAFF_LOGS)
     .filter(() => R.prop(selectedUserView(), pagesView()) === undefined ||
@@ -69,9 +70,11 @@ const loadStaffDataEpic = action$ =>
       loadTagsDataInReport(success[1].body),
     ]))
 
+
 const loadTagsDataEpic = action$ =>
   action$.ofType(LOAD_TAGS_DATA_IN_ADD)
     .map(action => loadTagsDataInReport(action.payload.tags))
+
 
 const effectSearchTagsEpic = action$ =>
   action$.ofType(SET_QUERY)
@@ -82,6 +85,7 @@ const effectSearchTagsEpic = action$ =>
       .query({ wis: wisView(), userId: selectedUserView(), label: payload.queryTag })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .map(({ body }) => fetchTags(body))
+
 
 const calculateTotalDurationEpic = action$ =>
   action$.ofType(CALCULATE_TOTAL_DURATION)
@@ -114,6 +118,7 @@ const convertJSONToCSVEpic = action$ =>
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) => restoreCSV(text))
 
+
 const fetchPreviousDayLogsDataEpic = action$ =>
   action$.ofType(PREVIOUS_PAGE)
     .filter(() => !R.contains(formattedDate(currentPageView()), pagesView()[selectedUserView()]))
@@ -134,6 +139,7 @@ const fetchPreviousDayLogsDataEpic = action$ =>
     .map(({ body }) =>
       selectedUserView() === userIdView() ?
         loadLogsData(body) : loadStaffLogs(body))
+
 
 const fetchNextDayLogsDataEpic = action$ =>
   action$.ofType(NEXT_PAGE)
@@ -156,10 +162,12 @@ const fetchNextDayLogsDataEpic = action$ =>
       selectedUserView() === userIdView() ?
         loadLogsData(body) : loadStaffLogs(body))
 
+
 const resetCSVEpic = action$ =>
   action$.ofType(RESTORE_CSV)
     .delay(1000)
     .mapTo({ type: RESET_CSV })
+
 
 const updateChartEpic = action$ =>
   action$.ofType(UPDATE_CHART)

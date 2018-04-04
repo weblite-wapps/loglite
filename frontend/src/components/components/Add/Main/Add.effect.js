@@ -4,7 +4,7 @@ import 'rxjs'
 // local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
-import { getRequest, postRequest } from './Add.helper'
+import { getRequest, postRequest } from '../../../../helper/functions/request.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 import { formatTime } from '../../../../helper/functions/time.helper'
 // actions

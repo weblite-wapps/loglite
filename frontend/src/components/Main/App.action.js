@@ -3,11 +3,6 @@ import { createAction } from 'redux-actions'
 import { dispatch } from '../../setup/redux'
 
 // actions
-export const CHECK_TO_SET_SECONDS_ELAPSED = 'CHECK_TO_SET_SECONDS_ELAPSED'
-export const checkToSetSecondsElapsed = createAction(CHECK_TO_SET_SECONDS_ELAPSED)
-export const dispatchCheckToSetSecondsElapsed = (...args) =>
-  dispatch(checkToSetSecondsElapsed(...args))
-
 export const SET_API = 'SET_API'
 export const setAPI = createAction(SET_API, (creator, user) => ({ creator, user }))
 export const dispatchSetApi = (...args) => dispatch(setAPI(...args))
@@ -66,29 +61,13 @@ export const DELETE_LOG = 'DELETE_LOG'
 export const deleteLog = createAction(DELETE_LOG, _id => ({ _id }))
 export const dispatchDeleteLog = (...args) => dispatch(deleteLog(...args))
 
-export const SET_SECONDS_ELAPSED = 'SET_SECONDS_ELAPSED'
-export const setSecondsElapsed = createAction(SET_SECONDS_ELAPSED, value => ({ value }))
-export const dispatchSetSecondsElapsed = (...args) => dispatch(setSecondsElapsed(...args))
-
-export const INCREMENT_SECONDS_ELAPSED = 'INCREMENT_SECONDS_ELAPSED'
-export const incrementSecondsElapsed = createAction(INCREMENT_SECONDS_ELAPSED)
-export const dispatchIncrementSecondsElapsed = (...args) =>
-  dispatch(incrementSecondsElapsed(...args))
-
 export const SAVE_START_TIME = 'SAVE_START_TIME'
 export const saveStartTime = createAction(SAVE_START_TIME, (_id, start) => ({ _id, start }))
 export const dispatchSaveStartTime = (...args) => dispatch(saveStartTime(...args))
 
 export const SAVE_END_TIME = 'SAVE_END_TIME'
-export const saveEndTime = createAction(
-  SAVE_END_TIME,
-  (_id, end) => ({ _id, end }),
-)
+export const saveEndTime = createAction(SAVE_END_TIME, (_id, end) => ({ _id, end }))
 export const dispatchSaveEndTime = (...args) => dispatch(saveEndTime(...args))
-
-export const CHANGE_RUNNING_ID = 'CHANGE_RUNNING_ID'
-export const changeRunningId = createAction(CHANGE_RUNNING_ID, _id => ({ _id }))
-export const dispatchChangeRunningId = (...args) => dispatch(changeRunningId(...args))
 
 export const SET_ABOUT_MODE = 'SET_ABOUT_MODE'
 export const setAboutMode = createAction(SET_ABOUT_MODE, value => ({ value }))
