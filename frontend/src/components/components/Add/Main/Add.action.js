@@ -48,3 +48,23 @@ export const dispatchResetInputs = (...args) => dispatch(resetInputs(...args))
 export const TOGGLE_EXPANDED = 'TOGGLE_EXPANDED'
 export const toggleExpanded = createAction(TOGGLE_EXPANDED)
 export const dispatchToggleExpanded = (...args) => dispatch(toggleExpanded(...args))
+
+export const CHANGE_IS_ERROR = 'CHANGE_IS_ERROR'
+export const changeIsError = createAction(CHANGE_IS_ERROR, value => ({ value }))
+export const dispatchChangeIsError = (...args) => dispatch(changeIsError(...args))
+
+// effects
+export const HANDLE_ADD_TAG = 'HANDLE_ADD_TAG'
+export const handleAddTag = createAction(HANDLE_ADD_TAG)
+export const dispatchHandleAddTag = (...args) => dispatch(handleAddTag(...args))
+
+export const HANDLE_ADD_LOG = 'HANDLE_ADD_LOG'
+export const handleAddLog = createAction(HANDLE_ADD_LOG, (title, tags) => ({ title, tags }))
+export const dispatchHandleAddLog = (...args) => dispatch(handleAddLog(...args))
+
+export const HANDLE_ADD_CUSTOM_LOG = 'HANDLE_ADD_CUSTOM_LOG'
+export const handleAddCustomLog = createAction(
+  HANDLE_ADD_CUSTOM_LOG,
+  (title, tags, date, start, end) => ({ title, tags, date, start, end }),
+)
+export const dispatchHandleAddCustomLog = (...args) => dispatch(handleAddCustomLog(...args))

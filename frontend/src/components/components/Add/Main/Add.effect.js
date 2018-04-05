@@ -7,9 +7,27 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 import { getRequest, postRequest } from '../../../../helper/functions/request.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 import { formatTime } from '../../../../helper/functions/time.helper'
+import { checkBeforeAddTag, checkBeforeAddLog, checkBeforeAddCustomLog } from './Add.helper'
 // actions
-import { ADD_LOG, ADD_CUSTOM_LOG, restoreLog } from '../../../Main/App.action'
-import { SET_QUERY_IN_ADD, fetchTagsInAdd, loadTagsDataInAdd, resetInputs } from './Add.action'
+import {
+  ADD_LOG,
+  ADD_CUSTOM_LOG,
+  restoreLog,
+  dispatchAddLog,
+  dispatchAddCustomLog,
+  dispatchChangeTab,
+} from '../../../Main/App.action'
+import {
+  SET_QUERY_IN_ADD,
+  HANDLE_ADD_TAG,
+  HANDLE_ADD_LOG,
+  HANDLE_ADD_CUSTOM_LOG,
+  fetchTagsInAdd,
+  loadTagsDataInAdd,
+  resetInputs,
+  dispatchAddTagInAdd,
+  dispatchChangeIsError,
+} from './Add.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
 
@@ -24,6 +42,7 @@ const effectSearchTagsEpic = action$ =>
         .query({ wis: wisView(), userId: userIdView(), label: payload.queryTag })
         .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .map(({ body }) => fetchTagsInAdd(body))
+
 
 const addLogEpic = action$ =>
   action$.ofType(ADD_LOG)
@@ -49,6 +68,7 @@ const addLogEpic = action$ =>
     ]))
     .mergeMap(success =>
       [restoreLog(success[0].body), loadTagsDataInAdd(success[1].body)])
+
 
 const addCustomLogEpic = action$ =>
   action$.ofType(ADD_CUSTOM_LOG)
@@ -76,8 +96,43 @@ const addCustomLogEpic = action$ =>
       success[0].text === 'added successfully!' ? resetInputs() : restoreLog(success[0].body),
       loadTagsDataInAdd(success[1].body)])
 
+
+const effectHandleAddTag = action$ =>
+  action$.ofType(HANDLE_ADD_TAG)
+    .map(() => ({ ...checkBeforeAddTag() }))
+    .do(({ permission }) => permission && dispatchAddTagInAdd())
+    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .ignoreElements()
+
+
+const effectHandleAddLog = action$ =>
+  action$.ofType(HANDLE_ADD_LOG)
+    .pluck('payload')
+    .map(payload => ({ ...payload, ...checkBeforeAddLog() }))
+    .do(({ message }) => snackbarMessage({ message }))
+    .do(({ isError }) => dispatchChangeIsError(isError))
+    .filter(({ permission }) => permission)
+    .do(({ title, tags }) => dispatchAddLog(title, tags))
+    .do(() => dispatchChangeTab('Home'))
+    .ignoreElements()
+
+
+const effectHandleAddCustomLog = action$ =>
+  action$.ofType(HANDLE_ADD_CUSTOM_LOG)
+    .pluck('payload')
+    .map(payload => ({ ...payload, ...checkBeforeAddCustomLog() }))
+    .do(({ message }) => snackbarMessage({ message }))
+    .do(({ isError }) => dispatchChangeIsError(isError))
+    .filter(({ permission }) => permission)
+    .do(({ title, tags, date, start, end }) => dispatchAddCustomLog(title, tags, date, start, end))
+    .do(() => dispatchChangeTab('Home'))
+    .ignoreElements()
+
 export default combineEpics(
   effectSearchTagsEpic,
   addLogEpic,
   addCustomLogEpic,
+  effectHandleAddTag,
+  effectHandleAddLog,
+  effectHandleAddCustomLog,
 )

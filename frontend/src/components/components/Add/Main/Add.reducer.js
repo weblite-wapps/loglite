@@ -15,6 +15,7 @@ import {
   CHANGE_SELECTED_TAGS_IN_ADD,
   RESET_INPUTS,
   TOGGLE_EXPANDED,
+  CHANGE_IS_ERROR,
 } from './Add.action'
 
 // state
@@ -28,6 +29,7 @@ const initialState = {
   endTime: '',
   selectedTags: [],
   tags: [],
+  isError: { title: false, date: false, startTime: false, endTime: false },
 }
 
 
@@ -39,6 +41,7 @@ const endTimeLens = R.lensProp('endTime')
 const titleLens = R.lensProp('title')
 const queryTagLens = R.lensProp('queryTag')
 const suggestionsLens = R.lensProp('suggestions')
+const isErrorLens = R.lensProp('isError')
 // views
 export const expandedView = () => R.path(['Add', 'expanded'])(getState())
 export const titleView = () => R.path(['Add', 'title'])(getState())
@@ -48,7 +51,7 @@ export const dateView = () => R.path(['Add', 'date'])(getState())
 export const startTimeView = () => R.path(['Add', 'startTime'])(getState())
 export const endTimeView = () => R.path(['Add', 'endTime'])(getState())
 export const tagsView = () => R.path(['Add', 'tags'])(getState())
-
+export const isErrorView = () => R.path(['Add', 'isError'])(getState())
 
 // reducers
 const reducers = {
@@ -97,6 +100,8 @@ const reducers = {
     }),
 
   [TOGGLE_EXPANDED]: state => R.set(expandedLens, !state.expanded, state),
+
+  [CHANGE_IS_ERROR]: (state, { value }) => R.set(isErrorLens, value, state),
 }
 
 

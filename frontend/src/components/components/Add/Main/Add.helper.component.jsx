@@ -12,13 +12,13 @@ export const TextField = ({ isError, title, onTitleChange }) => (
       label="Title"
       value={title}
       onChange={e => onTitleChange(e.target.value)}
-      isError={isError}
+      isError={isError.title}
     />
   </div>
 )
 
 TextField.propTypes = {
-  isError: PropTypes.bool.isRequired,
+  isError: PropTypes.shape({}).isRequired,
   title: PropTypes.string.isRequired,
   onTitleChange: PropTypes.func.isRequired,
 }
