@@ -5,13 +5,8 @@ import App from './App.presentational'
 // views
 import { isLoadingView, tabIndexView, aboutModeView } from './App.reducer'
 // actions
-import {
-  dispatchChangeTab,
-  dispatchSetApi,
-  dispatchFetchTodayData,
-  dispatchCheckToSetSecondsElapsed,
-  dispatchSetAboutMode,
-} from './App.action'
+import { dispatchCheckToSetSecondsElapsed } from '../components/Home/Main/Home.action'
+import { dispatchChangeTab, dispatchSetApi, dispatchFetchTodayData, dispatchSetAboutMode } from './App.action'
 
 
 const mapStateToProps = () => ({

@@ -1,18 +1,11 @@
 // modules
 import * as R from 'ramda'
-import differenceInSeconds from 'date-fns/difference_in_seconds'
-import addDays from 'date-fns/add_days'
-import subDays from 'date-fns/sub_days'
-// components
-import host from '../../../../setup/config'
-// const
-const request = require('superagent')
+import { differenceInSeconds, addDays, subDays, isAfter } from 'date-fns'
+// views
+import { startDateView, endDateView } from '../../../components/Report/Main/Report.reducer'
+
 
 export const isTime = time => R.test(/^Total/, time)
-
-export const getRequest = path => request
-  .get(host + path)
-  .set('Access-Control-Allow-Origin', '*')
 
 export const previousDay = date => subDays(date, 1)
 
@@ -31,4 +24,26 @@ export const formattedSeconds = (seconds) => {
   return Math.floor((seconds % 3600) / 60) === 0 ?
     `Total: ${Math.floor(seconds / 3600)}h` :
     `Total: ${Math.floor(seconds / 3600)}h & ${Math.floor((seconds % 3600) / 60)}m`
+}
+
+
+const getObject = (trueOption, message, permission) => {
+  const isError = { startDate: false, endDate: false }
+  return trueOption ? ({ isError: R.assoc(trueOption, true, isError), message, permission }) :
+    ({ isError, message, permission })
+}
+
+export const checkBeforeAction = () => {
+  const start = startDateView()
+  const end = endDateView()
+
+  if (start && end) {
+    if (isAfter(new Date(end), new Date(start))) {
+      return getObject('', null, true)
+    }
+    return getObject('startDate', 'StartDate is after EndDate!', false)
+  } else if (!start) {
+    return getObject('startDate', 'Select start date!', false)
+  }
+  return getObject('endDate', 'Select end date!', false)
 }

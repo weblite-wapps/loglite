@@ -10,68 +10,71 @@ import Picker from '../../../../../helper/components/Picker/Picker.presentationa
 // styles
 import scssClasses from './Custom.scss'
 
-export const Buttons = ({ onExpand, onAdd }) => (
+export const Buttons = ({ title, selectedTags, onExpand, onAdd }) => (
   <ListItem disableGutters>
     <div className={scssClasses.buttons}>
       <Button label="Custome" onClick={onExpand} componentName="CustomAdd" />
-      <Button label="Add" onClick={onAdd} componentName="Add" />
+      <Button label="Add" onClick={() => onAdd(title, selectedTags)} componentName="Add" />
     </div>
   </ListItem>
 )
 
 Buttons.propTypes = {
+  title: PropTypes.string.isRequired,
+  selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   onAdd: PropTypes.func.isRequired,
   onExpand: PropTypes.func.isRequired,
 }
 
 
-export const Collapse = ({ startTime, endTime, date, onStartTimeChange, onEndTimeChange,
-  onDateChange, expanded, dateIsError, startTimeIsError, endTimeIsError, onCustomAdd,
+export const Collapse = ({
+  title, selectedTags, date, startTime, endTime, onStartTimeChange,
+  onEndTimeChange, onDateChange, expanded, isError, onCustomAdd,
 }) => (
   <MuiCollapse component="li" in={expanded} timeout="auto" unmountOnExit>
     <Divider />
     <Picker
       label="Date"
       type="date"
-      isError={dateIsError}
+      isError={isError.date}
       value={date}
       onChange={onDateChange}
     />
     <Picker
       label="Start time"
       type="time"
-      isError={startTimeIsError}
+      isError={isError.startTime}
       value={startTime}
       onChange={onStartTimeChange}
     />
     <Picker
       label="End time"
       type="time"
-      isError={endTimeIsError}
+      isError={isError.endTime}
       value={endTime}
       onChange={onEndTimeChange}
     />
     <div className={scssClasses.buttons}>
-      <Button label="Add" onClick={onCustomAdd} componentName="Add" />
+      <Button
+        label="Add"
+        onClick={() => onCustomAdd(title, selectedTags, date, startTime, endTime)}
+        componentName="Add"
+      />
     </div>
     <Divider />
   </MuiCollapse>
 )
 
 Collapse.propTypes = {
+  title: PropTypes.string.isRequired,
+  selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   startTime: PropTypes.string.isRequired,
   endTime: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   expanded: PropTypes.bool.isRequired,
-  dateIsError: PropTypes.bool.isRequired,
-  startTimeIsError: PropTypes.bool.isRequired,
-  endTimeIsError: PropTypes.bool.isRequired,
-  onCustomAdd: PropTypes.func,
+  isError: PropTypes.shape({}).isRequired,
   onStartTimeChange: PropTypes.func.isRequired,
   onEndTimeChange: PropTypes.func.isRequired,
   onDateChange: PropTypes.func.isRequired,
-}
-
-Collapse.defaultProps = {
-  onCustomAdd: null,
+  onCustomAdd: PropTypes.func.isRequired,
 }

@@ -4,14 +4,17 @@ import { connect } from 'react-redux'
 import Add from './Add.presentational'
 // views
 import { logsView } from '../../../Main/App.reducer'
-import { titleView, selectedTagsView, queryTagView, tagsView, dateView, startTimeView, endTimeView } from './Add.reducer'
+import { titleView, selectedTagsView, queryTagView, tagsView, dateView, startTimeView, endTimeView, isErrorView } from './Add.reducer'
 // actions
-import { dispatchChangeTab, dispatchAddLog, dispatchAddCustomLog } from '../../../Main/App.action'
+import { dispatchChangeTab } from '../../../Main/App.action'
 import {
   dispatchChangeTitle,
   dispatchSetQueryInAdd,
   dispatchChangeSelectedTagsInAdd,
-  dispatchAddTagInAdd,
+  dispatchChangeIsErrorInAdd,
+  dispatchHandleAddTagInAdd,
+  dispatchHandleAddLog,
+  dispatchHandleAddCustomLog,
 } from './Add.action'
 // selectors
 import { getAddFilteredSuggestions } from '../../../Main/App.selector'
@@ -27,16 +30,18 @@ const mapStateToProps = state => ({
   date: dateView(),
   startTime: startTimeView(),
   endTime: endTimeView(),
+  isError: isErrorView(),
 })
 
 const mapDispatchToProps = () => ({
   onTitleChange: dispatchChangeTitle,
   onQueryTagChange: dispatchSetQueryInAdd,
   onTagClick: dispatchChangeSelectedTagsInAdd,
-  addTag: dispatchAddTagInAdd,
-  addLog: dispatchAddLog,
   changeTab: dispatchChangeTab,
-  addCustomLog: dispatchAddCustomLog,
+  changeIsError: dispatchChangeIsErrorInAdd,
+  handleAddTag: dispatchHandleAddTagInAdd,
+  onAdd: dispatchHandleAddLog,
+  onCustomAdd: dispatchHandleAddCustomLog,
 })
 
 

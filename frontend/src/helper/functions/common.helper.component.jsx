@@ -38,21 +38,19 @@ TagPanel.propTypes = {
 }
 
 
-export const Pickers = ({
-  startDateIsError, endDateIsError, startDate, endDate, onStartDateChange, onEndDateChange,
-}) => (
+export const Pickers = ({ isError, startDate, endDate, onStartDateChange, onEndDateChange }) => (
   <React.Fragment>
     <Picker
       label="Start date"
       type="date"
-      isError={startDateIsError}
+      isError={isError.startDate}
       value={startDate}
       onChange={onStartDateChange}
     />
     <Picker
       label="End date"
       type="date"
-      isError={endDateIsError}
+      isError={isError.endDate}
       value={endDate}
       onChange={onEndDateChange}
     />
@@ -60,8 +58,7 @@ export const Pickers = ({
 )
 
 Pickers.propTypes = {
-  startDateIsError: PropTypes.bool.isRequired,
-  endDateIsError: PropTypes.bool.isRequired,
+  isError: PropTypes.shape({}).isRequired,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   onStartDateChange: PropTypes.func.isRequired,

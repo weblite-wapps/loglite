@@ -29,6 +29,7 @@ import {
   REMOVE_PAGE,
   RESTORE_BAR_CHART_DATA,
   CHANGE_ANCHOR_EL,
+  CHANGE_IS_ERROR,
 } from './Report.action'
 
 // state
@@ -48,6 +49,7 @@ const initialState = {
   pages: {},
   barChartData: [],
   anchorEl: null,
+  isError: { startDate: false, endDate: false },
 }
 
 // lens
@@ -62,6 +64,7 @@ const suggestionsLens = R.lensProp('suggestions')
 const barChartDataLens = R.lensProp('barChartData')
 const expandModeLens = R.lensProp('expandMode')
 const anchorElLens = R.lensProp('anchorEl')
+const isErrorLens = R.lensProp('isError')
 // views
 export const staffLogsView = () => R.path(['Report', 'staffLogs'])(getState())
 export const selectedUserView = () => R.path(['Report', 'selectedUser'])(getState())
@@ -77,6 +80,7 @@ export const pagesView = () => R.path(['Report', 'pages'])(getState())
 export const barChartDataView = () => R.path(['Report', 'barChartData'])(getState())
 export const expandModeView = () => R.path(['Report', 'expandMode'])(getState())
 export const anchorElView = () => R.path(['Report', 'anchorEl'])(getState())
+export const isErrorView = () => R.path(['Report', 'isError'])(getState())
 
 
 // reducers
@@ -159,6 +163,8 @@ const reducers = {
   [RESTORE_BAR_CHART_DATA]: (state, { data }) => R.set(barChartDataLens, data, state),
 
   [CHANGE_ANCHOR_EL]: (state, { value }) => R.set(anchorElLens, value, state),
+
+  [CHANGE_IS_ERROR]: (state, { value }) => R.set(isErrorLens, value, state),
 }
 
 

@@ -4,13 +4,13 @@ import 'rxjs'
 import { snackbarMessage } from 'weblite-web-snackbar'
 import { push } from 'react-router-redux'
 // helpers
-import { getRequest, postRequest } from './App.helper'
+import { getRequest, postRequest } from '../../helper/functions/request.helper'
 import { formatTime } from '../../helper/functions/time.helper'
 import { formattedDate, getToday, previousDay } from '../../helper/functions/date.helper'
 // actions
 import { RESET_INPUTS, dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
 import { dispatchAddPage } from '../components/Report/Main/Report.action'
-import { REFETCH_TOTAL_DURATION, dispatchLoadTotalDurations } from '../components/Home/Main/Home.action'
+import { REFETCH_TOTAL_DURATION, dispatchLoadTotalDurations, dispatchChangeRunningId } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
   ADD_LOG_TO_NEXT_DAY,
@@ -26,7 +26,6 @@ import {
   dispatchLoadLogsData,
   dispatchLoadUsersData,
   dispatchFetchAdminData,
-  dispatchChangeRunningId,
   dispatchSetIsLoading,
   dispatchSetAboutMode,
   dispatchChangePopoverId,

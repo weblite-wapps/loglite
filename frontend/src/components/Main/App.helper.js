@@ -1,13 +1,17 @@
-// modules
-import request from 'superagent'
-// components
-import host from '../../setup/config'
+// modeuls
+import * as R from 'ramda'
 
 
-export const getRequest = path => request
-  .get(host + path)
-  .set('Access-Control-Allow-Origin', '*')
+const getObject = (message, permission) => ({ message, permission })
 
-export const postRequest = path => request
-  .post(host + path)
-  .set('Access-Control-Allow-Origin', '*')
+export const checkBeforeAddTag = (queryTag, tags) => {
+  if (R.trim(queryTag)) {
+    if (R.findIndex(R.propEq('label', R.toLower(queryTag)), tags) < 0) {
+      return getObject(null, true)
+    }
+    return getObject('repetitive tag!', false)
+  }
+  return getObject('select or write tag first!', false)
+}
+
+export const nothing = null
