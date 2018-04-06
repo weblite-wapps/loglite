@@ -8,6 +8,7 @@ import { formattedDate } from '../../../../helper/functions/date.helper'
 import { titleView, startTimeView, endTimeView, dateView } from './Add.reducer'
 import { logsView } from '../../../Main/App.reducer'
 
+
 export const areRangesOverlappingForTimes = (times, startOfRange, endOfRange) =>
   R.reduce(R.or, false, R.map(time =>
     areRangesOverlapping(startOfRange, endOfRange, time.start, time.end), times))
@@ -16,19 +17,18 @@ export const areTimesOverlapping = (logs, startOfRange, endOfRange) =>
   R.reduce(R.or, false, R.map(log =>
     areRangesOverlappingForTimes(log.times, startOfRange, endOfRange), logs))
 
+
+const getObject = (trueOption, message, permission) => {
+  const isError = { title: false, date: false, startTime: false, endTime: false }
+  return trueOption ? ({ isError: R.assoc(trueOption, true, isError), message, permission }) :
+    ({ isError, message, permission })
+}
+
 export const checkBeforeAddLog = () => {
   if (titleView()) {
-    return ({
-      isError: { title: false, date: false, startTime: false, endTime: false },
-      message: 'Added successfully!',
-      permission: true,
-    })
+    return getObject('', 'Added successfully!', true)
   }
-  return ({
-    isError: { title: true, date: false, startTime: false, endTime: false },
-    message: 'Enter title first!',
-    permission: false,
-  })
+  return getObject('title', 'Enter title first!', false)
 }
 
 export const checkBeforeAddCustomLog = () => {
@@ -40,70 +40,28 @@ export const checkBeforeAddCustomLog = () => {
 
   if (title && date && start && end) {
     if (isAfter(new Date(date), new Date())) {
-      return ({
-        isError: { title: false, date: true, startTime: false, endTime: false },
-        message: 'Are you predictor?!',
-        permission: false,
-      })
+      return getObject('date', 'Are you predictor?!', false)
     } else if (date === formattedDate(new Date()) &&
       isAfter(formatTime(start), new Date())) {
-      return ({
-        isError: { title: false, date: false, startTime: true, endTime: false },
-        message: 'Are you predictor?!',
-        permission: false,
-      })
+      return getObject('startTime', 'Are you predictor?!', false)
     } else if (date === formattedDate(new Date()) &&
       isAfter(formatTime(end), new Date())) {
-      return ({
-        isError: { title: false, date: false, startTime: false, endTime: true },
-        message: 'Are you predictor?!',
-        permission: false,
-      })
+      return getObject('endTime', 'Are you predictor?!', false)
     } else if (isAfter(formatTime(end), formatTime(start))) {
       if (areTimesOverlapping(
         R.filter(eachLog => (eachLog.date === date), logs),
         formatTime(start), formatTime(end))) {
-        return ({
-          isError: { title: false, date: false, startTime: true, endTime: true },
-          message: 'Time is overlapping!',
-          permission: false,
-        })
+        return getObject('endTime', 'Time is overlapping!', false)
       }
-      return ({
-        isError: { title: false, date: false, startTime: false, endTime: false },
-        message: 'Added successfully!',
-        permission: true,
-      })
+      return getObject('', 'Added successfully!', true)
     }
-    return ({
-      isError: { title: false, date: false, startTime: true, endTime: true },
-      message: 'StartTime is after EndTime!',
-      permission: false,
-    })
+    return getObject('startTime', 'StartTime is after EndTime!', false)
   } else if (!title) {
-    return ({
-      isError: { title: true, date: false, startTime: false, endTime: false },
-      message: 'Please enter title!',
-      permission: false,
-    })
+    return getObject('title', 'Please enter title!', false)
   } else if (!date) {
-    return ({
-      isError: { title: false, date: true, startTime: false, endTime: false },
-      message: 'Please enter date!',
-      permission: false,
-    })
+    return getObject('date', 'Please enter date!', false)
   } else if (!start) {
-    return ({
-      isError: { title: false, date: false, startTime: true, endTime: false },
-      message: 'Please enter start time!',
-      permission: false,
-    })
+    return getObject('startTime', 'Please enter start time!', false)
   }
-  return ({
-    isError: { title: false, date: false, startTime: false, endTime: true },
-    message: 'Please enter end time!',
-    permission: false,
-  })
+  return getObject('endTime', 'Please enter end time!', false)
 }
-
-// TODO: از این آبجکت‌ها میشه فاکتور گرفت و یه هلپر ساخت واسشون

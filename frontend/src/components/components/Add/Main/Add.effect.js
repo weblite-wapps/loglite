@@ -27,7 +27,7 @@ import {
   loadTagsDataInAdd,
   resetInputs,
   dispatchAddTagInAdd,
-  dispatchChangeIsError,
+  dispatchChangeIsErrorInAdd,
 } from './Add.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
@@ -112,7 +112,7 @@ const effectHandleAddLog = action$ =>
     .pluck('payload')
     .map(payload => ({ ...payload, ...checkBeforeAddLog() }))
     .do(({ message }) => snackbarMessage({ message }))
-    .do(({ isError }) => dispatchChangeIsError(isError))
+    .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
     .do(({ title, tags }) => dispatchAddLog(title, tags))
     .do(() => dispatchChangeTab('Home'))
@@ -124,7 +124,7 @@ const effectHandleAddCustomLog = action$ =>
     .pluck('payload')
     .map(payload => ({ ...payload, ...checkBeforeAddCustomLog() }))
     .do(({ message }) => snackbarMessage({ message }))
-    .do(({ isError }) => dispatchChangeIsError(isError))
+    .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
     .do(({ title, tags, date, start, end }) => dispatchAddCustomLog(title, tags, date, start, end))
     .do(() => dispatchChangeTab('Home'))

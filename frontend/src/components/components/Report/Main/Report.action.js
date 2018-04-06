@@ -91,7 +91,10 @@ export const removePage = createAction(REMOVE_PAGE, (date, user) => ({ date, use
 export const dispatchRemovePage = (...args) => dispatch(removePage(...args))
 
 export const UPDATE_CHART = 'UPDATE_CHART'
-export const updateChart = createAction(UPDATE_CHART)
+export const updateChart = createAction(
+  UPDATE_CHART,
+  (startDate, endDate) => ({ startDate, endDate }),
+)
 export const dispatchUpdateChart = (...args) => dispatch(updateChart(...args))
 
 export const RESTORE_BAR_CHART_DATA = 'RESTORE_BAR_CHART_DATA'
@@ -120,5 +123,8 @@ export const handleExport = createAction(HANDLE_EXPORT)
 export const dispatchHandleExport = (...args) => dispatch(handleExport(...args))
 
 export const HANDLE_UPDATE_CHART = 'HANDLE_UPDATE_CHART'
-export const handleUpdateChart = createAction(HANDLE_UPDATE_CHART)
+export const handleUpdateChart = createAction(
+  HANDLE_UPDATE_CHART,
+  (startDate, endDate) => ({ startDate, endDate }),
+)
 export const dispatchHandleUpdateChart = (...args) => dispatch(handleUpdateChart(...args))

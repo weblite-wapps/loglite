@@ -26,33 +26,24 @@ export const formattedSeconds = (seconds) => {
     `Total: ${Math.floor(seconds / 3600)}h & ${Math.floor((seconds % 3600) / 60)}m`
 }
 
+
+const getObject = (trueOption, message, permission) => {
+  const isError = { startDate: false, endDate: false }
+  return trueOption ? ({ isError: R.assoc(trueOption, true, isError), message, permission }) :
+    ({ isError, message, permission })
+}
+
 export const checkBeforeAction = () => {
   const start = startDateView()
   const end = endDateView()
 
   if (start && end) {
     if (isAfter(new Date(end), new Date(start))) {
-      return ({
-        message: null,
-        isError: { startDate: false, endDate: false },
-        permission: true,
-      })
+      return getObject('', null, true)
     }
-    return ({
-      message: 'StartDate is after EndDate!',
-      isError: { startDate: true, endDate: true },
-      permission: false,
-    })
+    return getObject('startDate', 'StartDate is after EndDate!', false)
   } else if (!start) {
-    return ({
-      message: 'Select start date!',
-      isError: { startDate: true, endDate: false },
-      permission: false,
-    })
+    return getObject('startDate', 'Select start date!', false)
   }
-  return ({
-    message: 'Select end date!',
-    isError: { startDate: false, endDate: true },
-    permission: false,
-  })
+  return getObject('endDate', 'Select end date!', false)
 }

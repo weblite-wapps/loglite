@@ -2,23 +2,16 @@
 import * as R from 'ramda'
 
 
+const getObject = (message, permission) => ({ message, permission })
+
 export const checkBeforeAddTag = (queryTag, tags) => {
   if (R.trim(queryTag)) {
     if (R.findIndex(R.propEq('label', R.toLower(queryTag)), tags) < 0) {
-      return ({
-        message: null,
-        permission: true,
-      })
+      return getObject(null, true)
     }
-    return ({
-      message: 'repetitive tag!',
-      permission: false,
-    })
+    return getObject('repetitive tag!', false)
   }
-  return ({
-    message: 'select or write tag first!',
-    permission: false,
-  })
+  return getObject('select or write tag first!', false)
 }
 
 export const nothing = null

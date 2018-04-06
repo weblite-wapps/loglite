@@ -184,18 +184,18 @@ const updateChartEpic = action$ =>
   action$.ofType(UPDATE_CHART)
     .do(() => dispatchSetIsLoading(true))
     .pluck('payload')
-    .mergeMap(() => getRequest('/barChartData')
+    .mergeMap(({ startDate, endDate }) => getRequest('/barChartData')
       .query({
         wis: wisView(),
         userId: selectedUserView(),
-        startDate: startDateView(),
-        endDate: endDateView(),
+        startDate,
+        endDate,
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ body }) => restoreBarChartData(body))
 
-
+// effects
 const effectHandleAddTag = action$ =>
   action$.ofType(HANDLE_ADD_TAG)
     .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
@@ -224,9 +224,11 @@ const effectHandleExport = action$ =>
 
 const effectHandleUpdateChart = action$ =>
   action$.ofType(HANDLE_UPDATE_CHART)
-    .map(() => ({ ...checkBeforeAction() }))
+    .pluck('payload')
+    .map(payload => ({ ...payload, ...checkBeforeAction() }))
     .do(({ isError }) => dispatchChangeIsError(isError))
-    .do(({ permission }) => permission && dispatchUpdateChart())
+    .do(({ startDate, endDate, permission }) =>
+      permission && dispatchUpdateChart(startDate, endDate))
     .do(({ permission, message }) => !permission && snackbarMessage({ message }))
     .ignoreElements()
 
