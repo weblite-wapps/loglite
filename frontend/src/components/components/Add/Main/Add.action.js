@@ -49,14 +49,14 @@ export const TOGGLE_EXPANDED = 'TOGGLE_EXPANDED'
 export const toggleExpanded = createAction(TOGGLE_EXPANDED)
 export const dispatchToggleExpanded = (...args) => dispatch(toggleExpanded(...args))
 
-export const CHANGE_IS_ERROR = 'CHANGE_IS_ERROR'
-export const changeIsError = createAction(CHANGE_IS_ERROR, value => ({ value }))
-export const dispatchChangeIsError = (...args) => dispatch(changeIsError(...args))
+export const CHANGE_IS_ERROR_IN_ADD = 'CHANGE_IS_ERROR_IN_ADD'
+export const changeIsErrorInAdd = createAction(CHANGE_IS_ERROR_IN_ADD, value => ({ value }))
+export const dispatchChangeIsErrorInAdd = (...args) => dispatch(changeIsErrorInAdd(...args))
 
 // effects
-export const HANDLE_ADD_TAG = 'HANDLE_ADD_TAG'
-export const handleAddTag = createAction(HANDLE_ADD_TAG)
-export const dispatchHandleAddTag = (...args) => dispatch(handleAddTag(...args))
+export const HANDLE_ADD_TAG_IN_ADD = 'HANDLE_ADD_TAG_IN_ADD'
+export const handleAddTagInAdd = createAction(HANDLE_ADD_TAG_IN_ADD)
+export const dispatchHandleAddTagInAdd = (...args) => dispatch(handleAddTagInAdd(...args))
 
 export const HANDLE_ADD_LOG = 'HANDLE_ADD_LOG'
 export const handleAddLog = createAction(HANDLE_ADD_LOG, (title, tags) => ({ title, tags }))

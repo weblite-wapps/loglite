@@ -91,17 +91,34 @@ export const removePage = createAction(REMOVE_PAGE, (date, user) => ({ date, use
 export const dispatchRemovePage = (...args) => dispatch(removePage(...args))
 
 export const UPDATE_CHART = 'UPDATE_CHART'
-export const updateChart = createAction(
-  UPDATE_CHART,
-  (startDate, endDate) => ({ startDate, endDate }),
-)
+export const updateChart = createAction(UPDATE_CHART)
 export const dispatchUpdateChart = (...args) => dispatch(updateChart(...args))
 
 export const RESTORE_BAR_CHART_DATA = 'RESTORE_BAR_CHART_DATA'
 export const restoreBarChartData = createAction(RESTORE_BAR_CHART_DATA, data => ({ data }))
 export const dispatchRestoreBarChartData = (...args) => dispatch(restoreBarChartData(...args))
 
-
 export const CHANGE_ANCHOR_EL = 'CHANGE_ANCHOR_EL'
 export const changeAnchorEl = createAction(CHANGE_ANCHOR_EL, value => ({ value }))
 export const dispatchChangeAnchorEl = (...args) => dispatch(changeAnchorEl(...args))
+
+export const CHANGE_IS_ERROR = 'CHANGE_IS_ERROR'
+export const changeIsError = createAction(CHANGE_IS_ERROR, value => ({ value }))
+export const dispatchChangeIsError = (...args) => dispatch(changeIsError(...args))
+
+// effects
+export const HANDLE_ADD_TAG = 'HANDLE_ADD_TAG'
+export const handleAddTag = createAction(HANDLE_ADD_TAG)
+export const dispatchHandleAddTag = (...args) => dispatch(handleAddTag(...args))
+
+export const HANDLE_CALCULATION = 'HANDLE_CALCULATION'
+export const handleCalculation = createAction(HANDLE_CALCULATION)
+export const dispatchHandleCalculation = (...args) => dispatch(handleCalculation(...args))
+
+export const HANDLE_EXPORT = 'HANDLE_EXPORT'
+export const handleExport = createAction(HANDLE_EXPORT)
+export const dispatchHandleExport = (...args) => dispatch(handleExport(...args))
+
+export const HANDLE_UPDATE_CHART = 'HANDLE_UPDATE_CHART'
+export const handleUpdateChart = createAction(HANDLE_UPDATE_CHART)
+export const dispatchHandleUpdateChart = (...args) => dispatch(handleUpdateChart(...args))

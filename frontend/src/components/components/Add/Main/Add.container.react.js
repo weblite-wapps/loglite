@@ -11,8 +11,8 @@ import {
   dispatchChangeTitle,
   dispatchSetQueryInAdd,
   dispatchChangeSelectedTagsInAdd,
-  dispatchChangeIsError,
-  dispatchHandleAddTag,
+  dispatchChangeIsErrorInAdd,
+  dispatchHandleAddTagInAdd,
   dispatchHandleAddLog,
   dispatchHandleAddCustomLog,
 } from './Add.action'
@@ -38,8 +38,8 @@ const mapDispatchToProps = () => ({
   onQueryTagChange: dispatchSetQueryInAdd,
   onTagClick: dispatchChangeSelectedTagsInAdd,
   changeTab: dispatchChangeTab,
-  changeIsError: dispatchChangeIsError,
-  handleAddTag: dispatchHandleAddTag,
+  changeIsError: dispatchChangeIsErrorInAdd,
+  handleAddTag: dispatchHandleAddTagInAdd,
   onAdd: dispatchHandleAddLog,
   onCustomAdd: dispatchHandleAddCustomLog,
 })

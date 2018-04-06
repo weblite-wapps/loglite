@@ -6,6 +6,8 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest } from '../../../../helper/functions/request.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
+import { checkBeforeAddTag } from '../../../Main/App.helper'
+import { checkBeforeAction } from './Report.helper'
 // actions
 import { loadLogsData, dispatchSetIsLoading } from '../../../Main/App.action'
 import { LOAD_TAGS_DATA_IN_ADD } from '../../Add/Main/Add.action'
@@ -20,6 +22,10 @@ import {
   NEXT_PAGE,
   RESET_CSV,
   UPDATE_CHART,
+  HANDLE_ADD_TAG,
+  HANDLE_CALCULATION,
+  HANDLE_EXPORT,
+  HANDLE_UPDATE_CHART,
   restoreCSV,
   loadStaffLogs,
   resetStaffLogs,
@@ -29,10 +35,15 @@ import {
   restoreBarChartData,
   dispatchAddPage,
   dispatchRemovePage,
+  dispatchChangeIsError,
+  dispatchAddTag,
+  dispatchCalculateTotalDuration,
+  dispatchConvertJSONToCSV,
+  dispatchUpdateChart,
 } from './Report.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
-import { startDateView, endDateView, selectedTagsView, selectedUserView, currentPageView, pagesView } from './Report.reducer'
+import { startDateView, endDateView, selectedTagsView, selectedUserView, currentPageView, pagesView, queryTagView, tagsView } from './Report.reducer'
 
 
 const resetStaffDataEpic = action$ =>
@@ -110,8 +121,8 @@ const convertJSONToCSVEpic = action$ =>
       .query({
         wis: wisView(),
         userId: selectedUserView(),
-        startDate: startDateView() || new Date(),
-        endDate: endDateView() || new Date(),
+        startDate: startDateView(),
+        endDate: endDateView(),
         selectedTags: selectedTagsView(),
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
@@ -173,16 +184,51 @@ const updateChartEpic = action$ =>
   action$.ofType(UPDATE_CHART)
     .do(() => dispatchSetIsLoading(true))
     .pluck('payload')
-    .mergeMap(({ startDate, endDate }) => getRequest('/barChartData')
+    .mergeMap(() => getRequest('/barChartData')
       .query({
         wis: wisView(),
         userId: selectedUserView(),
-        startDate,
-        endDate,
+        startDate: startDateView(),
+        endDate: endDateView(),
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ body }) => restoreBarChartData(body))
+
+
+const effectHandleAddTag = action$ =>
+  action$.ofType(HANDLE_ADD_TAG)
+    .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
+    .do(({ permission }) => permission && dispatchAddTag())
+    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .ignoreElements()
+
+
+const effectHandleCalculation = action$ =>
+  action$.ofType(HANDLE_CALCULATION)
+    .map(() => ({ ...checkBeforeAction() }))
+    .do(({ isError }) => dispatchChangeIsError(isError))
+    .do(({ permission }) => permission && dispatchCalculateTotalDuration())
+    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .ignoreElements()
+
+
+const effectHandleExport = action$ =>
+  action$.ofType(HANDLE_EXPORT)
+    .map(() => ({ ...checkBeforeAction() }))
+    .do(({ isError }) => dispatchChangeIsError(isError))
+    .do(({ permission }) => permission && dispatchConvertJSONToCSV())
+    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .ignoreElements()
+
+
+const effectHandleUpdateChart = action$ =>
+  action$.ofType(HANDLE_UPDATE_CHART)
+    .map(() => ({ ...checkBeforeAction() }))
+    .do(({ isError }) => dispatchChangeIsError(isError))
+    .do(({ permission }) => permission && dispatchUpdateChart())
+    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .ignoreElements()
 
 
 export default combineEpics(
@@ -196,4 +242,8 @@ export default combineEpics(
   fetchNextDayLogsDataEpic,
   resetCSVEpic,
   updateChartEpic,
+  effectHandleAddTag,
+  effectHandleCalculation,
+  effectHandleExport,
+  effectHandleUpdateChart,
 )

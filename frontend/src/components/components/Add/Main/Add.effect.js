@@ -7,7 +7,8 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 import { getRequest, postRequest } from '../../../../helper/functions/request.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 import { formatTime } from '../../../../helper/functions/time.helper'
-import { checkBeforeAddTag, checkBeforeAddLog, checkBeforeAddCustomLog } from './Add.helper'
+import { checkBeforeAddTag } from '../../../Main/App.helper'
+import { checkBeforeAddLog, checkBeforeAddCustomLog } from './Add.helper'
 // actions
 import {
   ADD_LOG,
@@ -19,7 +20,7 @@ import {
 } from '../../../Main/App.action'
 import {
   SET_QUERY_IN_ADD,
-  HANDLE_ADD_TAG,
+  HANDLE_ADD_TAG_IN_ADD,
   HANDLE_ADD_LOG,
   HANDLE_ADD_CUSTOM_LOG,
   fetchTagsInAdd,
@@ -30,6 +31,7 @@ import {
 } from './Add.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
+import { queryTagView, tagsView } from './Add.reducer'
 
 
 const effectSearchTagsEpic = action$ =>
@@ -98,8 +100,8 @@ const addCustomLogEpic = action$ =>
 
 
 const effectHandleAddTag = action$ =>
-  action$.ofType(HANDLE_ADD_TAG)
-    .map(() => ({ ...checkBeforeAddTag() }))
+  action$.ofType(HANDLE_ADD_TAG_IN_ADD)
+    .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
     .do(({ permission }) => permission && dispatchAddTagInAdd())
     .do(({ permission, message }) => !permission && snackbarMessage({ message }))
     .ignoreElements()

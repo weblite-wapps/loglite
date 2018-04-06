@@ -15,7 +15,7 @@ import {
   CHANGE_SELECTED_TAGS_IN_ADD,
   RESET_INPUTS,
   TOGGLE_EXPANDED,
-  CHANGE_IS_ERROR,
+  CHANGE_IS_ERROR_IN_ADD,
 } from './Add.action'
 
 // state
@@ -101,7 +101,7 @@ const reducers = {
 
   [TOGGLE_EXPANDED]: state => R.set(expandedLens, !state.expanded, state),
 
-  [CHANGE_IS_ERROR]: (state, { value }) => R.set(isErrorLens, value, state),
+  [CHANGE_IS_ERROR_IN_ADD]: (state, { value }) => R.set(isErrorLens, value, state),
 }
 
 

@@ -1,10 +1,11 @@
+// modules
 import * as R from 'ramda'
 import { areRangesOverlapping, isAfter } from 'date-fns'
 // helpers
 import { formatTime } from '../../../../helper/functions/time.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 // views
-import { titleView, startTimeView, endTimeView, dateView, queryTagView, tagsView } from './Add.reducer'
+import { titleView, startTimeView, endTimeView, dateView } from './Add.reducer'
 import { logsView } from '../../../Main/App.reducer'
 
 export const areRangesOverlappingForTimes = (times, startOfRange, endOfRange) =>
@@ -14,25 +15,6 @@ export const areRangesOverlappingForTimes = (times, startOfRange, endOfRange) =>
 export const areTimesOverlapping = (logs, startOfRange, endOfRange) =>
   R.reduce(R.or, false, R.map(log =>
     areRangesOverlappingForTimes(log.times, startOfRange, endOfRange), logs))
-
-export const checkBeforeAddTag = () => {
-  if (R.trim(queryTagView())) {
-    if (R.findIndex(R.propEq('label', R.toLower(queryTagView())), tagsView()) < 0) {
-      return ({
-        message: null,
-        permission: true,
-      })
-    }
-    return ({
-      message: 'repetitive tag!',
-      permission: false,
-    })
-  }
-  return ({
-    message: 'select or write tag first!',
-    permission: false,
-  })
-}
 
 export const checkBeforeAddLog = () => {
   if (titleView()) {
