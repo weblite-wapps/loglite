@@ -6,10 +6,12 @@ import { withStyles } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Button from 'material-ui/Button'
+import { differenceInSeconds } from 'date-fns'
 // components
 import Popover from '../components/Popover.presentational'
 // helpers
 import { TitleAndDuration, Tags } from './WorkList.helper.component'
+import { sumTimes } from '../../../../../../helper/functions/time.helper'
 // styles
 import scssClasses from './WorkList.scss'
 import styles from '../../../../../../helper/components/Button/Button.style'
@@ -19,6 +21,16 @@ class WorkList extends React.Component {
   constructor(props) {
     super(props)
     this.handleOpenPopover = this._handleOpenPopover.bind(this)
+  }
+
+  componentWillMount() {
+    const { log: { _id, times }, setSecondsElapsed, countinueCounting } = this.props
+    const len = times.length
+
+    if (len && times[len - 1].end === 'running') {
+      setSecondsElapsed(sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start))
+      countinueCounting(_id)
+    }
   }
 
   _handleOpenPopover() {
@@ -75,6 +87,8 @@ WorkList.propTypes = {
   changePopoverId: PropTypes.func.isRequired,
   anchorEl: PropTypes.shape({}),
   changeAnchorEl: PropTypes.func.isRequired,
+  setSecondsElapsed: PropTypes.func.isRequired,
+  countinueCounting: PropTypes.func.isRequired,
 }
 
 WorkList.defaultProps = {
