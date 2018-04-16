@@ -7,7 +7,7 @@ import { isLoadingView } from '../../../../Main/App.reducer'
 import { secondsElapsedView, runningIdView } from '../../Main/Home.reducer'
 // actions
 import { dispatchCountinueCounting, dispatchSetSecondsElapsed, dispatchChangeRunningId } from '../../Main/Home.action'
-import { dispatchSaveStartTime, dispatchSaveEndTime, dispatchAddLogToNextDay } from '../../../../Main/App.action'
+import { dispatchHandleSaveStartTime, dispatchHandleSaveEndTime, dispatchAddLogToNextDay } from '../../../../Main/App.action'
 // selectors
 import { getWorksDuration } from '../../../../../helper/selectors/workDuration.selector'
 
@@ -22,8 +22,8 @@ const mapStateToProps = (state, { log: { _id } }) => ({
 const mapDispatchToProps = (dispatch, { log: { title, tags } }) => ({
   setSecondsElapsed: dispatchSetSecondsElapsed,
   countinueCounting: dispatchCountinueCounting,
-  onStartClick: dispatchSaveStartTime,
-  onStopClick: dispatchSaveEndTime,
+  onStartClick: dispatchHandleSaveStartTime,
+  onStopClick: dispatchHandleSaveEndTime,
   addLogToNextDay: (end, date) => dispatchAddLogToNextDay(title, tags, end, date),
   changeRunningId: dispatchChangeRunningId,
 })

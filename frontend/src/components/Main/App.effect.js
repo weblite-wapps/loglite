@@ -16,8 +16,8 @@ import {
   ADD_LOG_TO_NEXT_DAY,
   RESTORE_LOG,
   DELETE_LOG,
-  SAVE_START_TIME,
-  SAVE_END_TIME,
+  HANDLE_SAVE_START_TIME,
+  HANDLE_SAVE_END_TIME,
   FETCH_ADMIN_DATA,
   CHANGE_TAB,
   SET_ABOUT_MODE,
@@ -29,6 +29,8 @@ import {
   dispatchSetIsLoading,
   dispatchSetAboutMode,
   dispatchChangePopoverId,
+  dispatchSaveStartTime,
+  dispatchSaveEndTime,
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, creatorView, aboutModeView } from './App.reducer'
@@ -95,25 +97,27 @@ const deleteLogEpic = action$ =>
     .mapTo({ type: REFETCH_TOTAL_DURATION })
 
 const saveStartTimeEpic = action$ =>
-  action$.ofType(SAVE_START_TIME)
+  action$.ofType(HANDLE_SAVE_START_TIME)
     .pluck('payload')
-    .do(payload => dispatchChangeRunningId(payload._id))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(({ _id, start }) => postRequest('/saveStartTime')
-      .send({ start, _id })
+      .send({ _id, start })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
+    .do(({ body: { _id, start } }) => dispatchSaveStartTime(_id, start))
+    .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .ignoreElements()
 
 const saveEndTimeEpic = action$ =>
-  action$.ofType(SAVE_END_TIME)
+  action$.ofType(HANDLE_SAVE_END_TIME)
     .pluck('payload')
-    .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ end, _id }) => postRequest('/saveEndTime')
-      .send({ end, _id })
+    .mergeMap(({ _id, end }) => postRequest('/saveEndTime')
+      .send({ _id, end })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
+    .do(({ body: { _id, end } }) => dispatchSaveEndTime(_id, end))
+    .do(() => dispatchChangeRunningId(''))
     .mapTo({ type: REFETCH_TOTAL_DURATION })
 
 const resetEpic = action$ =>

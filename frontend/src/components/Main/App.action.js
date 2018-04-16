@@ -72,3 +72,15 @@ export const dispatchSaveEndTime = (...args) => dispatch(saveEndTime(...args))
 export const SET_ABOUT_MODE = 'SET_ABOUT_MODE'
 export const setAboutMode = createAction(SET_ABOUT_MODE, value => ({ value }))
 export const dispatchSetAboutMode = (...args) => dispatch(setAboutMode(...args))
+
+// effects
+export const HANDLE_SAVE_START_TIME = 'HANDLE_SAVE_START_TIME'
+export const handleSaveStartTime = createAction(
+  HANDLE_SAVE_START_TIME,
+  (_id, start) => ({ _id, start }),
+)
+export const dispatchHandleSaveStartTime = (...args) => dispatch(handleSaveStartTime(...args))
+
+export const HANDLE_SAVE_END_TIME = 'HANDLE_SAVE_END_TIME'
+export const handleSaveEndTime = createAction(HANDLE_SAVE_END_TIME, (_id, end) => ({ _id, end }))
+export const dispatchHandleSaveEndTime = (...args) => dispatch(handleSaveEndTime(...args))
