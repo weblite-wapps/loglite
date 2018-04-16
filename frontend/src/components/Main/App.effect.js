@@ -89,14 +89,16 @@ const addLogToNextDayEpic = action$ =>
 
 const deleteLogEpic = action$ =>
   action$.ofType(DELETE_LOG)
+    .do(() => dispatchSetIsLoading(true))
     .mergeMap(action => postRequest('/deleteLog')
       .query({ _id: action.payload._id })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => dispatchSetIsLoading(false))
     .do(() => snackbarMessage({ message: 'Deleted successfully !' }))
     .do(() => dispatchChangePopoverId(''))
     .mapTo({ type: REFETCH_TOTAL_DURATION })
 
-const saveStartTimeEpic = action$ =>
+const effectSaveStartTimeEpic = action$ =>
   action$.ofType(HANDLE_SAVE_START_TIME)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
@@ -108,7 +110,7 @@ const saveStartTimeEpic = action$ =>
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .ignoreElements()
 
-const saveEndTimeEpic = action$ =>
+const effectSaveEndTimeEpic = action$ =>
   action$.ofType(HANDLE_SAVE_END_TIME)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
@@ -143,8 +145,8 @@ export default combineEpics(
   initialFetchEpic,
   addLogToNextDayEpic,
   deleteLogEpic,
-  saveStartTimeEpic,
-  saveEndTimeEpic,
+  effectSaveStartTimeEpic,
+  effectSaveEndTimeEpic,
   resetEpic,
   changeTabEpic,
   setAboutModeEpic,
