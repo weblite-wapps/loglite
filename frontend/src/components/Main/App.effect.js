@@ -116,6 +116,7 @@ const effectSaveStartTime = action$ =>
   action$.ofType(HANDLE_SAVE_START_TIME)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
+    .delay(250)
     .mergeMap(({ _id, start }) => postRequest('/saveStartTime')
       .send({ _id, start })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))

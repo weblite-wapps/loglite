@@ -39,7 +39,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className={scssClasses.AppBar}>
+      <div className={this.props.blur ? scssClasses.blur : scssClasses.AppBar}>
         <Logo {...this.props} />
         <Tabs {...this.props} />
         <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} />
@@ -49,6 +49,7 @@ export default class App extends React.Component {
 }
 
 App.propTypes = {
+  blur: PropTypes.bool.isRequired,
   fetchTodayData: PropTypes.func.isRequired,
   setAPI: PropTypes.func.isRequired,
   checkToSetSecondsElapsed: PropTypes.func.isRequired,
