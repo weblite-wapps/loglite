@@ -66,6 +66,10 @@ export const SET_ABOUT_MODE = 'SET_ABOUT_MODE'
 export const setAboutMode = createAction(SET_ABOUT_MODE, value => ({ value }))
 export const dispatchSetAboutMode = (...args) => dispatch(setAboutMode(...args))
 
+export const TOGGLE_BLUR = 'TOGGLE_BLUR'
+export const toggleBlur = createAction(TOGGLE_BLUR)
+export const dispatchToggleBlur = (...args) => dispatch(toggleBlur(...args))
+
 // effects
 export const HANDLE_SAVE_START_TIME = 'HANDLE_SAVE_START_TIME'
 export const handleSaveStartTime = createAction(

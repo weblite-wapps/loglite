@@ -9,14 +9,14 @@ import { getRequest } from '../../../../helper/functions/request.helper'
 import { getSecondsElapsed } from './Home.helper'
 import { getToday } from '../../../../helper/functions/date.helper'
 // actions
-import { SAVE_START_TIME, SAVE_END_TIME, CHANGE_TAB, dispatchSetIsLoading } from '../../../Main/App.action'
+import { SAVE_START_TIME, SAVE_END_TIME, CHANGE_TAB, dispatchSetIsLoading, dispatchToggleBlur } from '../../../Main/App.action'
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
 import { CHANGE_SELECTED_USER } from '../../Report/Main/Report.action'
 import {
   REFETCH_TOTAL_DURATION,
   COUNTINUE_COUNTING,
-  INCREMENT_SECONDS_ELAPSED,
   CHECK_TO_SET_SECONDS_ELAPSED,
+  dispatchIncrementSecondsElapsed,
   dispatchLoadTotalDurations,
   dispatchSetSecondsElapsed,
 } from './Home.action'
@@ -43,18 +43,15 @@ const refetchTotalDurationEpic = action$ =>
 const effectCountUpEpic = action$ =>
   action$.ofType(SAVE_START_TIME, COUNTINUE_COUNTING)
     .mergeMap(() => Observable.interval(1000)
-      .mapTo({ type: INCREMENT_SECONDS_ELAPSED })
-      .takeUntil(action$.ofType(
-        SAVE_END_TIME,
-        CHANGE_TAB,
-        CHECK_TO_SET_SECONDS_ELAPSED,
-        CHANGE_SELECTED_USER,
-      )))
+      .do(() => dispatchIncrementSecondsElapsed())
+      .takeUntil(action$.ofType(SAVE_END_TIME, CHANGE_TAB, CHANGE_SELECTED_USER))
+      .ignoreElements())
 
 
 const checkToCountEpic = action$ =>
   action$.ofType(CHECK_TO_SET_SECONDS_ELAPSED)
     .filter(runningIdView)
+    .do(() => dispatchToggleBlur())
     .do(() => dispatchSetSecondsElapsed(getSecondsElapsed(logsView(), runningIdView())))
     .ignoreElements()
 
