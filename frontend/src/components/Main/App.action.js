@@ -36,15 +36,8 @@ export const changePopoverId = createAction(CHANGE_POPOVER_ID, value => ({ value
 export const dispatchChangePopoverId = (...args) => dispatch(changePopoverId(...args))
 
 export const ADD_LOG = 'ADD_LOG'
-export const addLog = createAction(ADD_LOG, (title, tags) => ({ title, tags }))
+export const addLog = createAction(ADD_LOG, log => ({ log }))
 export const dispatchAddLog = (...args) => dispatch(addLog(...args))
-
-export const ADD_CUSTOM_LOG = 'ADD_CUSTOM_LOG'
-export const addCustomLog = createAction(
-  ADD_CUSTOM_LOG,
-  (title, tags, date, start, end) => ({ title, tags, date, start, end }),
-)
-export const dispatchAddCustomLog = (...args) => dispatch(addCustomLog(...args))
 
 export const ADD_LOG_TO_NEXT_DAY = 'ADD_LOG_TO_NEXT_DAY'
 export const addLogToNextDay = createAction(
@@ -72,3 +65,23 @@ export const dispatchSaveEndTime = (...args) => dispatch(saveEndTime(...args))
 export const SET_ABOUT_MODE = 'SET_ABOUT_MODE'
 export const setAboutMode = createAction(SET_ABOUT_MODE, value => ({ value }))
 export const dispatchSetAboutMode = (...args) => dispatch(setAboutMode(...args))
+
+export const TOGGLE_BLUR = 'TOGGLE_BLUR'
+export const toggleBlur = createAction(TOGGLE_BLUR)
+export const dispatchToggleBlur = (...args) => dispatch(toggleBlur(...args))
+
+// effects
+export const HANDLE_SAVE_START_TIME = 'HANDLE_SAVE_START_TIME'
+export const handleSaveStartTime = createAction(
+  HANDLE_SAVE_START_TIME,
+  (_id, start) => ({ _id, start }),
+)
+export const dispatchHandleSaveStartTime = (...args) => dispatch(handleSaveStartTime(...args))
+
+export const HANDLE_SAVE_END_TIME = 'HANDLE_SAVE_END_TIME'
+export const handleSaveEndTime = createAction(HANDLE_SAVE_END_TIME, (_id, end) => ({ _id, end }))
+export const dispatchHandleSaveEndTime = (...args) => dispatch(handleSaveEndTime(...args))
+
+export const HANDLE_DELETE_LOG = 'HANDLE_DELETE_LOG'
+export const handleDeleteLog = createAction(HANDLE_DELETE_LOG, _id => ({ _id }))
+export const dispatchHandleDeleteLog = (...args) => dispatch(handleDeleteLog(...args))

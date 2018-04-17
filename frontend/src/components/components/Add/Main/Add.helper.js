@@ -13,6 +13,7 @@ export const areRangesOverlappingForTimes = (times, startOfRange, endOfRange) =>
   R.reduce(R.or, false, R.map(time =>
     areRangesOverlapping(startOfRange, endOfRange, time.start, time.end), times))
 
+
 export const areTimesOverlapping = (logs, startOfRange, endOfRange) =>
   R.reduce(R.or, false, R.map(log =>
     areRangesOverlappingForTimes(log.times, startOfRange, endOfRange), logs))
@@ -24,12 +25,14 @@ const getObject = (trueOption, message, permission) => {
     ({ isError, message, permission })
 }
 
+
 export const checkBeforeAddLog = () => {
   if (titleView()) {
     return getObject('', 'Added successfully!', true)
   }
   return getObject('title', 'Enter title first!', false)
 }
+
 
 export const checkBeforeAddCustomLog = () => {
   const title = titleView()

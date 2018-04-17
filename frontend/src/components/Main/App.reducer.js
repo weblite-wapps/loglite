@@ -2,9 +2,6 @@
 import * as R from 'ramda'
 // local modules
 import { getState } from '../../setup/redux'
-// helpers
-import { formatTime } from '../../helper/functions/time.helper'
-import { formattedDate, previousDay } from '../../helper/functions/date.helper'
 // actions
 import {
   SET_API,
@@ -14,17 +11,16 @@ import {
   LOAD_LOGS_DATA,
   CHANGE_POPOVER_ID,
   ADD_LOG,
-  ADD_CUSTOM_LOG,
-  ADD_LOG_TO_NEXT_DAY,
-  RESTORE_LOG,
   DELETE_LOG,
   SAVE_START_TIME,
   SAVE_END_TIME,
   SET_ABOUT_MODE,
+  TOGGLE_BLUR,
 } from './App.action'
 
 // state
 const initialState = {
+  blur: false,
   tabIndex: 'Home',
   aboutMode: false,
   isLoading: false,
@@ -42,6 +38,7 @@ const tabIndexLens = R.lensProp('tabIndex')
 const endLens = R.lensProp('end')
 const popoverIdLens = R.lensProp('popoverId')
 const aboutModeLens = R.lensProp('aboutMode')
+const blurLens = R.lensProp('blur')
 // views
 export const wisView = () => R.path(['App', 'wis'])(getState())
 export const creatorView = () => R.path(['App', 'creator'])(getState())
@@ -53,6 +50,7 @@ export const popoverIdView = () => R.path(['App', 'popoverId'])(getState())
 export const isLoadingView = () => R.path(['App', 'isLoading'])(getState())
 export const tabIndexView = () => R.path(['App', 'tabIndex'])(getState())
 export const aboutModeView = () => R.path(['App', 'aboutMode'])(getState())
+export const blurView = () => R.path(['App', 'blur'])(getState())
 
 // reducers
 const reducers = {
@@ -69,50 +67,9 @@ const reducers = {
 
   [CHANGE_POPOVER_ID]: (state, { value }) => R.set(popoverIdLens, value, state),
 
-  [ADD_LOG]: (state, { title, tags }) => ({
+  [ADD_LOG]: (state, { log }) => ({
     ...state,
-    logs: R.prepend(
-      {
-        _id: state.logs.length,
-        title,
-        tags,
-        times: [],
-        date: formattedDate(new Date()),
-        wis: state.wis,
-      },
-      state.logs),
-  }),
-
-  [ADD_CUSTOM_LOG]: (state, { title, tags, date, start, end }) =>
-    date === formattedDate(new Date()) ?
-      ({ ...state,
-        logs: R.prepend(
-          {
-            _id: state.logs.length,
-            title,
-            tags,
-            times: [{ start: formatTime(start), end: formatTime(end) }],
-            date,
-            wis: state.wis,
-          }, state.logs),
-      }) : state,
-
-  [ADD_LOG_TO_NEXT_DAY]: (state, { title, tags, end, date }) => ({
-    ...state,
-    logs: R.prepend(
-      {
-        _id: state.logs.length,
-        title,
-        tags,
-        times: [{ start: previousDay(formatTime('24:00:00')), end }],
-        date,
-        wis: state.wis,
-      }, state.logs),
-  }),
-
-  [RESTORE_LOG]: (state, { log }) => ({
-    ...state,
-    logs: R.adjust(R.assoc('_id', log._id), 0, state.logs),
+    logs: R.prepend(log, state.logs),
   }),
 
   [DELETE_LOG]: (state, { _id }) => ({
@@ -137,6 +94,8 @@ const reducers = {
   }),
 
   [SET_ABOUT_MODE]: (state, { value }) => R.set(aboutModeLens, value, state),
+
+  [TOGGLE_BLUR]: state => R.set(blurLens, !state.blur, state),
 }
 
 

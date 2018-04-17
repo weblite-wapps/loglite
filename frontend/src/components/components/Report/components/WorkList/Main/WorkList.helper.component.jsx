@@ -4,10 +4,12 @@ import PropTypes from 'prop-types'
 import Typography from 'material-ui/Typography'
 // components
 import TagShape from '../../../../../../helper/components/TagShapeForReport/TagShapeForReport.presentational'
+// helpers
+import { formattedSeconds } from '../../../../Home/components/TodayWork/TodayWork.helper'
 // styles
 import scssClasses from './WorkList.scss'
 
-export const TitleAndDuration = ({ log: { title, times }, workDuration, len }) => (
+export const TitleAndDuration = ({ log: { title, times }, workDuration, len, secondsElapsed }) => (
   <div className={scssClasses.text}>
     <div>
       <Typography type="subheading">
@@ -16,7 +18,7 @@ export const TitleAndDuration = ({ log: { title, times }, workDuration, len }) =
     </div>
     <div>
       <Typography type="body2" align="right">
-        {len && times[len - 1].end === 'running' ? 'Running...' : workDuration}
+        {len && times[len - 1].end === 'running' ? formattedSeconds(secondsElapsed) : workDuration}
       </Typography>
     </div>
   </div>
@@ -26,6 +28,7 @@ TitleAndDuration.propTypes = {
   log: PropTypes.shape({}).isRequired,
   workDuration: PropTypes.string.isRequired,
   len: PropTypes.number.isRequired,
+  secondsElapsed: PropTypes.number.isRequired,
 }
 
 

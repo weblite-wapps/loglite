@@ -8,27 +8,28 @@ import { getRequest, postRequest } from '../../helper/functions/request.helper'
 import { formatTime } from '../../helper/functions/time.helper'
 import { formattedDate, getToday, previousDay } from '../../helper/functions/date.helper'
 // actions
-import { RESET_INPUTS, dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
+import { dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
 import { dispatchAddPage } from '../components/Report/Main/Report.action'
-import { REFETCH_TOTAL_DURATION, dispatchLoadTotalDurations, dispatchChangeRunningId } from '../components/Home/Main/Home.action'
+import { dispatchRefetchTotalDuration, dispatchLoadTotalDurations, dispatchChangeRunningId } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
   ADD_LOG_TO_NEXT_DAY,
-  RESTORE_LOG,
-  DELETE_LOG,
-  SAVE_START_TIME,
-  SAVE_END_TIME,
+  HANDLE_DELETE_LOG,
+  HANDLE_SAVE_START_TIME,
+  HANDLE_SAVE_END_TIME,
   FETCH_ADMIN_DATA,
   CHANGE_TAB,
   SET_ABOUT_MODE,
-  loadUsersData,
-  restoreLog,
+  dispatchAddLog,
+  dispatchDeleteLog,
   dispatchLoadLogsData,
   dispatchLoadUsersData,
   dispatchFetchAdminData,
   dispatchSetIsLoading,
   dispatchSetAboutMode,
   dispatchChangePopoverId,
+  dispatchSaveStartTime,
+  dispatchSaveEndTime,
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, creatorView, aboutModeView } from './App.reducer'
@@ -41,7 +42,9 @@ const fetchUsersEpic = action$ =>
     .mergeMap(() => getRequest('/fetchUsers')
       .query({ wis: wisView() })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
-    .map(({ body }) => loadUsersData((body)))
+    .do(({ body }) => dispatchLoadUsersData((body)))
+    .ignoreElements()
+
 
 const saveUsersEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
@@ -49,10 +52,13 @@ const saveUsersEpic = action$ =>
       .send({ wis: wisView(), userId: userIdView(), username: userNameView() })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(({ body }) => body && dispatchLoadUsersData([body]))
-    .map(dispatchFetchAdminData)
+    .do(() => dispatchFetchAdminData())
+    .ignoreElements()
+
 
 const initialFetchEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
+    .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/initialFetch')
       .query({
         wis: wisView(),
@@ -66,59 +72,73 @@ const initialFetchEpic = action$ =>
     .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
     .do(() => dispatchAddPage(formattedDate(previousDay(new Date())), selectedUserView()))
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
+    .do(() => dispatchSetIsLoading(false))
     .do(() => window.W && window.W.start())
     .ignoreElements()
+
 
 const addLogToNextDayEpic = action$ =>
   action$.ofType(ADD_LOG_TO_NEXT_DAY)
     .pluck('payload')
+    .do(() => dispatchSetIsLoading(true))
     .mergeMap(({ title, tags, end, date }) => postRequest('/insertLogToNextDay')
       .send({
         title,
         tags,
         times: [{ start: previousDay(formatTime('24:00:00')), end }],
         date,
+        created_at: new Date(),
         userId: userIdView(),
         wis: wisView(),
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
-    .map(({ body }) => restoreLog(body))
+    .do(({ body }) => dispatchAddLog(body))
+    .ignoreElements()
 
-const deleteLogEpic = action$ =>
-  action$.ofType(DELETE_LOG)
+
+const effectDeleteLog = action$ =>
+  action$.ofType(HANDLE_DELETE_LOG)
+    .do(() => dispatchSetIsLoading(true))
     .mergeMap(action => postRequest('/deleteLog')
       .query({ _id: action.payload._id })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => dispatchSetIsLoading(false))
+    .do(({ _id }) => dispatchDeleteLog(_id))
     .do(() => snackbarMessage({ message: 'Deleted successfully !' }))
     .do(() => dispatchChangePopoverId(''))
-    .mapTo({ type: REFETCH_TOTAL_DURATION })
-
-const saveStartTimeEpic = action$ =>
-  action$.ofType(SAVE_START_TIME)
-    .pluck('payload')
-    .do(payload => dispatchChangeRunningId(payload._id))
-    .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ _id, start }) => postRequest('/saveStartTime')
-      .send({ start, _id })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
-    .do(() => dispatchSetIsLoading(false))
+    .do(() => dispatchRefetchTotalDuration())
     .ignoreElements()
 
-const saveEndTimeEpic = action$ =>
-  action$.ofType(SAVE_END_TIME)
+
+const effectSaveStartTime = action$ =>
+  action$.ofType(HANDLE_SAVE_START_TIME)
     .pluck('payload')
-    .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ end, _id }) => postRequest('/saveEndTime')
-      .send({ end, _id })
+    .delay(250)
+    .mergeMap(({ _id, start }) => postRequest('/saveStartTime')
+      .send({ _id, start })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .mapTo({ type: REFETCH_TOTAL_DURATION })
+    .do(({ body: { _id, start } }) => dispatchSaveStartTime(_id, start))
+    .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
+    .ignoreElements()
 
-const resetEpic = action$ =>
-  action$.ofType(RESTORE_LOG)
-    .mapTo({ type: RESET_INPUTS })
+
+const effectSaveEndTime = action$ =>
+  action$.ofType(HANDLE_SAVE_END_TIME)
+    .pluck('payload')
+    .do(() => dispatchSetIsLoading(true))
+    .mergeMap(({ _id, end }) => postRequest('/saveEndTime')
+      .send({ _id, end })
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => dispatchSetIsLoading(false))
+    .do(({ body: { _id, end } }) => dispatchSaveEndTime(_id, end))
+    .do(() => dispatchChangeRunningId(''))
+    .do(() => dispatchRefetchTotalDuration())
+    .ignoreElements()
+
 
 const changeTabEpic = (action$, { dispatch }) =>
   action$.ofType(CHANGE_TAB)
@@ -127,6 +147,7 @@ const changeTabEpic = (action$, { dispatch }) =>
     .do(({ value }) => value === 'Home' && dispatch(push('/')))
     .do(({ value }) => value !== 'Home' && dispatch(push(`/${value}`)))
     .ignoreElements()
+
 
 const setAboutModeEpic = action$ =>
   action$.ofType(SET_ABOUT_MODE)
@@ -138,10 +159,9 @@ export default combineEpics(
   saveUsersEpic,
   initialFetchEpic,
   addLogToNextDayEpic,
-  deleteLogEpic,
-  saveStartTimeEpic,
-  saveEndTimeEpic,
-  resetEpic,
+  effectDeleteLog,
+  effectSaveStartTime,
+  effectSaveEndTime,
   changeTabEpic,
   setAboutModeEpic,
 )

@@ -6,10 +6,12 @@ import { withStyles } from 'material-ui/styles'
 import List from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Button from 'material-ui/Button'
+import { differenceInSeconds } from 'date-fns'
 // components
 import Popover from '../components/Popover.presentational'
 // helpers
 import { TitleAndDuration, Tags } from './WorkList.helper.component'
+import { sumTimes } from '../../../../../../helper/functions/time.helper'
 // styles
 import scssClasses from './WorkList.scss'
 import styles from '../../../../../../helper/components/Button/Button.style'
@@ -21,6 +23,16 @@ class WorkList extends React.Component {
     this.handleOpenPopover = this._handleOpenPopover.bind(this)
   }
 
+  componentWillMount() {
+    const { log: { _id, times }, setSecondsElapsed, countinueCounting } = this.props
+    const len = times.length
+
+    if (len && times[len - 1].end === 'running') {
+      setSecondsElapsed(sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start))
+      countinueCounting(_id)
+    }
+  }
+
   _handleOpenPopover() {
     const { changeAnchorEl, changePopoverId, log: { _id } } = this.props
     changeAnchorEl(findDOMNode(this.button))
@@ -29,7 +41,7 @@ class WorkList extends React.Component {
 
   render() {
     const { classes, userId, selectedUser, log: { _id, times }, popoverId,
-      changePopoverId, deleteLog, anchorEl } = this.props
+      changePopoverId, handleDeleteLog, anchorEl } = this.props
     const len = times.length
 
     return (
@@ -53,7 +65,7 @@ class WorkList extends React.Component {
                   anchorEl={anchorEl}
                   anchorReference="anchorEl"
                   onClose={() => changePopoverId('')}
-                  onYep={deleteLog}
+                  onYep={handleDeleteLog}
                   onNop={() => changePopoverId('')}
                 />
               </div>
@@ -71,10 +83,12 @@ WorkList.propTypes = {
   userId: PropTypes.string.isRequired,
   selectedUser: PropTypes.string.isRequired,
   popoverId: PropTypes.string.isRequired,
-  deleteLog: PropTypes.func.isRequired,
+  handleDeleteLog: PropTypes.func.isRequired,
   changePopoverId: PropTypes.func.isRequired,
   anchorEl: PropTypes.shape({}),
   changeAnchorEl: PropTypes.func.isRequired,
+  setSecondsElapsed: PropTypes.func.isRequired,
+  countinueCounting: PropTypes.func.isRequired,
 }
 
 WorkList.defaultProps = {
