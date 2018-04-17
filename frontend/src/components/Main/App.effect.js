@@ -87,6 +87,7 @@ const addLogToNextDayEpic = action$ =>
         tags,
         times: [{ start: previousDay(formatTime('24:00:00')), end }],
         date,
+        created_at: new Date(),
         userId: userIdView(),
         wis: wisView(),
       })

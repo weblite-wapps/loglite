@@ -64,6 +64,7 @@ const effectHandleAddLog = action$ =>
           tags,
           times: [],
           date: formattedDate(new Date()),
+          created_at: new Date(),
           userId: userIdView(),
           wis: wisView(),
         })
@@ -100,6 +101,7 @@ const effectHandleAddCustomLog = action$ =>
           tags,
           times: [{ start: formatTime(start), end: formatTime(end) }],
           date,
+          created_at: new Date(),
           userId: userIdView(),
           wis: wisView(),
         })
