@@ -17,8 +17,8 @@ import {
   COUNTINUE_COUNTING,
   INCREMENT_SECONDS_ELAPSED,
   CHECK_TO_SET_SECONDS_ELAPSED,
-  loadTotalDurations,
-  setSecondsElapsed,
+  dispatchLoadTotalDurations,
+  dispatchSetSecondsElapsed,
 } from './Home.action'
 // views
 import { wisView, userIdView, logsView } from '../../../Main/App.reducer'
@@ -36,7 +36,8 @@ const refetchTotalDurationEpic = action$ =>
       })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .map(({ body }) => loadTotalDurations(body))
+    .do(({ body }) => dispatchLoadTotalDurations(body))
+    .ignoreElements()
 
 
 const effectCountUpEpic = action$ =>
@@ -54,7 +55,8 @@ const effectCountUpEpic = action$ =>
 const checkToCountEpic = action$ =>
   action$.ofType(CHECK_TO_SET_SECONDS_ELAPSED)
     .filter(runningIdView)
-    .map(() => setSecondsElapsed(getSecondsElapsed(logsView(), runningIdView())))
+    .do(() => dispatchSetSecondsElapsed(getSecondsElapsed(logsView(), runningIdView())))
+    .ignoreElements()
 
 
 export default combineEpics(

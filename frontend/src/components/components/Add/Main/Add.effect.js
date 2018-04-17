@@ -10,24 +10,17 @@ import { formatTime } from '../../../../helper/functions/time.helper'
 import { checkBeforeAddTag } from '../../../Main/App.helper'
 import { checkBeforeAddLog, checkBeforeAddCustomLog } from './Add.helper'
 // actions
-import {
-  ADD_LOG,
-  ADD_CUSTOM_LOG,
-  restoreLog,
-  dispatchAddLog,
-  dispatchAddCustomLog,
-  dispatchChangeTab,
-} from '../../../Main/App.action'
+import { dispatchAddLog, dispatchChangeTab, dispatchSetIsLoading } from '../../../Main/App.action'
 import {
   SET_QUERY_IN_ADD,
   HANDLE_ADD_TAG_IN_ADD,
   HANDLE_ADD_LOG,
   HANDLE_ADD_CUSTOM_LOG,
-  fetchTagsInAdd,
-  loadTagsDataInAdd,
-  resetInputs,
+  dispatchFetchTagsInAdd,
+  dispatchLoadTagsDataInAdd,
   dispatchAddTagInAdd,
   dispatchChangeIsErrorInAdd,
+  dispatchResetInputs,
 } from './Add.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
@@ -39,16 +32,31 @@ const effectSearchTagsEpic = action$ =>
     .pluck('payload')
     .filter(payload => payload.queryTag.trim() !== '')
     .debounceTime(250)
-    .mergeMap(payload =>
-      getRequest('/serachTags')
-        .query({ wis: wisView(), userId: userIdView(), label: payload.queryTag })
-        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
-    .map(({ body }) => fetchTagsInAdd(body))
+    .do(() => dispatchSetIsLoading(true))
+    .mergeMap(payload => getRequest('/serachTags')
+      .query({ wis: wisView(), userId: userIdView(), label: payload.queryTag })
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => dispatchSetIsLoading(false))
+    .do(({ body }) => dispatchFetchTagsInAdd(body))
+    .ignoreElements()
 
 
-const addLogEpic = action$ =>
-  action$.ofType(ADD_LOG)
+const effectHandleAddTag = action$ =>
+  action$.ofType(HANDLE_ADD_TAG_IN_ADD)
+    .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
+    .do(({ permission }) => permission && dispatchAddTagInAdd())
+    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .ignoreElements()
+
+
+const effectHandleAddLog = action$ =>
+  action$.ofType(HANDLE_ADD_LOG)
     .pluck('payload')
+    .map(payload => ({ ...payload, ...checkBeforeAddLog() }))
+    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
+    .filter(({ permission }) => permission)
+    .do(() => dispatchSetIsLoading(true))
     .mergeMap(({ title, tags }) => Promise.all([
       postRequest('/saveLog')
         .send({
@@ -68,13 +76,23 @@ const addLogEpic = action$ =>
         })
         .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
     ]))
-    .mergeMap(success =>
-      [restoreLog(success[0].body), loadTagsDataInAdd(success[1].body)])
+    .do(success => dispatchAddLog(success[0].body))
+    .do(success => dispatchLoadTagsDataInAdd(success[1].body))
+    .do(() => dispatchSetIsLoading(false))
+    .do(() => snackbarMessage({ message: 'Added successfully!' }))
+    .do(() => dispatchChangeTab('Home'))
+    .do(() => dispatchResetInputs())
+    .ignoreElements()
 
 
-const addCustomLogEpic = action$ =>
-  action$.ofType(ADD_CUSTOM_LOG)
+const effectHandleAddCustomLog = action$ =>
+  action$.ofType(HANDLE_ADD_CUSTOM_LOG)
     .pluck('payload')
+    .map(payload => ({ ...payload, ...checkBeforeAddCustomLog() }))
+    .do(({ message, permission }) => !permission && snackbarMessage({ message }))
+    .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
+    .filter(({ permission }) => permission)
+    .do(() => dispatchSetIsLoading(true))
     .mergeMap(({ title, tags, start, end, date }) => Promise.all([
       postRequest('/saveCustomLog')
         .send({
@@ -94,46 +112,17 @@ const addCustomLogEpic = action$ =>
         })
         .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
     ]))
-    .mergeMap(success => [
-      success[0].text === 'added successfully!' ? resetInputs() : restoreLog(success[0].body),
-      loadTagsDataInAdd(success[1].body)])
-
-
-const effectHandleAddTag = action$ =>
-  action$.ofType(HANDLE_ADD_TAG_IN_ADD)
-    .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
-    .do(({ permission }) => permission && dispatchAddTagInAdd())
-    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
-    .ignoreElements()
-
-
-const effectHandleAddLog = action$ =>
-  action$.ofType(HANDLE_ADD_LOG)
-    .pluck('payload')
-    .map(payload => ({ ...payload, ...checkBeforeAddLog() }))
-    .do(({ message }) => snackbarMessage({ message }))
-    .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
-    .filter(({ permission }) => permission)
-    .do(({ title, tags }) => dispatchAddLog(title, tags))
+    .do(success => success[0].text === 'added successfully!' && dispatchAddLog(success[0].body))
+    .do(success => dispatchLoadTagsDataInAdd(success[1].body))
+    .do(() => dispatchSetIsLoading(false))
+    .do(() => snackbarMessage({ message: 'Added successfully!' }))
     .do(() => dispatchChangeTab('Home'))
+    .do(() => dispatchResetInputs())
     .ignoreElements()
 
-
-const effectHandleAddCustomLog = action$ =>
-  action$.ofType(HANDLE_ADD_CUSTOM_LOG)
-    .pluck('payload')
-    .map(payload => ({ ...payload, ...checkBeforeAddCustomLog() }))
-    .do(({ message }) => snackbarMessage({ message }))
-    .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
-    .filter(({ permission }) => permission)
-    .do(({ title, tags, date, start, end }) => dispatchAddCustomLog(title, tags, date, start, end))
-    .do(() => dispatchChangeTab('Home'))
-    .ignoreElements()
 
 export default combineEpics(
   effectSearchTagsEpic,
-  addLogEpic,
-  addCustomLogEpic,
   effectHandleAddTag,
   effectHandleAddLog,
   effectHandleAddCustomLog,

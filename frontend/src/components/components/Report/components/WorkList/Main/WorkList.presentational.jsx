@@ -41,7 +41,7 @@ class WorkList extends React.Component {
 
   render() {
     const { classes, userId, selectedUser, log: { _id, times }, popoverId,
-      changePopoverId, deleteLog, anchorEl } = this.props
+      changePopoverId, handleDeleteLog, anchorEl } = this.props
     const len = times.length
 
     return (
@@ -65,7 +65,7 @@ class WorkList extends React.Component {
                   anchorEl={anchorEl}
                   anchorReference="anchorEl"
                   onClose={() => changePopoverId('')}
-                  onYep={deleteLog}
+                  onYep={handleDeleteLog}
                   onNop={() => changePopoverId('')}
                 />
               </div>
@@ -83,7 +83,7 @@ WorkList.propTypes = {
   userId: PropTypes.string.isRequired,
   selectedUser: PropTypes.string.isRequired,
   popoverId: PropTypes.string.isRequired,
-  deleteLog: PropTypes.func.isRequired,
+  handleDeleteLog: PropTypes.func.isRequired,
   changePopoverId: PropTypes.func.isRequired,
   anchorEl: PropTypes.shape({}),
   changeAnchorEl: PropTypes.func.isRequired,

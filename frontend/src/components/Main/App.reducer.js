@@ -2,9 +2,6 @@
 import * as R from 'ramda'
 // local modules
 import { getState } from '../../setup/redux'
-// helpers
-import { formatTime } from '../../helper/functions/time.helper'
-import { formattedDate, previousDay } from '../../helper/functions/date.helper'
 // actions
 import {
   SET_API,
@@ -14,9 +11,6 @@ import {
   LOAD_LOGS_DATA,
   CHANGE_POPOVER_ID,
   ADD_LOG,
-  ADD_CUSTOM_LOG,
-  ADD_LOG_TO_NEXT_DAY,
-  RESTORE_LOG,
   DELETE_LOG,
   SAVE_START_TIME,
   SAVE_END_TIME,
@@ -69,50 +63,9 @@ const reducers = {
 
   [CHANGE_POPOVER_ID]: (state, { value }) => R.set(popoverIdLens, value, state),
 
-  [ADD_LOG]: (state, { title, tags }) => ({
+  [ADD_LOG]: (state, { log }) => ({
     ...state,
-    logs: R.prepend(
-      {
-        _id: state.logs.length,
-        title,
-        tags,
-        times: [],
-        date: formattedDate(new Date()),
-        wis: state.wis,
-      },
-      state.logs),
-  }),
-
-  [ADD_CUSTOM_LOG]: (state, { title, tags, date, start, end }) =>
-    date === formattedDate(new Date()) ?
-      ({ ...state,
-        logs: R.prepend(
-          {
-            _id: state.logs.length,
-            title,
-            tags,
-            times: [{ start: formatTime(start), end: formatTime(end) }],
-            date,
-            wis: state.wis,
-          }, state.logs),
-      }) : state,
-
-  [ADD_LOG_TO_NEXT_DAY]: (state, { title, tags, end, date }) => ({
-    ...state,
-    logs: R.prepend(
-      {
-        _id: state.logs.length,
-        title,
-        tags,
-        times: [{ start: previousDay(formatTime('24:00:00')), end }],
-        date,
-        wis: state.wis,
-      }, state.logs),
-  }),
-
-  [RESTORE_LOG]: (state, { log }) => ({
-    ...state,
-    logs: R.adjust(R.assoc('_id', log._id), 0, state.logs),
+    logs: R.prepend(log, state.logs),
   }),
 
   [DELETE_LOG]: (state, { _id }) => ({

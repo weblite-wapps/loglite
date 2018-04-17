@@ -38,9 +38,9 @@ app.post('/insertLogToNextDay', (req, res) =>
     .catch(logger))
 
 
-app.post('/deleteLog', (req, res) =>
-  deleteLog({ _id: mongoose.Types.ObjectId(req.query._id) })
-    .then(() => res.send('deleted successfully!'))
+app.post('/deleteLog', ({ query }, res) =>
+  deleteLog({ _id: mongoose.Types.ObjectId(query._id) })
+    .then(() => res.send(query))
     .catch(logger))
 
 
