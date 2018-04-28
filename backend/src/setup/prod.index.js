@@ -2,7 +2,6 @@
 import path from 'path'
 import https from 'https'
 import fs from 'fs'
-import app from './server'
 // components
 import app from './server'
 import './mongodb'
