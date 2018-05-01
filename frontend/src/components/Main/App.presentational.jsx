@@ -20,7 +20,7 @@ export default class App extends React.Component {
     if (window.W && window.W.wisId) this.handleWappMode()
     else this.handleNormalMode()
     window.addEventListener('focus', () => this.props.checkToSetSecondsElapsed())
-    window.addEventListener('blur', () => this.props.checkToSetSecondsElapsed())
+    window.addEventListener('blur', () => this.props.checkToSetBlur())
   }
 
   _handleWappMode() {
@@ -53,4 +53,5 @@ App.propTypes = {
   fetchTodayData: PropTypes.func.isRequired,
   setAPI: PropTypes.func.isRequired,
   checkToSetSecondsElapsed: PropTypes.func.isRequired,
+  checkToSetBlur: PropTypes.func.isRequired,
 }

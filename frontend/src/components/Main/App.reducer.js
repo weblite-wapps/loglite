@@ -15,7 +15,7 @@ import {
   SAVE_START_TIME,
   SAVE_END_TIME,
   SET_ABOUT_MODE,
-  TOGGLE_BLUR,
+  SET_BLUR,
 } from './App.action'
 
 // state
@@ -95,7 +95,7 @@ const reducers = {
 
   [SET_ABOUT_MODE]: (state, { value }) => R.set(aboutModeLens, value, state),
 
-  [TOGGLE_BLUR]: state => R.set(blurLens, !state.blur, state),
+  [SET_BLUR]: (state, { value }) => R.set(blurLens, value, state),
 }
 
 

@@ -5,7 +5,7 @@ import App from './App.presentational'
 // views
 import { isLoadingView, tabIndexView, aboutModeView, blurView } from './App.reducer'
 // actions
-import { dispatchCheckToSetSecondsElapsed } from '../components/Home/Main/Home.action'
+import { dispatchCheckToSetSecondsElapsed, dispatchCheckToSetBlur } from '../components/Home/Main/Home.action'
 import { dispatchChangeTab, dispatchSetApi, dispatchFetchTodayData, dispatchSetAboutMode } from './App.action'
 
 
@@ -21,6 +21,7 @@ const mapDispatchToProps = () => ({
   setAPI: dispatchSetApi,
   fetchTodayData: dispatchFetchTodayData,
   checkToSetSecondsElapsed: dispatchCheckToSetSecondsElapsed,
+  checkToSetBlur: dispatchCheckToSetBlur,
   setAboutMode: dispatchSetAboutMode,
 })
 
