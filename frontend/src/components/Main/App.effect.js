@@ -105,7 +105,6 @@ const effectDeleteLog = action$ =>
       .query({ _id: action.payload._id })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(console.log)
     .do(({ body }) => dispatchDeleteLog(body._id))
     .do(() => snackbarMessage({ message: 'Deleted successfully !' }))
     .do(() => dispatchChangePopoverId(''))

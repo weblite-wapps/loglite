@@ -1,6 +1,6 @@
 // modules
 import * as R from 'ramda'
-import { differenceInSeconds, addDays, subDays, isAfter } from 'date-fns'
+import { differenceInSeconds, addDays, subDays } from 'date-fns'
 // views
 import { startDateView, endDateView } from '../../../components/Report/Main/Report.reducer'
 
@@ -38,7 +38,7 @@ export const checkBeforeAction = () => {
   const end = endDateView()
 
   if (start && end) {
-    if (isAfter(new Date(end), new Date(start))) {
+    if (end >= start) {
       return getObject('', null, true)
     }
     return getObject('startDate', 'StartDate is after EndDate!', false)
