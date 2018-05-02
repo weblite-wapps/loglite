@@ -1,0 +1,6 @@
+{
+  "name": "loglite",
+  "instancable": true,
+  "creator": true,
+  "userInfo": true
+}
