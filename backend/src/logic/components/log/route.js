@@ -4,7 +4,7 @@ import * as R from 'ramda'
 // components
 import app from '../../../setup/server'
 // db helpers
-import { fetchLogs, saveLog, saveCustomLog, deleteLog, saveTime } from './db'
+import { fetchLogs, saveLog, deleteLog, saveTime } from './db'
 // helpers
 import {
   sumLogs, formattedSeconds, modifiedQuery, getBarChartData, getJSON,
@@ -27,7 +27,7 @@ app.post('/saveLog', (req, res) =>
 
 
 app.post('/saveCustomLog', (req, res) =>
-  saveCustomLog(req.body)
+  saveLog(req.body)
     .then(log => res.send(log))
     .catch(logger))
 

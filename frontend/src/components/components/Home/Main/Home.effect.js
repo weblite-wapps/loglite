@@ -9,13 +9,14 @@ import { getRequest } from '../../../../helper/functions/request.helper'
 import { getSecondsElapsed } from './Home.helper'
 import { getToday } from '../../../../helper/functions/date.helper'
 // actions
-import { SAVE_START_TIME, SAVE_END_TIME, CHANGE_TAB, dispatchSetIsLoading, dispatchToggleBlur } from '../../../Main/App.action'
+import { SAVE_START_TIME, SAVE_END_TIME, CHANGE_TAB, dispatchSetIsLoading, dispatchSetBlur } from '../../../Main/App.action'
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
-import { CHANGE_SELECTED_USER } from '../../Report/Main/Report.action'
+import { CHANGE_SELECTED_USER, PREVIOUS_PAGE } from '../../Report/Main/Report.action'
 import {
   REFETCH_TOTAL_DURATION,
   COUNTINUE_COUNTING,
   CHECK_TO_SET_SECONDS_ELAPSED,
+  CHECK_TO_SET_BLUR,
   dispatchIncrementSecondsElapsed,
   dispatchLoadTotalDurations,
   dispatchSetSecondsElapsed,
@@ -44,20 +45,27 @@ const effectCountUpEpic = action$ =>
   action$.ofType(SAVE_START_TIME, COUNTINUE_COUNTING)
     .mergeMap(() => Observable.interval(1000)
       .do(() => dispatchIncrementSecondsElapsed())
-      .takeUntil(action$.ofType(SAVE_END_TIME, CHANGE_TAB, CHANGE_SELECTED_USER))
+      .takeUntil(action$.ofType(SAVE_END_TIME, CHANGE_TAB, CHANGE_SELECTED_USER, PREVIOUS_PAGE))
       .ignoreElements())
 
 
-const checkToCountEpic = action$ =>
+const effectSetSecondsElapsed = action$ =>
   action$.ofType(CHECK_TO_SET_SECONDS_ELAPSED)
     .filter(runningIdView)
-    .do(() => dispatchToggleBlur())
+    .do(() => dispatchSetBlur(false))
     .do(() => dispatchSetSecondsElapsed(getSecondsElapsed(logsView(), runningIdView())))
+    .ignoreElements()
+
+const effectSetBlur = action$ =>
+  action$.ofType(CHECK_TO_SET_BLUR)
+    .filter(runningIdView)
+    .do(() => dispatchSetBlur(true))
     .ignoreElements()
 
 
 export default combineEpics(
   refetchTotalDurationEpic,
   effectCountUpEpic,
-  checkToCountEpic,
+  effectSetSecondsElapsed,
+  effectSetBlur,
 )

@@ -8,16 +8,18 @@ import { formattedDate } from '../../../../helper/functions/date.helper'
 const getLogs = state => state.App.logs
 const getStaffLogs = state => state.Report.staffLogs
 const getCurrentPage = state => state.Report.currentPage
+const getSelectedUser = state => state.Report.selectedUser
+const getTabIndex = state => state.App.tabIndex
 
 const getTotalDuration = createSelector(
-  [getLogs, getCurrentPage],
+  [getLogs, getCurrentPage, getSelectedUser, getTabIndex],
   (logs, currentPage) =>
     formattedSeconds(
       R.compose(sumLogs, R.filter(log => log.date === formattedDate(currentPage)))(logs)),
 )
 
 const getStaffTotalDuration = createSelector(
-  [getStaffLogs, getCurrentPage],
+  [getStaffLogs, getCurrentPage, getSelectedUser, getTabIndex],
   (logs, currentPage) =>
     formattedSeconds(
       R.compose(sumLogs, R.filter(log => log.date === formattedDate(currentPage)))(logs)),

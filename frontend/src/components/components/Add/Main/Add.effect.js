@@ -114,7 +114,7 @@ const effectHandleAddCustomLog = action$ =>
         })
         .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
     ]))
-    .do(success => success[0].text === 'added successfully!' && dispatchAddLog(success[0].body))
+    .do(success => dispatchAddLog(success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
     .do(() => snackbarMessage({ message: 'Added successfully!' }))
