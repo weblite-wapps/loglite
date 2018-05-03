@@ -79,7 +79,8 @@ export const handleSaveStartTime = createAction(
 export const dispatchHandleSaveStartTime = (...args) => dispatch(handleSaveStartTime(...args))
 
 export const HANDLE_SAVE_END_TIME = 'HANDLE_SAVE_END_TIME'
-export const handleSaveEndTime = createAction(HANDLE_SAVE_END_TIME, (_id, end) => ({ _id, end }))
+export const handleSaveEndTime = createAction(HANDLE_SAVE_END_TIME,
+  (runningId, end, _id, times) => ({ runningId, end, _id, times }))
 export const dispatchHandleSaveEndTime = (...args) => dispatch(handleSaveEndTime(...args))
 
 export const HANDLE_DELETE_LOG = 'HANDLE_DELETE_LOG'
