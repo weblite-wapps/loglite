@@ -50,12 +50,10 @@ app.post('/saveStartTime', ({ body }, res) =>
     .catch(logger))
 
 
-app.post('/saveEndTime', ({ body }, res) => {
-  console.log(body)
-  return saveTime({ _id: mongoose.Types.ObjectId(body.runningId), 'times.end': 'running' }, { $set: { 'times.$.end': new Date(body.end) } })
+app.post('/saveEndTime', ({ body }, res) =>
+  saveTime({ _id: mongoose.Types.ObjectId(body.runningId), 'times.end': 'running' }, { $set: { 'times.$.end': new Date(body.end) } })
     .then(() => res.send(body))
-    .catch(logger)
-})
+    .catch(logger))
 
 
 
