@@ -11,7 +11,7 @@ import scssClasses from './Home.scss'
 
 
 const Home = ({ logs, changeTab }) => (
-  <div className={scssClasses.blur}>
+  <div className={scssClasses.normal}>
     <Summary />
     <Divider />
     <TodayWorkList logs={logs} />
