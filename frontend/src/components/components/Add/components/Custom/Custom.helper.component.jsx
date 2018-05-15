@@ -10,16 +10,17 @@ import Picker from '../../../../../helper/components/Picker/Picker.presentationa
 // styles
 import scssClasses from './Custom.scss'
 
-export const Buttons = ({ title, selectedTags, onExpand, onAdd }) => (
+export const Buttons = ({ isLoading, title, selectedTags, onExpand, onAdd }) => (
   <ListItem disableGutters>
     <div className={scssClasses.buttons}>
       <Button label="Custome" onClick={onExpand} componentName="CustomAdd" />
-      <Button label="Add" onClick={() => onAdd(title, selectedTags)} componentName="Add" />
+      <Button disabled={isLoading} label="Add" onClick={() => onAdd(title, selectedTags)} componentName="Add" />
     </div>
   </ListItem>
 )
 
 Buttons.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   onAdd: PropTypes.func.isRequired,

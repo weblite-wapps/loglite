@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 // components
 import Custom from './Custom.presentational'
 // views
+import { isLoadingView } from '../../../../Main/App.reducer'
 import { expandedView, startTimeView, endTimeView, dateView } from '../../Main/Add.reducer'
 // actions
 import {
@@ -14,6 +15,7 @@ import {
 
 
 const mapStateToProps = () => ({
+  isLoading: isLoadingView(),
   expanded: expandedView(),
   startTime: startTimeView(),
   endTime: endTimeView(),

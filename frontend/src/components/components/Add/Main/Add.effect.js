@@ -80,8 +80,8 @@ const effectHandleAddLog = action$ =>
     .do(success => dispatchAddLog(success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
-    .do(() => snackbarMessage({ message: 'Added successfully!' }))
     .do(() => dispatchChangeTab('Home'))
+    .do(() => snackbarMessage({ message: 'Added successfully!' }))
     .do(() => dispatchResetInputs())
     .ignoreElements()
 
