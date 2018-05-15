@@ -10,8 +10,8 @@ import { TodayWorkList, FabButton } from './Home.helper.component'
 import scssClasses from './Home.scss'
 
 
-const Home = ({ blur, logs, changeTab }) => (
-  <div className={blur ? scssClasses.blur : scssClasses.normal}>
+const Home = ({ logs, changeTab }) => (
+  <div className={scssClasses.normal}>
     <Summary />
     <Divider />
     <TodayWorkList logs={logs} />
@@ -20,7 +20,6 @@ const Home = ({ blur, logs, changeTab }) => (
 )
 
 Home.propTypes = {
-  blur: PropTypes.bool.isRequired,
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
   changeTab: PropTypes.func.isRequired,
 }

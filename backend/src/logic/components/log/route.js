@@ -51,9 +51,10 @@ app.post('/saveStartTime', ({ body }, res) =>
 
 
 app.post('/saveEndTime', ({ body }, res) =>
-  saveTime({ _id: mongoose.Types.ObjectId(body._id), 'times.end': 'running' }, { $set: { 'times.$.end': new Date(body.end) } })
+  saveTime({ _id: mongoose.Types.ObjectId(body.runningId), 'times.end': 'running' }, { $set: { 'times.$.end': new Date(body.end) } })
     .then(() => res.send(body))
     .catch(logger))
+
 
 
 app.get('/fetchTotalDurations', ({ query }, res) =>

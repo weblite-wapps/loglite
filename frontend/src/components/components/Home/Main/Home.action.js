@@ -38,7 +38,3 @@ export const CHECK_TO_SET_SECONDS_ELAPSED = 'CHECK_TO_SET_SECONDS_ELAPSED'
 export const checkToSetSecondsElapsed = createAction(CHECK_TO_SET_SECONDS_ELAPSED)
 export const dispatchCheckToSetSecondsElapsed = (...args) =>
   dispatch(checkToSetSecondsElapsed(...args))
-
-export const CHECK_TO_SET_BLUR = 'CHECK_TO_SET_BLUR'
-export const checkToSetBlur = createAction(CHECK_TO_SET_BLUR)
-export const dispatchCheckToSetBlur = (...args) => dispatch(checkToSetBlur(...args))

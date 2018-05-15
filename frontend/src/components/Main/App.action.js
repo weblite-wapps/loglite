@@ -66,10 +66,6 @@ export const SET_ABOUT_MODE = 'SET_ABOUT_MODE'
 export const setAboutMode = createAction(SET_ABOUT_MODE, value => ({ value }))
 export const dispatchSetAboutMode = (...args) => dispatch(setAboutMode(...args))
 
-export const SET_BLUR = 'SET_BLUR'
-export const setBlur = createAction(SET_BLUR, value => ({ value }))
-export const dispatchSetBlur = (...args) => dispatch(setBlur(...args))
-
 // effects
 export const HANDLE_SAVE_START_TIME = 'HANDLE_SAVE_START_TIME'
 export const handleSaveStartTime = createAction(
@@ -79,7 +75,8 @@ export const handleSaveStartTime = createAction(
 export const dispatchHandleSaveStartTime = (...args) => dispatch(handleSaveStartTime(...args))
 
 export const HANDLE_SAVE_END_TIME = 'HANDLE_SAVE_END_TIME'
-export const handleSaveEndTime = createAction(HANDLE_SAVE_END_TIME, (_id, end) => ({ _id, end }))
+export const handleSaveEndTime = createAction(HANDLE_SAVE_END_TIME,
+  (runningId, end, _id, times) => ({ runningId, end, _id, times }))
 export const dispatchHandleSaveEndTime = (...args) => dispatch(handleSaveEndTime(...args))
 
 export const HANDLE_DELETE_LOG = 'HANDLE_DELETE_LOG'

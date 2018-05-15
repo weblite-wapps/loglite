@@ -5,12 +5,12 @@ import { snackbarMessage } from 'weblite-web-snackbar'
 import { push } from 'react-router-redux'
 // helpers
 import { getRequest, postRequest } from '../../helper/functions/request.helper'
-import { formatTime } from '../../helper/functions/time.helper'
+import { formatTime, sumTimes } from '../../helper/functions/time.helper'
 import { formattedDate, getToday, previousDay } from '../../helper/functions/date.helper'
 // actions
 import { dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
 import { dispatchAddPage } from '../components/Report/Main/Report.action'
-import { dispatchRefetchTotalDuration, dispatchLoadTotalDurations, dispatchChangeRunningId } from '../components/Home/Main/Home.action'
+import { dispatchRefetchTotalDuration, dispatchLoadTotalDurations, dispatchChangeRunningId, dispatchSetSecondsElapsed } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
   ADD_LOG_TO_NEXT_DAY,
@@ -30,6 +30,7 @@ import {
   dispatchChangePopoverId,
   dispatchSaveStartTime,
   dispatchSaveEndTime,
+  dispatchHandleSaveStartTime
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, creatorView, aboutModeView } from './App.reducer'
@@ -130,13 +131,16 @@ const effectSaveEndTime = action$ =>
   action$.ofType(HANDLE_SAVE_END_TIME)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ _id, end }) => postRequest('/saveEndTime')
-      .send({ _id, end })
+    .mergeMap(({ runningId, end, _id, times }) => postRequest('/saveEndTime')
+      .send({ runningId, end, _id, times })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { _id, end } }) => dispatchSaveEndTime(_id, end))
+    .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end))
     .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchRefetchTotalDuration())
+    .filter(({ body: { _id } }) => _id)
+    .do(({ body: { times } }) => dispatchSetSecondsElapsed(sumTimes(times)))
+    .do(({ body: { _id, end } }) => dispatchHandleSaveStartTime(_id, end))
     .ignoreElements()
 
 

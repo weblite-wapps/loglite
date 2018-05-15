@@ -9,7 +9,7 @@ import { getRequest } from '../../../../helper/functions/request.helper'
 import { getSecondsElapsed } from './Home.helper'
 import { getToday } from '../../../../helper/functions/date.helper'
 // actions
-import { SAVE_START_TIME, SAVE_END_TIME, CHANGE_TAB, dispatchSetIsLoading, dispatchSetBlur } from '../../../Main/App.action'
+import { SAVE_START_TIME, SAVE_END_TIME, CHANGE_TAB, dispatchSetIsLoading } from '../../../Main/App.action'
 import { RESET_INPUTS } from '../../Add/Main/Add.action'
 import { CHANGE_SELECTED_USER, PREVIOUS_PAGE } from '../../Report/Main/Report.action'
 import {
@@ -52,14 +52,7 @@ const effectCountUpEpic = action$ =>
 const effectSetSecondsElapsed = action$ =>
   action$.ofType(CHECK_TO_SET_SECONDS_ELAPSED)
     .filter(runningIdView)
-    .do(() => dispatchSetBlur(false))
     .do(() => dispatchSetSecondsElapsed(getSecondsElapsed(logsView(), runningIdView())))
-    .ignoreElements()
-
-const effectSetBlur = action$ =>
-  action$.ofType(CHECK_TO_SET_BLUR)
-    .filter(runningIdView)
-    .do(() => dispatchSetBlur(true))
     .ignoreElements()
 
 
@@ -67,5 +60,4 @@ export default combineEpics(
   refetchTotalDurationEpic,
   effectCountUpEpic,
   effectSetSecondsElapsed,
-  effectSetBlur,
 )

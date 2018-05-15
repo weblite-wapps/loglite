@@ -15,12 +15,10 @@ import {
   SAVE_START_TIME,
   SAVE_END_TIME,
   SET_ABOUT_MODE,
-  SET_BLUR,
 } from './App.action'
 
 // state
 const initialState = {
-  blur: false,
   tabIndex: 'Home',
   aboutMode: false,
   isLoading: false,
@@ -38,7 +36,6 @@ const tabIndexLens = R.lensProp('tabIndex')
 const endLens = R.lensProp('end')
 const popoverIdLens = R.lensProp('popoverId')
 const aboutModeLens = R.lensProp('aboutMode')
-const blurLens = R.lensProp('blur')
 // views
 export const wisView = () => R.path(['App', 'wis'])(getState())
 export const creatorView = () => R.path(['App', 'creator'])(getState())
@@ -50,7 +47,6 @@ export const popoverIdView = () => R.path(['App', 'popoverId'])(getState())
 export const isLoadingView = () => R.path(['App', 'isLoading'])(getState())
 export const tabIndexView = () => R.path(['App', 'tabIndex'])(getState())
 export const aboutModeView = () => R.path(['App', 'aboutMode'])(getState())
-export const blurView = () => R.path(['App', 'blur'])(getState())
 
 // reducers
 const reducers = {
@@ -94,8 +90,6 @@ const reducers = {
   }),
 
   [SET_ABOUT_MODE]: (state, { value }) => R.set(aboutModeLens, value, state),
-
-  [SET_BLUR]: (state, { value }) => R.set(blurLens, value, state),
 }
 
 

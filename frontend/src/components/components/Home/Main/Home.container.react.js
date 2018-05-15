@@ -3,15 +3,12 @@ import { connect } from 'react-redux'
 // components
 import Home from './Home.presentational'
 // views
-import { logsView, blurView } from '../../../Main/App.reducer'
+import { logsView } from '../../../Main/App.reducer'
 // actions
 import { dispatchChangeTab } from '../../../Main/App.action'
 
 
-const mapStateToProps = () => ({
-  logs: logsView(),
-  blur: blurView(),
-})
+const mapStateToProps = () => ({ logs: logsView() })
 
 const mapDispatchToProps = () => ({ changeTab: dispatchChangeTab })
 
