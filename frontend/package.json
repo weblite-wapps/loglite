@@ -30,7 +30,7 @@
       "clean": [
         "dist"
       ],
-      "publicPath": "https://www.weblite.me:3000/wapp/5af6d0403237ff65d366bdf2"
+      "publicPath": "https://www.weblite.me:3000/wapp/5afaaa4ed17ae32f9743a98c"
     }
   },
   "dependencies": {
