@@ -42,3 +42,4 @@ const store = createStore(
 
 export const { dispatch, getState } = store
 export default store
+// window.store = store

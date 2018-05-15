@@ -1,31 +1,36 @@
 {
-  "name": "log-lite",
+  "name": "loglite",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
-    "dev": "webpack-dashboard --port 8061 -- buildlite -j default~dev",
-    "build": "webpack-dashboard --port 8061 -- buildlite -j default~build"
+    "dev": "../../../tools/buildlite/src/index.js default dev",
+    "build": "../../../tools/buildlite/src/index.js default build"
   },
   "buildlite": {
     "default": {
-      "dashboard": 8061,
-      "style": "style.css"
+      "entry": "./src/setup/index.jsx",
+      "outputPath": "dist",
+      "outputName": "[name].[hash].js",
+      "style": "style.[hash].css",
+      "html": {
+        "templatePath": "./public/index.html"
+      },
+      "copy": [
+        {
+          "from": "./public",
+          "to": "."
+        }
+      ]
     },
     "dev": {
-      "entry": {
-        "index": "./setup/dev.index.jsx"
-      },
       "react": "dev",
-      "devServer": 8081,
-      "devServerContentBase": "dev"
+      "devServer": 8000
     },
     "build": {
-      "watch": true,
-      "entry": {
-        "index": "./setup/dev.index.jsx"
-      },
-      "outputPath": "dev",
-      "react": "build"
+      "react": "build",
+      "clean": [
+        "dist"
+      ],
+      "publicPath": "https://www.weblite.me:3000/wapp/5afaaa4ed17ae32f9743a98c"
     }
   },
   "dependencies": {
@@ -38,7 +43,7 @@
     "react-autocomplete": "^1.7.2",
     "react-csv": "^1.0.8",
     "react-dom": "^16.1.1",
-    "react-hot-loader": "^3.0.0",
+    "react-hot-loader": "^4.1.2",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",

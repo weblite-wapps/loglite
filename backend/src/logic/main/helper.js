@@ -19,7 +19,9 @@ const formattedTags = tags =>
   R.slice(1, JSON.stringify(tags).length - 1, JSON.stringify(tags))
 
 const sumTimes = times =>
-  R.reduce((acc, time) => time.end === 'running' ? acc : acc + differenceInSeconds(time.end, time.start), 0)(times)
+  R.reduce((acc, time) => time.end === 'running' ?
+    acc + differenceInSeconds(new Date(), time.start) :
+    acc + differenceInSeconds(time.end, time.start), 0)(times)
 
 export const sumLogs = logs =>
   R.reduce((acc, log) => acc + sumTimes(log.times), 0)(logs)

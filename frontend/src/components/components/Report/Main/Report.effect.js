@@ -2,6 +2,7 @@
 import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
+// local modules
 import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest } from '../../../../helper/functions/request.helper'

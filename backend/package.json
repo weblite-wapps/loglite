@@ -1,31 +1,26 @@
 {
   "name": "loglite-backend",
-  "monolite-root": "build",
   "scripts": {
-    "build": "webpack-dashboard --port 3050 -- buildlite -j default~build",
-    "dev": "webpack-dashboard --port 3050 -- buildlite -j default~dev"
+    "build": "../../../tools/buildlite/src/index.js default build",
+    "dev": "../../../tools/buildlite/src/index.js default dev"
   },
   "buildlite": {
     "default": {
+      "context": "src",
       "outputPath": "dist",
-      "dashboard": 3050,
+      "outputName": "server.js",
       "babel": true,
-      "eslint": true,
-      "watch": true,
       "target": "node",
       "externals": [
         "nodeModules"
       ]
     },
     "dev": {
-      "entry": {
-        "server": "./setup/dev.index.js"
-      }
+      "watch": true,
+      "entry": "./setup/dev.index.js"
     },
     "build": {
-      "entry": {
-        "server": "./setup/prod.index.js"
-      }
+      "entry": "./setup/prod.index.js"
     }
   },
   "dependencies": {

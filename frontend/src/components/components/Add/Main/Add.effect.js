@@ -33,7 +33,7 @@ const effectSearchTagsEpic = action$ =>
     .filter(payload => payload.queryTag.trim() !== '')
     .debounceTime(250)
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(payload => getRequest('/serachTags')
+    .switchMap(payload => getRequest('/serachTags')
       .query({ wis: wisView(), userId: userIdView(), label: payload.queryTag })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
@@ -114,7 +114,7 @@ const effectHandleAddCustomLog = action$ =>
         })
         .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
     ]))
-    .do(success => success[0].text === 'added successfully!' && dispatchAddLog(success[0].body))
+    .do(success => dispatchAddLog(success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
     .do(() => snackbarMessage({ message: 'Added successfully!' }))
