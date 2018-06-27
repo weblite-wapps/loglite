@@ -50,7 +50,6 @@ export default createMuiTheme({
       root: {
         height: '30px',
         width: '30px',
-        marginTop: '10px',
       },
     },
     MuiTab: {

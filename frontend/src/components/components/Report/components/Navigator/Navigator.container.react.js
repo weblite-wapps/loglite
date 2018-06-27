@@ -5,14 +5,11 @@ import Navigator from './Navigator.presentational'
 // views
 import { currentPageView } from '../../Main/Report.reducer'
 // actions
-import {
-  dispatchPreviousPage,
-  dispatchNextPage,
-} from '../../Main/Report.action'
+import { dispatchPreviousPage, dispatchNextPage } from '../../Main/Report.action'
 
 
-const mapStateToProps = (state, ownProps) => ({
-  isCustom: ownProps.isCustom,
+const mapStateToProps = (_, { isActive }) => ({
+  isActive,
   currentPage: currentPageView(),
 })
 

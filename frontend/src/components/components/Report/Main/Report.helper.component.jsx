@@ -44,7 +44,7 @@ IconButton.propTypes = {
 
 export const ControllBar = props => (
   <div className={scssClasses.controllBar}>
-    <Navigator isCustom={props.expandMode === 'export'} />
+    <Navigator isActive={props.expandMode === 'workList'} />
     <IconButton {...props} mode="workList" />
     <IconButton {...props} mode="export" />
     <IconButton {...props} mode="showChart" />

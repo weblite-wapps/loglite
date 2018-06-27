@@ -13,11 +13,11 @@ import scssClasses from './Navigator.scss'
 
 
 export const Button = ({
-  classes, isCustom, currentPage, onPreviousClick, onNextClick, direction,
+  classes, isActive, currentPage, onPreviousClick, onNextClick, direction,
 }) => (
   <MuiButton
-    disabled={direction === 'Back' ? isCustom :
-      isCustom || formattedDate(currentPage) === formattedDate(new Date())}
+    disabled={direction === 'Back' ? !isActive :
+      !isActive || formattedDate(currentPage) === formattedDate(new Date())}
     onClick={direction === 'Back' ? onPreviousClick : onNextClick}
     classes={{ root: classes.root, disabled: classes.disabled }}
   >
@@ -28,7 +28,7 @@ export const Button = ({
 
 Button.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  isCustom: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
   currentPage: PropTypes.instanceOf(Date).isRequired,
   direction: PropTypes.string.isRequired,
   onPreviousClick: PropTypes.func.isRequired,
@@ -36,13 +36,13 @@ Button.propTypes = {
 }
 
 
-export const Text = ({ isCustom, currentPage }) => (
+export const Text = ({ isActive, currentPage }) => (
   <Typography variant="body1" align="center" className={scssClasses.textSlider}>
-    {isCustom ? 'CUSTOMIZED' : formattedDate(currentPage)}
+    {!isActive ? 'CUSTOMIZED' : formattedDate(currentPage)}
   </Typography>
 )
 
 Text.propTypes = {
-  isCustom: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
   currentPage: PropTypes.instanceOf(Date).isRequired,
 }
