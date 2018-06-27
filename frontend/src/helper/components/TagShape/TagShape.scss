@@ -1,3 +1,6 @@
+@import "../../style/_color";
+
+
 .container {
   display: flex;
   justify-content: center;
@@ -9,17 +12,17 @@
 }
 
 .default {
-  background-color: #cfcfcf;
+  background-color: $accent-color;
   padding: 2px 10px;
 }
 
 .selected {
-  background-color: #4CAF50;
+  background-color: $secondary-color;
   padding: 2px 10px;
 }
 
 .icon {
-  background-color: #505050;
+  background-color: $primary-color;
   color: white;
   display: flex;
   justify-content: center;

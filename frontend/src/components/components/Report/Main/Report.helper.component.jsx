@@ -22,10 +22,10 @@ import { formattedDate } from '../../../../helper/functions/date.helper'
 // styles
 import scssClasses from './Report.scss'
 
+
 const IconButton = ({ expandMode, changeExpandMode, mode }) => (
   <Button
-    variant={expandMode === mode ? 'raised' : 'contained'}
-    raised={expandMode === mode}
+    variant={expandMode === mode ? 'contained' : 'outlined'}
     onClick={() => changeExpandMode(mode)}
     componentName="Report"
   >

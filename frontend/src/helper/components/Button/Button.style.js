@@ -1,6 +1,8 @@
+import { primary_color, secondary_color, accent_color } from '../../style/_color'
+
 export default ({
   CustomAdd: {
-    backgroundColor: '#919191',
+    backgroundColor: secondary_color,
     color: 'white',
     borderRadius: '0px',
     padding: '2px 15px',
@@ -8,7 +10,7 @@ export default ({
     textTransform: 'capitalize',
   },
   Add: {
-    backgroundColor: '#505050',
+    backgroundColor: primary_color,
     color: 'white',
     borderRadius: '0px',
     padding: '2px 15px',
@@ -18,7 +20,7 @@ export default ({
     textTransform: 'capitalize',
   },
   Summary: {
-    background: '#cfcfcf',
+    background: accent_color,
     color: 'white',
     minHeight: '40px',
     minWidth: '40px',
@@ -27,7 +29,7 @@ export default ({
     margin: '5px',
   },
   WorkList: {
-    backgroundColor: '#505050',
+    backgroundColor: primary_color,
     fontSize: '13px',
     color: 'white',
     borderRadius: '0px',
@@ -38,7 +40,7 @@ export default ({
     textTransform: 'capitalize',
   },
   default: {
-    background: '#cfcfcf',
+    background: accent_color,
     color: 'white',
     minHeight: '40px',
     minWidth: '40px',
@@ -47,8 +49,8 @@ export default ({
     margin: '5px',
   },
   Report: {
-    background: '#505050',
-    color: '#919191',
+    background: primary_color,
+    color: secondary_color,
     minHeight: '35px',
     minWidth: '35px',
     padding: '0px',

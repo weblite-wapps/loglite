@@ -1,3 +1,6 @@
+@import "../../../../../../helper/style/_color";
+
+
 .text {
   display: flex;
   justify-content: space-between;
@@ -27,6 +30,6 @@
 
 .date {
   @extend .duration;
-  color: #cfcfcf;
+  color: $accent-color;
   font-size: 18px;
 }

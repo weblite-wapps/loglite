@@ -1,9 +1,12 @@
+@import "../../../../../helper/style/_color";
+
+
 .list {
   margin-top: 10px;
 }
 
 .time {
-  color: #919191;
+  color: $secondary-color;
 }
 
 .icon {

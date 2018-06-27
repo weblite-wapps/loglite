@@ -1,3 +1,6 @@
+@import "../../style/_color";
+
+
 .container {
   display: flex;
   justify-content: center;
@@ -5,6 +8,6 @@
 }
 
 .content {
-  background-color: #cfcfcf;
+  background-color: $accent-color;
   padding: 2px 10px;
 }

@@ -1,12 +1,23 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 import grey from '@material-ui/core/colors/grey'
 import blue from '@material-ui/core/colors/blue'
+import { primary_color, secondary_color, accent_color } from './_color'
 
 
 export default createMuiTheme({
   palette: {
-    primary: grey,
-    secondary: blue,
+    primary: {
+      light: accent_color,
+      main: secondary_color,
+      dark: primary_color,
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#000000',
+      main: '#000000',
+      dark: '#000000',
+      contrastText: '#fff',
+    },
   },
   overrides: {
     MuiTypography: {
@@ -16,10 +27,10 @@ export default createMuiTheme({
       },
       display2: {
         fontWeight: '100',
-        color: '#505050',
+        color: primary_color,
       },
       headline: {
-        color: '#919191',
+        color: secondary_color,
         textTransform: 'uppercase',
         margin: '5px',
         textAlign: 'center',
@@ -29,7 +40,7 @@ export default createMuiTheme({
     },
     MuiButton: {
       fab: {
-        backgroundColor: '#505050',
+        backgroundColor: primary_color,
         color: 'white',
         height: '60px',
         width: '60px',
@@ -62,7 +73,7 @@ export default createMuiTheme({
         backgroundColor: '#000000',
       },
       light: {
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        backgroundColor: primary_color,
       },
       inset: {
         marginRight: '20px',

@@ -6,7 +6,6 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 // components
 import Button from '../../../../../helper/components/Button/Button.presentational'
-// helpers
 // style
 import scssClasses from './Summary.scss'
 
