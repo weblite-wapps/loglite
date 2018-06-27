@@ -1,11 +1,11 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import MuiButton from 'material-ui/Button'
-import Typography from 'material-ui/Typography'
+import MuiButton from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 // icons
-import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
-import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 // helpers
 import { formattedDate } from '../../../../../helper/functions/date.helper'
 // styles
@@ -37,7 +37,7 @@ Button.propTypes = {
 
 
 export const Text = ({ isCustom, currentPage }) => (
-  <Typography type="body1" align="center" className={scssClasses.textSlider}>
+  <Typography variant="body1" align="center" className={scssClasses.textSlider}>
     {isCustom ? 'CUSTOMIZED' : formattedDate(currentPage)}
   </Typography>
 )

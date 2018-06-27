@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from 'material-ui/styles'
-import MuiTextField from 'material-ui/TextField'
+import { withStyles } from '@material-ui/core/styles'
+import MuiTextField from '@material-ui/core/TextField'
 // scssClasses
 import scssClasses from './SelectBar.scss'
 import styles from '../../../../../helper/style/appStyle'
@@ -18,11 +18,6 @@ const SelectBar = ({ creator, selectedUser, users, changeSelectedUser, classes }
           value={selectedUser}
           onChange={e => changeSelectedUser(e.target.value)}
           style={{ marginTop: '0' }}
-          InputProps={{
-            classes: {
-              inkbar: classes.textFieldInkbar,
-            },
-          }}
           InputLabelProps={{
             className: classes.textFieldFormLabel,
             shrink: true,

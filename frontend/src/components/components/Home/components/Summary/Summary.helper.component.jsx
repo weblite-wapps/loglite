@@ -1,9 +1,9 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import Typography from 'material-ui/Typography'
-import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
-import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
+import Typography from '@material-ui/core/Typography'
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 // components
 import Button from '../../../../../helper/components/Button/Button.presentational'
 // helpers
@@ -36,7 +36,7 @@ IconButton.propTypes = {
 export const DurationPanel = props => (
   <div className={scssClasses.textSlider}>
     <IconButton {...props} direction="Back" />
-    <Typography type="headline"> { props.name } </Typography>
+    <Typography variant="headline"> { props.name } </Typography>
     <IconButton {...props} direction="Next" />
   </div>
 )
@@ -46,9 +46,9 @@ DurationPanel.propTypes = {
 }
 
 
-export const SliderText = ({ text, type }) => (
+export const SliderText = ({ text, variant }) => (
   <div className={scssClasses.textSlider}>
-    <Typography type={type}>
+    <Typography variant={variant}>
       { text }
     </Typography>
   </div>
@@ -56,5 +56,5 @@ export const SliderText = ({ text, type }) => (
 
 SliderText.propTypes = {
   text: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  variant: PropTypes.string.isRequired,
 }

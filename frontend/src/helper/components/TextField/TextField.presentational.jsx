@@ -1,39 +1,38 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from 'material-ui/styles'
-import MuiTextField from 'material-ui/TextField'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import MuiTextField from '@material-ui/core/TextField'
+import grey from '@material-ui/core/colors/grey'
 // styles
 import styles from '../../style/appStyle'
 
+const theme = createMuiTheme({
+  palette: {
+    primary: grey,
+  },
+})
 
-const TextField = ({ classes, isError, label, value, onChange }) => (
-  <MuiTextField
-    label={label}
-    value={value}
-    onChange={onChange}
-    helperText="required"
-    error={isError}
-    required
-    fullWidth
-    multiline
-    InputProps={{
-        classes: {
-          inkbar: classes.textFieldInkbar,
-        },
-      }}
-    InputLabelProps={{
-      className: classes.textFieldFormLabel,
-      }}
-  />
+const TextField = ({ isError, label, value, onChange }) => (
+  <MuiThemeProvider theme={theme}>
+    <MuiTextField
+      label={label}
+      value={value}
+      onChange={onChange}
+      helperText="required"
+      error={isError}
+      required
+      fullWidth
+      multiline
+    />
+  </MuiThemeProvider>
 )
 
 TextField.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   isError: PropTypes.bool.isRequired,
   label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles)(TextField)
+export default TextField

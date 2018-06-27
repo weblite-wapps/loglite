@@ -1,9 +1,9 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import Typography from 'material-ui/Typography'
-import Add from 'material-ui-icons/Add'
-import Remove from 'material-ui-icons/Remove'
+import Typography from '@material-ui/core/Typography'
+import Add from '@material-ui/icons/Add'
+import Remove from '@material-ui/icons/Remove'
 // scssClasses
 import scssClasses from './TagShape.scss'
 
@@ -11,7 +11,7 @@ import scssClasses from './TagShape.scss'
 const TagShape = ({ tag: { label, isSelected }, onTagClick }) => (
   <div className={scssClasses.container} onClick={onTagClick} role="button" tabIndex="0">
     <div className={isSelected ? scssClasses.selected : scssClasses.default}>
-      <Typography type="body1">
+      <Typography variant="body1">
         {label}
       </Typography>
     </div>

@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { Route } from 'react-router'
 import { ConnectedRouter } from 'react-router-redux'
-import { MuiThemeProvider } from 'material-ui/styles'
+import { MuiThemeProvider } from '@material-ui/core/styles'
 // Setup
 import store, { history } from './redux'
 // Component

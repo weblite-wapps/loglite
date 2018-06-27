@@ -1,8 +1,9 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CircularProgress } from 'material-ui/Progress'
-import MuiTabs, { Tab } from 'material-ui/Tabs'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import MuiTabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
 // styles
 import scssClasses from './App.scss'
 
@@ -30,7 +31,7 @@ export const Tabs = ({ tabIndex, aboutMode, changeTab }) => (
   <MuiTabs
     value={tabIndex}
     onChange={(event, value) => changeTab(value)}
-    indicatorColor={aboutMode ? '#cfcfcf' : '#000000'}
+    indicatorColor={aboutMode ? 'primary' : 'secondary'}
     fullWidth
     centered
     className={scssClasses.Tabs}

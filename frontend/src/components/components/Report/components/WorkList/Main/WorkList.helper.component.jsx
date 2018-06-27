@@ -1,7 +1,7 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import Typography from 'material-ui/Typography'
+import Typography from '@material-ui/core/Typography'
 // components
 import TagShape from '../../../../../../helper/components/TagShapeForReport/TagShapeForReport.presentational'
 // helpers
@@ -12,12 +12,12 @@ import scssClasses from './WorkList.scss'
 export const TitleAndDuration = ({ log: { title, times }, workDuration, len, secondsElapsed }) => (
   <div className={scssClasses.text}>
     <div>
-      <Typography type="subheading">
+      <Typography variant="subheading">
         { title }
       </Typography>
     </div>
     <div>
-      <Typography type="body2" align="right">
+      <Typography variant="body2" align="right">
         {len && times[len - 1].end === 'running' ? formattedSeconds(secondsElapsed) : workDuration}
       </Typography>
     </div>

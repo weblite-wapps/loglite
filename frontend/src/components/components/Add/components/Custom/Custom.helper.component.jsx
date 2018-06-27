@@ -1,9 +1,9 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import Divider from 'material-ui/Divider'
-import { ListItem } from 'material-ui/List'
-import MuiCollapse from 'material-ui/transitions/Collapse'
+import Divider from '@material-ui/core/Divider'
+import ListItem from '@material-ui/core/ListItem'
+import MuiCollapse from '@material-ui/core/Collapse'
 // components
 import Button from '../../../../../helper/components/Button/Button.presentational'
 import Picker from '../../../../../helper/components/Picker/Picker.presentational'

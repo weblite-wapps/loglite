@@ -9,12 +9,4 @@ export default theme => ({
     marginRight: theme.spacing.unit,
     width: 300,
   },
-  textFieldFormLabel: {
-    color: '#919191',
-  },
-  textFieldInkbar: {
-    '&:after': {
-      backgroundColor: '#919191',
-    },
-  },
 })

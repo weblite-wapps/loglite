@@ -1,13 +1,13 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import Collapse from 'material-ui/transitions/Collapse'
-import Typography from 'material-ui/Typography'
-import Divider from 'material-ui/Divider'
+import Collapse from '@material-ui/core/Collapse'
+import Typography from '@material-ui/core/Typography'
+import Divider from '@material-ui/core/Divider'
 // icons
-import ViewList from 'material-ui-icons/ViewList'
-import FileDownload from 'material-ui-icons/FileDownload'
-import InsertChart from 'material-ui-icons/InsertChart'
+import ViewList from '@material-ui/icons/ViewList'
+import FileDownload from '@material-ui/icons/FileDownload'
+import InsertChart from '@material-ui/icons/InsertChart'
 // components
 import Navigator from '../components/Navigator/Navigator.container.react'
 import Button from '../../../../helper/components/Button/Button.presentational'
@@ -24,6 +24,7 @@ import scssClasses from './Report.scss'
 
 const IconButton = ({ expandMode, changeExpandMode, mode }) => (
   <Button
+    variant={expandMode === mode ? 'raised' : 'contained'}
     raised={expandMode === mode}
     onClick={() => changeExpandMode(mode)}
     componentName="Report"
@@ -60,7 +61,7 @@ export const ExportPanel = ({ expandMode, totalDurationFromServer }) => (
     <Custom />
     <Divider light />
     <div className={scssClasses.text}>
-      <Typography type="subheading" >
+      <Typography variant="subheading" >
         {totalDurationFromServer}
       </Typography>
     </div>
@@ -95,7 +96,7 @@ export const WorkListPanel = ({
   return (
     <Collapse component="li" in={expandMode === 'workList'} timeout="auto" unmountOnExit>
       <div className={scssClasses.text}>
-        <Typography type="subheading" >
+        <Typography variant="subheading" >
           {selectedUser === userId ? totalDuration : staffTotalDuration}
         </Typography>
       </div>

@@ -2,10 +2,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
-import { withStyles } from 'material-ui/styles'
-import List from 'material-ui/List'
-import Divider from 'material-ui/Divider'
-import Button from 'material-ui/Button'
+import { withStyles } from '@material-ui/core/styles'
+import List from '@material-ui/core/List'
+import Divider from '@material-ui/core/Divider'
+import Button from '@material-ui/core/Button'
 import { differenceInSeconds } from 'date-fns'
 // components
 import Popover from '../components/Popover.presentational'
@@ -54,7 +54,7 @@ class WorkList extends React.Component {
               <div className={scssClasses.button}>
                 <Button
                   ref={(node) => { this.button = node }}
-                  raised
+                  variant="raised"
                   onClick={this.handleOpenPopover}
                   classes={{ raised: classes.WorkList }}
                 >

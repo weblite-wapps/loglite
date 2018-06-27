@@ -1,7 +1,7 @@
 // modules
 import React from 'react'
-import List from 'material-ui/List'
-import Divider from 'material-ui/Divider'
+import List from '@material-ui/core/List'
+import Divider from '@material-ui/core/Divider'
 // components
 import SelectBar from '../components/SelectBar/SelectBar.container.react'
 // helpers

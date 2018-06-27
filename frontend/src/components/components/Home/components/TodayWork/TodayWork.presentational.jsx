@@ -1,8 +1,9 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import List, { ListItem } from 'material-ui/List'
-import Divider from 'material-ui/Divider'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import Divider from '@material-ui/core/Divider'
 import { isWithinRange, differenceInSeconds } from 'date-fns'
 // helpers
 import { BriefInfo, ActionButtons, Collapse } from './TodayWork.helper.component'

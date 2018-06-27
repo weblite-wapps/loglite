@@ -1,8 +1,8 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from 'material-ui/Button'
-import AddIcon from 'material-ui-icons/Add'
+import Button from '@material-ui/core/Button'
+import AddIcon from '@material-ui/icons/Add'
 // components
 import TodayWork from '../components/TodayWork/TodayWork.container.react'
 // helpers
@@ -28,7 +28,7 @@ TodayWorkList.propTypes = { logs: PropTypes.arrayOf(PropTypes.object).isRequired
 
 export const FabButton = ({ onClick }) => (
   <div className={scssClasses.button}>
-    <Button fab onClick={onClick}>
+    <Button variant="fab" onClick={onClick}>
       <AddIcon />
     </Button>
   </div>

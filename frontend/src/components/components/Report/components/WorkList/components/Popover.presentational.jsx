@@ -1,10 +1,10 @@
 // modules
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from 'material-ui/styles'
-import Typography from 'material-ui/Typography'
-import Button from 'material-ui/Button'
-import Popover from 'material-ui/Popover'
+import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import Popover from '@material-ui/core/Popover'
 // css
 import styles from '../../../../../../helper/components/Button/Button.style'
 
@@ -26,7 +26,7 @@ const CustomizedPopover = ({
       horizontal: 'center',
     }}
   >
-    <Typography type="subheading" style={{ margin: '5px' }}>
+    <Typography variant="subheading" style={{ margin: '5px' }}>
       Are you sure?
     </Typography>
     <Button

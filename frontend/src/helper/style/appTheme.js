@@ -1,6 +1,13 @@
-import { createMuiTheme } from 'material-ui/styles'
+import { createMuiTheme } from '@material-ui/core/styles'
+import grey from '@material-ui/core/colors/grey'
+import blue from '@material-ui/core/colors/blue'
+
 
 export default createMuiTheme({
+  palette: {
+    primary: grey,
+    secondary: blue,
+  },
   overrides: {
     MuiTypography: {
       display1: {
@@ -46,12 +53,12 @@ export default createMuiTheme({
       },
     },
     MuiCircularProgress: {
-      primaryColor: {
+      colorPrimary: {
         color: 'white',
       },
     },
     MuiDivider: {
-      default: {
+      root: {
         backgroundColor: '#000000',
       },
       light: {
