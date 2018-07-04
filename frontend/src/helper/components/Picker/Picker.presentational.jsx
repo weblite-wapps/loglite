@@ -16,7 +16,6 @@ const Picker = ({ classes, label, type, isError, value, onChange }) => (
       className={classes.textField}
       required
       error={isError}
-      // InputProps={{ classes: { focused: classes.textFieldInkbar } }}
       InputLabelProps={{ className: classes.textFieldFormLabel, shrink: true }}
     />
   </form>

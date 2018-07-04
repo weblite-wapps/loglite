@@ -109,6 +109,10 @@ export const CHANGE_IS_ERROR = 'CHANGE_IS_ERROR'
 export const changeIsError = createAction(CHANGE_IS_ERROR, value => ({ value }))
 export const dispatchChangeIsError = (...args) => dispatch(changeIsError(...args))
 
+export const UPDATE_LEADERBOARD = 'UPDATE_LEADERBOARD'
+export const updateLeaderboard = createAction(UPDATE_LEADERBOARD, data => ({ data }))
+export const dispatchUpdateLeaderboard = (...args) => dispatch(updateLeaderboard(...args))
+
 // effects
 export const HANDLE_ADD_TAG = 'HANDLE_ADD_TAG'
 export const handleAddTag = createAction(HANDLE_ADD_TAG)

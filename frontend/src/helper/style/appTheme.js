@@ -1,6 +1,4 @@
 import { createMuiTheme } from '@material-ui/core/styles'
-import grey from '@material-ui/core/colors/grey'
-import blue from '@material-ui/core/colors/blue'
 import { primary_color, secondary_color, accent_color } from './_color'
 
 

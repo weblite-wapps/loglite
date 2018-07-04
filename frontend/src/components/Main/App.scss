@@ -40,6 +40,14 @@ body {
   transition: 0.2s ease 0.5s;
 }
 
+.shit {
+  display: flex;
+  flex-direction: row;
+  width: 100px;
+  height: 50px;
+  z-index: 15;
+}
+
 .loading {
   @extend .normal;
   margin-left: 0px;

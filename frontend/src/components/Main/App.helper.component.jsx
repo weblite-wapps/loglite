@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import MuiTabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import FlagIcon from '@material-ui/icons/Flag'
 // styles
 import scssClasses from './App.scss'
 

@@ -9,7 +9,7 @@ import { formatTime, sumTimes } from '../../helper/functions/time.helper'
 import { formattedDate, getToday, previousDay } from '../../helper/functions/date.helper'
 // actions
 import { dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
-import { dispatchAddPage } from '../components/Report/Main/Report.action'
+import { dispatchAddPage, dispatchUpdateLeaderboard } from '../components/Report/Main/Report.action'
 import { dispatchRefetchTotalDuration, dispatchLoadTotalDurations, dispatchChangeRunningId, dispatchSetSecondsElapsed } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
@@ -30,7 +30,7 @@ import {
   dispatchChangePopoverId,
   dispatchSaveStartTime,
   dispatchSaveEndTime,
-  dispatchHandleSaveStartTime
+  dispatchHandleSaveStartTime,
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, creatorView, aboutModeView } from './App.reducer'
@@ -71,6 +71,7 @@ const initialFetchEpic = action$ =>
     .do(({ body: { logs } }) => dispatchLoadLogsData(logs))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
+    .do(({ body: { leaderboard } }) => dispatchUpdateLeaderboard(leaderboard))
     .do(() => dispatchAddPage(formattedDate(previousDay(new Date())), selectedUserView()))
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
     .do(() => dispatchSetIsLoading(false))

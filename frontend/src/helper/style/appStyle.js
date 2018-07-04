@@ -12,7 +12,7 @@ export default theme => ({
     width: 300,
   },
   textFieldFormLabel: {
-    color: secondary_color,
+    color: secondary_color, 
   },
   textFieldInkbar: {
     '&:after': {

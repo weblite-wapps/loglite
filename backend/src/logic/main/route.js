@@ -1,3 +1,5 @@
+// modules
+import * as R from 'ramda'
 // components
 import app from '../../setup/server'
 import '../components/user/route'
@@ -27,6 +29,7 @@ app.get('/initialFetch', ({ query }, res) =>
       ...defaultQueryGenerator(query),
       $and: [{ date: { $gte: getStartDayOfMonth(query.today) } }, { date: { $lte: query.today } }],
     }),
+    fetchLogs({ wis: query.wis, date: query.today }),
   ]).then(success => res.json({
     logs: success[0],
     tags: success[1],
@@ -35,4 +38,12 @@ app.get('/initialFetch', ({ query }, res) =>
       thisWeek: formattedSeconds(sumLogs(success[3]), 'Home'),
       thisMonth: formattedSeconds(sumLogs(success[4]), 'Home'),
     },
+    leaderboard: R.compose(
+      R.map(logs => ({
+        userId: logs[0].userId,
+        score: formattedSeconds(sumLogs(logs), 'Home'),
+      })),
+      R.values,
+      R.groupBy(R.prop('userId')),
+    )(success[5])
   })).catch(logger))
