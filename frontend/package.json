@@ -58,6 +58,7 @@
     "typeface-roboto": "^0.0.45"
   },
   "local-dependencies": [
-    "weblite-web-snackbar"
+    "weblite-web-snackbar",
+    "weblite-web-list"
   ]
 }

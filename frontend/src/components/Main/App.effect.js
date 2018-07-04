@@ -39,7 +39,6 @@ import { selectedUserView } from '../components/Report/Main/Report.reducer'
 
 const fetchUsersEpic = action$ =>
   action$.ofType(FETCH_ADMIN_DATA)
-    .filter(() => creatorView())
     .mergeMap(() => getRequest('/fetchUsers')
       .query({ wis: wisView() })
       .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
