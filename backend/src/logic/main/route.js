@@ -41,7 +41,7 @@ app.get('/initialFetch', ({ query }, res) =>
     leaderboard: R.compose(
       R.map(logs => ({
         userId: logs[0].userId,
-        score: formattedSeconds(sumLogs(logs), 'Home'),
+        score: Math.floor(sumLogs(logs) / 60),
       })),
       R.values,
       R.groupBy(R.prop('userId')),

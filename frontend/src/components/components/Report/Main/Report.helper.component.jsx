@@ -11,7 +11,7 @@ import InsertChart from '@material-ui/icons/InsertChart'
 // components
 import Navigator from '../components/Navigator/Navigator.container.react'
 import Button from '../../../../helper/components/Button/Button.presentational'
-import ShowChart from '../components/ShowChart/Main/ShowChart.container.react'
+import ShowChart from '../components/ShowChart/ShowChart.container.react'
 import Custom from '../components/Custom/Custom.container.react'
 import WorkList from '../components/WorkList/Main/WorkList.container.react'
 import PieChart from '../components/WorkList/components/PieChart.presentational'

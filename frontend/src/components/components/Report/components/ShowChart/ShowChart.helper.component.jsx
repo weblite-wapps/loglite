@@ -3,10 +3,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import subDays from 'date-fns/sub_days'
 // components
-import Button from '../../../../../../helper/components/Button/Button.presentational'
-import CustomizedBarChart from '../components/BarChart.presentational'
+import Button from '../../../../../helper/components/Button/Button.presentational'
+import CustomizedBarChart from '../../../../../helper/components/BarChart/BarChart.presentational'
 // helpers
-import { formattedDate } from '../../../../../../helper/functions/date.helper'
+import { formattedDate } from '../../../../../helper/functions/date.helper'
 // styles
 import scssClasses from './ShowChart.scss'
 
@@ -48,7 +48,7 @@ Buttons.propTypes = {
 export const BarChart = ({ barChartData }) => (
   barChartData.length ?
     <div className={scssClasses.chart}>
-      <CustomizedBarChart barChartData={barChartData} />
+      <CustomizedBarChart barChartData={barChartData} XDataKey="name" YDataKey="duration" />
     </div> : null
 )
 
