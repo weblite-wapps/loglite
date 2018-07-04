@@ -94,7 +94,7 @@ export const WorkListPanel = ({
   const getDuration = selectedUser === userId ? getWorksDuration : getStaffWorksDuration
 
   return (
-    <Collapse component="li" in={expandMode === 'workList'} timeout="auto" unmountOnExit className={scssClasses.workList}>
+    <Collapse component="li" in={expandMode === 'workList'} timeout="auto" unmountOnExit>
       <div className={scssClasses.text}>
         <Typography variant="subheading" >
           {selectedUser === userId ? totalDuration : staffTotalDuration}
