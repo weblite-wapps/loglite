@@ -94,7 +94,7 @@ export const WorkListPanel = ({
   const getDuration = selectedUser === userId ? getWorksDuration : getStaffWorksDuration
 
   return (
-    <Collapse component="li" in={expandMode === 'workList'} timeout="auto" unmountOnExit>
+    <Collapse component="li" in={expandMode === 'workList'} timeout="auto" unmountOnExit className={scssClasses.workList}>
       <div className={scssClasses.text}>
         <Typography variant="subheading" >
           {selectedUser === userId ? totalDuration : staffTotalDuration}
@@ -111,8 +111,8 @@ export const WorkListPanel = ({
 
       {
         (selectedUser === userId ? logs : staffLogs)
-        .filter(log => log.date === formattedDate(currentPage))
-        .map(log => (<WorkList key={log._id} log={log} getDuration={getDuration} />))
+          .filter(log => log.date === formattedDate(currentPage))
+          .map(log => (<WorkList key={log._id} log={log} getDuration={getDuration} />))
       }
     </Collapse>
   )

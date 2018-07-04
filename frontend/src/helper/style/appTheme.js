@@ -70,7 +70,7 @@ export default createMuiTheme({
         backgroundColor: '#000000',
       },
       light: {
-        backgroundColor: primary_color,
+        backgroundColor: accent_color,
       },
       inset: {
         marginRight: '20px',
