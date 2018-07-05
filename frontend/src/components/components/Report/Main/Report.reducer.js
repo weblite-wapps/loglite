@@ -31,7 +31,6 @@ import {
   RESTORE_LEADERBOARD_DATA,
   CHANGE_ANCHOR_EL,
   CHANGE_IS_ERROR,
-  UPDATE_LEADERBOARD,
 } from './Report.action'
 
 // state
@@ -171,8 +170,6 @@ const reducers = {
   [CHANGE_ANCHOR_EL]: (state, { value }) => R.set(anchorElLens, value, state),
 
   [CHANGE_IS_ERROR]: (state, { value }) => R.set(isErrorLens, value, state),
-
-  [UPDATE_LEADERBOARD]: (state, { data }) => R.set(leaderboardLens, data, state),
 }
 
 

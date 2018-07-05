@@ -12,11 +12,9 @@ import Divider from '@material-ui/core/Divider'
 // local modules
 import { mapCharsToColor } from 'weblite-web-list'
 // component
-import { Pickers, Buttons } from '../../../../../helper/functions/common.helper.component'
-import BarChart from '../../../../../helper/components/BarChart/BarChart.presentational'
+import { Pickers, Buttons, BarChart } from '../../../../../helper/functions/common.helper.component'
 // helpers
 import { formattedMinutes } from '../../../../../helper/functions/time.helper'
-import { getLeaderboardData } from './Leaderboard.helper'
 // sccsClasses
 import scssClasses from './Leaderboard.scss'
 

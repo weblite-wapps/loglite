@@ -28,6 +28,7 @@ import {
   HANDLE_CALCULATION,
   HANDLE_EXPORT,
   HANDLE_UPDATE_CHART,
+  HANDLE_UPDATE_LEADERBOARD,
   restoreCSV,
   loadStaffLogs,
   resetStaffLogs,
@@ -43,6 +44,7 @@ import {
   dispatchCalculateTotalDuration,
   dispatchConvertJSONToCSV,
   dispatchUpdateChart,
+  dispatchUpdateLeaderboard,
 } from './Report.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
@@ -250,6 +252,16 @@ const effectHandleUpdateChart = action$ =>
     .do(({ permission, message }) => !permission && snackbarMessage({ message }))
     .ignoreElements()
 
+const effectHandleUpdateLeaderboard = action$ =>
+  action$.ofType(HANDLE_UPDATE_LEADERBOARD)
+    .pluck('payload')
+    .map(payload => ({ ...payload, ...checkBeforeAction() }))
+    .do(({ isError }) => dispatchChangeIsError(isError))
+    .do(({ startDate, endDate, permission }) =>
+      permission && dispatchUpdateLeaderboard(startDate, endDate))
+    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .ignoreElements()
+
 
 export default combineEpics(
   resetStaffDataEpic,
@@ -267,4 +279,5 @@ export default combineEpics(
   effectHandleCalculation,
   effectHandleExport,
   effectHandleUpdateChart,
+  effectHandleUpdateLeaderboard,
 )

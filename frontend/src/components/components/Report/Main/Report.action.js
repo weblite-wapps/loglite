@@ -97,6 +97,12 @@ export const updateChart = createAction(
 )
 export const dispatchUpdateChart = (...args) => dispatch(updateChart(...args))
 
+export const UPDATE_LEADERBOARD = 'UPDATE_LEADERBOARD'
+export const updateLeaderboard = createAction(UPDATE_LEADERBOARD,
+  (startDate, endDate) => ({ startDate, endDate }),
+)
+export const dispatchUpdateLeaderboard = (...args) => dispatch(updateLeaderboard(...args))
+
 export const RESTORE_BAR_CHART_DATA = 'RESTORE_BAR_CHART_DATA'
 export const restoreBarChartData = createAction(RESTORE_BAR_CHART_DATA, data => ({ data }))
 export const dispatchRestoreBarChartData = (...args) => dispatch(restoreBarChartData(...args))
@@ -112,12 +118,6 @@ export const dispatchChangeAnchorEl = (...args) => dispatch(changeAnchorEl(...ar
 export const CHANGE_IS_ERROR = 'CHANGE_IS_ERROR'
 export const changeIsError = createAction(CHANGE_IS_ERROR, value => ({ value }))
 export const dispatchChangeIsError = (...args) => dispatch(changeIsError(...args))
-
-export const UPDATE_LEADERBOARD = 'UPDATE_LEADERBOARD'
-export const updateLeaderboard = createAction(UPDATE_LEADERBOARD,
-  (startDate, endDate) => ({ startDate, endDate }),
-)
-export const dispatchUpdateLeaderboard = (...args) => dispatch(updateLeaderboard(...args))
 
 // effects
 export const HANDLE_ADD_TAG = 'HANDLE_ADD_TAG'
@@ -138,3 +138,10 @@ export const handleUpdateChart = createAction(
   (startDate, endDate) => ({ startDate, endDate }),
 )
 export const dispatchHandleUpdateChart = (...args) => dispatch(handleUpdateChart(...args))
+
+export const HANDLE_UPDATE_LEADERBOARD = 'HANDLE_UPDATE_LEADERBOARD'
+export const handleUpdateLeaderboard = createAction(
+  HANDLE_UPDATE_LEADERBOARD,
+  (startDate, endDate) => ({ startDate, endDate }),
+)
+export const dispatchHandleUpdateLeaderboard = (...args) => dispatch(handleUpdateLeaderboard(...args))

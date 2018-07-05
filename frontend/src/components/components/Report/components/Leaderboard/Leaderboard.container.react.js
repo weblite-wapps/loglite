@@ -5,7 +5,7 @@ import Leaderbord from './Leaderboard.presentational'
 // views
 import { startDateView, endDateView, isErrorView } from '../../Main/Report.reducer'
 // actions
-import { dispatchChangeStartDate, dispatchChangeEndDate, dispatchUpdateLeaderboard } from '../../Main/Report.action'
+import { dispatchChangeStartDate, dispatchChangeEndDate, dispatchUpdateLeaderboard, dispatchHandleUpdateLeaderboard } from '../../Main/Report.action'
 // selectors
 import { getLeaderboardData } from './Leaderboard.selector'
 
@@ -21,7 +21,7 @@ const mapDispatchToProps = () => ({
   update: dispatchUpdateLeaderboard,
   onStartDateChange: ({ target: { value } }) => dispatchChangeStartDate(value),
   onEndDateChange: ({ target: { value } }) => dispatchChangeEndDate(value),
-  handleUpdate: dispatchUpdateLeaderboard,
+  handleUpdate: dispatchHandleUpdateLeaderboard,
 })
 
 
