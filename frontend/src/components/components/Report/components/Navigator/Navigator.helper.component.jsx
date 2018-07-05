@@ -36,13 +36,14 @@ Button.propTypes = {
 }
 
 
-export const Text = ({ isActive, currentPage }) => (
+export const Text = ({ isActive, expandMode, currentPage }) => (
   <Typography variant="body1" align="center" className={scssClasses.textSlider}>
-    {!isActive ? 'CUSTOMIZED' : formattedDate(currentPage)}
+    {!isActive ? expandMode : formattedDate(currentPage)}
   </Typography>
 )
 
 Text.propTypes = {
   isActive: PropTypes.bool.isRequired,
+  expandMode: PropTypes.string.isRequired,
   currentPage: PropTypes.instanceOf(Date).isRequired,
 }

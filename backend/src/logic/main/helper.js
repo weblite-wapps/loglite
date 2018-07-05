@@ -81,6 +81,17 @@ export const getBarChartData = (logs, query) => {
     duration: Math.floor(sumLogs(R.filter(log => log.date === date, logs)) / 60) }), dates)
 }
 
+
+export const getLeaderboardData = R.compose(
+    R.map(logs => ({
+      userId: logs[0].userId,
+      score: Math.floor(sumLogs(logs) / 60),
+    })),
+    R.values,
+    R.groupBy(R.prop('userId')),
+  )
+
+
 export const formattedDate = date => format(date, 'YYYY-MM-DD')
 
 export const getYesterday = date => formattedDate(subDays(startOfDay(date), 1))

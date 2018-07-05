@@ -101,6 +101,10 @@ export const RESTORE_BAR_CHART_DATA = 'RESTORE_BAR_CHART_DATA'
 export const restoreBarChartData = createAction(RESTORE_BAR_CHART_DATA, data => ({ data }))
 export const dispatchRestoreBarChartData = (...args) => dispatch(restoreBarChartData(...args))
 
+export const RESTORE_LEADERBOARD_DATA = 'RESTORE_LEADERBOARD_DATA'
+export const restoreLeaderboardData = createAction(RESTORE_LEADERBOARD_DATA, data => ({ data }))
+export const dispatchRestoreLeaderboardData = (...args) => dispatch(restoreLeaderboardData(...args))
+
 export const CHANGE_ANCHOR_EL = 'CHANGE_ANCHOR_EL'
 export const changeAnchorEl = createAction(CHANGE_ANCHOR_EL, value => ({ value }))
 export const dispatchChangeAnchorEl = (...args) => dispatch(changeAnchorEl(...args))
@@ -110,7 +114,9 @@ export const changeIsError = createAction(CHANGE_IS_ERROR, value => ({ value }))
 export const dispatchChangeIsError = (...args) => dispatch(changeIsError(...args))
 
 export const UPDATE_LEADERBOARD = 'UPDATE_LEADERBOARD'
-export const updateLeaderboard = createAction(UPDATE_LEADERBOARD, data => ({ data }))
+export const updateLeaderboard = createAction(UPDATE_LEADERBOARD,
+  (startDate, endDate) => ({ startDate, endDate }),
+)
 export const dispatchUpdateLeaderboard = (...args) => dispatch(updateLeaderboard(...args))
 
 // effects

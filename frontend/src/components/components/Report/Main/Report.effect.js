@@ -23,6 +23,7 @@ import {
   NEXT_PAGE,
   RESET_CSV,
   UPDATE_CHART,
+  UPDATE_LEADERBOARD,
   HANDLE_ADD_TAG,
   HANDLE_CALCULATION,
   HANDLE_EXPORT,
@@ -34,6 +35,7 @@ import {
   restoreTotalDuration,
   loadTagsDataInReport,
   restoreBarChartData,
+  restoreLeaderboardData,
   dispatchAddPage,
   dispatchRemovePage,
   dispatchChangeIsError,
@@ -196,6 +198,21 @@ const updateChartEpic = action$ =>
     .do(() => dispatchSetIsLoading(false))
     .map(({ body }) => restoreBarChartData(body))
 
+
+const updateLeaderboardEpic = action$ =>
+  action$.ofType(UPDATE_LEADERBOARD)
+    .do(() => dispatchSetIsLoading(true))
+    .pluck('payload')
+    .mergeMap(({ startDate, endDate }) => getRequest('/leaderboardData')
+      .query({
+        wis: wisView(),
+        startDate,
+        endDate,
+      })
+      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => dispatchSetIsLoading(false))
+    .map(({ body }) => restoreLeaderboardData(body))
+
 // effects
 const effectHandleAddTag = action$ =>
   action$.ofType(HANDLE_ADD_TAG)
@@ -245,6 +262,7 @@ export default combineEpics(
   fetchNextDayLogsDataEpic,
   resetCSVEpic,
   updateChartEpic,
+  updateLeaderboardEpic,
   effectHandleAddTag,
   effectHandleCalculation,
   effectHandleExport,

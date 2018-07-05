@@ -28,6 +28,7 @@ import {
   ADD_PAGE,
   REMOVE_PAGE,
   RESTORE_BAR_CHART_DATA,
+  RESTORE_LEADERBOARD_DATA,
   CHANGE_ANCHOR_EL,
   CHANGE_IS_ERROR,
   UPDATE_LEADERBOARD,
@@ -164,6 +165,8 @@ const reducers = {
   }),
 
   [RESTORE_BAR_CHART_DATA]: (state, { data }) => R.set(barChartDataLens, data, state),
+
+  [RESTORE_LEADERBOARD_DATA]: (state, { data }) => R.set(leaderboardLens, data, state),
 
   [CHANGE_ANCHOR_EL]: (state, { value }) => R.set(anchorElLens, value, state),
 

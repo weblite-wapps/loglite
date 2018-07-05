@@ -9,7 +9,7 @@ import '../components/tag/route'
 import { fetchLogs } from '../components/log/db'
 import { fetchTags } from '../components/tag/db'
 // helpers
-import { sumLogs, formattedSeconds, getYesterday, getStartDayOfWeek, getStartDayOfMonth, defaultQueryGenerator } from './helper'
+import { sumLogs, formattedSeconds, getYesterday, getStartDayOfWeek, getStartDayOfMonth, defaultQueryGenerator, getLeaderboardData } from './helper'
 // const
 const logger = console.log
 
@@ -38,12 +38,5 @@ app.get('/initialFetch', ({ query }, res) =>
       thisWeek: formattedSeconds(sumLogs(success[3]), 'Home'),
       thisMonth: formattedSeconds(sumLogs(success[4]), 'Home'),
     },
-    leaderboard: R.compose(
-      R.map(logs => ({
-        userId: logs[0].userId,
-        score: Math.floor(sumLogs(logs) / 60),
-      })),
-      R.values,
-      R.groupBy(R.prop('userId')),
-    )(success[5])
+    leaderboard: getLeaderboardData(success[5]),
   })).catch(logger))

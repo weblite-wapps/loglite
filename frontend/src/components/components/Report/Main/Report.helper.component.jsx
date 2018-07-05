@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Collapse from '@material-ui/core/Collapse'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
+import Tooltip from '@material-ui/core/Tooltip'
 // icons
 import ViewList from '@material-ui/icons/ViewList'
 import FileDownload from '@material-ui/icons/FileDownload'
@@ -90,7 +91,8 @@ BarChartPanel.propTypes = {
   expandMode: PropTypes.string.isRequired,
 }
 
-export const LeaderboardPanel = ({ expandMode, totalDurationFromServer }) => (
+
+export const LeaderboardPanel = ({ expandMode }) => (
   <Collapse component="li" in={expandMode === 'leaderboard'} timeout="auto" unmountOnExit>
     <Leaderbord />
     <Divider light />
@@ -99,8 +101,8 @@ export const LeaderboardPanel = ({ expandMode, totalDurationFromServer }) => (
 
 LeaderboardPanel.propTypes = {
   expandMode: PropTypes.string.isRequired,
-  totalDurationFromServer: PropTypes.string.isRequired,
 }
+
 
 export const WorkListPanel = ({
   selectedUser, userId, expandMode, totalDuration, staffTotalDuration,

@@ -8,7 +8,7 @@ import { fetchLogs, saveLog, deleteLog, saveTime } from './db'
 // helpers
 import {
   sumLogs, formattedSeconds, modifiedQuery, getBarChartData, getJSON,
-  defaultQueryGenerator, getStartDayOfWeek, getStartDayOfMonth,
+  defaultQueryGenerator, getStartDayOfWeek, getStartDayOfMonth, getLeaderboardData,
 } from '../../main/helper'
 // const
 const logger = console.log
@@ -106,5 +106,16 @@ app.get('/barChartData', ({ query }, res) => {
   }
   fetchLogs(newQuery)
     .then(logs => res.send(getBarChartData(logs, query)))
+    .catch(logger)
+})
+
+
+app.get('/leaderboardData', ({ query }, res) => {
+  const newQuery = {
+    wis: query.wis,
+    $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }],
+  }
+  fetchLogs(newQuery)
+    .then(logs => res.send(getLeaderboardData(logs)))
     .catch(logger)
 })

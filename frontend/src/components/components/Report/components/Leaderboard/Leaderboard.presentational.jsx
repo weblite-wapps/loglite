@@ -12,6 +12,7 @@ import Divider from '@material-ui/core/Divider'
 // local modules
 import { mapCharsToColor } from 'weblite-web-list'
 // component
+import { Pickers, Buttons } from '../../../../../helper/functions/common.helper.component'
 import BarChart from '../../../../../helper/components/BarChart/BarChart.presentational'
 // helpers
 import { formattedMinutes } from '../../../../../helper/functions/time.helper'
@@ -20,27 +21,16 @@ import { getLeaderboardData } from './Leaderboard.helper'
 import scssClasses from './Leaderboard.scss'
 
 
-const Leaderbord = ({ leaderboard }) => (
+const Leaderbord = props => (
   <div className={scssClasses.container}>
-    <div className={scssClasses.text}>
-      <Typography variant="subheading">Leaderbord</Typography>
-    </div>
-    <Divider light />
-
-    {
-      leaderboard.length ? (
-        <React.Fragment>
-          <div className={scssClasses.chart}>
-            <BarChart barChartData={leaderboard} XDataKey="username" YDataKey="score" />
-          </div>
-          <Divider />
-        </React.Fragment>
-      ) : null
-    }
-
+    <Pickers {...props} />
+    <Buttons {...props} />
+    <Divider />
+    <BarChart {...props} XDataKey="username" YDataKey="score" />
+    <Divider />
     <List>
       {
-         leaderboard
+         props.data
           .sort((personA, personB) => personA.score < personB.score)
           .map(({ userId, username, score }) => (
             <React.Fragment key={userId}>
@@ -63,6 +53,6 @@ const Leaderbord = ({ leaderboard }) => (
   </div>
 )
 
-Leaderbord.propTypes = { leaderboard: PropTypes.arrayOf(PropTypes.shape({})).isRequired }
+Leaderbord.propTypes = { data: PropTypes.arrayOf(PropTypes.shape({})).isRequired }
 
 export default Leaderbord

@@ -5,11 +5,11 @@ import Home from './Home.presentational'
 // views
 import { logsView } from '../../../Main/App.reducer'
 // actions
-import { dispatchSetAboutMode } from '../../../Main/App.action'
+import { dispatchChangeTab } from '../../../Main/App.action'
 
 
 const mapStateToProps = () => ({ logs: logsView() })
 
-const mapDispatchToProps = () => ({ setAboutMode: dispatchSetAboutMode })
+const mapDispatchToProps = () => ({ changeTab: dispatchChangeTab })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

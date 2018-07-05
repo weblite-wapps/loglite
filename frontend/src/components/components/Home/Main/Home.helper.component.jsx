@@ -2,8 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
-import Tooltip from '@material-ui/core/Tooltip'
-import FlagIcon from '@material-ui/icons/Flag'
+import AddIcon from '@material-ui/icons/Add'
 // components
 import TodayWork from '../components/TodayWork/TodayWork.container.react'
 // helpers
@@ -29,11 +28,9 @@ TodayWorkList.propTypes = { logs: PropTypes.arrayOf(PropTypes.object).isRequired
 
 export const FabButton = ({ onClick }) => (
   <div className={scssClasses.button}>
-    <Tooltip title="Leaderboard!" placement="right" enterDelay={100} leaveDelay={100}>
-      <Button variant="fab" onClick={onClick}>
-        <FlagIcon />
-      </Button>
-    </Tooltip>
+    <Button variant="fab" onClick={onClick}>
+      <AddIcon />
+    </Button>
   </div>
 )
 

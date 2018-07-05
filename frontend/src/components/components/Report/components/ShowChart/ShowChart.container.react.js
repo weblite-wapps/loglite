@@ -11,15 +11,15 @@ import { dispatchUpdateChart, dispatchChangeStartDate, dispatchChangeEndDate, di
 const mapStateToProps = () => ({
   startDate: startDateView(),
   endDate: endDateView(),
-  barChartData: barChartDataView(),
   isError: isErrorView(),
+  data: barChartDataView(),
 })
 
 const mapDispatchToProps = () => ({
-  updateChart: dispatchUpdateChart,
+  update: dispatchUpdateChart,
   onStartDateChange: ({ target: { value } }) => dispatchChangeStartDate(value),
   onEndDateChange: ({ target: { value } }) => dispatchChangeEndDate(value),
-  handleUpdateChart: dispatchHandleUpdateChart,
+  handleUpdate: dispatchHandleUpdateChart,
 })
 
 

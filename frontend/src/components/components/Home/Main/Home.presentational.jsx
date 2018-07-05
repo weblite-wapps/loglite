@@ -10,18 +10,18 @@ import { TodayWorkList, FabButton } from './Home.helper.component'
 import scssClasses from './Home.scss'
 
 
-const Home = ({ logs, setAboutMode }) => (
+const Home = ({ logs, changeTab }) => (
   <div className={scssClasses.normal}>
     <Summary />
     <Divider />
     <TodayWorkList logs={logs} />
-    <FabButton onClick={() => setAboutMode(true)} />
+    <FabButton onClick={() => changeTab('Add')} />
   </div>
 )
 
 Home.propTypes = {
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setAboutMode: PropTypes.func.isRequired,
+  changeTab: PropTypes.func.isRequired,
 }
 
 export default Home
