@@ -5,7 +5,7 @@ import Divider from '@material-ui/core/Divider'
 // components
 import SelectBar from '../components/SelectBar/SelectBar.container.react'
 // helpers
-import { ControllBar, ExportPanel, BarChartPanel, WorkListPanel } from './Report.helper.component'
+import { ControllBar, ExportPanel, BarChartPanel, WorkListPanel, LeaderboardPanel } from './Report.helper.component'
 // scssClasses
 import scssClasses from './Report.scss'
 
@@ -19,6 +19,7 @@ export default props => (
       <ExportPanel {...props} />
       <BarChartPanel {...props} />
       <WorkListPanel {...props} />
+      <LeaderboardPanel {...props} />
     </List>
   </div>
 )

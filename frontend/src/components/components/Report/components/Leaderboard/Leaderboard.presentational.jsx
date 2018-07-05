@@ -12,9 +12,9 @@ import Divider from '@material-ui/core/Divider'
 // local modules
 import { mapCharsToColor } from 'weblite-web-list'
 // component
-import BarChart from '../../../helper/components/BarChart/BarChart.presentational'
+import BarChart from '../../../../../helper/components/BarChart/BarChart.presentational'
 // helpers
-import { formattedMinutes } from '../../../helper/functions/time.helper'
+import { formattedMinutes } from '../../../../../helper/functions/time.helper'
 import { getLeaderboardData } from './Leaderboard.helper'
 // sccsClasses
 import scssClasses from './Leaderboard.scss'
@@ -22,21 +22,26 @@ import scssClasses from './Leaderboard.scss'
 
 const Leaderbord = ({ leaderboard }) => (
   <div className={scssClasses.container}>
-    <Divider />
     <div className={scssClasses.text}>
       <Typography variant="subheading">Leaderbord</Typography>
     </div>
-    <Divider />
+    <Divider light />
 
-    <div className={scssClasses.chart}>
-      <BarChart barChartData={leaderboard} XDataKey="username" YDataKey="score" />
-    </div>
-    <Divider />
+    {
+      leaderboard.length ? (
+        <React.Fragment>
+          <div className={scssClasses.chart}>
+            <BarChart barChartData={leaderboard} XDataKey="username" YDataKey="score" />
+          </div>
+          <Divider />
+        </React.Fragment>
+      ) : null
+    }
 
     <List>
       {
-        leaderboard
-          .sort((a, b) => a.score < b.score)
+         leaderboard
+          .sort((personA, personB) => personA.score < personB.score)
           .map(({ userId, username, score }) => (
             <React.Fragment key={userId}>
               <ListItem className={scssClasses.listItem}>

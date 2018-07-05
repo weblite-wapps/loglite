@@ -8,6 +8,7 @@ import Divider from '@material-ui/core/Divider'
 import ViewList from '@material-ui/icons/ViewList'
 import FileDownload from '@material-ui/icons/FileDownload'
 import InsertChart from '@material-ui/icons/InsertChart'
+import Flag from '@material-ui/icons/Flag'
 // components
 import Navigator from '../components/Navigator/Navigator.container.react'
 import Button from '../../../../helper/components/Button/Button.presentational'
@@ -15,6 +16,7 @@ import ShowChart from '../components/ShowChart/ShowChart.container.react'
 import Custom from '../components/Custom/Custom.container.react'
 import WorkList from '../components/WorkList/Main/WorkList.container.react'
 import PieChart from '../components/WorkList/components/PieChart.presentational'
+import Leaderbord from '../components/Leaderboard/Leaderboard.container.react'
 // selectors
 import { getWorksDuration, getStaffWorksDuration } from '../../../../helper/selectors/workDuration.selector'
 // helpers
@@ -32,6 +34,7 @@ const IconButton = ({ expandMode, changeExpandMode, mode }) => (
     {(mode === 'workList') && <ViewList />}
     {(mode === 'export') && <FileDownload />}
     {(mode === 'showChart') && <InsertChart />}
+    {(mode === 'leaderboard') && <Flag />}
   </Button>
 )
 
@@ -48,6 +51,7 @@ export const ControllBar = props => (
     <IconButton {...props} mode="workList" />
     <IconButton {...props} mode="export" />
     <IconButton {...props} mode="showChart" />
+    <IconButton {...props} mode="leaderboard" />
   </div>
 )
 
@@ -86,6 +90,17 @@ BarChartPanel.propTypes = {
   expandMode: PropTypes.string.isRequired,
 }
 
+export const LeaderboardPanel = ({ expandMode, totalDurationFromServer }) => (
+  <Collapse component="li" in={expandMode === 'leaderboard'} timeout="auto" unmountOnExit>
+    <Leaderbord />
+    <Divider light />
+  </Collapse>
+)
+
+LeaderboardPanel.propTypes = {
+  expandMode: PropTypes.string.isRequired,
+  totalDurationFromServer: PropTypes.string.isRequired,
+}
 
 export const WorkListPanel = ({
   selectedUser, userId, expandMode, totalDuration, staffTotalDuration,

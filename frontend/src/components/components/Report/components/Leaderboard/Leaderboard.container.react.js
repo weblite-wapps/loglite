@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // components
 import Leaderbord from './Leaderboard.presentational'
 // actions
-import { dispatchUpdateLeaderboard } from '../Report/Main/Report.action'
+import { dispatchUpdateLeaderboard } from '../../Main/Report.action'
 // selectors
 import { getLeaderboardData } from './Leaderboard.selector'
 

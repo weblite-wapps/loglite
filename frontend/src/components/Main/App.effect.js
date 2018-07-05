@@ -155,7 +155,7 @@ const changeTabEpic = (action$, { dispatch }) =>
 
 const setAboutModeEpic = action$ =>
   action$.ofType(SET_ABOUT_MODE)
-    .map(() => push('/Leaderboard'))
+    .map(() => push('/About'))
 
 
 export default combineEpics(

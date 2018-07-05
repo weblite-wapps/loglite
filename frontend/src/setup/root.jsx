@@ -11,7 +11,7 @@ import App from '../components/Main/App.container.react'
 import Home from '../components/components/Home/Main/Home.container.react'
 import Add from '../components/components/Add/Main/Add.container.react'
 import Report from '../components/components/Report/Main/Report.container.react'
-import Leaderboard from '../components/components/Leaderboard/Leaderboard.container.react'
+import About from '../components/components/About/About.jsx'
 // scssClasses
 import scssClasses from './root.scss'
 import theme from '../helper/style/appTheme'
@@ -26,7 +26,7 @@ export default () => (
           <Route exact path="/" component={Home} />
           <Route path="/Add" component={Add} />
           <Route path="/Report" component={Report} />
-          <Route path="/Leaderboard" component={Leaderboard} />
+          <Route path="/About" component={About} />
         </div>
       </ConnectedRouter>
     </MuiThemeProvider>
