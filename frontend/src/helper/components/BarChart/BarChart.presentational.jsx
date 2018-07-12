@@ -16,10 +16,10 @@ const CustomizedBarChart = ({ barChartData, XDataKey, YDataKey }) => (
 
     <XAxis dataKey={XDataKey} />
 
-    <YAxis dataKey={YDataKey} label={{ value: 'Minutes', angle: -90, position: 'insideLeft' }} />
+    <YAxis dataKey={YDataKey} />
 
     <Tooltip formatter={duration => formattedMinutes(duration)} animationDuration={500} />
-    
+
     <Bar dataKey={YDataKey}>
       {
         barChartData.map((entry, index) =>
