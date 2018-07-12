@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 // local modules
 import { mapCharsToColor } from 'weblite-web-list'
-// component
+// components
 import { Pickers, Buttons, BarChart } from '../../../../../helper/functions/common.helper.component'
 // helpers
 import { formattedMinutes } from '../../../../../helper/functions/time.helper'
@@ -24,8 +24,10 @@ const Leaderbord = props => (
     <Pickers {...props} />
     <Buttons {...props} />
     <Divider />
+
     <BarChart {...props} XDataKey="username" YDataKey="score" />
     <Divider />
+
     <List>
       {
          props.data

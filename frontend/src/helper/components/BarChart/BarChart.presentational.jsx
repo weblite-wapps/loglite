@@ -2,6 +2,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Cell } from 'recharts'
+// local modules
+import { mapCharsToColor } from 'weblite-web-list'
 // helpers
 import { formattedMinutes } from '../../functions/time.helper'
 // const
@@ -9,22 +11,22 @@ const COLORS = ['#b93433', '#8a2f77', '#f8ce56', '#62aaaf', '#FF8042', '#00C49F'
 
 
 const CustomizedBarChart = ({ barChartData, XDataKey, YDataKey }) => (
-  <BarChart
-    width={300}
-    height={350}
-    data={barChartData}
-  >
+  <BarChart width={300} height={350} data={barChartData}>
     <CartesianGrid vertical={false} />
+
     <XAxis dataKey={XDataKey} />
+
     <YAxis dataKey={YDataKey} label={{ value: 'Minutes', angle: -90, position: 'insideLeft' }} />
-    <Tooltip
-      formatter={duration => formattedMinutes(duration)}
-      animationDuration={500}
-    />
+
+    <Tooltip formatter={duration => formattedMinutes(duration)} animationDuration={500} />
+    
     <Bar dataKey={YDataKey}>
       {
         barChartData.map((entry, index) =>
-          <Cell key={index} fill={COLORS[index % COLORS.length]} />)
+          <Cell
+            key={index}
+            fill={entry.username ? mapCharsToColor(entry.username) : COLORS[index % COLORS.length]}
+          />)
       }
     </Bar>
   </BarChart>
