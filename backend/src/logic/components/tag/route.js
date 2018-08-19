@@ -23,12 +23,12 @@ app.get('/serachTags', ({ query: { wis, userId, label } }, res) =>
 app.post('/saveTags', ({ body: { wis, userId, tags } }, res) => {
   const addOrUpdateTag = tag =>
     countTags({ wis, userId, label: tag })
-      .then((number) => {
-        if (number === 0) {
-          saveTag({ label: tag, number: 1, userId, wis })
-        } else updateTag({ label: tag }, { $inc: { number: 1 } })
-      })
+      .then(number => number === 0 ?
+        saveTag({ label: tag, number: 1, userId, wis }) :
+        updateTag({ label: tag }, { $inc: { number: 1 } }))
+
   R.forEach(addOrUpdateTag, tags)
+
   fetchTags({ wis, userId })
     .then(fetchedTags => res.json(fetchedTags))
     .catch(logger)

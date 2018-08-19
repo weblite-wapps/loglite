@@ -81,16 +81,21 @@ export const getBarChartData = (logs, query) => {
     duration: Math.floor(sumLogs(R.filter(log => log.date === date, logs)) / 60) }), dates)
 }
 
-
 export const getLeaderboardData = R.compose(
     R.map(logs => ({
       userId: logs[0].userId,
       score: Math.floor(sumLogs(logs) / 60),
+      workInProgress: checkInProgress(logs),
     })),
     R.values,
     R.groupBy(R.prop('userId')),
   )
 
+export const checkInProgress = R.compose(
+  R.reduce(R.or, false),
+  R.map(log => R.findIndex(R.propEq('end', 'running'))(log.times) !== -1),
+  R.filter(log => log.date === format(new Date(), 'YYYY-MM-DD')),
+)
 
 export const formattedDate = date => format(date, 'YYYY-MM-DD')
 

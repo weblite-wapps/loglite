@@ -56,7 +56,6 @@ app.post('/saveEndTime', ({ body }, res) =>
     .catch(logger))
 
 
-
 app.get('/fetchTotalDurations', ({ query }, res) =>
   Promise.all([
     fetchLogs({ ...defaultQueryGenerator(query), date: query.today }),
