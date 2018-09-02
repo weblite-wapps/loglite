@@ -9,6 +9,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
+import Badge from '@material-ui/core/Badge'
 // local modules
 import { mapCharsToColor } from 'weblite-web-list'
 // components
@@ -35,10 +36,11 @@ const Leaderbord = props => (
           .map(({ userId, username, score }) => (
             <React.Fragment key={userId}>
               <ListItem className={scssClasses.listItem}>
-                <Avatar style={{ backgroundColor: mapCharsToColor(username) }}>
-                  {R.head(username)}
-                </Avatar>
-
+                <Badge badgeContent={'On'}>
+                  <Avatar style={{ backgroundColor: mapCharsToColor(username) }}>
+                    {R.head(username)}
+                  </Avatar>
+                </Badge>
                 <ListItemText primary={username} />
 
                 <ListItemSecondaryAction>
@@ -56,3 +58,4 @@ const Leaderbord = props => (
 Leaderbord.propTypes = { data: PropTypes.arrayOf(PropTypes.shape({})).isRequired }
 
 export default Leaderbord
+
