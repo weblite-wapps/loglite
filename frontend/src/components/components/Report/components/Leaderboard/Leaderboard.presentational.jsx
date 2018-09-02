@@ -6,18 +6,18 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import Badge from '@material-ui/core/Badge'
-// local modules
-import { mapCharsToColor } from 'weblite-web-list'
 // components
 import { Pickers, Buttons, BarChart } from '../../../../../helper/functions/common.helper.component'
 // helpers
+import Avatar from './Leaderboard.helper'
 import { formattedMinutes } from '../../../../../helper/functions/time.helper'
 // sccsClasses
 import scssClasses from './Leaderboard.scss'
+
+
 
 
 const Leaderbord = props => (
@@ -33,14 +33,18 @@ const Leaderbord = props => (
       {
          props.data
           .sort((personA, personB) => personA.score < personB.score)
-          .map(({ userId, username, score }) => (
+          .map(({ userId, username, score, workInProgress }) => (
             <React.Fragment key={userId}>
               <ListItem className={scssClasses.listItem}>
-                <Badge badgeContent={'On'}>
-                  <Avatar style={{ backgroundColor: mapCharsToColor(username) }}>
-                    {R.head(username)}
-                  </Avatar>
-                </Badge>
+                {console.log(workInProgress)}
+                {
+                  workInProgress ? (
+                    <Badge badgeContent={'On'}>
+                      <Avatar username={username} />
+                    </Badge>
+                  ) : <Avatar username={username} />
+                }
+                
                 <ListItemText primary={username} />
 
                 <ListItemSecondaryAction>
