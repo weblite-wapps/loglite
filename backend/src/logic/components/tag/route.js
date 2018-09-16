@@ -1,4 +1,4 @@
-s // modules
+// modules
 import * as R from "ramda"
 // components
 import app from "../../../setup/server"
