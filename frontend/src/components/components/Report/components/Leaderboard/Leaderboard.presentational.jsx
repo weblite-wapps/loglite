@@ -36,7 +36,6 @@ const Leaderbord = props => (
           .map(({ userId, username, score, workInProgress }) => (
             <React.Fragment key={userId}>
               <ListItem className={scssClasses.listItem}>
-                {console.log(workInProgress)}
                 {
                   workInProgress ? (
                     <Badge badgeContent={'On'}>
