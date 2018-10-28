@@ -1,25 +1,25 @@
 // modules
-import * as R from "ramda"
+import * as R from 'ramda'
 // components
-import app from "../../../setup/server"
+import app from '../../../setup/server'
 // db helpers
-import { fetchTags, countTags, saveTag, updateTag } from "./db"
+import { fetchTags, countTags, saveTag, updateTag } from './db'
 // const
 const logger = console.log
 
-app.get("/fetchTags", ({ query: { wis, userId } }, res) =>
+app.get('/fetchTags', ({ query: { wis, userId } }, res) =>
   fetchTags({ wis, userId })
     .then(logs => res.json(logs))
     .catch(logger),
 )
 
-app.get("/serachTags", ({ query: { wis, userId, label } }, res) =>
+app.get('/serachTags', ({ query: { wis, userId, label } }, res) =>
   fetchTags({ wis, userId, label: { $regex: `.*${label}.*` } })
     .then(tags => res.json(tags))
     .catch(logger),
 )
 
-app.post("/saveTags", ({ body: { wis, userId, tags } }, res) => {
+app.post('/saveTags', ({ body: { wis, userId, tags } }, res) => {
   const addOrUpdateTag = tag =>
     countTags({ wis, userId, label: tag }).then(
       number =>
