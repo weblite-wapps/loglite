@@ -2,7 +2,7 @@
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
 // local modules
-import { snackbarMessage } from 'weblite-web-snackbar'
+// import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest, postRequest } from '../../../../helper/functions/request.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
@@ -34,8 +34,8 @@ const effectSearchTagsEpic = action$ =>
     .debounceTime(250)
     .do(() => dispatchSetIsLoading(true))
     .switchMap(payload => getRequest('/serachTags')
-      .query({ wis: wisView(), userId: userIdView(), label: payload.queryTag })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      .query({ wis: wisView(), userId: userIdView(), label: payload.queryTag }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .do(({ body }) => dispatchFetchTagsInAdd(body))
     .ignoreElements()
@@ -45,7 +45,7 @@ const effectHandleAddTag = action$ =>
   action$.ofType(HANDLE_ADD_TAG_IN_ADD)
     .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
     .do(({ permission }) => permission && dispatchAddTagInAdd())
-    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
     .ignoreElements()
 
 
@@ -53,7 +53,7 @@ const effectHandleAddLog = action$ =>
   action$.ofType(HANDLE_ADD_LOG)
     .pluck('payload')
     .map(payload => ({ ...payload, ...checkBeforeAddLog() }))
-    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
     .do(() => dispatchSetIsLoading(true))
@@ -67,21 +67,21 @@ const effectHandleAddLog = action$ =>
           created_at: new Date(),
           userId: userIdView(),
           wis: wisView(),
-        })
-        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
+        }),
+        // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
       postRequest('/saveTags')
         .send({
           tags,
           userId: userIdView(),
           wis: wisView(),
         })
-        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
+        // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
     ]))
     .do(success => dispatchAddLog(success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeTab('Home'))
-    .do(() => snackbarMessage({ message: 'Added successfully!' }))
+    // .do(() => snackbarMessage({ message: 'Added successfully!' }))
     .do(() => dispatchResetInputs())
     .ignoreElements()
 
@@ -90,7 +90,7 @@ const effectHandleAddCustomLog = action$ =>
   action$.ofType(HANDLE_ADD_CUSTOM_LOG)
     .pluck('payload')
     .map(payload => ({ ...payload, ...checkBeforeAddCustomLog() }))
-    .do(({ message, permission }) => !permission && snackbarMessage({ message }))
+    // .do(({ message, permission }) => !permission && snackbarMessage({ message }))
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
     .do(() => dispatchSetIsLoading(true))
@@ -104,20 +104,20 @@ const effectHandleAddCustomLog = action$ =>
           created_at: new Date(),
           userId: userIdView(),
           wis: wisView(),
-        })
-        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
+        }),
+        // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
       postRequest('/saveTags')
         .send({
           tags,
           userId: userIdView(),
           wis: wisView(),
         })
-        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
+        // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
     ]))
     .do(success => dispatchAddLog(success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
-    .do(() => snackbarMessage({ message: 'Added successfully!' }))
+    // .do(() => snackbarMessage({ message: 'Added successfully!' }))
     .do(() => dispatchChangeTab('Home'))
     .do(() => dispatchResetInputs())
     .ignoreElements()

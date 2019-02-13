@@ -1,8 +1,8 @@
-.container {
+.report-container {
   margin-top: 80px;
 }
 
-.controllBar {
+.report-controllBar {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,17 +10,17 @@
   margin-bottom: 10px;
 }
 
-.text {
+.report-text {
   margin: 10px;
   text-align: center;
 }
 
-.chart {
+.report-chart {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.workList {
+.report-workList {
   overflow: scroll;
 }

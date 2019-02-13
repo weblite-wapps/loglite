@@ -1,52 +1,23 @@
 {
   "name": "loglite",
   "version": "1.0.0",
-  "scripts": {
-    "dev": "../../../tools/buildlite/src/index.js default dev",
-    "build": "../../../tools/buildlite/src/index.js default build"
-  },
-  "buildlite": {
-    "default": {
-      "entry": "./src/setup/index.jsx",
-      "outputPath": "dist",
-      "outputName": "[name].[hash].js",
-      "style": "style.[hash].css",
-      "html": {
-        "templatePath": "./public/index.html"
-      },
-      "copy": [
-        {
-          "from": "./public",
-          "to": "."
-        }
-      ]
-    },
-    "dev": {
-      "react": "dev",
-      "devServer": 8000
-    },
-    "build": {
-      "react": "build",
-      "clean": [
-        "dist"
-      ],
-      "publicPath": "https://www.weblite.me:3000/wapp/5afaaa4ed17ae32f9743a98c"
-    }
-  },
+  "private": true,
   "dependencies": {
     "@material-ui/core": "^1.3.0",
     "@material-ui/icons": "^1.1.0",
     "date-fns": "^1.29.0",
     "history": "^4.7.2",
+    "node-sass": "^4.11.0",
     "ramda": "^0.25.0",
-    "react": "^16.4.1",
+    "react": "^16.7.0",
     "react-autocomplete": "^1.7.2",
     "react-csv": "^1.0.8",
-    "react-dom": "^16.4.1",
+    "react-dom": "^16.7.0",
     "react-hot-loader": "^4.3.3",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
+    "react-scripts": "2.1.3",
     "recharts": "^1.0.0-beta.7",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
@@ -57,8 +28,19 @@
     "superagent": "^3.8.1",
     "typeface-roboto": "^0.0.45"
   },
-  "local-dependencies": [
-    "weblite-web-snackbar",
-    "weblite-web-list"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
   ]
 }

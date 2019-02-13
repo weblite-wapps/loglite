@@ -1,139 +1,164 @@
 // modules
-import React from 'react'
-import PropTypes from 'prop-types'
-import Collapse from '@material-ui/core/Collapse'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import Tooltip from '@material-ui/core/Tooltip'
+import React from "react";
+import PropTypes from "prop-types";
+import Collapse from "@material-ui/core/Collapse";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 // icons
-import ViewList from '@material-ui/icons/ViewList'
-import FileDownload from '@material-ui/icons/FileDownload'
-import InsertChart from '@material-ui/icons/InsertChart'
-import Flag from '@material-ui/icons/Flag'
+import ViewList from "@material-ui/icons/ViewList";
+import FileDownload from "@material-ui/icons/FileDownload";
+import InsertChart from "@material-ui/icons/InsertChart";
+import Flag from "@material-ui/icons/Flag";
 // components
-import Navigator from '../components/Navigator/Navigator.container.react'
-import Button from '../../../../helper/components/Button/Button.presentational'
-import ShowChart from '../components/ShowChart/ShowChart.container.react'
-import Custom from '../components/Custom/Custom.container.react'
-import WorkList from '../components/WorkList/Main/WorkList.container.react'
-import PieChart from '../components/WorkList/components/PieChart.presentational'
-import Leaderbord from '../components/Leaderboard/Leaderboard.container.react'
+import Navigator from "../components/Navigator/Navigator.container.react";
+import Button from "../../../../helper/components/Button/Button.presentational";
+import ShowChart from "../components/ShowChart/ShowChart.container.react";
+import Custom from "../components/Custom/Custom.container.react";
+import WorkList from "../components/WorkList/Main/WorkList.container.react";
+import PieChart from "../components/WorkList/components/PieChart.presentational";
+import Leaderbord from "../components/Leaderboard/Leaderboard.container.react";
 // selectors
-import { getWorksDuration, getStaffWorksDuration } from '../../../../helper/selectors/workDuration.selector'
+import {
+  getWorksDuration,
+  getStaffWorksDuration
+} from "../../../../helper/selectors/workDuration.selector";
 // helpers
-import { formattedDate } from '../../../../helper/functions/date.helper'
+import { formattedDate } from "../../../../helper/functions/date.helper";
 // styles
-import scssClasses from './Report.scss'
-
+import "./Report.scss";
 
 const IconButton = ({ expandMode, changeExpandMode, mode }) => (
   <Button
-    variant={expandMode === mode ? 'contained' : 'outlined'}
+    variant={expandMode === mode ? "contained" : "outlined"}
     onClick={() => changeExpandMode(mode)}
     componentName="Report"
   >
-    {(mode === 'workList') && <ViewList />}
-    {(mode === 'export') && <FileDownload />}
-    {(mode === 'showChart') && <InsertChart />}
-    {(mode === 'leaderboard') && <Flag />}
+    {mode === "workList" && <ViewList />}
+    {mode === "export" && <FileDownload />}
+    {mode === "showChart" && <InsertChart />}
+    {mode === "leaderboard" && <Flag />}
   </Button>
-)
+);
 
 IconButton.propTypes = {
   expandMode: PropTypes.string.isRequired,
   changeExpandMode: PropTypes.func.isRequired,
-  mode: PropTypes.string.isRequired,
-}
-
+  mode: PropTypes.string.isRequired
+};
 
 export const ControllBar = props => (
-  <div className={scssClasses.controllBar}>
-    <Navigator isActive={props.expandMode === 'workList'} />
+  <div className="report-controllBar">
+    <Navigator isActive={props.expandMode === "workList"} />
     <IconButton {...props} mode="workList" />
     <IconButton {...props} mode="export" />
     <IconButton {...props} mode="showChart" />
     <IconButton {...props} mode="leaderboard" />
   </div>
-)
+);
 
 ControllBar.propTypes = {
-  expandMode: PropTypes.string.isRequired,
-}
-
+  expandMode: PropTypes.string.isRequired
+};
 
 export const ExportPanel = ({ expandMode, totalDurationFromServer }) => (
-  <Collapse component="li" in={expandMode === 'export'} timeout="auto" unmountOnExit>
+  <Collapse
+    component="li"
+    in={expandMode === "export"}
+    timeout="auto"
+    unmountOnExit
+  >
     <Custom />
     <Divider light />
-    <div className={scssClasses.text}>
-      <Typography variant="subheading" >
-        {totalDurationFromServer}
-      </Typography>
+    <div className="report-text">
+      <Typography variant="subheading">{totalDurationFromServer}</Typography>
     </div>
     <Divider light />
   </Collapse>
-)
+);
 
 ExportPanel.propTypes = {
   expandMode: PropTypes.string.isRequired,
-  totalDurationFromServer: PropTypes.string.isRequired,
-}
-
+  totalDurationFromServer: PropTypes.string.isRequired
+};
 
 export const BarChartPanel = ({ expandMode }) => (
-  <Collapse component="li" in={expandMode === 'showChart'} timeout="auto" unmountOnExit>
+  <Collapse
+    component="li"
+    in={expandMode === "showChart"}
+    timeout="auto"
+    unmountOnExit
+  >
     <ShowChart />
     <Divider light />
   </Collapse>
-)
+);
 
 BarChartPanel.propTypes = {
-  expandMode: PropTypes.string.isRequired,
-}
-
+  expandMode: PropTypes.string.isRequired
+};
 
 export const LeaderboardPanel = ({ expandMode }) => (
-  <Collapse component="li" in={expandMode === 'leaderboard'} timeout="auto" unmountOnExit>
+  <Collapse
+    component="li"
+    in={expandMode === "leaderboard"}
+    timeout="auto"
+    unmountOnExit
+  >
     <Leaderbord />
     <Divider light />
   </Collapse>
-)
+);
 
 LeaderboardPanel.propTypes = {
-  expandMode: PropTypes.string.isRequired,
-}
-
+  expandMode: PropTypes.string.isRequired
+};
 
 export const WorkListPanel = ({
-  selectedUser, userId, expandMode, totalDuration, staffTotalDuration,
-  pieChartData, staffPieChartData, logs, staffLogs, currentPage,
+  selectedUser,
+  userId,
+  expandMode,
+  totalDuration,
+  staffTotalDuration,
+  pieChartData,
+  staffPieChartData,
+  logs,
+  staffLogs,
+  currentPage
 }) => {
-  const getDuration = selectedUser === userId ? getWorksDuration : getStaffWorksDuration
+  const getDuration =
+    selectedUser === userId ? getWorksDuration : getStaffWorksDuration;
 
   return (
-    <Collapse component="li" in={expandMode === 'workList'} timeout="auto" unmountOnExit>
-      <div className={scssClasses.text}>
-        <Typography variant="subheading" >
+    <Collapse
+      component="li"
+      in={expandMode === "workList"}
+      timeout="auto"
+      unmountOnExit
+    >
+      <div className="report-text">
+        <Typography variant="subheading">
           {selectedUser === userId ? totalDuration : staffTotalDuration}
         </Typography>
       </div>
       <Divider light />
 
-      <div className={scssClasses.chart}>
+      <div className="report-chart">
         <PieChart
-          pieChartData={selectedUser === userId ? pieChartData : staffPieChartData}
+          pieChartData={
+            selectedUser === userId ? pieChartData : staffPieChartData
+          }
         />
       </div>
       <Divider light />
 
-      {
-        (selectedUser === userId ? logs : staffLogs)
-          .filter(log => log.date === formattedDate(currentPage))
-          .map(log => (<WorkList key={log._id} log={log} getDuration={getDuration} />))
-      }
+      {(selectedUser === userId ? logs : staffLogs)
+        .filter(log => log.date === formattedDate(currentPage))
+        .map(log => (
+          <WorkList key={log._id} log={log} getDuration={getDuration} />
+        ))}
     </Collapse>
-  )
-}
+  );
+};
 
 WorkListPanel.propTypes = {
   userId: PropTypes.string.isRequired,
@@ -145,5 +170,5 @@ WorkListPanel.propTypes = {
   pieChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
   staffPieChartData: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedUser: PropTypes.string.isRequired,
-  expandMode: PropTypes.string.isRequired,
-}
+  expandMode: PropTypes.string.isRequired
+};

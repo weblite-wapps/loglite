@@ -1,38 +1,47 @@
 // modules
-import React from 'react'
-import PropTypes from 'prop-types'
-import startOfToday from 'date-fns/start_of_today'
-import subDays from 'date-fns/sub_days'
+import React from "react";
+import PropTypes from "prop-types";
+import startOfToday from "date-fns/start_of_today";
+import subDays from "date-fns/sub_days";
 // components
-import Autocomplete from '../components/Autocomplete/Autocomplete.presentational'
-import CustomizedButton from '../components/Button/Button.presentational'
-import TagList from '../components/TagList/TagList.presentational'
-import Picker from '../components/Picker/Picker.presentational'
-import Button from '../../helper/components/Button/Button.presentational'
-import CustomizedBarChart from '../../helper/components/BarChart/BarChart.presentational'
+import Autocomplete from "../components/Autocomplete/Autocomplete.presentational";
+import CustomizedButton from "../components/Button/Button.presentational";
+import TagList from "../components/TagList/TagList.presentational";
+import Picker from "../components/Picker/Picker.presentational";
+import Button from "../../helper/components/Button/Button.presentational";
+import CustomizedBarChart from "../../helper/components/BarChart/BarChart.presentational";
 // helpers
-import { formattedDate } from '../../helper/functions/date.helper'
+import { formattedDate } from "../../helper/functions/date.helper";
 // styles
-import scssClasses from './common.scss'
+import "./common.scss";
 
-
-export const TagPanel = (
-  { suggestions, queryTag, onQueryTagChange, tags, onTagClick, handleAddTag }) => (
-    <React.Fragment>
-      <div className={scssClasses.textField}>
-        <Autocomplete
-          label="Tags"
-          suggestions={suggestions}
-          inputValue={queryTag}
-          onInputValueChange={e => onQueryTagChange(e.target.value)}
-          onSelect={value => onQueryTagChange(value)}
-          onAdd={handleAddTag}
-        />
-        <CustomizedButton label="ADD" onClick={handleAddTag} componentName="Add" />
-      </div>
-      <TagList tags={tags} onTagClick={tag => onTagClick(tag)} />
-    </React.Fragment>
-)
+export const TagPanel = ({
+  suggestions,
+  queryTag,
+  onQueryTagChange,
+  tags,
+  onTagClick,
+  handleAddTag
+}) => (
+  <React.Fragment>
+    <div className="textField">
+      <Autocomplete
+        label="Tags"
+        suggestions={suggestions}
+        inputValue={queryTag}
+        onInputValueChange={e => onQueryTagChange(e.target.value)}
+        onSelect={value => onQueryTagChange(value)}
+        onAdd={handleAddTag}
+      />
+      <CustomizedButton
+        label="ADD"
+        onClick={handleAddTag}
+        componentName="Add"
+      />
+    </div>
+    <TagList tags={tags} onTagClick={tag => onTagClick(tag)} />
+  </React.Fragment>
+);
 
 TagPanel.propTypes = {
   queryTag: PropTypes.string.isRequired,
@@ -40,11 +49,16 @@ TagPanel.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.object).isRequired,
   onQueryTagChange: PropTypes.func.isRequired,
   onTagClick: PropTypes.func.isRequired,
-  handleAddTag: PropTypes.func.isRequired,
-}
+  handleAddTag: PropTypes.func.isRequired
+};
 
-
-export const Pickers = ({ isError, startDate, endDate, onStartDateChange, onEndDateChange }) => (
+export const Pickers = ({
+  isError,
+  startDate,
+  endDate,
+  onStartDateChange,
+  onEndDateChange
+}) => (
   <React.Fragment>
     <Picker
       label="Start date"
@@ -61,20 +75,19 @@ export const Pickers = ({ isError, startDate, endDate, onStartDateChange, onEndD
       onChange={onEndDateChange}
     />
   </React.Fragment>
-)
+);
 
 Pickers.propTypes = {
   isError: PropTypes.shape({}).isRequired,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   onStartDateChange: PropTypes.func.isRequired,
-  onEndDateChange: PropTypes.func.isRequired,
-}
-
+  onEndDateChange: PropTypes.func.isRequired
+};
 
 export const Buttons = ({ startDate, endDate, update, handleUpdate }) => (
   <React.Fragment>
-    <div className={scssClasses.insertButton}>
+    <div className="insertButton">
       <Button
         label="Insert Chart"
         componentName="Add"
@@ -82,46 +95,61 @@ export const Buttons = ({ startDate, endDate, update, handleUpdate }) => (
       />
     </div>
 
-    <div className={scssClasses.buttons}>
+    <div className="buttons">
       <Button
         label="Today"
         componentName="CustomAdd"
         onClick={() =>
-          update(formattedDate(startOfToday(new Date())), formattedDate(new Date()))}
+          update(
+            formattedDate(startOfToday(new Date())),
+            formattedDate(new Date())
+          )
+        }
       />
       <Button
         label="This Week"
         componentName="CustomAdd"
         onClick={() =>
-          update(formattedDate(subDays(new Date(), 6)), formattedDate(new Date()))}
+          update(
+            formattedDate(subDays(new Date(), 6)),
+            formattedDate(new Date())
+          )
+        }
       />
       <Button
         label="This Month"
         componentName="CustomAdd"
         onClick={() =>
-          update(formattedDate(subDays(new Date(), 29)), formattedDate(new Date()))}
+          update(
+            formattedDate(subDays(new Date(), 29)),
+            formattedDate(new Date())
+          )
+        }
       />
     </div>
   </React.Fragment>
-)
+);
 
 Buttons.propTypes = {
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
-  handleUpdate: PropTypes.func.isRequired,
-}
+  handleUpdate: PropTypes.func.isRequired
+};
 
-
-export const BarChart = ({ data, XDataKey, YDataKey }) => (
-  data.length ?
-    <div className={scssClasses.chart}>
-      <CustomizedBarChart barChartData={data} XDataKey={XDataKey} YDataKey={YDataKey} />
-    </div> : null
-)
+export const BarChart = ({ data, XDataKey, YDataKey }) =>
+  data.length ? (
+    <div className="chart">
+      <CustomizedBarChart
+        barChartData={data}
+        XDataKey={XDataKey}
+        YDataKey={YDataKey}
+      />
+    </div>
+  ) : null;
 
 BarChart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   XDataKey: PropTypes.string.isRequired,
-  YDataKey: PropTypes.string.isRequired,
-}
+  YDataKey: PropTypes.string.isRequired
+};

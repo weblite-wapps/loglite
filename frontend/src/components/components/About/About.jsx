@@ -1,12 +1,12 @@
 // modules
-import React from 'react'
-import Typography from '@material-ui/core/Typography'
-// sccsClasses
-import scssClasses from './About.scss'
+import React from "react";
+import Typography from "@material-ui/core/Typography";
+// styles
+import "./About.scss";
 
 export default () => (
-  <div className={scssClasses.container}>
-    <img alt="loglite about" src="assets/about.jpg" align="middle" />
+  <div className="about-container">
+    <img alt="loglite about" src="about.jpg" align="middle" />
     <Typography type="subheading" align="center" gutterBottom>
       Version 2.0.0
     </Typography>
@@ -14,4 +14,4 @@ export default () => (
       All right reserved
     </Typography>
   </div>
-)
+);

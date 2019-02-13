@@ -1,9 +1,11 @@
 // modules
-import React from 'react'
+import React from "react";
 // helpers
-import { TagPanel, Pickers } from '../../../../../helper/functions/common.helper.component'
-import { Buttons, CSVDownloader } from './Custom.helper.component'
-
+import {
+  TagPanel,
+  Pickers
+} from "../../../../../helper/functions/common.helper.component";
+import { Buttons, CSVDownloader } from "./Custom.helper.component";
 
 export default props => (
   <React.Fragment>
@@ -12,4 +14,4 @@ export default props => (
     <Buttons {...props} />
     <CSVDownloader {...props} />
   </React.Fragment>
-)
+);

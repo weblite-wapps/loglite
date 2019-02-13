@@ -1,7 +1,7 @@
 // modules
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-import { snackbarMessage } from 'weblite-web-snackbar'
+// import { snackbarMessage } from 'weblite-web-snackbar'
 import { push } from 'react-router-redux'
 // helpers
 import { getRequest, postRequest } from '../../helper/functions/request.helper'
@@ -33,15 +33,15 @@ import {
   dispatchHandleSaveStartTime,
 } from './App.action'
 // views
-import { wisView, userIdView, userNameView, creatorView, aboutModeView } from './App.reducer'
+import { wisView, userIdView, userNameView, aboutModeView } from './App.reducer'
 import { selectedUserView } from '../components/Report/Main/Report.reducer'
 
 
 const fetchUsersEpic = action$ =>
   action$.ofType(FETCH_ADMIN_DATA)
     .mergeMap(() => getRequest('/fetchUsers')
-      .query({ wis: wisView() })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      .query({ wis: wisView() }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(({ body }) => dispatchLoadUsersData((body)))
     .ignoreElements()
 
@@ -49,8 +49,8 @@ const fetchUsersEpic = action$ =>
 const saveUsersEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
     .mergeMap(() => postRequest('/saveUser')
-      .send({ wis: wisView(), userId: userIdView(), username: userNameView() })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      .send({ wis: wisView(), userId: userIdView(), username: userNameView() }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(({ body }) => body && dispatchLoadUsersData([body]))
     .do(() => dispatchFetchAdminData())
     .ignoreElements()
@@ -65,8 +65,8 @@ const initialFetchEpic = action$ =>
         userId: userIdView(),
         username: userNameView(),
         today: getToday(),
-      })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(({ body: { logs } }) => dispatchLoadLogsData(logs))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
@@ -91,8 +91,8 @@ const addLogToNextDayEpic = action$ =>
         created_at: new Date(),
         userId: userIdView(),
         wis: wisView(),
-      })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
     .do(({ body }) => dispatchAddLog(body))
@@ -103,11 +103,11 @@ const effectDeleteLog = action$ =>
   action$.ofType(HANDLE_DELETE_LOG)
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(action => postRequest('/deleteLog')
-      .query({ _id: action.payload._id })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      .query({ _id: action.payload._id }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .do(({ body }) => dispatchDeleteLog(body._id))
-    .do(() => snackbarMessage({ message: 'Deleted successfully !' }))
+    // .do(() => snackbarMessage({ message: 'Deleted successfully !' }))
     .do(() => dispatchChangePopoverId(''))
     .do(() => dispatchRefetchTotalDuration())
     .ignoreElements()
@@ -119,8 +119,8 @@ const effectSaveStartTime = action$ =>
     .do(() => dispatchSetIsLoading(true))
     .delay(250)
     .mergeMap(({ _id, start }) => postRequest('/saveStartTime')
-      .send({ _id, start })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      .send({ _id, start }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .do(({ body: { _id, start } }) => dispatchSaveStartTime(_id, start))
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
@@ -132,8 +132,8 @@ const effectSaveEndTime = action$ =>
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(({ runningId, end, _id, times }) => postRequest('/saveEndTime')
-      .send({ runningId, end, _id, times })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      .send({ runningId, end, _id, times }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end))
     .do(() => dispatchChangeRunningId(''))

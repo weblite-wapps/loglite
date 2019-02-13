@@ -2,9 +2,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import MuiTextField from '@material-ui/core/TextField'
-// styles
-import styles from '../../style/appStyle'
-
 
 const TextField = ({ isError, label, value, onChange }) => (
   <MuiTextField

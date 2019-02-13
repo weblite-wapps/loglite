@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Cell } from 'recharts'
 // local modules
-import { mapCharsToColor } from 'weblite-web-list'
+import { mapCharsToColor } from '../../functions/colorMap.helper'
 // helpers
 import { formattedMinutes } from '../../functions/time.helper'
 // const

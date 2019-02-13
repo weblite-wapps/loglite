@@ -1,71 +1,105 @@
 // modules
-import React from 'react'
-import PropTypes from 'prop-types'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import Divider from '@material-ui/core/Divider'
-import { isWithinRange, differenceInSeconds } from 'date-fns'
+import React from "react";
+import PropTypes from "prop-types";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import { isWithinRange, differenceInSeconds } from "date-fns";
 // helpers
-import { BriefInfo, ActionButtons, Collapse } from './TodayWork.helper.component'
-import { formatTime, sumTimes } from '../../../../../helper/functions/time.helper'
-import { previousDay, formattedDate } from '../../../../../helper/functions/date.helper'
-// css
-import scssClasses from './TodayWork.scss'
-
+import {
+  BriefInfo,
+  ActionButtons,
+  Collapse
+} from "./TodayWork.helper.component";
+import {
+  formatTime,
+  sumTimes
+} from "../../../../../helper/functions/time.helper";
+import {
+  previousDay,
+  formattedDate
+} from "../../../../../helper/functions/date.helper";
+// styles
+import "./TodayWork.scss";
 
 export default class TodayWork extends React.Component {
   constructor(props) {
-    super(props)
-    this.handleStartClick = this._handleStartClick.bind(this)
-    this.handleStopClick = this._handleStopClick.bind(this)
+    super(props);
+    this.handleStartClick = this._handleStartClick.bind(this);
+    this.handleStopClick = this._handleStopClick.bind(this);
   }
 
   componentWillMount() {
-    const { log: { _id, times }, setSecondsElapsed, countinueCounting } = this.props
-    const len = times.length
-    if (len && times[len - 1].end === 'running') {
-      setSecondsElapsed(sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start))
-      countinueCounting(_id)
+    const {
+      log: { _id, times },
+      setSecondsElapsed,
+      countinueCounting
+    } = this.props;
+    const len = times.length;
+    if (len && times[len - 1].end === "running") {
+      setSecondsElapsed(
+        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start)
+      );
+      countinueCounting(_id);
     }
   }
 
   componentDidMount() {
-    const { log: { _id, times }, changeRunningId } = this.props
-    const len = times.length
-    if (len && times[len - 1].end === 'running') changeRunningId(_id)
+    const {
+      log: { _id, times },
+      changeRunningId
+    } = this.props;
+    const len = times.length;
+    if (len && times[len - 1].end === "running") changeRunningId(_id);
   }
 
   _handleStartClick() {
-    const now = new Date()
+    const now = new Date();
     const {
-      log: { _id, times }, runningId, onStartClick, onStopClick, setSecondsElapsed,
-    } = this.props
-    if (runningId) onStopClick(runningId, now, _id, times)
+      log: { _id, times },
+      runningId,
+      onStartClick,
+      onStopClick,
+      setSecondsElapsed
+    } = this.props;
+    if (runningId) onStopClick(runningId, now, _id, times);
     else {
-      setSecondsElapsed(sumTimes(times))
-      onStartClick(_id, now)
+      setSecondsElapsed(sumTimes(times));
+      onStartClick(_id, now);
     }
   }
 
   _handleStopClick() {
-    const now = new Date()
-    const { log: { _id, times }, addLogToNextDay, onStopClick } = this.props
-    const len = times.length
-    if (isWithinRange(previousDay(formatTime('24:00:00')), times[len - 1].start, now)) {
-      addLogToNextDay(now, formattedDate(now))
-      onStopClick(_id, previousDay(formatTime('24:00:00')), null, null)
+    const now = new Date();
+    const {
+      log: { _id, times },
+      addLogToNextDay,
+      onStopClick
+    } = this.props;
+    const len = times.length;
+    if (
+      isWithinRange(
+        previousDay(formatTime("24:00:00")),
+        times[len - 1].start,
+        now
+      )
+    ) {
+      addLogToNextDay(now, formattedDate(now));
+      onStopClick(_id, previousDay(formatTime("24:00:00")), null, null);
     } else {
-      onStopClick(_id, now, null, null)
+      onStopClick(_id, now, null, null);
     }
   }
 
   render() {
-    const { log: { times } } = this.props
-    const len = times.length
+    const {
+      log: { times }
+    } = this.props;
+    const len = times.length;
 
     return (
       <React.Fragment>
-        <List dense disablePadding className={scssClasses.list}>
+        <List dense disablePadding className="list">
           <ListItem dense disableGutters>
             <BriefInfo {...this.props} />
             <ActionButtons
@@ -79,7 +113,7 @@ export default class TodayWork extends React.Component {
         </List>
         <Divider light />
       </React.Fragment>
-    )
+    );
   }
 }
 
@@ -94,5 +128,5 @@ TodayWork.propTypes = {
   addLogToNextDay: PropTypes.func.isRequired,
   changeRunningId: PropTypes.func.isRequired,
   setSecondsElapsed: PropTypes.func.isRequired,
-  countinueCounting: PropTypes.func.isRequired,
-}
+  countinueCounting: PropTypes.func.isRequired
+};

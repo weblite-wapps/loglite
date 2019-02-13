@@ -1,23 +1,19 @@
 @import "../../../../../helper/style/_color";
 
 
-.list {
+.todayWork-list {
   margin-top: 10px;
 }
 
-.time {
+.todayWork-time {
   color: $secondary-color;
 }
 
-.icon {
+.todayWork-icon {
   color: #000000;
 }
 
-.button {
-
-}
-
-.stopwatch {
+.todayWork-stopwatch {
   display: flex;
   justify-content: center;
   align-items: center;

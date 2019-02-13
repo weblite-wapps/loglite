@@ -3,7 +3,7 @@ import React from "react"
 import * as R from "ramda"
 import Avatar from "@material-ui/core/Avatar"
 // local modules
-import { mapCharsToColor } from "weblite-web-list"
+import { mapCharsToColor } from "../../../../../helper/functions/colorMap.helper"
 // views
 import { usersView } from "../../../../Main/App.reducer"
 

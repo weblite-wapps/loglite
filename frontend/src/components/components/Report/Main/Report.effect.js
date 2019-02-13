@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
 // local modules
-import { snackbarMessage } from 'weblite-web-snackbar'
+// import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest } from '../../../../helper/functions/request.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
@@ -71,13 +71,13 @@ const loadStaffDataEpic = action$ =>
         })
         .on('error', (err) => {
           if (err.status !== 304) {
-            snackbarMessage({ message: 'Server disconnected!' })
+            // snackbarMessage({ message: 'Server disconnected!' })
             dispatchRemovePage(formattedDate(currentPageView()), selectedUserView())
           }
         }),
       getRequest('/fetchTags')
         .query({ wis: wisView(), userId: selectedUserView() })
-        .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
+        // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
     ]))
     .do(() => dispatchSetIsLoading(false))
     .mergeMap(success => ([
@@ -98,8 +98,8 @@ const effectSearchTagsEpic = action$ =>
     .filter(payload => payload.queryTag.trim() !== '')
     .debounceTime(250)
     .mergeMap(payload => getRequest('/serachTags')
-      .query({ wis: wisView(), userId: selectedUserView(), label: payload.queryTag })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      .query({ wis: wisView(), userId: selectedUserView(), label: payload.queryTag }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .map(({ body }) => fetchTags(body))
 
 
@@ -113,8 +113,8 @@ const calculateTotalDurationEpic = action$ =>
         startDate: startDateView(),
         endDate: endDateView(),
         selectedTags: selectedTagsView(),
-      })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ body }) => restoreTotalDuration(body))
 
@@ -129,8 +129,8 @@ const convertJSONToCSVEpic = action$ =>
         startDate: startDateView(),
         endDate: endDateView(),
         selectedTags: selectedTagsView(),
-      })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ text }) => restoreCSV(text))
 
@@ -147,7 +147,7 @@ const fetchPreviousDayLogsDataEpic = action$ =>
         date: formattedDate(currentPageView()) })
       .on('error', (err) => {
         if (err.status !== 304) {
-          snackbarMessage({ message: 'Server disconnected!' })
+          // snackbarMessage({ message: 'Server disconnected!' })
           dispatchRemovePage(formattedDate(currentPageView()), selectedUserView())
         }
       }))
@@ -169,7 +169,7 @@ const fetchNextDayLogsDataEpic = action$ =>
         date: formattedDate(currentPageView()) })
       .on('error', (err) => {
         if (err.status !== 304) {
-          snackbarMessage({ message: 'Server disconnected!' })
+          // snackbarMessage({ message: 'Server disconnected!' })
           dispatchRemovePage(formattedDate(currentPageView()), selectedUserView())
         }
       }))
@@ -195,8 +195,8 @@ const updateChartEpic = action$ =>
         userId: selectedUserView(),
         startDate,
         endDate,
-      })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ body }) => restoreBarChartData(body))
 
@@ -210,8 +210,8 @@ const updateLeaderboardEpic = action$ =>
         wis: wisView(),
         startDate,
         endDate,
-      })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ body }) => restoreLeaderboardData(body))
 
@@ -220,7 +220,7 @@ const effectHandleAddTag = action$ =>
   action$.ofType(HANDLE_ADD_TAG)
     .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
     .do(({ permission }) => permission && dispatchAddTag())
-    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
     .ignoreElements()
 
 
@@ -229,7 +229,7 @@ const effectHandleCalculation = action$ =>
     .map(() => ({ ...checkBeforeAction() }))
     .do(({ isError }) => dispatchChangeIsError(isError))
     .do(({ permission }) => permission && dispatchCalculateTotalDuration())
-    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
     .ignoreElements()
 
 
@@ -238,7 +238,7 @@ const effectHandleExport = action$ =>
     .map(() => ({ ...checkBeforeAction() }))
     .do(({ isError }) => dispatchChangeIsError(isError))
     .do(({ permission }) => permission && dispatchConvertJSONToCSV())
-    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
     .ignoreElements()
 
 
@@ -249,7 +249,7 @@ const effectHandleUpdateChart = action$ =>
     .do(({ isError }) => dispatchChangeIsError(isError))
     .do(({ startDate, endDate, permission }) =>
       permission && dispatchUpdateChart(startDate, endDate))
-    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
     .ignoreElements()
 
 const effectHandleUpdateLeaderboard = action$ =>
@@ -259,7 +259,7 @@ const effectHandleUpdateLeaderboard = action$ =>
     .do(({ isError }) => dispatchChangeIsError(isError))
     .do(({ startDate, endDate, permission }) =>
       permission && dispatchUpdateLeaderboard(startDate, endDate))
-    .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
     .ignoreElements()
 
 

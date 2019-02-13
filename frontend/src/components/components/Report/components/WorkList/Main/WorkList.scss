@@ -1,35 +1,35 @@
 @import "../../../../../../helper/style/_color";
 
 
-.text {
+.workList-text {
   display: flex;
   justify-content: space-between;
   margin: 10px;
 }
 
-.tags {
+.workList-tags {
   display: flex;
   flex-wrap: wrap;
   margin-left: 4px;
   margin-bottom: 10px;
 }
 
-.button {
+.workList-button {
   display: flex;
   margin: 0px 5px 10px 5px;
 }
 
-.title {
+.workList-title {
   margin: 0px;
 }
 
-.duration {
+.workList-duration {
   margin: 0px;
   text-align: right;
 }
 
-.date {
-  @extend .duration;
+.workList-date {
+  @extend .workList-duration;
   color: $accent-color;
   font-size: 18px;
 }

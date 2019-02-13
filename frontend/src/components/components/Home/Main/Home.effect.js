@@ -3,7 +3,7 @@ import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import { Observable } from 'rxjs/Observable'
 // local modules
-import { snackbarMessage } from 'weblite-web-snackbar'
+// import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest } from '../../../../helper/functions/request.helper'
 import { getSecondsElapsed } from './Home.helper'
@@ -16,7 +16,6 @@ import {
   REFETCH_TOTAL_DURATION,
   COUNTINUE_COUNTING,
   CHECK_TO_SET_SECONDS_ELAPSED,
-  CHECK_TO_SET_BLUR,
   dispatchIncrementSecondsElapsed,
   dispatchLoadTotalDurations,
   dispatchSetSecondsElapsed,
@@ -34,8 +33,8 @@ const refetchTotalDurationEpic = action$ =>
         wis: wisView(),
         userId: userIdView(),
         today: getToday(),
-      })
-      .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+      }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .do(({ body }) => dispatchLoadTotalDurations(body))
     .ignoreElements()
