@@ -1,6 +1,13 @@
 // modules
 import * as R from 'ramda'
-import { setHours, setMinutes, setSeconds, differenceInSeconds } from 'date-fns'
+import {
+  getHours,
+  getMinutes,
+  setHours,
+  setMinutes,
+  setSeconds,
+  differenceInSeconds
+} from 'date-fns'
 
 
 export const formatTime = time =>
@@ -32,3 +39,5 @@ export const formattedMinutes = (minutes) => {
   }
   return minutes % 60 === 0 ? `${Math.floor(minutes / 60)}h` : `${Math.floor(minutes / 60)}h${minutes % 60}m`
 }
+
+export const getCurrentTime = time => `${getHours(time)}:${getMinutes(time)}`
