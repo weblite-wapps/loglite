@@ -218,18 +218,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var mong
 
 /***/ }),
 
-/***/ "./setup/dev.index.js":
-/*!****************************!*\
-  !*** ./setup/dev.index.js ***!
-  \****************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! http */ \"http\");\n/* harmony import */ var http__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(http__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _server__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./server */ \"./setup/server.js\");\n/* harmony import */ var _mongodb__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mongodb */ \"./setup/mongodb.js\");\n/* harmony import */ var _logic_main_route__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../logic/main/route */ \"./logic/main/route.js\");\n// modules\n // components\n\n\n\n\nhttp__WEBPACK_IMPORTED_MODULE_0___default.a.createServer(_server__WEBPACK_IMPORTED_MODULE_1__[\"default\"]).listen(3080);\n\n//# sourceURL=webpack:///./setup/dev.index.js?");
-
-/***/ }),
-
 /***/ "./setup/mongodb.js":
 /*!**************************!*\
   !*** ./setup/mongodb.js ***!
@@ -239,6 +227,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var http
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ \"mongoose\");\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);\n\nmongoose__WEBPACK_IMPORTED_MODULE_0___default.a.connect('mongodb://localhost:27017/Loglite');\nmongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Promise = Promise;\nconst db = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.connection;\ndb.on('error', console.log);\n\n//# sourceURL=webpack:///./setup/mongodb.js?");
+
+/***/ }),
+
+/***/ "./setup/prod.index.js":
+/*!*****************************!*\
+  !*** ./setup/prod.index.js ***!
+  \*****************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ \"path\");\n/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var https__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! https */ \"https\");\n/* harmony import */ var https__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(https__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! fs */ \"fs\");\n/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _server__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./server */ \"./setup/server.js\");\n/* harmony import */ var _mongodb__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mongodb */ \"./setup/mongodb.js\");\n/* harmony import */ var _logic_main_route__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../logic/main/route */ \"./logic/main/route.js\");\n// modules\n\n\n // components\n\n\n\n\nconst privateKey = fs__WEBPACK_IMPORTED_MODULE_2___default.a.readFileSync(path__WEBPACK_IMPORTED_MODULE_0___default.a.resolve('./src/certs/express.key'), 'utf8');\nconst certificate = fs__WEBPACK_IMPORTED_MODULE_2___default.a.readFileSync(path__WEBPACK_IMPORTED_MODULE_0___default.a.resolve('./src/certs/express.crt'), 'utf8');\nhttps__WEBPACK_IMPORTED_MODULE_1___default.a.createServer({\n  key: privateKey,\n  cert: certificate\n}, _server__WEBPACK_IMPORTED_MODULE_3__[\"default\"]).listen(3080);\n\n//# sourceURL=webpack:///./setup/prod.index.js?");
 
 /***/ }),
 
@@ -255,13 +255,13 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var expr
 /***/ }),
 
 /***/ 0:
-/*!**********************************!*\
-  !*** multi ./setup/dev.index.js ***!
-  \**********************************/
+/*!***********************************!*\
+  !*** multi ./setup/prod.index.js ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! ./setup/dev.index.js */\"./setup/dev.index.js\");\n\n\n//# sourceURL=webpack:///multi_./setup/dev.index.js?");
+eval("module.exports = __webpack_require__(/*! ./setup/prod.index.js */\"./setup/prod.index.js\");\n\n\n//# sourceURL=webpack:///multi_./setup/prod.index.js?");
 
 /***/ }),
 
@@ -309,14 +309,25 @@ eval("module.exports = require(\"express\");\n\n//# sourceURL=webpack:///externa
 
 /***/ }),
 
-/***/ "http":
-/*!***********************!*\
-  !*** external "http" ***!
-  \***********************/
+/***/ "fs":
+/*!*********************!*\
+  !*** external "fs" ***!
+  \*********************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = require(\"http\");\n\n//# sourceURL=webpack:///external_%22http%22?");
+eval("module.exports = require(\"fs\");\n\n//# sourceURL=webpack:///external_%22fs%22?");
+
+/***/ }),
+
+/***/ "https":
+/*!************************!*\
+  !*** external "https" ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"https\");\n\n//# sourceURL=webpack:///external_%22https%22?");
 
 /***/ }),
 
@@ -331,6 +342,18 @@ eval("module.exports = require(\"json2csv\");\n\n//# sourceURL=webpack:///extern
 
 /***/ }),
 
+/***/ "json2csv":
+/*!***************************!*\
+  !*** external "json2csv" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"json2csv\");\n\n//# sourceURL=webpack:///external_%22json2csv%22?");
+
+/***/ }),
+
+<<<<<<< HEAD
 /***/ "mongoose":
 /*!***************************!*\
   !*** external "mongoose" ***!
@@ -339,6 +362,16 @@ eval("module.exports = require(\"json2csv\");\n\n//# sourceURL=webpack:///extern
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"mongoose\");\n\n//# sourceURL=webpack:///external_%22mongoose%22?");
+=======
+/***/ "path":
+/*!***********************!*\
+  !*** external "path" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"path\");\n\n//# sourceURL=webpack:///external_%22path%22?");
+>>>>>>> 83c75b6f8f86059c84006c80230af2dc275c084d
 
 /***/ }),
 
