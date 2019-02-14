@@ -36,8 +36,8 @@ input:focus {
 }
 
 /* active state */
-input:focus~.label,
-input:valid~.label {
+input:focus~.autoComplete-label,
+input:valid~.autoComplete-label {
   top: -20px;
   font-size: 12px;
   color: $secondary-color;

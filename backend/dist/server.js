@@ -342,6 +342,18 @@ eval("module.exports = require(\"json2csv\");\n\n//# sourceURL=webpack:///extern
 
 /***/ }),
 
+/***/ "json2csv":
+/*!***************************!*\
+  !*** external "json2csv" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"json2csv\");\n\n//# sourceURL=webpack:///external_%22json2csv%22?");
+
+/***/ }),
+
+<<<<<<< HEAD
 /***/ "mongoose":
 /*!***************************!*\
   !*** external "mongoose" ***!
@@ -350,9 +362,7 @@ eval("module.exports = require(\"json2csv\");\n\n//# sourceURL=webpack:///extern
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"mongoose\");\n\n//# sourceURL=webpack:///external_%22mongoose%22?");
-
-/***/ }),
-
+=======
 /***/ "path":
 /*!***********************!*\
   !*** external "path" ***!
@@ -361,6 +371,7 @@ eval("module.exports = require(\"mongoose\");\n\n//# sourceURL=webpack:///extern
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"path\");\n\n//# sourceURL=webpack:///external_%22path%22?");
+>>>>>>> 83c75b6f8f86059c84006c80230af2dc275c084d
 
 /***/ }),
 

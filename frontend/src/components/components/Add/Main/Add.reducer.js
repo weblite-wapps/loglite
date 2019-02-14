@@ -1,7 +1,9 @@
 // modules
 import * as R from 'ramda'
 // local modules
-import { getState } from '../../../../setup/redux'
+import {
+  getState
+} from '../../../../setup/redux'
 // actions
 import {
   CHANGE_DATE,
@@ -17,19 +19,31 @@ import {
   TOGGLE_EXPANDED,
   CHANGE_IS_ERROR_IN_ADD,
 } from './Add.action'
+// helpers
+import {
+  formattedDate,
+} from '../../../../helper/functions/date.helper'
+import {
+  getCurrentTime
+} from '../../../../helper/functions/time.helper'
 
-// state
+// state 
 const initialState = {
   expanded: false,
   title: '',
   queryTag: '',
   suggestions: [],
-  date: '',
-  startTime: '',
-  endTime: '',
+  date: formattedDate(new Date()),
+  startTime: getCurrentTime(new Date()),
+  endTime: getCurrentTime(new Date()),
   selectedTags: [],
   tags: [],
-  isError: { title: false, date: false, startTime: false, endTime: false },
+  isError: {
+    title: false,
+    date: false,
+    startTime: false,
+    endTime: false
+  },
 }
 
 
@@ -55,42 +69,64 @@ export const isErrorView = () => R.path(['Add', 'isError'])(getState())
 
 // reducers
 const reducers = {
-  [CHANGE_DATE]: (state, { value }) => R.set(dateLens, value, state),
+  [CHANGE_DATE]: (state, {
+    value
+  }) => R.set(dateLens, value, state),
 
-  [CHANGE_START_TIME]: (state, { value }) => R.set(startTimeLens, value, state),
+  [CHANGE_START_TIME]: (state, {
+    value
+  }) => R.set(startTimeLens, value, state),
 
-  [CHANGE_END_TIME]: (state, { value }) => R.set(endTimeLens, value, state),
+  [CHANGE_END_TIME]: (state, {
+    value
+  }) => R.set(endTimeLens, value, state),
 
-  [LOAD_TAGS_DATA_IN_ADD]: (state, { tags }) => ({ ...state,
+  [LOAD_TAGS_DATA_IN_ADD]: (state, {
+    tags
+  }) => ({
+    ...state,
     tags: R.map(tag => R.assoc('isSelected', false, tag), tags),
   }),
 
-  [CHANGE_TITLE]: (state, { value }) => R.set(titleLens, value, state),
+  [CHANGE_TITLE]: (state, {
+    value
+  }) => R.set(titleLens, value, state),
 
-  [SET_QUERY_IN_ADD]: (state, { queryTag }) => R.set(queryTagLens, queryTag)(state),
+  [SET_QUERY_IN_ADD]: (state, {
+    queryTag
+  }) => R.set(queryTagLens, queryTag)(state),
 
-  [FETCH_TAGS_IN_ADD]: (state, { tags }) => R.set(suggestionsLens, tags, state),
+  [FETCH_TAGS_IN_ADD]: (state, {
+    tags
+  }) => R.set(suggestionsLens, tags, state),
 
-  [ADD_TAG_IN_ADD]: state => ({ ...state,
+  [ADD_TAG_IN_ADD]: state => ({
+    ...state,
     selectedTags: R.append(R.toLower(state.queryTag), state.selectedTags),
-    tags: R.append(
-      { label: R.toLower(state.queryTag),
+    tags: R.append({
+        label: R.toLower(state.queryTag),
         _id: state.tags.length,
-        isSelected: true },
+        isSelected: true
+      },
       state.tags),
     queryTag: '',
   }),
 
-  [CHANGE_SELECTED_TAGS_IN_ADD]: (state, { tag }) => ({ ...state,
+  [CHANGE_SELECTED_TAGS_IN_ADD]: (state, {
+    tag
+  }) => ({
+    ...state,
     selectedTags: tag.isSelected ?
-      R.remove(R.indexOf(tag.label, state.selectedTags), 1, state.selectedTags) :
-      R.append(tag.label, state.selectedTags),
-    tags: R.map(eachTag => (eachTag._id === tag._id) ?
-      { ...eachTag, isSelected: !eachTag.isSelected } : eachTag, state.tags),
+      R.remove(R.indexOf(tag.label, state.selectedTags), 1, state.selectedTags) : R.append(tag.label, state.selectedTags),
+    tags: R.map(eachTag => (eachTag._id === tag._id) ? {
+      ...eachTag,
+      isSelected: !eachTag.isSelected
+    } : eachTag, state.tags),
   }),
 
   [RESET_INPUTS]: state =>
-    ({ ...state,
+    ({
+      ...state,
       startTime: '',
       endTime: '',
       date: '',
@@ -101,9 +137,14 @@ const reducers = {
 
   [TOGGLE_EXPANDED]: state => R.set(expandedLens, !state.expanded, state),
 
-  [CHANGE_IS_ERROR_IN_ADD]: (state, { value }) => R.set(isErrorLens, value, state),
+  [CHANGE_IS_ERROR_IN_ADD]: (state, {
+    value
+  }) => R.set(isErrorLens, value, state),
 }
 
 
-export default (state = initialState, { type, payload }) =>
-  reducers[type] ? reducers[type](state, payload) : state
+export default (state = initialState, {
+  type,
+  payload
+}) =>
+reducers[type] ? reducers[type](state, payload) : state
