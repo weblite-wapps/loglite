@@ -4,8 +4,10 @@ import Tag from '../../../models/tag'
 
 export const fetchTags = async query => Tag
   .find(query)
-  .sort({ number: -1 })
-  .limit(5)
+  .sort({
+    number: -1
+  })
+  .limit(10)
   .exec()
 
 export const countTags = async query => Tag
