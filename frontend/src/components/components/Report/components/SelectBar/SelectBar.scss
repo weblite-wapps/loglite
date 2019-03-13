@@ -1,4 +1,8 @@
+@import '../../../../../helper/style/mixin.scss';
+
+
 .selectBar-textField {
+  @include no-select;
   display: flex;
   justify-content: center;
   margin: 0px 25px 0px 40px;

@@ -5,6 +5,7 @@ import MuiTextField from '@material-ui/core/TextField'
 
 const TextField = ({ isError, label, value, onChange }) => (
   <MuiTextField
+    style={{ userSelect: 'none' }}
     label={label}
     value={value}
     onChange={onChange}

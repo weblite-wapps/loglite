@@ -1,7 +1,8 @@
 @import "../../../../../../helper/style/_color";
-
+@import '../../../../../../helper/style/mixin.scss';
 
 .workList-text {
+  @include no-select;
   display: flex;
   justify-content: space-between;
   margin: 10px;

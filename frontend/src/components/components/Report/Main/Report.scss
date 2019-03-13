@@ -1,3 +1,6 @@
+@import '../../../../helper/style/mixin.scss';
+
+
 .report-container {
   margin-top: 80px;
 }
@@ -11,6 +14,7 @@
 }
 
 .report-text {
+  @include no-select;
   margin: 10px;
   text-align: center;
 }

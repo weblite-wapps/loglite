@@ -5,6 +5,7 @@ export default theme => ({
     margin: '10px',
     display: 'flex',
     flexWrap: 'wrap',
+    userSelect: 'none',
   },
   textField: {
     marginLeft: theme.spacing.unit,
