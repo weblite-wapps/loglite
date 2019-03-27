@@ -127,9 +127,9 @@ const reducers = {
   [RESET_INPUTS]: state =>
     ({
       ...state,
-      startTime: '',
-      endTime: '',
-      date: '',
+      date: formattedDate(new Date()),
+      startTime: getCurrentTime(new Date()),
+      endTime: getCurrentTime(new Date()),
       title: '',
       selectedTags: [],
       queryTag: '',
