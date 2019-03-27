@@ -22,6 +22,7 @@ input:focus {
 
 /* LABEL ======================================= */
 .autoComplete-label {
+  user-select: none;
   font-weight: normal;
   position: absolute;
   pointer-events: none;

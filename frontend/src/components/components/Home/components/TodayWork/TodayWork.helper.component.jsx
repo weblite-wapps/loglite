@@ -18,7 +18,7 @@ import "./TodayWork.scss";
 export const BriefInfo = ({ runningId, log: { _id, title }, workDuration }) => (
   <Typography variant="body2">
     {formattedName(title) === title ? (
-      <span>{formattedName(title)}</span>
+      <span className="todayWork-title">{formattedName(title)}</span>
     ) : (
         <Tooltip
           title={title}
@@ -26,9 +26,9 @@ export const BriefInfo = ({ runningId, log: { _id, title }, workDuration }) => (
           enterDelay={300}
           leaveDelay={300}
         >
-          <span>{formattedName(title)}</span>
+          <span className="todayWork-title">{formattedName(title)}</span>
         </Tooltip>
-      )}
+      )} 
     <span className="todayWork-time">
       &nbsp;| {runningId === _id ? "Running..." : workDuration}
     </span>
