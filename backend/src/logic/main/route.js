@@ -17,7 +17,7 @@ const logger = console.log
 app.get('/initialFetch', ({ query }, res) =>
   Promise.all([
     fetchLogs({ ...defaultQueryGenerator(query),
-      $and: [{ date: { $gte: getYesterday(query.today) } }, { date: { $lte: query.today } }],
+      $and: [{ date: { $gte: getSixDaysAgo(query.today) } }, { date: { $lte: query.today } }],
     }),
     fetchTags({ ...defaultQueryGenerator(query) }),
     fetchLogs({ ...defaultQueryGenerator(query), date: query.today }),
