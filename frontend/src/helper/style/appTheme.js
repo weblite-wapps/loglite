@@ -35,8 +35,8 @@ export default createMuiTheme({
         width: "165px",
       },
     },
-    MuiButton: {
-      fab: {
+    MuiFab: {
+      root: {
         backgroundColor: primary_color,
         color: "white",
         height: "60px",

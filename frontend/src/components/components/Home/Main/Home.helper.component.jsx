@@ -1,7 +1,7 @@
 // modules
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
+import Fab from '@material-ui/core/Fab';
 import Tooltip from "@material-ui/core/Tooltip";
 // icons
 import FlashOnIcon from "@material-ui/icons/FlashOn";
@@ -32,9 +32,9 @@ export const FabButton = ({ onClick }) => (
       enterDelay={50}
       leaveDelay={150}
     >
-      <Button variant="fab" onClick={onClick}>
+      <Fab onClick={onClick}>
         <FlashOnIcon />
-      </Button>
+      </Fab>
     </Tooltip>
   </div>
 );

@@ -11,9 +11,9 @@ const CustomizedButton = (props) => {
   const { componentName, label, variant, classes, ...otherProps } = props
   return (
     <Button
-      {...otherProps}
+      {...otherProps} 
       variant={variant}
-      classes={{ root: classes[componentName], raised: classes[`${componentName}Raised`] }}
+      classes={{ root: classes[componentName], contained: classes[`${componentName}Raised`] }}
     >
       {props.children}
       {label}

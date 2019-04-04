@@ -72,7 +72,7 @@ class WorkList extends React.Component {
                 ref={node => { 
                   this.button = node;
                 }}
-                variant="raised"
+                variant="contained"
                 onClick={this.handleOpenPopover}
                 classes={{ raised: classes.WorkList }}
               >
@@ -87,7 +87,7 @@ class WorkList extends React.Component {
                 onNop={() => changePopoverId("")}
               />
               <MuiButton
-                variant="raised"
+                variant="contained"
                 // onClick={this.handleOpenPopover}
                 classes={{ raised: classes.WorkList }}
               >

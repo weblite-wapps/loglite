@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 // icons
 import ViewList from "@material-ui/icons/ViewList";
-import FileDownload from "@material-ui/icons/FileDownload";
+import ImportExport from "@material-ui/icons/ImportExport";
 import InsertChart from "@material-ui/icons/InsertChart";
 import Flag from "@material-ui/icons/Flag";
 // components
@@ -34,7 +34,7 @@ const IconButton = ({ expandMode, changeExpandMode, mode }) => (
     componentName="Report"
   >
     {mode === "workList" && <ViewList />}
-    {mode === "export" && <FileDownload />}
+    {mode === "export" && <ImportExport />}
     {mode === "showChart" && <InsertChart />}
     {mode === "leaderboard" && <Flag />}
   </Button>
