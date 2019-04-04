@@ -2,7 +2,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
+import Tooltip from "@material-ui/core/Tooltip";
+// icons
+import FlashOnIcon from "@material-ui/icons/FlashOn";
 // components
 import TodayWork from "../components/TodayWork/TodayWork.container.react";
 // helpers
@@ -24,9 +26,16 @@ TodayWorkList.propTypes = {
 
 export const FabButton = ({ onClick }) => (
   <div className="home-button">
-    <Button variant="fab" onClick={onClick}>
-      <AddIcon />
-    </Button>
+    <Tooltip
+      title="Quick add"
+      placement="left"
+      enterDelay={50}
+      leaveDelay={150}
+    >
+      <Button variant="fab" onClick={onClick}>
+        <FlashOnIcon />
+      </Button>
+    </Tooltip>
   </div>
 );
 

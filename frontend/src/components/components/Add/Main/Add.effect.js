@@ -52,7 +52,7 @@ const effectHandleAddTag = action$ =>
 const effectHandleAddLog = action$ =>
   action$.ofType(HANDLE_ADD_LOG)
     .pluck('payload')
-    .map(payload => ({ ...payload, ...checkBeforeAddLog() }))
+    .map(payload => ({ ...payload, ...checkBeforeAddLog(payload) }))
     // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)

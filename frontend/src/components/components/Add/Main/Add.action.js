@@ -59,7 +59,7 @@ export const handleAddTagInAdd = createAction(HANDLE_ADD_TAG_IN_ADD)
 export const dispatchHandleAddTagInAdd = (...args) => dispatch(handleAddTagInAdd(...args))
 
 export const HANDLE_ADD_LOG = 'HANDLE_ADD_LOG'
-export const handleAddLog = createAction(HANDLE_ADD_LOG, (title, tags) => ({ title, tags }))
+export const handleAddLog = createAction(HANDLE_ADD_LOG, (title, tags, quickMode) => ({ title, tags, quickMode }))
 export const dispatchHandleAddLog = (...args) => dispatch(handleAddLog(...args))
 
 export const HANDLE_ADD_CUSTOM_LOG = 'HANDLE_ADD_CUSTOM_LOG'

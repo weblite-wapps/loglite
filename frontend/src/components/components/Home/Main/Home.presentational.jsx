@@ -9,18 +9,18 @@ import { TodayWorkList, FabButton } from "./Home.helper.component";
 // styles
 import "./Home.scss";
 
-const Home = ({ logs, changeTab }) => (
+const Home = ({ logs, onAdd }) => (
   <div className="home-normal">
     <Summary />
     <Divider />
     <TodayWorkList logs={logs} />
-    <FabButton onClick={() => changeTab("Add")} />
+    <FabButton onClick={() => onAdd('work', ['work'], true)} />
   </div>
 );
 
 Home.propTypes = {
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
-  changeTab: PropTypes.func.isRequired
+  onAdd: PropTypes.func.isRequired
 };
 
 export default Home;
