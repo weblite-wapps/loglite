@@ -178,7 +178,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var ramda__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ramda */ \"ramda\");\n/* harmony import */ var ramda__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(ramda__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _setup_server__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../setup/server */ \"./setup/server.js\");\n/* harmony import */ var _components_user_route__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/user/route */ \"./logic/components/user/route.js\");\n/* harmony import */ var _components_log_route__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/log/route */ \"./logic/components/log/route.js\");\n/* harmony import */ var _components_tag_route__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/tag/route */ \"./logic/components/tag/route.js\");\n/* harmony import */ var _components_log_db__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/log/db */ \"./logic/components/log/db.js\");\n/* harmony import */ var _components_tag_db__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/tag/db */ \"./logic/components/tag/db.js\");\n/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./helper */ \"./logic/main/helper.js\");\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n// modules\n // components\n\n\n\n\n // db helpers\n\n\n // helpers\n\n // const\n\nconst logger = console.log;\n_setup_server__WEBPACK_IMPORTED_MODULE_1__[\"default\"].get('/initialFetch', ({\n  query\n}, res) => Promise.all([Object(_components_log_db__WEBPACK_IMPORTED_MODULE_5__[\"fetchLogs\"])(_objectSpread({}, Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"defaultQueryGenerator\"])(query), {\n  $and: [{\n    date: {\n      $gte: getSixDaysAgo(query.today)\n    }\n  }, {\n    date: {\n      $lte: query.today\n    }\n  }]\n})), Object(_components_tag_db__WEBPACK_IMPORTED_MODULE_6__[\"fetchTags\"])(_objectSpread({}, Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"defaultQueryGenerator\"])(query))), Object(_components_log_db__WEBPACK_IMPORTED_MODULE_5__[\"fetchLogs\"])(_objectSpread({}, Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"defaultQueryGenerator\"])(query), {\n  date: query.today\n})), Object(_components_log_db__WEBPACK_IMPORTED_MODULE_5__[\"fetchLogs\"])(_objectSpread({}, Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"defaultQueryGenerator\"])(query), {\n  $and: [{\n    date: {\n      $gte: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"getStartDayOfWeek\"])(query.today)\n    }\n  }, {\n    date: {\n      $lte: query.today\n    }\n  }]\n})), Object(_components_log_db__WEBPACK_IMPORTED_MODULE_5__[\"fetchLogs\"])(_objectSpread({}, Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"defaultQueryGenerator\"])(query), {\n  $and: [{\n    date: {\n      $gte: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"getStartDayOfMonth\"])(query.today)\n    }\n  }, {\n    date: {\n      $lte: query.today\n    }\n  }]\n})), Object(_components_log_db__WEBPACK_IMPORTED_MODULE_5__[\"fetchLogs\"])({\n  wis: query.wis,\n  date: query.today\n})]).then(success => res.json({\n  logs: success[0],\n  tags: success[1],\n  totalDurations: {\n    today: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"formattedSeconds\"])(Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"sumLogs\"])(success[2]), 'Home'),\n    thisWeek: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"formattedSeconds\"])(Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"sumLogs\"])(success[3]), 'Home'),\n    thisMonth: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"formattedSeconds\"])(Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"sumLogs\"])(success[4]), 'Home')\n  },\n  leaderboard: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"getLeaderboardData\"])(success[5])\n})).catch(logger));\n\n//# sourceURL=webpack:///./logic/main/route.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var ramda__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ramda */ \"ramda\");\n/* harmony import */ var ramda__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(ramda__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _setup_server__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../setup/server */ \"./setup/server.js\");\n/* harmony import */ var _components_user_route__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/user/route */ \"./logic/components/user/route.js\");\n/* harmony import */ var _components_log_route__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/log/route */ \"./logic/components/log/route.js\");\n/* harmony import */ var _components_tag_route__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/tag/route */ \"./logic/components/tag/route.js\");\n/* harmony import */ var _components_log_db__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/log/db */ \"./logic/components/log/db.js\");\n/* harmony import */ var _components_tag_db__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/tag/db */ \"./logic/components/tag/db.js\");\n/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./helper */ \"./logic/main/helper.js\");\nfunction _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n// modules\n // components\n\n\n\n\n // db helpers\n\n\n // helpers\n\n // const\n\nconst logger = console.log;\n_setup_server__WEBPACK_IMPORTED_MODULE_1__[\"default\"].get('/initialFetch', ({\n  query\n}, res) => Promise.all([Object(_components_log_db__WEBPACK_IMPORTED_MODULE_5__[\"fetchLogs\"])(_objectSpread({}, Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"defaultQueryGenerator\"])(query), {\n  $and: [{\n    date: {\n      $gte: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"getSixDaysAgo\"])(query.today)\n    }\n  }, {\n    date: {\n      $lte: query.today\n    }\n  }]\n})), Object(_components_tag_db__WEBPACK_IMPORTED_MODULE_6__[\"fetchTags\"])(_objectSpread({}, Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"defaultQueryGenerator\"])(query))), Object(_components_log_db__WEBPACK_IMPORTED_MODULE_5__[\"fetchLogs\"])(_objectSpread({}, Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"defaultQueryGenerator\"])(query), {\n  date: query.today\n})), Object(_components_log_db__WEBPACK_IMPORTED_MODULE_5__[\"fetchLogs\"])(_objectSpread({}, Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"defaultQueryGenerator\"])(query), {\n  $and: [{\n    date: {\n      $gte: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"getStartDayOfWeek\"])(query.today)\n    }\n  }, {\n    date: {\n      $lte: query.today\n    }\n  }]\n})), Object(_components_log_db__WEBPACK_IMPORTED_MODULE_5__[\"fetchLogs\"])(_objectSpread({}, Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"defaultQueryGenerator\"])(query), {\n  $and: [{\n    date: {\n      $gte: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"getStartDayOfMonth\"])(query.today)\n    }\n  }, {\n    date: {\n      $lte: query.today\n    }\n  }]\n})), Object(_components_log_db__WEBPACK_IMPORTED_MODULE_5__[\"fetchLogs\"])({\n  wis: query.wis,\n  date: query.today\n})]).then(success => res.json({\n  logs: success[0],\n  tags: success[1],\n  totalDurations: {\n    today: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"formattedSeconds\"])(Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"sumLogs\"])(success[2]), 'Home'),\n    thisWeek: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"formattedSeconds\"])(Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"sumLogs\"])(success[3]), 'Home'),\n    thisMonth: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"formattedSeconds\"])(Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"sumLogs\"])(success[4]), 'Home')\n  },\n  leaderboard: Object(_helper__WEBPACK_IMPORTED_MODULE_7__[\"getLeaderboardData\"])(success[5])\n})).catch(logger));\n\n//# sourceURL=webpack:///./logic/main/route.js?");
 
 /***/ }),
 
@@ -218,6 +218,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var mong
 
 /***/ }),
 
+/***/ "./setup/dev.index.js":
+/*!****************************!*\
+  !*** ./setup/dev.index.js ***!
+  \****************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! http */ \"http\");\n/* harmony import */ var http__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(http__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _server__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./server */ \"./setup/server.js\");\n/* harmony import */ var _mongodb__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mongodb */ \"./setup/mongodb.js\");\n/* harmony import */ var _logic_main_route__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../logic/main/route */ \"./logic/main/route.js\");\n// modules\n // components\n\n\n\n\nhttp__WEBPACK_IMPORTED_MODULE_0___default.a.createServer(_server__WEBPACK_IMPORTED_MODULE_1__[\"default\"]).listen(3080);\n\n//# sourceURL=webpack:///./setup/dev.index.js?");
+
+/***/ }),
+
 /***/ "./setup/mongodb.js":
 /*!**************************!*\
   !*** ./setup/mongodb.js ***!
@@ -227,18 +239,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var mong
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ \"mongoose\");\n/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);\n\nmongoose__WEBPACK_IMPORTED_MODULE_0___default.a.connect('mongodb://localhost:27017/Loglite');\nmongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Promise = Promise;\nconst db = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.connection;\ndb.on('error', console.log);\n\n//# sourceURL=webpack:///./setup/mongodb.js?");
-
-/***/ }),
-
-/***/ "./setup/prod.index.js":
-/*!*****************************!*\
-  !*** ./setup/prod.index.js ***!
-  \*****************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ \"path\");\n/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var https__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! https */ \"https\");\n/* harmony import */ var https__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(https__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! fs */ \"fs\");\n/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _server__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./server */ \"./setup/server.js\");\n/* harmony import */ var _mongodb__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mongodb */ \"./setup/mongodb.js\");\n/* harmony import */ var _logic_main_route__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../logic/main/route */ \"./logic/main/route.js\");\n// modules\n\n\n // components\n\n\n\n\nconst privateKey = fs__WEBPACK_IMPORTED_MODULE_2___default.a.readFileSync(path__WEBPACK_IMPORTED_MODULE_0___default.a.resolve('./src/certs/express.key'), 'utf8');\nconst certificate = fs__WEBPACK_IMPORTED_MODULE_2___default.a.readFileSync(path__WEBPACK_IMPORTED_MODULE_0___default.a.resolve('./src/certs/express.crt'), 'utf8');\nhttps__WEBPACK_IMPORTED_MODULE_1___default.a.createServer({\n  key: privateKey,\n  cert: certificate\n}, _server__WEBPACK_IMPORTED_MODULE_3__[\"default\"]).listen(3080);\n\n//# sourceURL=webpack:///./setup/prod.index.js?");
 
 /***/ }),
 
@@ -255,13 +255,13 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var expr
 /***/ }),
 
 /***/ 0:
-/*!***********************************!*\
-  !*** multi ./setup/prod.index.js ***!
-  \***********************************/
+/*!**********************************!*\
+  !*** multi ./setup/dev.index.js ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! ./setup/prod.index.js */\"./setup/prod.index.js\");\n\n\n//# sourceURL=webpack:///multi_./setup/prod.index.js?");
+eval("module.exports = __webpack_require__(/*! ./setup/dev.index.js */\"./setup/dev.index.js\");\n\n\n//# sourceURL=webpack:///multi_./setup/dev.index.js?");
 
 /***/ }),
 
@@ -309,25 +309,14 @@ eval("module.exports = require(\"express\");\n\n//# sourceURL=webpack:///externa
 
 /***/ }),
 
-/***/ "fs":
-/*!*********************!*\
-  !*** external "fs" ***!
-  \*********************/
+/***/ "http":
+/*!***********************!*\
+  !*** external "http" ***!
+  \***********************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = require(\"fs\");\n\n//# sourceURL=webpack:///external_%22fs%22?");
-
-/***/ }),
-
-/***/ "https":
-/*!************************!*\
-  !*** external "https" ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = require(\"https\");\n\n//# sourceURL=webpack:///external_%22https%22?");
+eval("module.exports = require(\"http\");\n\n//# sourceURL=webpack:///external_%22http%22?");
 
 /***/ }),
 
@@ -350,17 +339,6 @@ eval("module.exports = require(\"json2csv\");\n\n//# sourceURL=webpack:///extern
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"mongoose\");\n\n//# sourceURL=webpack:///external_%22mongoose%22?");
-
-/***/ }),
-
-/***/ "path":
-/*!***********************!*\
-  !*** external "path" ***!
-  \***********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = require(\"path\");\n\n//# sourceURL=webpack:///external_%22path%22?");
 
 /***/ }),
 

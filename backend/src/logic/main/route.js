@@ -9,7 +9,7 @@ import '../components/tag/route'
 import { fetchLogs } from '../components/log/db'
 import { fetchTags } from '../components/tag/db'
 // helpers
-import { sumLogs, formattedSeconds, getYesterday, getStartDayOfWeek, getStartDayOfMonth, defaultQueryGenerator, getLeaderboardData } from './helper'
+import { sumLogs, formattedSeconds, getSixDaysAgo, getStartDayOfWeek, getStartDayOfMonth, defaultQueryGenerator, getLeaderboardData } from './helper'
 // const
 const logger = console.log
 
