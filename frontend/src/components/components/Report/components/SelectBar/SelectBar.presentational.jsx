@@ -13,7 +13,7 @@ const SelectBar = ({
   changeSelectedUser,
   classes
 }) => (
-    <div>
+    <div className="selectBar-container">
       {creator ? (
         <div className="selectBar-textField">
           <MuiTextField
