@@ -8,12 +8,11 @@ import styles from './Button.style'
 
 
 const CustomizedButton = (props) => {
-  const { componentName, label, disabled, variant, onClick, classes } = props
+  const { componentName, label, variant, classes, ...otherProps } = props
   return (
     <Button
-      disabled={disabled}
+      {...otherProps}
       variant={variant}
-      onClick={onClick}
       classes={{ root: classes[componentName], raised: classes[`${componentName}Raised`] }}
     >
       {props.children}
@@ -32,8 +31,6 @@ CustomizedButton.propTypes = {
   componentName: PropTypes.string,
   label: PropTypes.string,
   variant: PropTypes.string,
-  disabled: PropTypes.bool,
-  onClick: PropTypes.func,
 }
 
 CustomizedButton.defaultProps = {
@@ -41,8 +38,6 @@ CustomizedButton.defaultProps = {
   children: null,
   label: null,
   variant: 'contained',
-  disabled: false,
-  onClick: () => {},
 }
 
 export default withStyles(styles)(CustomizedButton)

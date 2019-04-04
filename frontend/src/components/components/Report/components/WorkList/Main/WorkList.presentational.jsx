@@ -5,10 +5,10 @@ import { findDOMNode } from "react-dom";
 import { withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
-import Button from "@material-ui/core/Button";
+import MuiButton from "@material-ui/core/Button";
 import { differenceInSeconds } from "date-fns";
 // components
-import Popover from "../components/Popover.presentational";
+import Popover from "../components/Popover.presentational"; 
 // helpers
 import { TitleAndDuration, Tags } from "./WorkList.helper.component";
 import { sumTimes } from "../../../../../../helper/functions/time.helper";
@@ -26,7 +26,7 @@ class WorkList extends React.Component {
     const {
       log: { _id, times },
       setSecondsElapsed,
-      countinueCounting
+      countinueCounting,
     } = this.props;
     const len = times.length;
 
@@ -68,8 +68,8 @@ class WorkList extends React.Component {
           <Tags {...this.props} />
           {selectedUser === userId && (
             <div className="workList-button">
-              <Button
-                ref={node => {
+              <MuiButton
+                ref={node => { 
                   this.button = node;
                 }}
                 variant="raised"
@@ -77,7 +77,7 @@ class WorkList extends React.Component {
                 classes={{ raised: classes.WorkList }}
               >
                 Delete
-              </Button>
+              </MuiButton>
               <Popover
                 popoverIsOpen={_id === popoverId}
                 anchorEl={anchorEl}
@@ -86,6 +86,13 @@ class WorkList extends React.Component {
                 onYep={handleDeleteLog}
                 onNop={() => changePopoverId("")}
               />
+              <MuiButton
+                variant="raised"
+                // onClick={this.handleOpenPopover}
+                classes={{ raised: classes.WorkList }}
+              >
+                Edit
+              </MuiButton>
             </div>
           )}
         </List>

@@ -26,7 +26,7 @@ const getObject = (trueOption, message, permission) => {
 }
 
 
-export const checkBeforeAddLog = quickMode => {
+export const checkBeforeAddLog = (quickMode = false) => {
   if (quickMode || titleView()) {
     return getObject('', 'Added successfully!', true)
   }
