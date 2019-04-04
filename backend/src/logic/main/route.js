@@ -9,7 +9,7 @@ import '../components/tag/route'
 import { fetchLogs } from '../components/log/db'
 import { fetchTags } from '../components/tag/db'
 // helpers
-import { sumLogs, formattedSeconds, getYesterday, getStartDayOfWeek, getStartDayOfMonth, defaultQueryGenerator, getLeaderboardData } from './helper'
+import { sumLogs, formattedSeconds, getSixDaysAgo, getStartDayOfWeek, getStartDayOfMonth, defaultQueryGenerator, getLeaderboardData } from './helper'
 // const
 const logger = console.log
 
@@ -17,7 +17,7 @@ const logger = console.log
 app.get('/initialFetch', ({ query }, res) =>
   Promise.all([
     fetchLogs({ ...defaultQueryGenerator(query),
-      $and: [{ date: { $gte: getYesterday(query.today) } }, { date: { $lte: query.today } }],
+      $and: [{ date: { $gte: getSixDaysAgo(query.today) } }, { date: { $lte: query.today } }],
     }),
     fetchTags({ ...defaultQueryGenerator(query) }),
     fetchLogs({ ...defaultQueryGenerator(query), date: query.today }),
