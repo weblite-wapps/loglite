@@ -35,8 +35,8 @@ export default createMuiTheme({
         width: "165px",
       },
     },
-    MuiButton: {
-      fab: {
+    MuiFab: {
+      root: {
         backgroundColor: primary_color,
         color: "white",
         height: "60px",
@@ -47,6 +47,7 @@ export default createMuiTheme({
       root: {
         height: "30px",
         width: "30px",
+        padding: "0",
       },
     },
     MuiTab: {
@@ -92,8 +93,6 @@ export default createMuiTheme({
     },
     MuiBadge: {
       badge: {
-        top: "-10px",
-        left: "-10px",
         backgroundColor: "#a3cb38",
         color: "#3d3d3d",
       },

@@ -5,6 +5,14 @@
   margin-top: 80px;
 }
 
+.report-dashboard {
+  position: fixed;
+  top: 0px;
+  background: white;
+  width: 100%;
+  z-index: 5;
+}
+
 .report-controllBar {
   display: flex;
   justify-content: center;

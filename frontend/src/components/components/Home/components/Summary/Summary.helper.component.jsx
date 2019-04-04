@@ -11,7 +11,7 @@ import "./Summary.scss";
 
 const IconButton = ({ name, direction, changeTextSlider, classes }) => (
   <Button
-    disabled={direction === "Back" ? name === "Todays" : name === "This Month"}
+    disabled={direction === "Back" ? name === "Today" : name === "This Month"}
     onClick={() => changeTextSlider(direction)}
     componentName="Summary"
   >

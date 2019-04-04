@@ -76,7 +76,7 @@ export const Collapse = ({ runningId, log: { _id }, secondsElapsed }) => (
     timeout="auto"
     unmountOnExit
   >
-    <Divider light inset />
+    <Divider light variant="inset" />
     <div className="todayWork-stopwatch">
       <Typography variant="subheading">
         {formattedSeconds(secondsElapsed)}

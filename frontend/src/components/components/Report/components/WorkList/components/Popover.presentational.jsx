@@ -35,16 +35,16 @@ const CustomizedPopover = ({
       Are you sure?
     </Typography>
     <Button
-      variant="raised"
+      variant="contained"
       onClick={onYep}
-      classes={{ raised: classes.WorkList }}
+      classes={{ contained: classes.WorkList }}
     >
       Yep
     </Button>
     <Button
-      variant="raised"
+      variant="contained"
       onClick={onNop}
-      classes={{ raised: classes.WorkList }}
+      classes={{ contained: classes.WorkList }}
     >
       Nop
     </Button>

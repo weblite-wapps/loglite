@@ -31,7 +31,7 @@ export const Tabs = ({ tabIndex, aboutMode, changeTab }) => (
     value={tabIndex}
     onChange={(event, value) => changeTab(value)}
     indicatorColor={aboutMode ? "primary" : "secondary"}
-    fullWidth
+    variant="fullWidth"
     centered
     className="Tabs"
   >

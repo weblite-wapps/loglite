@@ -19,7 +19,7 @@ export const Buttons = ({
 }) => (
     <ListItem disableGutters>
       <div className="add-buttons">
-        <Button label="Custome" onClick={onExpand} componentName="CustomAdd" />
+        <Button label="Custom" onClick={onExpand} componentName="CustomAdd" />
         <Button
           disabled={isLoading}
           label="Add"
