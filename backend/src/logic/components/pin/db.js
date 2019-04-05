@@ -13,3 +13,7 @@ export const savePin = async pin => new Pin(pin)
 export const deletePin = async query => Pin
   .remove(query)
   .exec()
+
+export const updatePins = async (query, updateObject) => Pin
+  .updateMany(query, updateObject)
+  .exec()

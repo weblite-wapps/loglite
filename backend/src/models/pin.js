@@ -8,6 +8,7 @@ const PinSchema = new Schema({
   logId: String,
   title: String,
   tags: [String],
+  lastDate: String,
   created_at: Date,
   userId: String,
   wis: String,
