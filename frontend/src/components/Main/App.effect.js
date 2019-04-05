@@ -4,6 +4,7 @@ import 'rxjs'
 // import { snackbarMessage } from 'weblite-web-snackbar'
 import { push } from 'react-router-redux'
 // helpers
+import { getUnique } from './App.helper' 
 import { getRequest, postRequest } from '../../helper/functions/request.helper'
 import { formatTime, sumTimes } from '../../helper/functions/time.helper'
 import { formattedDate, getToday, previousDay } from '../../helper/functions/date.helper'
@@ -17,6 +18,7 @@ import {
   HANDLE_DELETE_LOG,
   HANDLE_SAVE_START_TIME,
   HANDLE_SAVE_END_TIME,
+  HANDLE_TOGGLE_IS_PINNED,
   FETCH_ADMIN_DATA,
   CHANGE_TAB,
   SET_ABOUT_MODE,
@@ -30,6 +32,7 @@ import {
   dispatchChangePopoverId,
   dispatchSaveStartTime,
   dispatchSaveEndTime,
+  dispatchToggleIsPinned,
   dispatchHandleSaveStartTime,
 } from './App.action'
 // views
@@ -58,7 +61,7 @@ const saveUsersEpic = action$ =>
 
 const initialFetchEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
-    .do(() => dispatchSetIsLoading(true))
+    // .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/initialFetch')
       .query({
         wis: wisView(),
@@ -70,10 +73,20 @@ const initialFetchEpic = action$ =>
     .do(({ body: { logs } }) => dispatchLoadLogsData(logs))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
-    .do(({ body: { leaderboard } }) => dispatchRestoreLeaderboardData(leaderboard)) 
+    .do(({ body: { leaderboard } }) => dispatchRestoreLeaderboardData(leaderboard))
+    .do(({ body: { pins } }) => console.log('pins', pins, 'unique', getUnique(pins)))
+    .mergeMap(({ body: { pins } }) => postRequest('/saveLogs')
+      .send({
+        pins: getUnique(pins),
+        created_at: new Date(), 
+        userId: userIdView(),
+        wis: wisView(),
+      }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(({ body }) => dispatchLoadLogsData(body))
     .do(() => dispatchAddPage(formattedDate(previousDay(new Date())), selectedUserView()))
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
-    .do(() => dispatchSetIsLoading(false))
+    // .do(() => dispatchSetIsLoading(false))
     .do(() => window.W && window.W.start())
     .ignoreElements()
 
@@ -144,6 +157,26 @@ const effectSaveEndTime = action$ =>
     .ignoreElements()
 
 
+const effectToggleIsPinned = action$ =>
+  action$.ofType(HANDLE_TOGGLE_IS_PINNED)
+    .pluck('payload')
+    .do(() => dispatchSetIsLoading(true))
+    .mergeMap(({ _id, title, tags, value }) => postRequest('/toggleIsPinned')
+      .send({
+        _id,
+        title,
+        tags,
+        value,
+        lastDate: formattedDate(new Date()),
+        created_at: new Date(),
+        userId: userIdView(),
+        wis: wisView(),
+      }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => dispatchSetIsLoading(false))
+    .do(({ body: { _id, value } }) => dispatchToggleIsPinned(_id, value))
+    .ignoreElements()
+
 const changeTabEpic = (action$, { dispatch }) =>
   action$.ofType(CHANGE_TAB)
     .pluck('payload')
@@ -166,6 +199,7 @@ export default combineEpics(
   effectDeleteLog,
   effectSaveStartTime,
   effectSaveEndTime,
+  effectToggleIsPinned,
   changeTabEpic,
   setAboutModeEpic,
 )

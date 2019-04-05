@@ -14,6 +14,7 @@ import {
   DELETE_LOG,
   SAVE_START_TIME,
   SAVE_END_TIME,
+  TOGGLE_IS_PINNED,
   SET_ABOUT_MODE,
 } from './App.action'
 
@@ -87,6 +88,12 @@ const reducers = {
         times: R.map(time => (time.end === 'running') ?
           R.set(endLens, end, time) : time, log.times),
       } : log, state.logs),
+  }),
+
+  [TOGGLE_IS_PINNED]: (state, { _id, value }) => ({
+    ...state,
+    logs: R.map(log => (log._id === _id) ?
+      { ...log, isPinned: value } : log, state.logs),
   }),
 
   [SET_ABOUT_MODE]: (state, { value }) => R.set(aboutModeLens, value, state),

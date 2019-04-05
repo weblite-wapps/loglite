@@ -8,17 +8,12 @@ import FlashOnIcon from "@material-ui/icons/FlashOn";
 // components
 import TodayWork from "../components/TodayWork/TodayWork.container.react";
 // helpers
-import { checkIsRunning } from "./Home.helper";
-import { formattedDate } from "../../../../helper/functions/date.helper";
+import { checkToShowInHome } from "./Home.helper";
 // styles
 import "./Home.scss";
 
 export const TodayWorkList = ({ logs }) =>
-  logs
-    .filter(
-      log => log.date === formattedDate(new Date()) || checkIsRunning(log)
-    )
-    .map(log => <TodayWork key={log._id} log={log} />);
+  logs.filter(checkToShowInHome).map(log => <TodayWork key={log._id} log={log} />)
 
 TodayWorkList.propTypes = {
   logs: PropTypes.arrayOf(PropTypes.object).isRequired

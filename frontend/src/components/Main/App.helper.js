@@ -1,6 +1,10 @@
 // modeuls
 import * as R from 'ramda'
-
+// views
+import { logsView } from './App.reducer'
+// helpers
+import { checkToShowInHome } from '../components/Home/Main/Home.helper'
+import { formattedDate } from '../../helper/functions/date.helper'
 
 const getObject = (message, permission) => ({ message, permission })
 
@@ -14,4 +18,13 @@ export const checkBeforeAddTag = (queryTag, tags) => {
   return getObject('select or write tag first!', false)
 }
 
-export const nothing = null
+const filteredLogs = () => R.filter(checkToShowInHome)(logsView())
+
+const checkIsUnique = logId => R.findIndex(R.propEq('_id', logId))(filteredLogs()) === -1
+
+export const getUnique = R.compose(
+  R.filter(pin => checkIsUnique(pin.logId)),
+  R.filter(pin => pin.lastDate !== formattedDate(new Date()))
+)
+  
+  

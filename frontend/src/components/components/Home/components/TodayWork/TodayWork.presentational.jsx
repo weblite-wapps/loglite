@@ -7,6 +7,7 @@ import Divider from "@material-ui/core/Divider";
 import { isWithinRange, differenceInSeconds } from "date-fns";
 // helpers
 import {
+  PinButton,
   BriefInfo,
   ActionButtons,
   Collapse
@@ -101,6 +102,7 @@ export default class TodayWork extends React.Component {
       <React.Fragment>
         <List dense disablePadding className="list">
           <ListItem dense disableGutters>
+            <PinButton {...this.props} />
             <BriefInfo {...this.props} />
             <ActionButtons
               {...this.props}

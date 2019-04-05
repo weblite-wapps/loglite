@@ -4,18 +4,14 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 // create a schema
-const LogSchema = new Schema({
+const PinSchema = new Schema({
+  logId: String,
   title: String,
   tags: [String],
-  date: String,
-  times: [{
-    start: Date,
-    end: Schema.Types.Mixed,
-  }],
-  isPinned: Boolean,
+  lastDate: String,
   created_at: Date,
   userId: String,
   wis: String,
 })
 
-export default mongoose.model('Log', LogSchema)
+export default mongoose.model('Pin', PinSchema)
