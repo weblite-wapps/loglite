@@ -18,8 +18,8 @@ import { formattedSeconds, formattedName } from "./TodayWork.helper";
 import "./TodayWork.scss";
 
 
-export const PinButton = ({ log: { isPinned } }) => (
-  <IconButton>
+export const PinButton = ({ log: { _id, isPinned }, isLoading, onToggleIsPinned }) => (
+  <IconButton disabled={isLoading} onClick={() => onToggleIsPinned(_id, !isPinned)}>
     {isPinned ? <Lock className="todayWork-icon" /> : <LockOpen className="todayWork-icon" />}
   </IconButton>
 )

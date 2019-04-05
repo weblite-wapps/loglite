@@ -17,6 +17,7 @@ import {
   HANDLE_DELETE_LOG,
   HANDLE_SAVE_START_TIME,
   HANDLE_SAVE_END_TIME,
+  HANDLE_TOGGLE_IS_PINNED,
   FETCH_ADMIN_DATA,
   CHANGE_TAB,
   SET_ABOUT_MODE,
@@ -30,6 +31,7 @@ import {
   dispatchChangePopoverId,
   dispatchSaveStartTime,
   dispatchSaveEndTime,
+  dispatchToggleIsPinned,
   dispatchHandleSaveStartTime,
 } from './App.action'
 // views
@@ -144,6 +146,17 @@ const effectSaveEndTime = action$ =>
     .ignoreElements()
 
 
+const effectToggleIsPinned = action$ =>
+  action$.ofType(HANDLE_TOGGLE_IS_PINNED)
+    .pluck('payload')
+    .do(() => dispatchSetIsLoading(true))
+    .mergeMap(({ _id, value }) => postRequest('/toggleIsPinned')
+      .send({ _id, value }))
+      // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
+    .do(() => dispatchSetIsLoading(false))
+    .do(({ body: { _id, value } }) => dispatchToggleIsPinned( _id, value ))
+    .ignoreElements()
+
 const changeTabEpic = (action$, { dispatch }) =>
   action$.ofType(CHANGE_TAB)
     .pluck('payload')
@@ -166,6 +179,7 @@ export default combineEpics(
   effectDeleteLog,
   effectSaveStartTime,
   effectSaveEndTime,
+  effectToggleIsPinned,
   changeTabEpic,
   setAboutModeEpic,
 )

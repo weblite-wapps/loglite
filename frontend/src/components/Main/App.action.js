@@ -62,6 +62,10 @@ export const SAVE_END_TIME = 'SAVE_END_TIME'
 export const saveEndTime = createAction(SAVE_END_TIME, (_id, end) => ({ _id, end }))
 export const dispatchSaveEndTime = (...args) => dispatch(saveEndTime(...args))
 
+export const TOGGLE_IS_PINNED = 'TOGGLE_IS_PINNED'
+export const toggleIsPinned = createAction(TOGGLE_IS_PINNED, (_id, value) => ({ _id, value }))
+export const dispatchToggleIsPinned = (...args) => dispatch(toggleIsPinned(...args))
+
 export const SET_ABOUT_MODE = 'SET_ABOUT_MODE'
 export const setAboutMode = createAction(SET_ABOUT_MODE, value => ({ value }))
 export const dispatchSetAboutMode = (...args) => dispatch(setAboutMode(...args))
@@ -78,6 +82,11 @@ export const HANDLE_SAVE_END_TIME = 'HANDLE_SAVE_END_TIME'
 export const handleSaveEndTime = createAction(HANDLE_SAVE_END_TIME,
   (runningId, end, _id, times) => ({ runningId, end, _id, times }))
 export const dispatchHandleSaveEndTime = (...args) => dispatch(handleSaveEndTime(...args))
+
+export const HANDLE_TOGGLE_IS_PINNED = 'HANDLE_TOGGLE_IS_PINNED'
+export const handleToggleIsPinned = createAction(HANDLE_TOGGLE_IS_PINNED,
+  (_id, value) => ({ _id, value }))
+export const dispatchHandleToggleIsPinned = (...args) => dispatch(handleToggleIsPinned(...args))
 
 export const HANDLE_DELETE_LOG = 'HANDLE_DELETE_LOG'
 export const handleDeleteLog = createAction(HANDLE_DELETE_LOG, _id => ({ _id }))

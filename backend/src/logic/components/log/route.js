@@ -4,7 +4,7 @@ import * as R from "ramda"
 // components
 import app from "../../../setup/server"
 // db helpers
-import { fetchLogs, saveLog, deleteLog, saveTime } from "./db"
+import { fetchLogs, saveLog, deleteLog, saveTime, updateLog } from "./db"
 // helpers
 import {
   sumLogs,
@@ -144,8 +144,8 @@ app.get("/leaderboardData", ({ query }, res) => {
     .catch(logger)
 })
 
-app.post("/toggleIsPinned", ({ body: { _id, isPinned } }, res) =>
-  updateLog({ _id: mongoose.Types.ObjectId(_id) },
-    { $set: { 'isPinned': isPinned } })
-    .then(() => res.send('toggled successfully!'))
+app.post("/toggleIsPinned", ({ body }, res) =>
+  updateLog({ _id: mongoose.Types.ObjectId(body._id) },
+    { $set: { 'isPinned': body.value } })
+    .then(() => res.send(body))
     .catch(logger))
