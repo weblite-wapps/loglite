@@ -17,3 +17,7 @@ export const deleteLog = async query => Log
 export const saveTime = async (query, updateObject) => Log
   .update(query, updateObject)
   .exec()
+
+export const updateLog = async (query, updateObject) => Log
+  .update(query, updateObject)
+  .exec()

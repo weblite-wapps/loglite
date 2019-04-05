@@ -12,6 +12,7 @@ const LogSchema = new Schema({
     start: Date,
     end: Schema.Types.Mixed,
   }],
+  isPinned: Boolean,
   created_at: Date,
   userId: String,
   wis: String,

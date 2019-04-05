@@ -143,3 +143,9 @@ app.get("/leaderboardData", ({ query }, res) => {
     .then(logs => res.send(getLeaderboardData(logs)))
     .catch(logger)
 })
+
+app.post("/toggleIsPinned", ({ body: { _id, isPinned } }, res) =>
+  updateLog({ _id: mongoose.Types.ObjectId(_id) },
+    { $set: { 'isPinned': isPinned } })
+    .then(() => res.send('toggled successfully!'))
+    .catch(logger))

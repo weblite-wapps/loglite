@@ -10,10 +10,19 @@ import Divider from "@material-ui/core/Divider";
 // icons
 import Play from "@material-ui/icons/PlayArrow";
 import Pause from "@material-ui/icons/Pause";
+import Lock from "@material-ui/icons/Lock";
+import LockOpen from "@material-ui/icons/LockOpen";
 // helpers
 import { formattedSeconds, formattedName } from "./TodayWork.helper";
 // styles
 import "./TodayWork.scss";
+
+
+export const PinButton = ({ log: { isPinned } }) => (
+  <IconButton>
+    {isPinned ? <Lock className="todayWork-icon" /> : <LockOpen className="todayWork-icon" />}
+  </IconButton>
+)
 
 export const BriefInfo = ({ runningId, log: { _id, title }, workDuration }) => (
   <Typography variant="body2">
