@@ -31,6 +31,10 @@ export const LOAD_LOGS_DATA = 'LOAD_LOGS_DATA'
 export const loadLogsData = createAction(LOAD_LOGS_DATA, logs => ({ logs }))
 export const dispatchLoadLogsData = (...args) => dispatch(loadLogsData(...args))
 
+export const LOAD_PINNED_LOGS = 'LOAD_PINNED_LOGS'
+export const loadPinnedLogs = createAction(LOAD_PINNED_LOGS, logs => ({ logs }))
+export const dispatchLoadPinnedLogs = (...args) => dispatch(loadPinnedLogs(...args))
+
 export const CHANGE_POPOVER_ID = 'CHANGE_POPOVER_ID'
 export const changePopoverId = createAction(CHANGE_POPOVER_ID, value => ({ value }))
 export const dispatchChangePopoverId = (...args) => dispatch(changePopoverId(...args))
@@ -85,7 +89,7 @@ export const dispatchHandleSaveEndTime = (...args) => dispatch(handleSaveEndTime
 
 export const HANDLE_TOGGLE_IS_PINNED = 'HANDLE_TOGGLE_IS_PINNED'
 export const handleToggleIsPinned = createAction(HANDLE_TOGGLE_IS_PINNED,
-  (_id, value) => ({ _id, value }))
+  (_id, title, tags, value) => ({ _id, title, tags, value }))
 export const dispatchHandleToggleIsPinned = (...args) => dispatch(handleToggleIsPinned(...args))
 
 export const HANDLE_DELETE_LOG = 'HANDLE_DELETE_LOG'

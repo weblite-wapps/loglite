@@ -8,7 +8,7 @@ import { getRequest, postRequest } from '../../helper/functions/request.helper'
 import { formatTime, sumTimes } from '../../helper/functions/time.helper'
 import { formattedDate, getToday, previousDay } from '../../helper/functions/date.helper'
 // actions
-import { dispatchLoadTagsDataInAdd } from '../components/Add/Main/Add.action'
+import { dispatchLoadTagsDataInAdd, dispatchAddTagInAdd } from '../components/Add/Main/Add.action'
 import { dispatchAddPage, dispatchRestoreLeaderboardData } from '../components/Report/Main/Report.action'
 import { dispatchRefetchTotalDuration, dispatchLoadTotalDurations, dispatchChangeRunningId, dispatchSetSecondsElapsed } from '../components/Home/Main/Home.action'
 import {
@@ -24,6 +24,7 @@ import {
   dispatchAddLog,
   dispatchDeleteLog,
   dispatchLoadLogsData,
+  dispatchLoadPinnedLogs,
   dispatchLoadUsersData,
   dispatchFetchAdminData,
   dispatchSetIsLoading,
@@ -72,7 +73,8 @@ const initialFetchEpic = action$ =>
     .do(({ body: { logs } }) => dispatchLoadLogsData(logs))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
-    .do(({ body: { leaderboard } }) => dispatchRestoreLeaderboardData(leaderboard)) 
+    .do(({ body: { leaderboard } }) => dispatchRestoreLeaderboardData(leaderboard))
+    // .do(({ body: { pins } }) => dispatchLoadPinnedLogs(pins))
     .do(() => dispatchAddPage(formattedDate(previousDay(new Date())), selectedUserView()))
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
     .do(() => dispatchSetIsLoading(false))
@@ -150,11 +152,19 @@ const effectToggleIsPinned = action$ =>
   action$.ofType(HANDLE_TOGGLE_IS_PINNED)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ _id, value }) => postRequest('/toggleIsPinned')
-      .send({ _id, value }))
+    .mergeMap(({ _id, title, tags, value }) => postRequest('/toggleIsPinned')
+      .send({
+        _id,
+        title,
+        tags,
+        value,
+        created_at: new Date(),
+        userId: userIdView(),
+        wis: wisView(),
+      }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { _id, value } }) => dispatchToggleIsPinned( _id, value ))
+    .do(({ _id, value }) => dispatchToggleIsPinned( _id, value ))
     .ignoreElements()
 
 const changeTabEpic = (action$, { dispatch }) =>

@@ -9,6 +9,7 @@ import {
   CHANGE_TAB,
   LOAD_USERS_DATA,
   LOAD_LOGS_DATA,
+  LOAD_PINNED_LOGS,
   CHANGE_POPOVER_ID,
   ADD_LOG,
   DELETE_LOG,
@@ -61,6 +62,8 @@ const reducers = {
     ({ ...state, users: R.uniq(R.concat(state.users, users)) }),
 
   [LOAD_LOGS_DATA]: (state, { logs }) => ({ ...state, logs: R.uniq(R.concat(state.logs, logs)) }),
+
+  // [LOAD_PINNED_LOGS]: (state, { logs }) => ({ ...state, logs: R.concat(state.logs, R.map(log => ({ _id: Math.random(), title: log.title, tags: log.tags, isPinned: false }), logs)) }),
 
   [CHANGE_POPOVER_ID]: (state, { value }) => R.set(popoverIdLens, value, state),
 

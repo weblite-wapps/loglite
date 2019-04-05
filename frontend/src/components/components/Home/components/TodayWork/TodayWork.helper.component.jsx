@@ -18,11 +18,17 @@ import { formattedSeconds, formattedName } from "./TodayWork.helper";
 import "./TodayWork.scss";
 
 
-export const PinButton = ({ log: { _id, isPinned }, isLoading, onToggleIsPinned }) => (
-  <IconButton disabled={isLoading} onClick={() => onToggleIsPinned(_id, !isPinned)}>
+export const PinButton = ({ log: { _id, title, tags, isPinned }, isLoading, onToggleIsPinned }) => (
+  <IconButton disabled={isLoading} onClick={() => onToggleIsPinned(_id, title, tags, !isPinned)}>
     {isPinned ? <Lock className="todayWork-icon" /> : <LockOpen className="todayWork-icon" />}
   </IconButton>
 )
+
+PinButton.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  log: PropTypes.shape({}).isRequired,
+  onToggleIsPinned: PropTypes.func.isRequired
+};
 
 export const BriefInfo = ({ runningId, log: { _id, title }, workDuration }) => (
   <Typography variant="body2">
