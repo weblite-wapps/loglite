@@ -74,7 +74,7 @@ const initialFetchEpic = action$ =>
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
     .do(({ body: { leaderboard } }) => dispatchRestoreLeaderboardData(leaderboard))
-    .do(({ body: { pins } }) => console.log('pins', pins, 'unique', getUnique(pins)))
+    // .do(({ body: { pins } }) => console.log('pins', pins, 'unique', getUnique(pins)))
     .mergeMap(({ body: { pins } }) => postRequest('/saveLogs')
       .send({
         pins: getUnique(pins),
