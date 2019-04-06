@@ -83,7 +83,7 @@ export default createMuiTheme({
         paddingBottom: "0px",
       },
       dense: {
-        paddingLeft: "30px",
+        paddingLeft: "15px",
       },
     },
     MuiListItemSecondaryAction: {

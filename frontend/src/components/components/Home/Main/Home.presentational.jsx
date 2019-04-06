@@ -14,7 +14,7 @@ const Home = ({ logs, onAdd }) => (
     <Summary />
     <Divider />
     <TodayWorkList logs={logs} />
-    <FabButton onClick={() => onAdd('(no title)', [], true)} />
+    <FabButton onClick={() => onAdd('work', [], true)} />
   </div>
 );
 

@@ -6,6 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import MuiButton from "@material-ui/core/Button";
+import Tooltip from "@material-ui/core/Tooltip";
 import { differenceInSeconds } from "date-fns";
 // components
 import Popover from "../components/Popover.presentational"; 
@@ -86,13 +87,20 @@ class WorkList extends React.Component {
                 onYep={handleDeleteLog}
                 onNop={() => changePopoverId("")}
               />
-              <MuiButton
-                variant="contained"
-                // onClick={this.handleOpenPopover}
-                classes={{ raised: classes.WorkList }}
+              <Tooltip 
+                title="Coming soon!:D"
+                placement="left"
+                enterDelay={50}
+                leaveDelay={150}
               >
-                Edit
-              </MuiButton>
+                <MuiButton
+                  variant="contained"
+                  // onClick={this.handleOpenPopover}
+                  classes={{ raised: classes.WorkList }}
+                >
+                  Edit
+                </MuiButton>
+              </Tooltip>
             </div>
           )}
         </List>
