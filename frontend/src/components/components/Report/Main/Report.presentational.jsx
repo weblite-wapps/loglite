@@ -6,11 +6,12 @@ import Divider from "@material-ui/core/Divider";
 import SelectBar from "../components/SelectBar/SelectBar.container.react";
 // helpers
 import {
-  ControllBar,
+  ControlBar,
   ExportPanel,
   BarChartPanel,
   WorkListPanel,
-  LeaderboardPanel
+  LeaderboardPanel,
+  AnalysisPanel,
 } from "./Report.helper.component";
 // styles
 import "./Report.scss";
@@ -19,7 +20,7 @@ export default props => (
   <div className="report-container">
     <div className="report-dashboard"> 
       <SelectBar /> 
-      <ControllBar {...props} />
+      <ControlBar {...props} />
       <Divider light />
     </div>
     <List disablePadding style={{ 'marginTop': '210px' }}>
@@ -27,6 +28,7 @@ export default props => (
       <BarChartPanel {...props} />
       <WorkListPanel {...props} />
       <LeaderboardPanel {...props} />
+      <AnalysisPanel {...props} />
     </List>
   </div>
 );

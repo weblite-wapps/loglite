@@ -88,7 +88,7 @@ class WorkList extends React.Component {
                 onNop={() => changePopoverId("")}
               />
               <Tooltip 
-                title="Coming soon!:D"
+                title="Coming Soon! :D"
                 placement="left"
                 enterDelay={50}
                 leaveDelay={150}
