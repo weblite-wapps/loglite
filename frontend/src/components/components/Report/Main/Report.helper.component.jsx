@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Collapse from "@material-ui/core/Collapse";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
+import Tooltip from "@material-ui/core/Tooltip";
 // icons
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import ImportExportIcon from "@material-ui/icons/ImportExport";
@@ -32,7 +33,7 @@ import "./Report.scss";
 const IconButton = ({ expandMode, changeExpandMode, mode }) => (
   <Button
     variant={expandMode === mode ? "contained" : "outlined"}
-    onClick={() => changeExpandMode(mode)}
+    onClick={mode === "analysis" ? () => {} : () => changeExpandMode(mode)}
     componentName="Report"
   >
     {mode === "workList" && <ListAltIcon />}
@@ -41,7 +42,7 @@ const IconButton = ({ expandMode, changeExpandMode, mode }) => (
     {mode === "leaderboard" && <FlagIcon />}
     {mode === "analysis" && <ShowChartIcon />}
   </Button>
-);
+)
 
 IconButton.propTypes = {
   expandMode: PropTypes.string.isRequired,
@@ -56,7 +57,24 @@ export const ControlBar = props => (
     <IconButton {...props} mode="export" />
     <IconButton {...props} mode="showChart" />
     <IconButton {...props} mode="leaderboard" />
-    <IconButton {...props} mode="analysis" /> 
+    {/* <IconButton {...props} mode="analysis" /> */}
+
+    {/* comming soon */}
+    <Tooltip 
+      title="Coming Soon! :D"
+      placement="bottom"
+      enterDelay={50}
+      leaveDelay={150}
+    >
+      <Button
+        variant="outlined"
+        onClick={() => {}}
+        componentName="Report"
+      >
+        <ShowChartIcon />
+      </Button>
+    </Tooltip>
+    {/* comming soon */}
   </div>
 );
 

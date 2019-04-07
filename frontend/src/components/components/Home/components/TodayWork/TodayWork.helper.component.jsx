@@ -45,7 +45,7 @@ export const BriefInfo = ({ runningId, log: { _id, title }, workDuration }) => (
         </Tooltip>
       )} 
     <span className="todayWork-time">
-      &nbsp;| {runningId === _id ? "Running..." : workDuration}
+      &nbsp;| {runningId === _id ? "Running" : workDuration}
     </span>
   </Typography>
 );

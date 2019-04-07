@@ -1,7 +1,6 @@
 // Modules
 import React from "react";
 import PropTypes from "prop-types";
-import chabokpush from 'chabokpush'
 // local modules
 // import Snackbar from 'weblite-web-snackbar'
 // helpers
@@ -28,7 +27,6 @@ export default class App extends React.Component {
     const { setAPI, fetchTodayData } = this.props;
     window.W.loadData().then(({ creator, user }) => {
       setAPI(creator, user);
-      chabokpush.chabok.register(user)
       fetchTodayData();
     });
   }

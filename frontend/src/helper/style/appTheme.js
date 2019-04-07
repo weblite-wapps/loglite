@@ -83,12 +83,12 @@ export default createMuiTheme({
         paddingBottom: "0px",
       },
       dense: {
-        paddingLeft: "15px",
+        paddingLeft: "10px",
       },
     },
     MuiListItemSecondaryAction: {
       root: {
-        paddingRight: "20px",
+        paddingRight: "10px",
       },
     },
     MuiBadge: {
