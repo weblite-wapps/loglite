@@ -143,3 +143,8 @@ app.get("/leaderboardData", ({ query }, res) => {
     .then(logs => res.send(getLeaderboardData(logs)))
     .catch(logger)
 })
+
+app.get("/getAnalysisData", ({ query: { wis, userId } }, res) =>
+    fetchLogs({ wis })
+      .then(logs => res.send(getAnalysisData(logs, userId)))
+      .catch(logger))
