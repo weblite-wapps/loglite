@@ -1976,6 +1976,11 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
 
+chabokpush@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/chabokpush/-/chabokpush-1.2.2.tgz#75975fa6388523ff56457f4f3a770a7642dc1e0d"
+  integrity sha512-gD/UryQX2Y1NNRQuxICSFQ/zTalu93GE62vw3SWkwdrZf9ranTv+bpcS+N/erue4SXb6gKtfPA4mZqILCNWBuw==
+
 "chainsaw@>=0.0.7 <0.1":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/chainsaw/-/chainsaw-0.0.9.tgz#11a05102d1c4c785b6d0415d336d5a3a1612913e"

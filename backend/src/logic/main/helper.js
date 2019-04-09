@@ -8,6 +8,7 @@ import {
   addDays,
   subDays,
   format,
+  getDay,
   differenceInSeconds,
   differenceInDays,
 } from "date-fns"
@@ -122,7 +123,7 @@ export const getLeaderboardData = R.compose(
   })),
   R.values,
   R.groupBy(R.prop("userId")),
-)
+) 
 
 export const checkInProgress = R.compose(
   R.reduce(R.or, false),
@@ -140,3 +141,26 @@ export const getStartDayOfWeek = date =>
   formattedDate(subDays(startOfWeek(date), 1))
 
 export const getStartDayOfMonth = date => formattedDate(startOfMonth(date))
+
+
+// export const getAnalysisData = (logs, userId) => R.compose(
+
+// )(logs)
+
+// const data = [
+//   {
+//     "name": "Sat",
+//     "userMean": 4000,
+//     "wisMean": 2400,
+//   },
+//   {
+//     "name": "Sun",
+//     "userMean": 3000,
+//     "wisMean": 1398,
+//   },
+//   {
+//     "name": "Mon",
+//     "userMean": 2000,
+//     "wisMean": 9800,
+//   },
+// ]

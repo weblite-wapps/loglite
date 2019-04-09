@@ -17,9 +17,9 @@ import { formattedSeconds, formattedName } from "./TodayWork.helper";
 // styles
 import "./TodayWork.scss";
 
-
+ 
 export const PinButton = ({ log: { _id, title, tags, isPinned }, isLoading, onToggleIsPinned }) => (
-  <IconButton disabled={isLoading} onClick={() => onToggleIsPinned(_id, title, tags, !isPinned)}>
+  <IconButton style={{ marginRight: '5px' }} disabled={isLoading} onClick={() => onToggleIsPinned(_id, title, tags, !isPinned)}>
     {isPinned ? <Lock className="todayWork-icon" /> : <LockOpen className="todayWork-icon" />}
   </IconButton>
 )
@@ -45,7 +45,7 @@ export const BriefInfo = ({ runningId, log: { _id, title }, workDuration }) => (
         </Tooltip>
       )} 
     <span className="todayWork-time">
-      &nbsp;| {runningId === _id ? "Running..." : workDuration}
+      &nbsp;| {runningId === _id ? "Running" : workDuration}
     </span>
   </Typography>
 );
