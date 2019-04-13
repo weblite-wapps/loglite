@@ -25,6 +25,8 @@ import {
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
 import { queryTagView, tagsView } from './Add.reducer'
+// const
+const { W } = window
 
 
 const effectSearchTagsEpic = action$ =>
@@ -46,6 +48,7 @@ const effectHandleAddTag = action$ =>
     .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
     .do(({ permission }) => permission && dispatchAddTagInAdd())
     // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .do(() => W.analytics('addTag'))
     .ignoreElements()
 
 
@@ -84,6 +87,9 @@ const effectHandleAddLog = action$ =>
     .do(() => dispatchChangeTab('Home'))
     // .do(() => snackbarMessage({ message: 'Added successfully!' }))
     .do(() => dispatchResetInputs())
+    .do(() => console.log('add log'))
+    .do(() => console.log(W.analytics))
+    .do(() => W.analytics('addLog', { custom: false }))
     .ignoreElements()
 
 
@@ -122,6 +128,7 @@ const effectHandleAddCustomLog = action$ =>
     // .do(() => snackbarMessage({ message: 'Added successfully!' }))
     .do(() => dispatchChangeTab('Home'))
     .do(() => dispatchResetInputs())
+    .do(() => W.analytics('addLog', { custom: true }))
     .ignoreElements()
 
 

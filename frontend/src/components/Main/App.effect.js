@@ -38,7 +38,8 @@ import {
 // views
 import { wisView, userIdView, userNameView, aboutModeView } from './App.reducer'
 import { selectedUserView } from '../components/Report/Main/Report.reducer'
-
+// const
+const { W } = window
 
 const fetchUsersEpic = action$ =>
   action$.ofType(FETCH_ADMIN_DATA)
@@ -110,6 +111,7 @@ const addLogToNextDayEpic = action$ =>
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
     .do(({ body }) => dispatchAddLog(body))
+    .do(() => W.analytics('PAUSE_AFTER_24'))
     .ignoreElements()
 
 
@@ -124,6 +126,7 @@ const effectDeleteLog = action$ =>
     // .do(() => snackbarMessage({ message: 'Deleted successfully !' }))
     .do(() => dispatchChangePopoverId(''))
     .do(() => dispatchRefetchTotalDuration())
+    .do(() => W.analytics('DELETE_LOG')) 
     .ignoreElements()
 
 
@@ -138,6 +141,7 @@ const effectSaveStartTime = action$ =>
     .do(() => dispatchSetIsLoading(false))
     .do(({ body: { _id, start } }) => dispatchSaveStartTime(_id, start))
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
+    .do(() => W.analytics('PLAY_CLICK')) 
     .ignoreElements()
 
 
@@ -155,6 +159,7 @@ const effectSaveEndTime = action$ =>
     .filter(({ body: { _id } }) => _id)
     .do(({ body: { times } }) => dispatchSetSecondsElapsed(sumTimes(times)))
     .do(({ body: { _id, end } }) => dispatchHandleSaveStartTime(_id, end))
+    .do(() => W.analytics('PAUSE_CLICK')) 
     .ignoreElements()
 
 
@@ -176,6 +181,7 @@ const effectToggleIsPinned = action$ =>
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .do(({ body: { _id, value } }) => dispatchToggleIsPinned(_id, value))
+    .do(({ body: { value } }) => (value === true) && W.analytics('PIN_LOG')) 
     .ignoreElements()
 
 const changeTabEpic = (action$, { dispatch }) =>
@@ -184,6 +190,7 @@ const changeTabEpic = (action$, { dispatch }) =>
     .do(() => aboutModeView() === true && dispatchSetAboutMode(false))
     .do(({ value }) => value === 'Home' && dispatch(push('/')))
     .do(({ value }) => value !== 'Home' && dispatch(push(`/${value}`)))
+    .do(({ value }) => W.analytics('TAB_CLICK', value))
     .ignoreElements()
 
 

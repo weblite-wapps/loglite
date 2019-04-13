@@ -6,7 +6,7 @@ import { getState } from '../../../../setup/redux'
 import { previousDay, nextDay } from './Report.helper'
 // actions
 import {
-  CHANGE_EXPANAD_MODE,
+  CHANGE_EXPAND_MODE,
   SET_API,
   RESET_STAFF_LOGS,
   LOAD_STAFF_LOGS,
@@ -88,7 +88,7 @@ export const leaderboardView = () => R.path(['Report', 'leaderboard'])(getState(
 
 // reducers
 const reducers = {
-  [CHANGE_EXPANAD_MODE]: (state, { value }) => R.set(expandModeLens, value)(state),
+  [CHANGE_EXPAND_MODE]: (state, { value }) => R.set(expandModeLens, value)(state),
 
   [SET_API]: (state, { user }) => ({ ...state, selectedUser: user.id }),
 

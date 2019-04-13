@@ -45,11 +45,13 @@ import {
   dispatchConvertJSONToCSV,
   dispatchUpdateChart,
   dispatchUpdateLeaderboard,
+  CHANGE_EXPAND_MODE,
 } from './Report.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
 import { startDateView, endDateView, selectedTagsView, selectedUserView, currentPageView, pagesView, queryTagView, tagsView } from './Report.reducer'
-
+// const
+const { W } = window
 
 const resetStaffDataEpic = action$ =>
   action$.ofType(CHANGE_SELECTED_USER)
@@ -116,6 +118,7 @@ const calculateTotalDurationEpic = action$ =>
       }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
+    .do(() => W.analytics('CALCULATE_CLICK'))
     .map(({ body }) => restoreTotalDuration(body))
 
 
@@ -132,6 +135,7 @@ const convertJSONToCSVEpic = action$ =>
       }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
+    .do(() => W.analytics('EXPORT_CLICK'))
     .map(({ text }) => restoreCSV(text))
 
 
@@ -152,6 +156,7 @@ const fetchPreviousDayLogsDataEpic = action$ =>
         }
       }))
     .do(() => dispatchSetIsLoading(false))
+    .do(() => W.analytics('PREVIOUS_DAY_CLICK'))
     .map(({ body }) =>
       selectedUserView() === userIdView() ?
         loadLogsData(body) : loadStaffLogs(body))
@@ -174,6 +179,7 @@ const fetchNextDayLogsDataEpic = action$ =>
         }
       }))
     .do(() => dispatchSetIsLoading(false))
+    .do(() => W.analytics('NEXT_DAY_CLICK'))
     .map(({ body }) =>
       selectedUserView() === userIdView() ?
         loadLogsData(body) : loadStaffLogs(body))
@@ -213,6 +219,7 @@ const updateLeaderboardEpic = action$ =>
       }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
+    .do(() => W.analytics('UPDATE_LEADERBOARD'))
     .map(({ body }) => restoreLeaderboardData(body))
 
 // effects
@@ -263,6 +270,13 @@ const effectHandleUpdateLeaderboard = action$ =>
     .ignoreElements()
 
 
+const changeExpandModeEpic = action$ =>
+  action$.ofType(CHANGE_EXPAND_MODE)
+    .pluck('payload')
+    .do(({ value }) => W.analytics('EXPAND_MODE_CLICK', value))
+    .ignoreElements()
+
+
 export default combineEpics(
   resetStaffDataEpic,
   loadStaffDataEpic,
@@ -280,4 +294,5 @@ export default combineEpics(
   effectHandleExport,
   effectHandleUpdateChart,
   effectHandleUpdateLeaderboard,
+  changeExpandModeEpic,
 )
