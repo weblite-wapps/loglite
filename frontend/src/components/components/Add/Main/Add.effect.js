@@ -48,7 +48,7 @@ const effectHandleAddTag = action$ =>
     .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
     .do(({ permission }) => permission && dispatchAddTagInAdd())
     // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
-    .do(() => W.analytics('addTag'))
+    .do(() => W.analytics('ADD_TAG'))
     .ignoreElements()
 
 
@@ -87,9 +87,7 @@ const effectHandleAddLog = action$ =>
     .do(() => dispatchChangeTab('Home'))
     // .do(() => snackbarMessage({ message: 'Added successfully!' }))
     .do(() => dispatchResetInputs())
-    .do(() => console.log('add log'))
-    .do(() => console.log(W.analytics))
-    .do(() => W.analytics('addLog', { custom: false }))
+    .do(() => W.analytics('ADD_LOG', { custom: false }))
     .ignoreElements()
 
 
@@ -128,7 +126,7 @@ const effectHandleAddCustomLog = action$ =>
     // .do(() => snackbarMessage({ message: 'Added successfully!' }))
     .do(() => dispatchChangeTab('Home'))
     .do(() => dispatchResetInputs())
-    .do(() => W.analytics('addLog', { custom: true }))
+    .do(() => W.analytics('ADD_LOG', { custom: true }))
     .ignoreElements()
 
 
