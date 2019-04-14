@@ -273,7 +273,7 @@ const effectHandleUpdateLeaderboard = action$ =>
 const changeExpandModeEpic = action$ =>
   action$.ofType(CHANGE_EXPAND_MODE)
     .pluck('payload')
-    .do(({ value }) => W.analytics('EXPAND_MODE_CLICK', value))
+    .do(({ value }) => W.analytics('EXPAND_MODE_CLICK', { mode: value }))
     .ignoreElements()
 
 

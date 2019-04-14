@@ -190,7 +190,7 @@ const changeTabEpic = (action$, { dispatch }) =>
     .do(() => aboutModeView() === true && dispatchSetAboutMode(false))
     .do(({ value }) => value === 'Home' && dispatch(push('/')))
     .do(({ value }) => value !== 'Home' && dispatch(push(`/${value}`)))
-    .do(({ value }) => W.analytics('TAB_CLICK', value))
+    .do(({ value }) => W.analytics('TAB_CLICK', { name: value }))
     .ignoreElements()
 
 
