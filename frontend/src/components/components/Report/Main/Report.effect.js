@@ -118,7 +118,7 @@ const calculateTotalDurationEpic = action$ =>
       }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(() => W.analytics('CALCULATE_CLICK'))
+    .do(() => W && W.analytics('CALCULATE_CLICK'))
     .map(({ body }) => restoreTotalDuration(body))
 
 
@@ -135,7 +135,7 @@ const convertJSONToCSVEpic = action$ =>
       }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(() => W.analytics('EXPORT_CLICK'))
+    .do(() => W && W.analytics('EXPORT_CLICK'))
     .map(({ text }) => restoreCSV(text))
 
 
@@ -156,7 +156,7 @@ const fetchPreviousDayLogsDataEpic = action$ =>
         }
       }))
     .do(() => dispatchSetIsLoading(false))
-    .do(() => W.analytics('PREVIOUS_DAY_CLICK'))
+    .do(() => W && W.analytics('PREVIOUS_DAY_CLICK'))
     .map(({ body }) =>
       selectedUserView() === userIdView() ?
         loadLogsData(body) : loadStaffLogs(body))
@@ -179,7 +179,7 @@ const fetchNextDayLogsDataEpic = action$ =>
         }
       }))
     .do(() => dispatchSetIsLoading(false))
-    .do(() => W.analytics('NEXT_DAY_CLICK'))
+    .do(() => W && W.analytics('NEXT_DAY_CLICK'))
     .map(({ body }) =>
       selectedUserView() === userIdView() ?
         loadLogsData(body) : loadStaffLogs(body))
@@ -219,7 +219,7 @@ const updateLeaderboardEpic = action$ =>
       }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(() => W.analytics('UPDATE_LEADERBOARD'))
+    .do(() => W && W.analytics('UPDATE_LEADERBOARD'))
     .map(({ body }) => restoreLeaderboardData(body))
 
 // effects
@@ -273,7 +273,7 @@ const effectHandleUpdateLeaderboard = action$ =>
 const changeExpandModeEpic = action$ =>
   action$.ofType(CHANGE_EXPAND_MODE)
     .pluck('payload')
-    .do(({ value }) => W.analytics('EXPAND_MODE_CLICK', { mode: value }))
+    .do(({ value }) => W && W.analytics('EXPAND_MODE_CLICK', { mode: value }))
     .ignoreElements()
 
 
