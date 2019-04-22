@@ -51,7 +51,7 @@ app.get('/initialFetch', ({ query }, res) =>
         { $set: { 'isPinned': value } }),
       (value === true) ?
         savePin({ logId: mongoose.Types.ObjectId(_id), title, tags, created_at, lastDate, userId, wis }) :
-        deletePin({ title })
+        deletePin({ wis, userId, title })
     ]).then(() => res.send({ _id, value })).catch(logger))
 
   app.post("/saveLogs", ({ body: { pins, date, created_at, userId, wis } }, res) =>
