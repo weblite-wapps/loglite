@@ -19,7 +19,7 @@ export default ({
     textTransform: 'capitalize',
   },
   Summary: {
-    background: accent_color,
+    backgroundColor: accent_color,
     color: 'white',
     minHeight: '40px',
     minWidth: '40px',
@@ -39,7 +39,7 @@ export default ({
     textTransform: 'capitalize',
   },
   default: {
-    background: accent_color,
+    backgroundColor: accent_color,
     color: 'white',
     minHeight: '40px',
     minWidth: '40px',
@@ -48,7 +48,7 @@ export default ({
     margin: '5px',
   },
   Report: {
-    background: primary_color,
+    backgroundColor: primary_color,
     color: secondary_color,
     minHeight: '35px',
     minWidth: '35px',
