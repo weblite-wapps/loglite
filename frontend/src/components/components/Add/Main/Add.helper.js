@@ -40,15 +40,16 @@ export const checkBeforeAddCustomLog = () => {
   const start = startTimeView()
   const end = endTimeView()
   const logs = logsView()
+  const now = new Date()
 
   if (title && date && start && end) {
-    if (isAfter(new Date(date), new Date())) {
+    if (isAfter(new Date(date), now)) {
       return getObject('date', 'Are you predictor?!', false)
-    } else if (date === formattedDate(new Date()) &&
-      isAfter(formatTime(start), new Date())) {
+    } else if (date === formattedDate(now) &&
+      isAfter(formatTime(start), now)) {
       return getObject('startTime', 'Are you predictor?!', false)
-    } else if (date === formattedDate(new Date()) &&
-      isAfter(formatTime(end), new Date())) {
+    } else if (date === formattedDate(now) &&
+      isAfter(formatTime(end), now)) {
       return getObject('endTime', 'Are you predictor?!', false)
     } else if (isAfter(formatTime(end), formatTime(start))) {
       if (areTimesOverlapping(

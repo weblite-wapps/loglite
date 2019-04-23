@@ -45,20 +45,20 @@ app.get('/initialFetch', ({ query }, res) =>
     pins: success[6],
   })).catch(logger))
 
-  app.post("/toggleIsPinned", ({ body: { _id, title, tags, value, created_at, lastDate, userId, wis } }, res) =>
+  app.post("/toggleIsPinned", ({ body: { _id, title, tags, value, userId, wis } }, res) =>
     Promise.all([
       updateLog({ _id: mongoose.Types.ObjectId(_id) },
         { $set: { 'isPinned': value } }),
       (value === true) ?
-        savePin({ logId: mongoose.Types.ObjectId(_id), title, tags, created_at, lastDate, userId, wis }) :
+        savePin({ logId: mongoose.Types.ObjectId(_id), title, tags, created_at: new Date(), lastDate: formattedDate(new Date()), userId, wis }) :
         deletePin({ logId: _id })
     ]).then(() => res.send({ _id, value })).catch(logger))
 
-  app.post("/saveLogs", ({ body: { pins, date, created_at, userId, wis } }, res) =>
+  app.post("/saveLogs", ({ body: { pins, date, userId, wis } }, res) =>
     Promise.all(
       R.map(pin =>
-        saveLog({ title: pin.title, tags: pin.tags, created_at, userId, wis, times: [], date, isPinned: true } ), pins),
+        saveLog({ title: pin.title, tags: pin.tags, created_at: new Date(), userId, wis, times: [], date: formattedDate(new Date()), isPinned: true } ), pins),
         updatePins({},
-        { $set: { 'lastDate': date } }))
+        { $set: { 'lastDate': formattedDate(new Date()) } }))
     .then(success => res.send(R.flatten(success))).catch(logger),
   )

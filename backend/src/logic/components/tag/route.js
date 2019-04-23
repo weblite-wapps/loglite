@@ -13,7 +13,7 @@ app.get('/fetchTags', ({ query: { wis, userId } }, res) =>
     .catch(logger),
 )
 
-app.get('/serachTags', ({ query: { wis, userId, label } }, res) =>
+app.get('/searchTags', ({ query: { wis, userId, label } }, res) =>
   fetchTags({ wis, userId, label: { $regex: `.*${label}.*` } })
     .then(tags => res.json(tags))
     .catch(logger),

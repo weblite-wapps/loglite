@@ -97,7 +97,7 @@ const effectSearchTagsEpic = action$ =>
     .pluck('payload')
     .filter(payload => payload.queryTag.trim() !== '')
     .debounceTime(250)
-    .mergeMap(payload => getRequest('/serachTags')
+    .mergeMap(payload => getRequest('/searchTags')
       .query({ wis: wisView(), userId: selectedUserView(), label: payload.queryTag }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .map(({ body }) => fetchTags(body))

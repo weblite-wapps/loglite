@@ -9,6 +9,7 @@ import { fetchLogs, saveLog, deleteLog, saveTime } from "./db"
 import {
   sumLogs,
   formattedSeconds,
+  formattedDate,
   modifiedQuery,
   getBarChartData,
   getJSON,
@@ -27,19 +28,19 @@ app.get("/fetchLogs", ({ query: { wis, userId, date } }, res) =>
 )
 
 app.post("/saveLog", (req, res) =>
-  saveLog(req.body)
+  saveLog({ ...req.body, date: formattedDate(new Date()), created_at: new Date() })
     .then(log => res.send(log))
     .catch(logger),
 )
 
 app.post("/saveCustomLog", (req, res) =>
-  saveLog(req.body)
+  saveLog({ ...req.body, created_at: new Date() })
     .then(log => res.send(log))
     .catch(logger),
 )
 
 app.post("/insertLogToNextDay", (req, res) =>
-  saveLog(req.body)
+  saveLog({ ...req.body, created_at: new Date() }) 
     .then(log => res.send(log))
     .catch(logger),
 )
@@ -53,7 +54,7 @@ app.post("/deleteLog", ({ query }, res) =>
 app.post("/saveStartTime", ({ body }, res) =>
   saveTime(
     { _id: mongoose.Types.ObjectId(body._id) },
-    { $push: { times: { start: body.start, end: "running" } } },
+    { $push: { times: { start: new Date(body.start), end: "running" } } },
   )
     .then(() => res.send(body))
     .catch(logger),
@@ -62,7 +63,7 @@ app.post("/saveStartTime", ({ body }, res) =>
 app.post("/saveEndTime", ({ body }, res) =>
   saveTime(
     { _id: mongoose.Types.ObjectId(body.runningId), "times.end": "running" },
-    { $set: { "times.$.end": body.end } },
+    { $set: { "times.$.end": new Date(body.end) } },
   )
     .then(() => res.send(body))
     .catch(logger),

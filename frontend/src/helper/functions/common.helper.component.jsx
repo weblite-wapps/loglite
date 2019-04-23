@@ -85,50 +85,54 @@ Pickers.propTypes = {
   onEndDateChange: PropTypes.func.isRequired
 };
 
-export const Buttons = ({ startDate, endDate, update, handleUpdate }) => (
-  <React.Fragment>
-    <div className="insertButton">
-      <Button
-        label="Insert Chart"
-        componentName="Add"
-        onClick={() => handleUpdate(startDate, endDate)}
-      />
-    </div>
+export const Buttons = ({ startDate, endDate, update, handleUpdate }) => {
+  const now = new Date()
 
-    <div className="buttons">
-      <Button
-        label="Today"
-        componentName="CustomAdd"
-        onClick={() =>
-          update(
-            formattedDate(startOfToday(new Date())),
-            formattedDate(new Date())
-          )
-        }
-      />
-      <Button
-        label="This Week"
-        componentName="CustomAdd"
-        onClick={() =>
-          update(
-            formattedDate(subDays(new Date(), 6)),
-            formattedDate(new Date())
-          )
-        }
-      />
-      <Button
-        label="This Month"
-        componentName="CustomAdd"
-        onClick={() =>
-          update(
-            formattedDate(subDays(new Date(), 29)),
-            formattedDate(new Date())
-          )
-        }
-      />
-    </div>
-  </React.Fragment>
-);
+  return (
+    <React.Fragment>
+      <div className="insertButton">
+        <Button
+          label="Insert Chart"
+          componentName="Add"
+          onClick={() => handleUpdate(startDate, endDate)}
+        />
+      </div>
+
+      <div className="buttons">
+        <Button
+          label="Today"
+          componentName="CustomAdd"
+          onClick={() =>
+            update(
+              formattedDate(startOfToday(now)),
+              formattedDate(now)
+            )
+          }
+        />
+        <Button
+          label="This Week"
+          componentName="CustomAdd"
+          onClick={() =>
+            update(
+              formattedDate(subDays(now, 6)),
+              formattedDate(now)
+            )
+          }
+        />
+        <Button
+          label="This Month"
+          componentName="CustomAdd"
+          onClick={() =>
+            update(
+              formattedDate(subDays(now, 29)),
+              formattedDate(now)
+            )
+          }
+        />
+      </div>
+    </React.Fragment>
+  )
+}
 
 Buttons.propTypes = {
   startDate: PropTypes.string.isRequired,

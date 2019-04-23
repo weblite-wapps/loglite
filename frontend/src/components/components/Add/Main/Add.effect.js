@@ -5,7 +5,6 @@ import 'rxjs'
 // import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
 import { getRequest, postRequest } from '../../../../helper/functions/request.helper'
-import { formattedDate } from '../../../../helper/functions/date.helper'
 import { formatTime } from '../../../../helper/functions/time.helper'
 import { checkBeforeAddTag } from '../../../Main/App.helper'
 import { checkBeforeAddLog, checkBeforeAddCustomLog } from './Add.helper'
@@ -33,7 +32,7 @@ const effectSearchTagsEpic = action$ =>
     .filter(payload => payload.queryTag.trim() !== '')
     .debounceTime(250)
     .do(() => dispatchSetIsLoading(true))
-    .switchMap(payload => getRequest('/serachTags')
+    .switchMap(payload => getRequest('/searchTags')
       .query({ wis: wisView(), userId: userIdView(), label: payload.queryTag }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
@@ -63,9 +62,7 @@ const effectHandleAddLog = action$ =>
           title,
           tags,
           times: [],
-          date: formattedDate(new Date()),
           isPinned: false,
-          created_at: new Date(),
           userId: userIdView(),
           wis: wisView(),
         }),
@@ -103,7 +100,6 @@ const effectHandleAddCustomLog = action$ =>
           times: [{ start: formatTime(start), end: formatTime(end) }],
           date,
           isPinned: false,
-          created_at: new Date(),
           userId: userIdView(),
           wis: wisView(),
         }),

@@ -78,8 +78,6 @@ const initialFetchEpic = action$ =>
     .mergeMap(({ body: { pins } }) => postRequest('/saveLogs')
       .send({
         pins: getUnique(pins),
-        created_at: new Date(),
-        date: formattedDate(new Date()),
         userId: userIdView(),
         wis: wisView(),
       }))
@@ -102,7 +100,6 @@ const addLogToNextDayEpic = action$ =>
         tags,
         times: [{ start: previousDay(formatTime('24:00:00')), end }],
         date,
-        created_at: new Date(),
         userId: userIdView(),
         wis: wisView(),
       }))
@@ -168,8 +165,6 @@ const effectToggleIsPinned = action$ =>
         title,
         tags,
         value,
-        lastDate: formattedDate(new Date()),
-        created_at: new Date(),
         userId: userIdView(),
         wis: wisView(),
       }))
