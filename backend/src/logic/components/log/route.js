@@ -54,7 +54,7 @@ app.post("/deleteLog", ({ query }, res) =>
 app.post("/saveStartTime", ({ body }, res) =>
   saveTime(
     { _id: mongoose.Types.ObjectId(body._id) },
-    { $push: { times: { start: new Date(body.start), end: "running" } } },
+    { $push: { times: { start: new Date(), end: "running" } } },
   )
     .then(() => res.send(body))
     .catch(logger),
@@ -63,7 +63,7 @@ app.post("/saveStartTime", ({ body }, res) =>
 app.post("/saveEndTime", ({ body }, res) =>
   saveTime(
     { _id: mongoose.Types.ObjectId(body.runningId), "times.end": "running" },
-    { $set: { "times.$.end": new Date(body.end) } },
+    { $set: { "times.$.end": new Date() } },
   )
     .then(() => res.send(body))
     .catch(logger),

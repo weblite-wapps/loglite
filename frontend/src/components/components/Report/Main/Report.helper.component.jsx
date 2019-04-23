@@ -192,7 +192,6 @@ export const WorkListPanel = ({
 
       {(selectedUser === userId ? logs : staffLogs)
         .filter(log => log.date === formattedDate(currentPage))
-        .filter(log => log.times.length !== 0 ) // TODO: this should handled better in the future
         .map(log => (
           <WorkList key={log._id} log={log} getDuration={getDuration} />
         ))}
