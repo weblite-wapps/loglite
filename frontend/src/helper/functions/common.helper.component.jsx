@@ -9,7 +9,8 @@ import CustomizedButton from "../components/Button/Button.presentational";
 import TagList from "../components/TagList/TagList.presentational";
 import Picker from "../components/Picker/Picker.presentational";
 import Button from "../../helper/components/Button/Button.presentational";
-import CustomizedBarChart from "../../helper/components/BarChart/BarChart.presentational";
+import CustomizedBarChart from "../../helper/components/BarCharts/BarChart.presentational";
+import CustomizedDoubleBarChart from "../../helper/components/BarCharts/DoubleBarChart.presentational"
 // helpers
 import { formattedDate } from "../../helper/functions/date.helper";
 // styles
@@ -156,4 +157,22 @@ BarChart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   XDataKey: PropTypes.string.isRequired,
   YDataKey: PropTypes.string.isRequired
-};
+}
+
+export const DoubleBarChart = ({ data, XDataKey, YDataKey }) =>
+  data.length ? (
+    <div className="chart">
+      <CustomizedDoubleBarChart
+        barChartData={data}
+        XDataKey={XDataKey}
+        YDataKey={YDataKey}
+      />
+    </div>
+  ) : null;
+
+DoubleBarChart.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  XDataKey: PropTypes.string.isRequired,
+  YDataKey: PropTypes.string.isRequired
+}
+

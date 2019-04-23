@@ -51,14 +51,14 @@ app.get('/initialFetch', ({ query }, res) =>
         { $set: { 'isPinned': value } }),
       (value === true) ?
         savePin({ logId: mongoose.Types.ObjectId(_id), title, tags, created_at: new Date(), lastDate: formattedDate(new Date()), userId, wis }) :
-        deletePin({ logId: _id })
+        deletePin({ wis, userId, title })
     ]).then(() => res.send({ _id, value })).catch(logger))
 
   app.post("/saveLogs", ({ body: { pins, date, userId, wis } }, res) =>
     Promise.all(
       R.map(pin =>
         saveLog({ title: pin.title, tags: pin.tags, created_at: new Date(), userId, wis, times: [], date: formattedDate(new Date()), isPinned: true } ), pins),
-        updatePins({},
+        updatePins({ wis, userId },
         { $set: { 'lastDate': formattedDate(new Date()) } }))
     .then(success => res.send(R.flatten(success))).catch(logger),
   )

@@ -4,11 +4,13 @@ import PropTypes from "prop-types";
 import Collapse from "@material-ui/core/Collapse";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
+import Tooltip from "@material-ui/core/Tooltip";
 // icons
-import ViewList from "@material-ui/icons/ViewList";
-import ImportExport from "@material-ui/icons/ImportExport";
-import InsertChart from "@material-ui/icons/InsertChart";
-import Flag from "@material-ui/icons/Flag";
+import ListAltIcon from "@material-ui/icons/ListAlt";
+import ImportExportIcon from "@material-ui/icons/ImportExport";
+import InsertChartOutlinedIcon from "@material-ui/icons/InsertChartOutlined";
+import FlagIcon from "@material-ui/icons/Flag";
+import ShowChartIcon from "@material-ui/icons/ShowChart";
 // components
 import Navigator from "../components/Navigator/Navigator.container.react";
 import Button from "../../../../helper/components/Button/Button.presentational";
@@ -16,7 +18,8 @@ import ShowChart from "../components/ShowChart/ShowChart.container.react";
 import Custom from "../components/Custom/Custom.container.react";
 import WorkList from "../components/WorkList/Main/WorkList.container.react";
 import PieChart from "../components/WorkList/components/PieChart.presentational";
-import Leaderbord from "../components/Leaderboard/Leaderboard.container.react";
+import Leaderboard from "../components/Leaderboard/Leaderboard.container.react";
+import Analysis from '../components/Analysis/Analysis.container'
 // selectors
 import {
   getWorksDuration,
@@ -30,15 +33,16 @@ import "./Report.scss";
 const IconButton = ({ expandMode, changeExpandMode, mode }) => (
   <Button
     variant={expandMode === mode ? "contained" : "outlined"}
-    onClick={() => changeExpandMode(mode)}
+    onClick={mode === "analysis" ? () => {} : () => changeExpandMode(mode)}
     componentName="Report"
   >
-    {mode === "workList" && <ViewList />}
-    {mode === "export" && <ImportExport />}
-    {mode === "showChart" && <InsertChart />}
-    {mode === "leaderboard" && <Flag />}
+    {mode === "workList" && <ListAltIcon />}
+    {mode === "export" && <ImportExportIcon />}
+    {mode === "showChart" && <InsertChartOutlinedIcon />}
+    {mode === "leaderboard" && <FlagIcon />}
+    {mode === "analysis" && <ShowChartIcon />}
   </Button>
-);
+)
 
 IconButton.propTypes = {
   expandMode: PropTypes.string.isRequired,
@@ -46,17 +50,35 @@ IconButton.propTypes = {
   mode: PropTypes.string.isRequired
 };
 
-export const ControllBar = props => (
-  <div className="report-controllBar">
+export const ControlBar = props => (
+  <div className="report-controlBar">
     <Navigator isActive={props.expandMode === "workList"} />
     <IconButton {...props} mode="workList" />
     <IconButton {...props} mode="export" />
     <IconButton {...props} mode="showChart" />
     <IconButton {...props} mode="leaderboard" />
+    {/* <IconButton {...props} mode="analysis" /> */}
+
+    {/* comming soon */}
+    <Tooltip 
+      title="Coming Soon! :D"
+      placement="bottom"
+      enterDelay={50}
+      leaveDelay={150}
+    >
+      <Button
+        variant="outlined"
+        onClick={() => {}}
+        componentName="Report"
+      >
+        <ShowChartIcon />
+      </Button>
+    </Tooltip>
+    {/* comming soon */}
   </div>
 );
 
-ControllBar.propTypes = {
+ControlBar.propTypes = {
   expandMode: PropTypes.string.isRequired
 };
 
@@ -104,7 +126,7 @@ export const LeaderboardPanel = ({ expandMode }) => (
     timeout="auto"
     unmountOnExit
   >
-    <Leaderbord />
+    <Leaderboard />
     <Divider light />
   </Collapse>
 );
@@ -112,6 +134,23 @@ export const LeaderboardPanel = ({ expandMode }) => (
 LeaderboardPanel.propTypes = {
   expandMode: PropTypes.string.isRequired
 };
+
+export const AnalysisPanel = ({ expandMode }) => (
+  <Collapse
+    component="li"
+    in={expandMode === "analysis"}
+    timeout="auto"
+    unmountOnExit
+  >
+    <Analysis />
+    <Divider light />
+  </Collapse>
+);
+
+AnalysisPanel.propTypes = {
+  expandMode: PropTypes.string.isRequired
+};
+
 
 export const WorkListPanel = ({
   selectedUser,
