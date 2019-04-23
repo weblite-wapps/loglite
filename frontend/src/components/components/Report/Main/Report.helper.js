@@ -13,7 +13,7 @@ export const nextDay = date => addDays(date, 1)
 
 export const sumTimes = times =>
   R.reduce((acc, time) => time.end === 'running' ?
-    acc + differenceInSeconds(new Date(), time.start) - 120 :
+    acc + differenceInSeconds(new Date(), time.start) :
     acc + differenceInSeconds(time.end, time.start), 0)(times)
 
 export const sumLogs = logs =>
