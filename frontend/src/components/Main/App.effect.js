@@ -62,7 +62,6 @@ const saveUsersEpic = action$ =>
 
 const initialFetchEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
-    // .do(() => dispatchSetIsLoading(true))
     .mergeMap(() => getRequest('/initialFetch')
       .query({
         wis: wisView(),
@@ -86,7 +85,6 @@ const initialFetchEpic = action$ =>
     .do(({ body }) => dispatchLoadLogsData(body))
     .do(() => dispatchAddPage(formattedDate(previousDay(new Date())), selectedUserView()))
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
-    // .do(() => dispatchSetIsLoading(false))
     .do(() => window.W && window.W.start())
     .ignoreElements()
 
