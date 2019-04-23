@@ -13,9 +13,9 @@ import {
   differenceInDays,
 } from "date-fns"
 
-export const defaultQueryGenerator = query => ({
-  wis: query.wis,
-  userId: query.userId,
+export const defaultQueryGenerator = ({ wis, userId }) => ({
+  wis,
+  userId,
 })
 
 export const queryGenerator = query => ({
