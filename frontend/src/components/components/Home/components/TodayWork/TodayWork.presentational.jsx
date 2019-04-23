@@ -39,7 +39,7 @@ export default class TodayWork extends React.Component {
     const len = times.length;
     if (len && times[len - 1].end === "running") {
       setSecondsElapsed(
-        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start) - 120
+        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start)
       );
       countinueCounting(_id);
     }
@@ -55,7 +55,6 @@ export default class TodayWork extends React.Component {
   }
 
   _handleStartClick() {
-    const now = new Date();
     const {
       log: { _id, times },
       runningId,
