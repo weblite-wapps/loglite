@@ -5,7 +5,7 @@ import * as R from 'ramda'
 import { sumTimes, formattedSeconds } from '../functions/time.helper'
 
 const getLogs = state => state.App.logs
-const getStaffLogs = state => state.Report.staffLogs
+const getStaffLogs = state => state.Report.staffLogs 
 
 const getWorksDuration = createSelector(
   [getLogs],

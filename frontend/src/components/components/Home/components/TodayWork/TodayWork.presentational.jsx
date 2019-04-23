@@ -39,7 +39,7 @@ export default class TodayWork extends React.Component {
     const len = times.length;
     if (len && times[len - 1].end === "running") {
       setSecondsElapsed(
-        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start)
+        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start) - 120
       );
       countinueCounting(_id);
     }
@@ -63,7 +63,7 @@ export default class TodayWork extends React.Component {
       onStopClick,
       setSecondsElapsed
     } = this.props;
-    if (runningId) onStopClick(runningId, now, _id, times);
+    if (runningId) onStopClick(runningId, null, _id, times);
     else {
       setSecondsElapsed(sumTimes(times));
       onStartClick(_id);
@@ -88,7 +88,7 @@ export default class TodayWork extends React.Component {
       addLogToNextDay(now, formattedDate(now));
       onStopClick(_id, previousDay(formatTime("24:00:00")), null, null);
     } else {
-      onStopClick(_id, now, null, null);
+      onStopClick(_id, null, null, null);
     }
   }
 
