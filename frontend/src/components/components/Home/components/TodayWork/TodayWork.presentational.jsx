@@ -66,7 +66,7 @@ export default class TodayWork extends React.Component {
     if (runningId) onStopClick(runningId, now, _id, times);
     else {
       setSecondsElapsed(sumTimes(times));
-      onStartClick(_id, now);
+      onStartClick(_id);
     }
   }
 
