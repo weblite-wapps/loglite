@@ -145,7 +145,7 @@ const effectSaveEndTime = action$ =>
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(({ runningId, end, _id, times }) => postRequest('/saveEndTime')
-      .send({ runningId, end: new Date(end), _id, times }))
+      .send({ runningId, end, _id, times })) 
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end))
