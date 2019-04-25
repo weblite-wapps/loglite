@@ -7488,6 +7488,11 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
+react-perf-devtool@^3.1.8:
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/react-perf-devtool/-/react-perf-devtool-3.1.8.tgz#ae5c369b3b73f5c71de8afb5257ae6f90c953440"
+  integrity sha512-jBnIr+jPcXTLyWLkGjxoAyB7/n7ojYLG3Az2y6FHEWu6eol9J3Ujx/aVMfY5qqrm2W3cVC/pmEC376Pjdi3f4g==
+
 react-redux@^5.0.6:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.1.1.tgz#88e368682c7fa80e34e055cd7ac56f5936b0f52f"
