@@ -163,13 +163,6 @@ export const changeIsError = createAction(CHANGE_IS_ERROR, value => ({ value }))
 export const dispatchChangeIsError = (...args) =>
   dispatch(changeIsError(...args))
 
-export const CHENGE_EDIT_MODE = 'CHENGE_EDIT_MODE'
-export const changeEditMode = createAction(CHENGE_EDIT_MODE, value => ({
-  value,
-}))
-export const dispatchChangeEditMode = (...args) =>
-  dispatch(changeEditMode(...args))
-
 // effects
 export const HANDLE_ADD_TAG = 'HANDLE_ADD_TAG'
 export const handleAddTag = createAction(HANDLE_ADD_TAG)

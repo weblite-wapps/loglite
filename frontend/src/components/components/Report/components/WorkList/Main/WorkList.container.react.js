@@ -3,11 +3,7 @@ import { connect } from 'react-redux'
 // components
 import WorkList from './WorkList.presentational'
 // views
-import {
-  selectedUserView,
-  anchorElView,
-  editModeView,
-} from '../../../Main/Report.reducer'
+import { selectedUserView, anchorElView } from '../../../Main/Report.reducer'
 import { userIdView, popoverIdView } from '../../../../../Main/App.reducer'
 import {
   secondsElapsedView,
@@ -18,14 +14,12 @@ import {
   dispatchHandleDeleteLog,
   dispatchChangePopoverId,
 } from '../../../../../Main/App.action'
-import {
-  dispatchChangeAnchorEl,
-  dispatchChangeEditMode,
-} from '../../../Main/Report.action'
+import { dispatchChangeAnchorEl } from '../../../Main/Report.action'
 import {
   dispatchSetSecondsElapsed,
   dispatchCountinueCounting,
 } from '../../../../Home/Main/Home.action'
+import { dispatchToggleEditMode } from '../../../../Edit/Edit.action'
 
 const mapStateToProps = (state, { getDuration, log: { _id } }) => ({
   workDuration: getDuration(state)[_id],
@@ -35,7 +29,6 @@ const mapStateToProps = (state, { getDuration, log: { _id } }) => ({
   runningId: runningIdView(),
   anchorEl: anchorElView(),
   secondsElapsed: secondsElapsedView(),
-  editMode: editModeView(),
 })
 
 const mapDispatchToProps = (dispatch, { log: { _id } }) => ({
@@ -44,7 +37,7 @@ const mapDispatchToProps = (dispatch, { log: { _id } }) => ({
   changeAnchorEl: dispatchChangeAnchorEl,
   setSecondsElapsed: dispatchSetSecondsElapsed,
   countinueCounting: dispatchCountinueCounting,
-  editClick: () => dispatchChangeEditMode(true),
+  editClick: dispatchToggleEditMode,
 })
 
 export default connect(

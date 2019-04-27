@@ -6,13 +6,19 @@ import App from './App.presentational'
 import { isLoadingView, tabIndexView, aboutModeView } from './App.reducer'
 // actions
 import { dispatchCheckToSetSecondsElapsed } from '../components/Home/Main/Home.action'
-import { dispatchChangeTab, dispatchSetApi, dispatchFetchTodayData, dispatchSetAboutMode } from './App.action'
-
+import {
+  dispatchChangeTab,
+  dispatchSetApi,
+  dispatchFetchTodayData,
+  dispatchSetAboutMode,
+} from './App.action'
+import { editModeView } from '../components/Edit/Edit.reducer'
 
 const mapStateToProps = () => ({
   isLoading: isLoadingView(),
   tabIndex: tabIndexView(),
   aboutMode: aboutModeView(),
+  editView: editModeView(),
 })
 
 const mapDispatchToProps = () => ({
@@ -23,5 +29,7 @@ const mapDispatchToProps = () => ({
   setAboutMode: dispatchSetAboutMode,
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App)

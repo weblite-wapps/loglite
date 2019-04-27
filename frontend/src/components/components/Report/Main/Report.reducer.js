@@ -31,7 +31,6 @@ import {
   RESTORE_LEADERBOARD_DATA,
   CHANGE_ANCHOR_EL,
   CHANGE_IS_ERROR,
-  CHENGE_EDIT_MODE,
 } from './Report.action'
 
 // state
@@ -53,7 +52,6 @@ const initialState = {
   anchorEl: null,
   isError: { startDate: false, endDate: false },
   leaderboard: [],
-  isEditing: false,
 }
 
 // lens
@@ -70,7 +68,7 @@ const expandModeLens = R.lensProp('expandMode')
 const anchorElLens = R.lensProp('anchorEl')
 const isErrorLens = R.lensProp('isError')
 const leaderboardLens = R.lensProp('leaderboard')
-const editModeLens = R.lensProp('isEditing')
+
 // views
 export const staffLogsView = () => R.path(['Report', 'staffLogs'])(getState())
 export const selectedUserView = () =>
@@ -94,14 +92,11 @@ export const anchorElView = () => R.path(['Report', 'anchorEl'])(getState())
 export const isErrorView = () => R.path(['Report', 'isError'])(getState())
 export const leaderboardView = () =>
   R.path(['Report', 'leaderboard'])(getState())
-export const editModeView = () => R.path(['Report', 'isEditing'])(getState())
 
 // reducers
 const reducers = {
   [CHANGE_EXPAND_MODE]: (state, { value }) =>
     R.set(expandModeLens, value)(state),
-
-  [CHENGE_EDIT_MODE]: (state, { value }) => R.set(editModeLens, value)(state),
 
   [SET_API]: (state, { user }) => ({ ...state, selectedUser: user.id }),
 

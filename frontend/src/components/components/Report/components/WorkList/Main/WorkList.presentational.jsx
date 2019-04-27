@@ -10,7 +10,6 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { differenceInSeconds } from 'date-fns'
 // components
 import Popover from '../components/Popover.presentational'
-import Edit from '../../Edit/Edit.container.react'
 // helpers
 import { TitleAndDuration, Tags } from './WorkList.helper.component'
 import { sumTimes } from '../../../../../../helper/functions/time.helper'
@@ -22,7 +21,6 @@ class WorkList extends React.Component {
   constructor(props) {
     super(props)
     this.handleOpenPopover = this._handleOpenPopover.bind(this)
-    this.handleEdit = this.handleEdit.bind(this)
   }
 
   componentWillMount() {
@@ -51,11 +49,6 @@ class WorkList extends React.Component {
     changePopoverId(_id)
   }
 
-  handleEdit() {
-    const { editClick } = this.props
-    editClick()
-  }
-
   render() {
     const {
       classes,
@@ -67,7 +60,7 @@ class WorkList extends React.Component {
       changePopoverId,
       handleDeleteLog,
       anchorEl,
-      editMode,
+      editClick,
     } = this.props
     const len = times.length
     return (
@@ -103,13 +96,12 @@ class WorkList extends React.Component {
               >
                 <MuiButton
                   variant="contained"
-                  onClick={this.handleEdit}
+                  onClick={() => editClick(log, true)}
                   classes={{ raised: classes.WorkList }}
                 >
                   Edit
                 </MuiButton>
               </Tooltip>
-              {editMode && <Edit log={log} />}
             </div>
           )}
         </List>

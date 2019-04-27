@@ -4,12 +4,15 @@ import { connect } from 'react-redux'
 import Edit from './Edit.presentational'
 // views
 // actions
-import { dispatchChangeEditMode } from '../../Main/Report.action'
+import { dispatchUpdateLog } from './Edit.action'
+import { logView } from './Edit.reducer'
 
-const mapStateToProps = () => ({})
+const mapStateToProps = () => ({
+  log: logView(),
+})
 
 const mapDispatchToProps = () => ({
-  submit: () => dispatchChangeEditMode(false),
+  submit: dispatchUpdateLog,
 })
 
 export default connect(
