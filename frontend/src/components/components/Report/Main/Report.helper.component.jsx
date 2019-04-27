@@ -19,7 +19,7 @@ import Custom from "../components/Custom/Custom.container.react";
 import WorkList from "../components/WorkList/Main/WorkList.container.react";
 import PieChart from "../components/WorkList/components/PieChart.presentational";
 import Leaderboard from "../components/Leaderboard/Leaderboard.container.react";
-import Analysis from '../components/Analysis/Analysis.container'
+import Analysis from "../components/Analysis/Analysis.container";
 // selectors
 import {
   getWorksDuration,
@@ -42,7 +42,7 @@ const IconButton = ({ expandMode, changeExpandMode, mode }) => (
     {mode === "leaderboard" && <FlagIcon />}
     {mode === "analysis" && <ShowChartIcon />}
   </Button>
-)
+);
 
 IconButton.propTypes = {
   expandMode: PropTypes.string.isRequired,
@@ -60,17 +60,13 @@ export const ControlBar = props => (
     {/* <IconButton {...props} mode="analysis" /> */}
 
     {/* comming soon */}
-    <Tooltip 
+    <Tooltip
       title="Coming Soon! :D"
       placement="bottom"
       enterDelay={50}
       leaveDelay={150}
     >
-      <Button
-        variant="outlined"
-        onClick={() => {}}
-        componentName="Report"
-      >
+      <Button variant="outlined" onClick={() => {}} componentName="Report">
         <ShowChartIcon />
       </Button>
     </Tooltip>
@@ -150,7 +146,6 @@ export const AnalysisPanel = ({ expandMode }) => (
 AnalysisPanel.propTypes = {
   expandMode: PropTypes.string.isRequired
 };
-
 
 export const WorkListPanel = ({
   selectedUser,
