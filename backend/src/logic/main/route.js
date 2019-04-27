@@ -57,8 +57,8 @@ app.get('/initialFetch', ({ query }, res) =>
   app.post("/saveLogs", ({ body: { pins, date, userId, wis } }, res) =>
     Promise.all(
       R.map(pin =>
-        saveLog({ title: pin.title, tags: pin.tags, created_at: new Date(), userId, wis, times: [], date: formattedDate(new Date()), isPinned: true } ), pins),
+        saveLog({ title: pin.title, tags: pin.tags, created_at: new Date(), userId, wis, times: [], date, isPinned: true } ), pins),
         updatePins({ wis, userId },
-        { $set: { 'lastDate': formattedDate(new Date()) } }))
+        { $set: { 'lastDate': date } }))
     .then(success => res.send(R.flatten(success))).catch(logger),
   )

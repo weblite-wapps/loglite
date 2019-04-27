@@ -77,6 +77,7 @@ const initialFetchEpic = action$ =>
     // .do(({ body: { pins } }) => console.log('pins', pins, 'unique', getUnique(pins)))
     .mergeMap(({ body: { pins } }) => postRequest('/saveLogs')
       .send({
+        date: formattedDate(new Date()),
         pins: getUnique(pins),
         userId: userIdView(),
         wis: wisView(),
@@ -144,12 +145,10 @@ const effectSaveEndTime = action$ =>
   action$.ofType(HANDLE_SAVE_END_TIME)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
-    .do(console.log)
     .mergeMap(({ runningId, end, _id, times }) => postRequest('/saveEndTime')
       .send({ runningId, end, _id, times })) 
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(console.log)
     .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end))
     .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchRefetchTotalDuration())
