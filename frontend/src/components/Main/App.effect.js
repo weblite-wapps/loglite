@@ -137,7 +137,7 @@ const effectSaveStartTime = action$ =>
       .send({ _id }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { _id } }) => dispatchSaveStartTime(_id, new Date()))
+    .do(({ body: { _id, start } }) => dispatchSaveStartTime(_id, start))
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .do(() => W && W.analytics('PLAY_CLICK')) 
     .ignoreElements()
