@@ -28,9 +28,9 @@ export default () => (
           <Route exact path="/" component={Home} />
 
           <Suspense fallback={<div>Loading...</div>}>
-            <Route path="/Add" component={Add} />
-            <Route path="/Report" component={Report} />
-            <Route path="/About" component={About} />
+            <Route path="/Add" render={() => <Add />} />
+            <Route path="/Report" render={() => <Report />} />
+            <Route path="/About" render={() => <About />} />
           </Suspense>
         </div>
       </ConnectedRouter>
