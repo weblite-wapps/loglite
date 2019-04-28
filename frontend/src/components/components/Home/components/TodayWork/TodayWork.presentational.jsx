@@ -33,13 +33,15 @@ export default class TodayWork extends React.Component {
   componentWillMount() {
     const {
       log: { _id, times },
+      timeDifference,
       setSecondsElapsed,
       countinueCounting
     } = this.props;
     const len = times.length;
     if (len && times[len - 1].end === "running") {
+      console.log(sumTimes(times), differenceInSeconds(new Date(), times[len - 1].start), timeDifference)
       setSecondsElapsed(
-        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start)
+        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start) - 135
       );
       countinueCounting(_id);
     }

@@ -151,7 +151,7 @@ const effectSaveEndTime = action$ =>
       .send({ runningId, end, _id, times })) 
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end || new Date()))
+    .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end))
     .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchRefetchTotalDuration())
     .filter(({ body: { _id } }) => _id)
