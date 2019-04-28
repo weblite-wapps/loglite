@@ -13,6 +13,8 @@ import Popover from "../components/Popover.presentational";
 // helpers
 import { TitleAndDuration, Tags } from "./WorkList.helper.component";
 import { sumTimes } from "../../../../../../helper/functions/time.helper";
+// views
+import { timeDifferenceView } from '../../../../../Main/App.reducer'
 // styles
 import "./WorkList.scss";
 import styles from "../../../../../../helper/components/Button/Button.style";
@@ -32,8 +34,8 @@ class WorkList extends React.Component {
     const len = times.length;
 
     if (len && times[len - 1].end === "running") {
-      setSecondsElapsed(
-        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start)
+      setSecondsElapsed( 
+        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start) - timeDifferenceView()
       );
       countinueCounting(_id);
     }

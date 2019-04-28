@@ -3,6 +3,7 @@ import * as R from 'ramda'
 import { differenceInSeconds, addDays, subDays } from 'date-fns'
 // views
 import { startDateView, endDateView } from '../../../components/Report/Main/Report.reducer'
+import { timeDifferenceView } from '../../../Main/App.reducer';
 
 
 export const isTime = time => R.test(/^Total/, time)
@@ -13,7 +14,7 @@ export const nextDay = date => addDays(date, 1)
 
 export const sumTimes = times =>
   R.reduce((acc, time) => time.end === 'running' ?
-    acc + differenceInSeconds(new Date(), time.start) :
+    acc + differenceInSeconds(new Date(), time.start) - timeDifferenceView() :
     acc + differenceInSeconds(time.end, time.start), 0)(times)
 
 export const sumLogs = logs =>

@@ -78,7 +78,7 @@ export const dispatchSetTimeDifference = (...args) => dispatch(setTimeDifference
 export const HANDLE_SAVE_START_TIME = 'HANDLE_SAVE_START_TIME'
 export const handleSaveStartTime = createAction(
   HANDLE_SAVE_START_TIME,
-  (_id) => ({ _id }),
+  (_id, start) => ({ _id, start }),
 )
 export const dispatchHandleSaveStartTime = (...args) => dispatch(handleSaveStartTime(...args))
 

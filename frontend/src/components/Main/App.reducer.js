@@ -76,10 +76,10 @@ const reducers = {
     logs: R.remove(R.findIndex(R.propEq('_id', _id))(state.logs), 1, state.logs),
   }),
 
-  [SAVE_START_TIME]: (state, { _id }) => ({
+  [SAVE_START_TIME]: (state, { _id, start }) => ({ 
     ...state,
     logs: R.map(log => (log._id === _id) ?
-      { ...log, times: R.append({ start: new Date(), end: 'running' }, log.times) } : log, state.logs),
+      { ...log, times: R.append({ start, end: 'running' }, log.times) } : log, state.logs),
   }),
 
   [SAVE_END_TIME]: (state, { _id, end }) => ({

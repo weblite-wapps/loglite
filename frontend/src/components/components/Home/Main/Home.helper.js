@@ -30,8 +30,8 @@ export const NextDuration = (currentStage, direction) => {
   }
 }
 
-export const getSecondsElapsed = (logs, _id) =>
-  sumTimes(getTimes(logs, _id)) + differenceInSeconds(new Date(), getStartTime(getTimes(logs, _id)))
+export const getSecondsElapsed = (logs, _id, timeDifference) => 
+  sumTimes(getTimes(logs, _id)) + differenceInSeconds(new Date(), getStartTime(getTimes(logs, _id))) - timeDifference
 
 const checkIsRunning = log => R.prop('end', R.last(log.times)) === 'running'
 
