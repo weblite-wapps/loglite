@@ -6,10 +6,10 @@ import { Pickers, BarChart, Buttons } from '../../../../../helper/functions/comm
 
 
 export default props => (
-  <React.Fragment>
+  <>
     <Pickers {...props} />
     <Buttons {...props} />
     <Divider />
     <BarChart {...props} XDataKey="name" YDataKey="duration" />
-  </React.Fragment>
+  </>
 )

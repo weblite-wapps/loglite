@@ -1,25 +1,21 @@
 // modules
-import React from "react";
+import React, { Suspense, lazy } from 'react';
 import PropTypes from "prop-types";
 import Collapse from "@material-ui/core/Collapse";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import Tooltip from "@material-ui/core/Tooltip";
+// import Tooltip from "@material-ui/core/Tooltip";
 // icons
 import MdFlag from 'react-ionicons/lib/MdFlag' 
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import ImportExportIcon from "@material-ui/icons/ImportExport";
 import InsertChartOutlinedIcon from "@material-ui/icons/InsertChartOutlined";
-import ShowChartIcon from "@material-ui/icons/ShowChart";
+// import ShowChartIcon from "@material-ui/icons/ShowChart";
 // components
 import Navigator from "../components/Navigator/Navigator.container.react";
 import Button from "../../../../helper/components/Button/Button.presentational";
-import ShowChart from "../components/ShowChart/ShowChart.container.react";
-import Custom from "../components/Custom/Custom.container.react";
 import WorkList from "../components/WorkList/Main/WorkList.container.react";
 import PieChart from "../components/WorkList/components/PieChart.presentational";
-import Leaderboard from "../components/Leaderboard/Leaderboard.container.react";
-import Analysis from '../components/Analysis/Analysis.container'
 // selectors
 import {
   getWorksDuration,
@@ -30,6 +26,12 @@ import { formattedDate } from "../../../../helper/functions/date.helper";
 import { secondary_color } from '../../../../helper/style/_color'
 // styles
 import "./Report.scss";
+// lazy loading 
+const ShowChart = lazy(() => import("../components/ShowChart/ShowChart.container.react"));
+const Leaderboard = lazy(() => import("../components/Leaderboard/Leaderboard.container.react"));
+const Custom = lazy(() => import("../components/Custom/Custom.container.react"));
+const Analysis = lazy(() => import("../components/Analysis/Analysis.container"));
+
 
 const IconButton = ({ expandMode, changeExpandMode, mode }) => (
   <Button
@@ -90,7 +92,9 @@ export const ExportPanel = ({ expandMode, totalDurationFromServer }) => (
     timeout="auto"
     unmountOnExit
   >
-    <Custom />
+    <Suspense fallback={<div>Loading...</div>}>
+      <Custom />
+    </Suspense>
     <Divider light />
     <div className="report-text">
       <Typography variant="subheading">{totalDurationFromServer}</Typography>
@@ -111,7 +115,9 @@ export const BarChartPanel = ({ expandMode }) => (
     timeout="auto"
     unmountOnExit
   >
-    <ShowChart />
+    <Suspense fallback={<div>Loading...</div>}>
+      <ShowChart />
+    </Suspense>
     <Divider light />
   </Collapse>
 );
@@ -127,7 +133,9 @@ export const LeaderboardPanel = ({ expandMode }) => (
     timeout="auto"
     unmountOnExit
   >
-    <Leaderboard />
+    <Suspense fallback={<div>Loading...</div>}>
+      <Leaderboard />
+    </Suspense>
     <Divider light />
   </Collapse>
 );
@@ -143,7 +151,9 @@ export const AnalysisPanel = ({ expandMode }) => (
     timeout="auto"
     unmountOnExit
   >
-    <Analysis />
+    <Suspense fallback={<div>Loading...</div>}>
+      <Analysis />
+    </Suspense>
     <Divider light />
   </Collapse>
 );

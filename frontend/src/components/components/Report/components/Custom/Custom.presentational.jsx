@@ -8,10 +8,10 @@ import {
 import { Buttons, CSVDownloader } from "./Custom.helper.component";
 
 export default props => (
-  <React.Fragment>
+  <>
     <Pickers {...props} />
     <TagPanel {...props} />
     <Buttons {...props} />
     <CSVDownloader {...props} />
-  </React.Fragment>
+  </>
 );

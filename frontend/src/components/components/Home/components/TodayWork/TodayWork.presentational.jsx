@@ -99,7 +99,7 @@ export default class TodayWork extends React.Component {
     const len = times.length;
 
     return (
-      <React.Fragment>
+      <>
         <List dense disablePadding className="list">
           <ListItem dense disableGutters>
             <PinButton {...this.props} />
@@ -114,7 +114,7 @@ export default class TodayWork extends React.Component {
           <Collapse {...this.props} />
         </List>
         <Divider light />
-      </React.Fragment>
+      </>
     );
   }
 }
