@@ -16,6 +16,7 @@ import {
   SAVE_END_TIME,
   TOGGLE_IS_PINNED,
   SET_ABOUT_MODE,
+  SET_TIME_DIFFERENCE,
 } from './App.action'
 
 // state
@@ -23,6 +24,7 @@ const initialState = {
   tabIndex: 'Home',
   aboutMode: false,
   isLoading: false,
+  timeDifference: 0,
   popoverId: '',
   logs: [],
   users: [],
@@ -69,7 +71,7 @@ const reducers = {
     logs: R.prepend(log, state.logs),
   }),
 
-  [DELETE_LOG]: (state, { _id }) => ({
+  [DELETE_LOG]: (state, { _id }) => ({ 
     ...state,
     logs: R.remove(R.findIndex(R.propEq('_id', _id))(state.logs), 1, state.logs),
   }),
@@ -90,13 +92,15 @@ const reducers = {
       } : log, state.logs),
   }),
 
-  [TOGGLE_IS_PINNED]: (state, { _id, value }) => ({
+  [TOGGLE_IS_PINNED]: (state, { _id, value }) => ({ 
     ...state,
     logs: R.map(log => (log._id === _id) ?
       { ...log, isPinned: value } : log, state.logs),
   }),
 
-  [SET_ABOUT_MODE]: (state, { value }) => R.set(aboutModeLens, value, state),
+  [SET_ABOUT_MODE]: (state, aboutMode) => ({ ...state, aboutMode }),
+
+  [SET_TIME_DIFFERENCE]:  (state, timeDifference) => ({ ...state, timeDifference })
 }
 
 
