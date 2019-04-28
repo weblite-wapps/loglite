@@ -5,7 +5,8 @@ export default ({
     backgroundColor: secondary_color,
     color: 'white',
     borderRadius: '0px',
-    margin: '0px 10px 0px 5px',
+    margin: '0px 5px 0px 5px',
+    padding: '5px 10px',
     textTransform: 'capitalize',
   },
   Add: {

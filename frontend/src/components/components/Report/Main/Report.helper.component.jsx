@@ -41,7 +41,7 @@ const IconButton = ({ expandMode, changeExpandMode, mode }) => (
     {mode === "export" && <ImportExportIcon />}
     {mode === "showChart" && <InsertChartOutlinedIcon />}
     {mode === "leaderboard" && <MdFlag fontSize="30px" color={secondary_color} beat />} 
-    {mode === "analysis" && <ShowChartIcon />}
+    {/* {mode === "analysis" && <ShowChartIcon />} */}
   </Button>
 )
 
@@ -61,7 +61,7 @@ export const ControlBar = props => (
     {/* <IconButton {...props} mode="analysis" /> */}
 
     {/* comming soon */}
-    <Tooltip 
+    {/* <Tooltip 
       title="Coming Soon! :D"
       placement="bottom"
       enterDelay={50}
@@ -74,7 +74,7 @@ export const ControlBar = props => (
       >
         <ShowChartIcon />
       </Button>
-    </Tooltip>
+    </Tooltip> */}
     {/* comming soon */}
   </div>
 );

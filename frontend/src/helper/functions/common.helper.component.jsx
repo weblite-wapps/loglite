@@ -111,7 +111,7 @@ export const Buttons = ({ startDate, endDate, update, handleUpdate }) => {
           }
         />
         <Button
-          label="This Week"
+          label="Last 7 days"
           componentName="CustomAdd"
           onClick={() =>
             update(
@@ -121,7 +121,7 @@ export const Buttons = ({ startDate, endDate, update, handleUpdate }) => {
           }
         />
         <Button
-          label="This Month"
+          label="Last 30 days"
           componentName="CustomAdd"
           onClick={() =>
             update(
