@@ -15,7 +15,5 @@ export const dispatchToggleEditMode = (...args) =>
   dispatch(toggleEditMode(...args))
 
 export const UPDATE_LOG = 'UPDATE_LOG'
-export const updateLog = createAction(UPDATE_LOG, value => ({
-  value,
-}))
+export const updateLog = createAction(UPDATE_LOG)
 export const dispatchUpdateLog = (...args) => dispatch(updateLog(...args))

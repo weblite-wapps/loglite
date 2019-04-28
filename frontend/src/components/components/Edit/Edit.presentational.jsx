@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // import { withStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
-
+import List from '@material-ui/core/List'
+import Picker from '../../../helper/components/Picker/Picker.presentational'
+import { Divider } from '@material-ui/core'
 class Edit extends React.Component {
   render() {
     const { submit, log } = this.props
@@ -12,10 +14,17 @@ class Edit extends React.Component {
           <div>
             <ul>
               {log.times.map(item => (
-                <li key={item.start}>{item.start}</li>
+                <List className="todayWork-list" key={item.start + item.end}>
+                  <Picker label="Date" type="Date" />
+                  <Picker label="Start time" type="Time" />
+                  <Picker label="End time" type="Time" />
+                  <li>{item.start}</li>
+                  <li>{item.end}</li>
+                  <Divider />
+                </List>
               ))}
             </ul>
-            <button onClick={() => submit({}, false)}>Submit</button>
+            <button onClick={submit}>Submit</button>
           </div>
         </Modal>
       </div>
