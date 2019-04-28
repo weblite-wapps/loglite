@@ -1,6 +1,6 @@
 import { secondary_color } from './_color'
 
-export default theme => ({
+export default () => ({
   container: {
     margin: '10px',
     display: 'flex',
@@ -8,9 +8,8 @@ export default theme => ({
     userSelect: 'none',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 300,
+    margin: 'auto',
+    width: '90%',
   },
   textFieldFormLabel: {
     color: secondary_color, 
