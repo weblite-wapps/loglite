@@ -67,8 +67,12 @@ export const toggleIsPinned = createAction(TOGGLE_IS_PINNED, (_id, value) => ({ 
 export const dispatchToggleIsPinned = (...args) => dispatch(toggleIsPinned(...args))
 
 export const SET_ABOUT_MODE = 'SET_ABOUT_MODE'
-export const setAboutMode = createAction(SET_ABOUT_MODE, value => ({ value }))
+export const setAboutMode = createAction(SET_ABOUT_MODE)
 export const dispatchSetAboutMode = (...args) => dispatch(setAboutMode(...args))
+ 
+export const SET_TIME_DIFFERENCE = 'SET_TIME_DIFFERENCE'
+export const setTimeDifference = createAction(SET_TIME_DIFFERENCE)
+export const dispatchSetTimeDifference = (...args) => dispatch(setTimeDifference(...args))
 
 // effects
 export const HANDLE_SAVE_START_TIME = 'HANDLE_SAVE_START_TIME'

@@ -35,6 +35,7 @@ import {
   dispatchSaveEndTime,
   dispatchToggleIsPinned,
   dispatchHandleSaveStartTime,
+  dispatchSetTimeDifference,
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, aboutModeView } from './App.reducer'
@@ -75,8 +76,7 @@ const initialFetchEpic = action$ =>
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
     .do(({ body: { leaderboard } }) => dispatchRestoreLeaderboardData(leaderboard))
-    .do(({ body: { time } }) => console.log(differenceInSeconds(new Date(), time))) 
-    // .do(({ body: { pins } }) => console.log('pins', pins, 'unique', getUnique(pins)))
+    .do(({ body: { time } }) => dispatchSetTimeDifference(differenceInSeconds(new Date(), time)))
     .mergeMap(({ body: { pins } }) => postRequest('/saveLogs')
       .send({
         date: formattedDate(new Date()),
@@ -88,7 +88,7 @@ const initialFetchEpic = action$ =>
     .do(({ body }) => dispatchLoadLogsData(body))
     .do(() => dispatchAddPage(formattedDate(previousDay(new Date())), selectedUserView()))
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
-    .do(() => window.W && window.W.start())
+    .do(() => W && W.start())
     .ignoreElements()
 
 
@@ -137,7 +137,7 @@ const effectSaveStartTime = action$ =>
       .send({ _id }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { _id, start } }) => dispatchSaveStartTime(_id, start))
+    .do(({ body: { _id } }) => dispatchSaveStartTime(_id, new Date()))
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .do(() => W && W.analytics('PLAY_CLICK')) 
     .ignoreElements()
@@ -151,12 +151,12 @@ const effectSaveEndTime = action$ =>
       .send({ runningId, end, _id, times })) 
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end))
+    .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end || new Date()))
     .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchRefetchTotalDuration())
     .filter(({ body: { _id } }) => _id)
     .do(({ body: { times } }) => dispatchSetSecondsElapsed(sumTimes(times)))
-    .do(({ body: { _id, end } }) => dispatchHandleSaveStartTime(_id, end))
+    .do(({ body: { _id } }) => dispatchHandleSaveStartTime(_id, new Date()))
     .do(() => W && W.analytics('PAUSE_CLICK')) 
     .ignoreElements()
 

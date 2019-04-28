@@ -56,7 +56,7 @@ app.post("/saveStartTime", ({ body }, res) =>
     { _id: mongoose.Types.ObjectId(body._id) },
     { $push: { times: { start: new Date(), end: "running" } } },
   )
-    .then(() => res.send({ ...body, start: new Date() }))
+    .then(() => res.send(body))
     .catch(logger),
 )
 
@@ -65,7 +65,7 @@ app.post("/saveEndTime", ({ body }, res) =>
     { _id: mongoose.Types.ObjectId(body.runningId), "times.end": "running" },
     { $set: { "times.$.end": body.end || new Date() } },
   )
-    .then(() => res.send({ ...body, end: body.end || new Date() }))
+    .then(() => res.send(body))
     .catch(logger),
 )
 
