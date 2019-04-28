@@ -5,6 +5,12 @@ import { AppContainer } from 'react-hot-loader'
 // components
 import Root from '../src/setup/root'
 
+// for dev mode
+if (process.env.NODE_ENV !== 'production') {
+  const { registerObserver } = require('react-perf-devtool')
+  window.observer = registerObserver()
+}
+
 
 const renderLoglite = () => render(
   <AppContainer>

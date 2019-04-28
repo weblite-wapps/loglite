@@ -4,6 +4,7 @@ import 'rxjs'
 // import { snackbarMessage } from 'weblite-web-snackbar'
 import { push } from 'react-router-redux'
 // helpers
+import { differenceInSeconds } from 'date-fns'
 import { getUnique } from './App.helper' 
 import { getRequest, postRequest } from '../../helper/functions/request.helper'
 import { formatTime, sumTimes } from '../../helper/functions/time.helper'
@@ -74,6 +75,7 @@ const initialFetchEpic = action$ =>
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
     .do(({ body: { leaderboard } }) => dispatchRestoreLeaderboardData(leaderboard))
+    .do(({ body: { time } }) => console.log(differenceInSeconds(new Date(), time))) 
     // .do(({ body: { pins } }) => console.log('pins', pins, 'unique', getUnique(pins)))
     .mergeMap(({ body: { pins } }) => postRequest('/saveLogs')
       .send({

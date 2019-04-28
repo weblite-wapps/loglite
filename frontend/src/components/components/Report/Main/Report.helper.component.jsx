@@ -6,10 +6,10 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Tooltip from "@material-ui/core/Tooltip";
 // icons
+import MdFlag from 'react-ionicons/lib/MdFlag' 
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import ImportExportIcon from "@material-ui/icons/ImportExport";
 import InsertChartOutlinedIcon from "@material-ui/icons/InsertChartOutlined";
-import FlagIcon from "@material-ui/icons/Flag";
 import ShowChartIcon from "@material-ui/icons/ShowChart";
 // components
 import Navigator from "../components/Navigator/Navigator.container.react";
@@ -27,6 +27,7 @@ import {
 } from "../../../../helper/selectors/workDuration.selector";
 // helpers
 import { formattedDate } from "../../../../helper/functions/date.helper";
+import { secondary_color } from '../../../../helper/style/_color'
 // styles
 import "./Report.scss";
 
@@ -39,7 +40,7 @@ const IconButton = ({ expandMode, changeExpandMode, mode }) => (
     {mode === "workList" && <ListAltIcon />}
     {mode === "export" && <ImportExportIcon />}
     {mode === "showChart" && <InsertChartOutlinedIcon />}
-    {mode === "leaderboard" && <FlagIcon />}
+    {mode === "leaderboard" && <MdFlag fontSize="30px" color={secondary_color} beat />} 
     {mode === "analysis" && <ShowChartIcon />}
   </Button>
 )

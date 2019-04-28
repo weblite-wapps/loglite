@@ -6,8 +6,8 @@ import { fetchUsers, saveUser, countUser } from './db'
 const logger = console.log
 
 
-app.get('/fetchUsers', (req, res) =>
-  fetchUsers({ wis: req.query.wis })
+app.get('/fetchUsers', ({ query: { wis } }, res) =>
+  fetchUsers({ wis }) 
     .then(users => res.json(users))
     .catch(logger))
 
