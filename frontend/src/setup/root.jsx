@@ -10,6 +10,7 @@ import store, { history } from "./redux";
 import App from "../components/Main/App.container.react";
 import Home from "../components/components/Home/Main/Home.container.react";
 import About from "../components/components/About/About.jsx";
+import Loading from "../helper/components/Loading/Loading.presentational"
 // styles
 import "./root.scss";
 import theme from "../helper/style/appTheme"; 
@@ -27,7 +28,7 @@ export default () => (
           
           <Route exact path="/" component={Home} />
 
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading />}>
             <Route path="/Add" render={() => <Add />} />
             <Route path="/Report" render={() => <Report />} />
             <Route path="/About" render={() => <About />} />
