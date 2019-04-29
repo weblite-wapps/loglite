@@ -65,7 +65,7 @@ class WorkList extends React.Component {
     const len = times.length;
 
     return (
-      <React.Fragment>
+      <>
         <List disablePadding>
           <TitleAndDuration {...this.props} len={len} />
           <Tags {...this.props} />
@@ -107,7 +107,7 @@ class WorkList extends React.Component {
           )}
         </List>
         <Divider light />
-      </React.Fragment>
+      </>
     );
   }
 }

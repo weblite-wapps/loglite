@@ -1,5 +1,5 @@
 // Modules
-import React from "react";
+import React, { Suspense, lazy } from 'react';
 import { Provider } from "react-redux";
 import { Route } from "react-router";
 import { ConnectedRouter } from "react-router-redux";
@@ -9,12 +9,15 @@ import store, { history } from "./redux";
 // Component
 import App from "../components/Main/App.container.react";
 import Home from "../components/components/Home/Main/Home.container.react";
-import Add from "../components/components/Add/Main/Add.container.react";
-import Report from "../components/components/Report/Main/Report.container.react";
 import About from "../components/components/About/About.jsx";
+import Loading from "../helper/components/Loading/Loading.presentational"
 // styles
 import "./root.scss";
-import theme from "../helper/style/appTheme";
+import theme from "../helper/style/appTheme"; 
+// lazy loading
+const Add = lazy(() => import('../components/components/Add/Main/Add.container.react'));
+const Report = lazy(() => import('../components/components/Report/Main/Report.container.react'));
+// const About = lazy(() => import('../components/components/About/About.jsx'));
 
 export default () => (
   <Provider store={store}>
@@ -22,10 +25,14 @@ export default () => (
       <ConnectedRouter history={history}>
         <div className="app-container ">
           <App />
+          
           <Route exact path="/" component={Home} />
-          <Route path="/Add" component={Add} />
-          <Route path="/Report" component={Report} />
-          <Route path="/About" component={About} />
+
+          <Suspense fallback={<Loading />}>
+            <Route path="/Add" render={() => <Add />} />
+            <Route path="/Report" render={() => <Report />} />
+            <Route path="/About" render={() => <About />} />
+          </Suspense>
         </div>
       </ConnectedRouter>
     </MuiThemeProvider>
