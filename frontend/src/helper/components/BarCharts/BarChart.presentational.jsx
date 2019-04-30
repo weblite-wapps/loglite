@@ -11,7 +11,7 @@ const COLORS = ['#b93433', '#8a2f77', '#f8ce56', '#62aaaf', '#FF8042', '#00C49F'
 
 
 const CustomizedBarChart = ({ barChartData, XDataKey, YDataKey }) => (
-  <BarChart width={350} height={350} data={barChartData}>
+  <BarChart width={310} height={310} data={barChartData}>
     <CartesianGrid vertical={false} />
 
     <XAxis dataKey={XDataKey} />

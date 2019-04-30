@@ -16,6 +16,7 @@ import {
   SAVE_END_TIME,
   TOGGLE_IS_PINNED,
   SET_ABOUT_MODE,
+  SET_TIME_DIFFERENCE,
 } from './App.action'
 
 // state
@@ -23,6 +24,7 @@ const initialState = {
   tabIndex: 'Home',
   aboutMode: false,
   isLoading: false,
+  timeDifference: 0,
   popoverId: '',
   logs: [],
   users: [],
@@ -36,7 +38,6 @@ const isLoadingLens = R.lensProp('isLoading')
 const tabIndexLens = R.lensProp('tabIndex')
 const endLens = R.lensProp('end')
 const popoverIdLens = R.lensProp('popoverId')
-const aboutModeLens = R.lensProp('aboutMode')
 // views
 export const wisView = () => R.path(['App', 'wis'])(getState())
 export const creatorView = () => R.path(['App', 'creator'])(getState())
@@ -48,6 +49,7 @@ export const popoverIdView = () => R.path(['App', 'popoverId'])(getState())
 export const isLoadingView = () => R.path(['App', 'isLoading'])(getState())
 export const tabIndexView = () => R.path(['App', 'tabIndex'])(getState())
 export const aboutModeView = () => R.path(['App', 'aboutMode'])(getState())
+export const timeDifferenceView = () => R.path(['App', 'timeDifference'])(getState())
 
 // reducers
 const reducers = {
@@ -69,15 +71,15 @@ const reducers = {
     logs: R.prepend(log, state.logs),
   }),
 
-  [DELETE_LOG]: (state, { _id }) => ({
+  [DELETE_LOG]: (state, { _id }) => ({ 
     ...state,
     logs: R.remove(R.findIndex(R.propEq('_id', _id))(state.logs), 1, state.logs),
   }),
 
-  [SAVE_START_TIME]: (state, { _id }) => ({
+  [SAVE_START_TIME]: (state, { _id, start }) => ({ 
     ...state,
     logs: R.map(log => (log._id === _id) ?
-      { ...log, times: R.append({ start: new Date(), end: 'running' }, log.times) } : log, state.logs),
+      { ...log, times: R.append({ start, end: 'running' }, log.times) } : log, state.logs),
   }),
 
   [SAVE_END_TIME]: (state, { _id, end }) => ({
@@ -90,13 +92,15 @@ const reducers = {
       } : log, state.logs),
   }),
 
-  [TOGGLE_IS_PINNED]: (state, { _id, value }) => ({
+  [TOGGLE_IS_PINNED]: (state, { _id, value }) => ({ 
     ...state,
     logs: R.map(log => (log._id === _id) ?
       { ...log, isPinned: value } : log, state.logs),
   }),
 
-  [SET_ABOUT_MODE]: (state, { value }) => R.set(aboutModeLens, value, state),
+  [SET_ABOUT_MODE]: (state, aboutMode) => ({ ...state, aboutMode }),
+
+  [SET_TIME_DIFFERENCE]:  (state, timeDifference) => ({ ...state, timeDifference })
 }
 
 

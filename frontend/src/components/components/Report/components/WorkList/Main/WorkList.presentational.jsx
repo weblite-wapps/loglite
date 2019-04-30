@@ -13,6 +13,8 @@ import Popover from '../components/Popover.presentational'
 // helpers
 import { TitleAndDuration, Tags } from './WorkList.helper.component'
 import { sumTimes } from '../../../../../../helper/functions/time.helper'
+// views
+import { timeDifferenceView } from '../../../../../Main/App.reducer'
 // styles
 import './WorkList.scss'
 import styles from '../../../../../../helper/components/Button/Button.style'
@@ -33,7 +35,9 @@ class WorkList extends React.Component {
 
     if (len && times[len - 1].end === 'running') {
       setSecondsElapsed(
-        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start),
+        sumTimes(times) +
+          differenceInSeconds(new Date(), times[len - 1].start) -
+          timeDifferenceView(),
       )
       countinueCounting(_id)
     }
@@ -64,7 +68,7 @@ class WorkList extends React.Component {
     } = this.props
     const len = times.length
     return (
-      <React.Fragment>
+      <>
         <List disablePadding>
           <TitleAndDuration {...this.props} len={len} />
           <Tags {...this.props} />
@@ -106,7 +110,7 @@ class WorkList extends React.Component {
           )}
         </List>
         <Divider light />
-      </React.Fragment>
+      </>
     )
   }
 }

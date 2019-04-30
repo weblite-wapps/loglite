@@ -21,7 +21,7 @@ import {
   dispatchSetSecondsElapsed,
 } from './Home.action'
 // views
-import { wisView, userIdView, logsView } from '../../../Main/App.reducer'
+import { wisView, userIdView, logsView, timeDifferenceView } from '../../../Main/App.reducer'
 import { runningIdView } from '../../Home/Main/Home.reducer'
 
 
@@ -51,7 +51,7 @@ const effectCountUpEpic = action$ =>
 const effectSetSecondsElapsed = action$ =>
   action$.ofType(CHECK_TO_SET_SECONDS_ELAPSED)
     .filter(runningIdView)
-    .do(() => dispatchSetSecondsElapsed(getSecondsElapsed(logsView(), runningIdView())))
+    .do(() => dispatchSetSecondsElapsed(getSecondsElapsed(logsView(), runningIdView(), timeDifferenceView())))
     .ignoreElements()
 
 

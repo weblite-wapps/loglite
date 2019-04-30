@@ -31,7 +31,7 @@ const mapStateToProps = (state, { getDuration, log: { _id } }) => ({
   secondsElapsed: secondsElapsedView(),
 })
 
-const mapDispatchToProps = (dispatch, { log: { _id } }) => ({
+const mapDispatchToProps = (_, { log: { _id } }) => ({
   handleDeleteLog: () => dispatchHandleDeleteLog(_id),
   changePopoverId: dispatchChangePopoverId,
   changeAnchorEl: dispatchChangeAnchorEl,

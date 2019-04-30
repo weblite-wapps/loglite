@@ -24,7 +24,7 @@ export const TagPanel = ({
   onTagClick,
   handleAddTag
 }) => (
-  <React.Fragment>
+  <>
     <div className="textField">
       <Autocomplete
         label="Tags"
@@ -41,7 +41,7 @@ export const TagPanel = ({
       />
     </div>
     <TagList tags={tags} onTagClick={tag => onTagClick(tag)} />
-  </React.Fragment>
+  </>
 );
 
 TagPanel.propTypes = {
@@ -60,7 +60,7 @@ export const Pickers = ({
   onStartDateChange,
   onEndDateChange
 }) => (
-  <React.Fragment>
+  <>
     <Picker
       label="Start date"
       type="date"
@@ -75,7 +75,7 @@ export const Pickers = ({
       value={endDate}
       onChange={onEndDateChange}
     />
-  </React.Fragment>
+  </>
 );
 
 Pickers.propTypes = {
@@ -90,7 +90,7 @@ export const Buttons = ({ startDate, endDate, update, handleUpdate }) => {
   const now = new Date()
 
   return (
-    <React.Fragment>
+    <>
       <div className="insertButton">
         <Button
           label="Insert Chart"
@@ -111,7 +111,7 @@ export const Buttons = ({ startDate, endDate, update, handleUpdate }) => {
           }
         />
         <Button
-          label="This Week"
+          label="Last 7 days"
           componentName="CustomAdd"
           onClick={() =>
             update(
@@ -121,7 +121,7 @@ export const Buttons = ({ startDate, endDate, update, handleUpdate }) => {
           }
         />
         <Button
-          label="This Month"
+          label="Last 30 days"
           componentName="CustomAdd"
           onClick={() =>
             update(
@@ -131,7 +131,7 @@ export const Buttons = ({ startDate, endDate, update, handleUpdate }) => {
           }
         />
       </div>
-    </React.Fragment>
+    </>
   )
 }
 

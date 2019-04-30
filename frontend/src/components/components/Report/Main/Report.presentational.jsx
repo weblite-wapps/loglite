@@ -11,7 +11,6 @@ import {
   BarChartPanel,
   WorkListPanel,
   LeaderboardPanel,
-  AnalysisPanel,
 } from './Report.helper.component'
 // styles
 import './Report.scss'
@@ -28,7 +27,6 @@ export default props => (
       <BarChartPanel {...props} />
       <WorkListPanel {...props} />
       <LeaderboardPanel {...props} />
-      <AnalysisPanel {...props} />
     </List>
   </div>
 )

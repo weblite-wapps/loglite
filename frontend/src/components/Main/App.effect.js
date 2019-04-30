@@ -4,6 +4,7 @@ import 'rxjs'
 // import { snackbarMessage } from 'weblite-web-snackbar'
 import { push } from 'react-router-redux'
 // helpers
+import { differenceInSeconds } from 'date-fns'
 import { getUnique } from './App.helper' 
 import { getRequest, postRequest } from '../../helper/functions/request.helper'
 import { formatTime, sumTimes } from '../../helper/functions/time.helper'
@@ -34,10 +35,12 @@ import {
   dispatchSaveEndTime,
   dispatchToggleIsPinned,
   dispatchHandleSaveStartTime,
+  dispatchSetTimeDifference,
 } from './App.action'
 // views
-import { wisView, userIdView, userNameView, aboutModeView } from './App.reducer'
+import { wisView, userIdView, userNameView, aboutModeView, timeDifferenceView } from './App.reducer'
 import { selectedUserView } from '../components/Report/Main/Report.reducer'
+import { secondsElapsedView } from '../components/Home/Main/Home.reducer';
 // const
 const { W } = window
 
@@ -74,7 +77,8 @@ const initialFetchEpic = action$ =>
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { totalDurations } }) => dispatchLoadTotalDurations(totalDurations))
     .do(({ body: { leaderboard } }) => dispatchRestoreLeaderboardData(leaderboard))
-    // .do(({ body: { pins } }) => console.log('pins', pins, 'unique', getUnique(pins)))
+    .do(({ body: { time } }) => dispatchSetTimeDifference(differenceInSeconds(new Date(), time)))
+    .do(() => dispatchSetSecondsElapsed(secondsElapsedView() - timeDifferenceView()))
     .mergeMap(({ body: { pins } }) => postRequest('/saveLogs')
       .send({
         date: formattedDate(new Date()),
@@ -86,7 +90,7 @@ const initialFetchEpic = action$ =>
     .do(({ body }) => dispatchLoadLogsData(body))
     .do(() => dispatchAddPage(formattedDate(previousDay(new Date())), selectedUserView()))
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
-    .do(() => window.W && window.W.start())
+    .do(() => W && W.start())
     .ignoreElements()
 
 
@@ -135,9 +139,10 @@ const effectSaveStartTime = action$ =>
       .send({ _id }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
+    .do(({ body: { start } }) => console.log(start))
     .do(({ body: { _id, start } }) => dispatchSaveStartTime(_id, start))
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
-    .do(() => W && W.analytics('PLAY_CLICK')) 
+    .do(() => W && W.analytics('PLAY_CLICK'))
     .ignoreElements()
 
 
@@ -149,13 +154,15 @@ const effectSaveEndTime = action$ =>
       .send({ runningId, end, _id, times })) 
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
+    .do(({ body: { end } }) => console.log(end))
     .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end))
+    .do(() => W && W.analytics('PAUSE_CLICK'))
     .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchRefetchTotalDuration())
     .filter(({ body: { _id } }) => _id)
     .do(({ body: { times } }) => dispatchSetSecondsElapsed(sumTimes(times)))
     .do(({ body: { _id, end } }) => dispatchHandleSaveStartTime(_id, end))
-    .do(() => W && W.analytics('PAUSE_CLICK')) 
+    .do(() => W && W.analytics('PLAY_CLICK'))
     .ignoreElements()
 
 

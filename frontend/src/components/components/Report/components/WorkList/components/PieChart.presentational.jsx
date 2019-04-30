@@ -10,7 +10,7 @@ const COLORS = ['#b93433', '#8a2f77', '#f8ce56', '#62aaaf', '#FF8042', '#00C49F'
 
 function CustomizedPieChart(props) {
   return (
-    <PieChart width={350} height={100} margin={{ bottom: 10 }}>
+    <PieChart width={310} height={100} margin={{ bottom: 10 }}>
       <Pie
         data={props.pieChartData}
         dataKey="value"

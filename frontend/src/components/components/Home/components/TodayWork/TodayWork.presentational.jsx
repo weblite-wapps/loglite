@@ -33,13 +33,14 @@ export default class TodayWork extends React.Component {
   componentWillMount() {
     const {
       log: { _id, times },
-      setSecondsElapsed,
+      timeDifference,
+      setSecondsElapsed, 
       countinueCounting
     } = this.props;
     const len = times.length;
     if (len && times[len - 1].end === "running") {
       setSecondsElapsed(
-        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start)
+        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start) - timeDifference
       );
       countinueCounting(_id);
     }
@@ -98,7 +99,7 @@ export default class TodayWork extends React.Component {
     const len = times.length;
 
     return (
-      <React.Fragment>
+      <>
         <List dense disablePadding className="list">
           <ListItem dense disableGutters>
             <PinButton {...this.props} />
@@ -113,7 +114,7 @@ export default class TodayWork extends React.Component {
           <Collapse {...this.props} />
         </List>
         <Divider light />
-      </React.Fragment>
+      </>
     );
   }
 }
