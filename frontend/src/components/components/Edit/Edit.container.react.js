@@ -4,7 +4,11 @@ import { connect } from 'react-redux'
 import Edit from './Edit.presentational'
 // views
 // actions
-import { dispatchUpdateLog } from './Edit.action'
+import {
+  dispatchUpdateLog,
+  dispatchChangeEditStartTime,
+  dispatchChangeEditEndTime,
+} from './Edit.action'
 import { logView } from './Edit.reducer'
 
 const mapStateToProps = () => ({
@@ -13,6 +17,10 @@ const mapStateToProps = () => ({
 
 const mapDispatchToProps = () => ({
   submit: dispatchUpdateLog,
+  onStartTimeChange: ({ target: { value } }, id) =>
+    dispatchChangeEditStartTime(value, id),
+  onEndTimeChange: ({ target: { value } }, id) =>
+    dispatchChangeEditEndTime(value, id),
 })
 
 export default connect(

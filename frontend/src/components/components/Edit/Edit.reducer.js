@@ -4,7 +4,11 @@ import * as R from 'ramda'
 import { getState } from '../../../setup/redux'
 // helpers
 // actions
-import { TOGGLE_EDIT_MODE } from './Edit.action'
+import {
+  TOGGLE_EDIT_MODE,
+  CHANGE_EDIT_START_TIME,
+  CHANGE_EDIT_END_TIME,
+} from './Edit.action'
 
 // state
 const initialState = {
@@ -24,6 +28,21 @@ const reducers = {
     log,
     isEditMode,
   }),
+  [CHANGE_EDIT_START_TIME]: (state, { value, id }) => {
+    const index = R.findIndex(
+      R.propEq('_id', id),
+      R.view(R.lensPath(['log', 'times']), state),
+    )
+    return R.set(R.lensPath(['log', 'times', index, 'start']), value, state)
+  },
+
+  [CHANGE_EDIT_END_TIME]: (state, { value, id }) => {
+    const index = R.findIndex(
+      R.propEq('_id', id),
+      R.view(R.lensPath(['log', 'times']), state),
+    )
+    return R.set(R.lensPath(['log', 'times', index, 'end']), value, state)
+  },
 }
 
 export default (state = initialState, { type, payload }) =>

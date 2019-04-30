@@ -34,6 +34,7 @@ export default () => (
 
           <Suspense fallback={<Loading />}>
             <Route path="/Add" render={() => <Add />} />
+            {/* <Route path="/" render={() => <Report />} /> */}
             <Route path="/Report" render={() => <Report />} />
             <Route path="/About" render={() => <About />} />
           </Suspense>
