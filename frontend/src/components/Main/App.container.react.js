@@ -12,13 +12,11 @@ import {
   dispatchFetchTodayData,
   dispatchSetAboutMode,
 } from './App.action'
-import { editModeView } from '../components/Edit/Edit.reducer'
 
 const mapStateToProps = () => ({
   isLoading: isLoadingView(),
   tabIndex: tabIndexView(),
   aboutMode: aboutModeView(),
-  editView: editModeView(),
 })
 
 const mapDispatchToProps = () => ({

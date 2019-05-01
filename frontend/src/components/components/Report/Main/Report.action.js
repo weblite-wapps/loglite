@@ -192,3 +192,7 @@ export const handleUpdateLeaderboard = createAction(
 )
 export const dispatchHandleUpdateLeaderboard = (...args) =>
   dispatch(handleUpdateLeaderboard(...args))
+
+export const EDIT_BUTTON_CLICK = 'EDIT_BUTTON_CLICK'
+export const editClick = createAction(EDIT_BUTTON_CLICK, value => ({ value }))
+export const dispatchEditClick = (...args) => dispatch(editClick(...args))

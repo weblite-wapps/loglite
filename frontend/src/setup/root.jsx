@@ -21,6 +21,10 @@ const Add = lazy(() =>
 const Report = lazy(() =>
   import('../components/components/Report/Main/Report.container.react'),
 )
+
+const Edit = lazy(() =>
+  import('../components/components/Edit/Edit.container.react'),
+)
 // const About = lazy(() => import('../components/components/About/About.jsx'));
 
 export default () => (
@@ -37,6 +41,7 @@ export default () => (
             {/* <Route path="/" render={() => <Report />} /> */}
             <Route path="/Report" render={() => <Report />} />
             <Route path="/About" render={() => <About />} />
+            <Route path="/Edit" render={() => <Edit />} />
           </Suspense>
         </div>
       </ConnectedRouter>

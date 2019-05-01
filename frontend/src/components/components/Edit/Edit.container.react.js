@@ -9,10 +9,11 @@ import {
   dispatchChangeEditStartTime,
   dispatchChangeEditEndTime,
 } from './Edit.action'
-import { logView } from './Edit.reducer'
+import { logView, timesView } from './Edit.reducer'
 
 const mapStateToProps = () => ({
   log: logView(),
+  times: timesView(),
 })
 
 const mapDispatchToProps = () => ({

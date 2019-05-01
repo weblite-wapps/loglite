@@ -40,12 +40,10 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { editView } = this.props
     return (
       <div className="AppBar">
         <Logo {...this.props} />
         <Tabs {...this.props} />
-        {editView && <Edit />}
         {/* <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} /> */}
       </div>
     )

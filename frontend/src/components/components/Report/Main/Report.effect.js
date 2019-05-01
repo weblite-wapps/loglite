@@ -2,6 +2,7 @@
 import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
+import { push } from 'react-router-redux'
 // local modules
 // import { snackbarMessage } from 'weblite-web-snackbar'
 // helpers
@@ -46,6 +47,7 @@ import {
   dispatchUpdateChart,
   dispatchUpdateLeaderboard,
   CHANGE_EXPAND_MODE,
+  EDIT_BUTTON_CLICK,
 } from './Report.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
@@ -59,6 +61,8 @@ import {
   queryTagView,
   tagsView,
 } from './Report.reducer'
+
+import { dispatchInsertLog } from '../../Edit/Edit.action'
 // const
 const { W } = window
 
@@ -347,6 +351,16 @@ const changeExpandModeEpic = action$ =>
     .do(({ value }) => W && W.analytics('EXPAND_MODE_CLICK', { mode: value }))
     .ignoreElements()
 
+const handlEditButtonEpic = (action$, { dispatch }) =>
+  action$
+    .ofType(EDIT_BUTTON_CLICK)
+    .pluck('payload')
+    .pluck('value')
+    .do(dispatchInsertLog)
+    // .do(console.log)
+    .do(() => dispatch(push('/Edit')))
+    .ignoreElements()
+
 export default combineEpics(
   resetStaffDataEpic,
   loadStaffDataEpic,
@@ -365,4 +379,5 @@ export default combineEpics(
   effectHandleUpdateChart,
   effectHandleUpdateLeaderboard,
   changeExpandModeEpic,
+  handlEditButtonEpic,
 )

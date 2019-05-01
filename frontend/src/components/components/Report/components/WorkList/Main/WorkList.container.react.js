@@ -14,13 +14,14 @@ import {
   dispatchHandleDeleteLog,
   dispatchChangePopoverId,
 } from '../../../../../Main/App.action'
-import { dispatchChangeAnchorEl } from '../../../Main/Report.action'
+import {
+  dispatchChangeAnchorEl,
+  dispatchEditClick,
+} from '../../../Main/Report.action'
 import {
   dispatchSetSecondsElapsed,
   dispatchCountinueCounting,
 } from '../../../../Home/Main/Home.action'
-import { dispatchToggleEditMode } from '../../../../Edit/Edit.action'
-
 const mapStateToProps = (state, { getDuration, log: { _id } }) => ({
   workDuration: getDuration(state)[_id],
   selectedUser: selectedUserView(),
@@ -37,7 +38,7 @@ const mapDispatchToProps = (_, { log: { _id } }) => ({
   changeAnchorEl: dispatchChangeAnchorEl,
   setSecondsElapsed: dispatchSetSecondsElapsed,
   countinueCounting: dispatchCountinueCounting,
-  editClick: dispatchToggleEditMode,
+  editClick: dispatchEditClick,
 })
 
 export default connect(
