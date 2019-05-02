@@ -1,17 +1,20 @@
 import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-import { UPDATE_LOG } from './Edit.action'
+import { SUBMIT_EDIT, CLOSE_EDIT } from './Edit.action'
+import { dispatchSetEditedLog } from '../../Main/App.action'
+//helper
+import { postRequest } from '../../../helper/functions/request.helper'
 import {
-  getRequest,
-  postRequest,
-} from '../../../helper/functions/request.helper'
-import { formatTime } from '../../../helper/functions/time.helper'
+  formatTime,
+  checkEditTimesOrder,
+} from '../../../helper/functions/time.helper'
 import { push } from 'react-router-redux'
 const submitEditEpic = (action$, { dispatch }) =>
   action$
-    .ofType(UPDATE_LOG)
+    .ofType(SUBMIT_EDIT)
     .pluck('payload')
+    .filter(({ times }) => checkEditTimesOrder(times))
     .map(({ log, times }) => ({
       ...log,
       times: R.map(
@@ -24,7 +27,6 @@ const submitEditEpic = (action$, { dispatch }) =>
       ),
     }))
     .do(log => {
-      console.log(log)
       postRequest('/updateLog')
         .send(log)
         .on('error', err => {
@@ -33,9 +35,15 @@ const submitEditEpic = (action$, { dispatch }) =>
             // snackbarMessage({ message: 'Server disconnected!' })
           }
         })
-        .then(res => console.log(res))
+        .then(() => dispatchSetEditedLog(log))
     })
-    // .do(() => dispatch(push('/Report')))
+    .do(() => dispatch(push('/Report')))
     .ignoreElements()
 
-export default combineEpics(submitEditEpic)
+const closeEditEpic = (action$, { dispatch }) =>
+  action$
+    .ofType(CLOSE_EDIT)
+    .do(() => dispatch(push('/Report')))
+    .ignoreElements()
+
+export default combineEpics(submitEditEpic, closeEditEpic)

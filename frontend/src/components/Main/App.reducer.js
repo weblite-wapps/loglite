@@ -17,6 +17,7 @@ import {
   TOGGLE_IS_PINNED,
   SET_ABOUT_MODE,
   SET_TIME_DIFFERENCE,
+  SET_EDITED_LOG,
 } from './App.action'
 
 // state
@@ -86,12 +87,18 @@ const reducers = {
     ),
   }),
 
-  [SAVE_START_TIME]: (state, { _id, start }) => ({
+  [SAVE_START_TIME]: (state, { _id, start, runningTimeId }) => ({
     ...state,
     logs: R.map(
       log =>
         log._id === _id
-          ? { ...log, times: R.append({ start, end: 'running' }, log.times) }
+          ? {
+              ...log,
+              times: R.append(
+                { _id: runningTimeId, start, end: 'running' },
+                log.times,
+              ),
+            }
           : log,
       state.logs,
     ),
@@ -128,6 +135,11 @@ const reducers = {
   [SET_TIME_DIFFERENCE]: (state, timeDifference) => ({
     ...state,
     timeDifference,
+  }),
+
+  [SET_EDITED_LOG]: (state, newlog) => ({
+    ...state,
+    logs: R.map(log => (log._id === newlog._id ? newlog : log), state.logs),
   }),
 }
 

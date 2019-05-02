@@ -16,7 +16,8 @@ import {
   defaultQueryGenerator,
   getStartDayOfWeek,
   getStartDayOfMonth,
-  getLeaderboardData
+  getLeaderboardData,
+  get_idOfRunningTimeInALog
 } from "../../main/helper";
 // const
 const logger = console.log;
@@ -60,7 +61,13 @@ app.post("/saveStartTime", ({ body }, res) =>
     { _id: mongoose.Types.ObjectId(body._id) },
     { $push: { times: { start: new Date(), end: "running" } } }
   )
-    .then(() => res.send({ ...body, start: new Date() }))
+    .then(({ times }) => {
+      res.send({
+        ...body,
+        start: new Date(),
+        runningTimeId: get_idOfRunningTimeInALog(times)
+      });
+    })
     .catch(logger)
 );
 
@@ -155,10 +162,8 @@ app.get("/getAnalysisData", ({ query: { wis, userId } }, res) =>
     .catch(logger)
 );
 
-app.post(
-  "/updateLog",
-  (req, res) => console.log(query)
-  // updateLog({ _id: log._id }, query)
-  //     .then(log => res.send(log))
-  //     .catch(logger)
+app.post("/updateLog", ({ body, body: { _id } }, res) =>
+  updateLog({ _id }, body)
+    .then(log => res.send(log))
+    .catch(logger)
 );

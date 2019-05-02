@@ -9,9 +9,9 @@ export const insertLog = createAction(INSERT_LOG, log => ({
 }))
 export const dispatchInsertLog = (...args) => dispatch(insertLog(...args))
 
-export const UPDATE_LOG = 'UPDATE_LOG'
-export const updateLog = createAction(UPDATE_LOG, value => value)
-export const dispatchUpdateLog = (...args) => dispatch(updateLog(...args))
+export const SUBMIT_EDIT = 'SUBMIT_EDIT'
+export const submitEdit = createAction(SUBMIT_EDIT, value => value)
+export const dispatchSubmitEdit = (...args) => dispatch(submitEdit(...args))
 
 export const CHANGE_EDIT_START_TIME = 'CHANGE_EDIT_START_TIME'
 export const changeEditStartTime = createAction(
@@ -34,3 +34,7 @@ export const changeEditEndTime = createAction(
 )
 export const dispatchChangeEditEndTime = (...args) =>
   dispatch(changeEditEndTime(...args))
+
+export const CLOSE_EDIT = 'CLOSE_EDIT'
+export const closeEdit = createAction(CLOSE_EDIT)
+export const dispatchCloseEdit = (...args) => dispatch(closeEdit(...args))

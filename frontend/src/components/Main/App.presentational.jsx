@@ -3,7 +3,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // local modules
 // import Snackbar from 'weblite-web-snackbar'
-import Edit from '../components/Edit/Edit.container.react.js'
 
 // helpers
 import { Logo, Tabs } from './App.helper.component'
@@ -54,5 +53,4 @@ App.propTypes = {
   fetchTodayData: PropTypes.func.isRequired,
   setAPI: PropTypes.func.isRequired,
   checkToSetSecondsElapsed: PropTypes.func.isRequired,
-  editView: PropTypes.bool,
 }

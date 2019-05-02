@@ -17,8 +17,6 @@ const initialState = {
   times: [],
 }
 
-// lens
-const editModeLens = R.lensProp('isEditMode')
 // views
 export const logView = () => R.path(['Edit', 'log'])(getState())
 export const timesView = () => R.path(['Edit', 'times'])(getState())
