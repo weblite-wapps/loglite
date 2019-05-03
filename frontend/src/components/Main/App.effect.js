@@ -65,6 +65,8 @@ const saveUsersEpic = action$ =>
 
 const initialFetchEpic = action$ =>
   action$.ofType(FETCH_TODAY_DATA)
+    .do(() => dispatchSetIsLoading(true))
+    .do(() => W && W.start())
     .mergeMap(() => getRequest('/initialFetch')
       .query({
         wis: wisView(),
@@ -90,7 +92,7 @@ const initialFetchEpic = action$ =>
     .do(({ body }) => dispatchLoadLogsData(body))
     .do(() => dispatchAddPage(formattedDate(previousDay(new Date())), selectedUserView()))
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
-    .do(() => W && W.start())
+    .do(() => dispatchSetIsLoading(false))
     .ignoreElements()
 
 
@@ -139,7 +141,6 @@ const effectSaveStartTime = action$ =>
       .send({ _id }))
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { start } }) => console.log(start))
     .do(({ body: { _id, start } }) => dispatchSaveStartTime(_id, start))
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .do(() => W && W.analytics('PLAY_CLICK'))
@@ -154,7 +155,6 @@ const effectSaveEndTime = action$ =>
       .send({ runningId, end, _id, times })) 
       // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { end } }) => console.log(end))
     .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end))
     .do(() => W && W.analytics('PAUSE_CLICK'))
     .do(() => dispatchChangeRunningId(''))
