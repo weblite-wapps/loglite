@@ -8,13 +8,13 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import store, { history } from "./redux";
 // Component
 import App from "../components/Main/App.container.react";
-import Home from "../components/components/Home/Main/Home.container.react";
 import About from "../components/components/About/About.jsx";
 import Loading from "../helper/components/Loading/Loading.presentational"
 // styles
 import "./root.scss";
 import theme from "../helper/style/appTheme"; 
 // lazy loading
+const Home = lazy(() => import('../components/components/Home/Main/Home.container.react'));
 const Add = lazy(() => import('../components/components/Add/Main/Add.container.react'));
 const Report = lazy(() => import('../components/components/Report/Main/Report.container.react'));
 // const About = lazy(() => import('../components/components/About/About.jsx'));
@@ -25,10 +25,9 @@ export default () => (
       <ConnectedRouter history={history}>
         <div className="app-container ">
           <App />
-          
-          <Route exact path="/" component={Home} />
 
           <Suspense fallback={<Loading />}>
+            <Route exact path="/" component={Home} />
             <Route path="/Add" render={() => <Add />} />
             <Route path="/Report" render={() => <Report />} />
             <Route path="/About" render={() => <About />} />
