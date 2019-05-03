@@ -17,10 +17,10 @@ export const TitleAndDuration = ({
 }) => (
     <div className="workList-text">
       <div>
-        <Typography variant="subheading">{title}</Typography>
+        <Typography variant="subtitle1">{title}</Typography>
       </div>
       <div>
-        <Typography variant="body2" align="right">
+        <Typography variant="body1" align="right">
           {len && times[len - 1].end === "running"
             ? formattedSeconds(secondsElapsed)
             : workDuration}

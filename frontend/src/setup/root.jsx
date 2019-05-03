@@ -27,7 +27,7 @@ export default () => (
           <App />
 
           <Suspense fallback={<Loading />}>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={() => <Home />} />
             <Route path="/Add" render={() => <Add />} />
             <Route path="/Report" render={() => <Report />} />
             <Route path="/About" render={() => <About />} />

@@ -93,7 +93,7 @@ export const ExportPanel = ({ expandMode, totalDurationFromServer }) => (
     <Custom />
     <Divider light />
     <div className="report-text">
-      <Typography variant="subheading">{totalDurationFromServer}</Typography>
+      <Typography variant="subtitle1">{totalDurationFromServer}</Typography>
     </div>
     <Divider light />
   </Collapse>
@@ -176,7 +176,7 @@ export const WorkListPanel = ({
       unmountOnExit
     >
       <div className="report-text">
-        <Typography variant="subheading">
+        <Typography variant="subtitle1">
           {selectedUser === userId ? totalDuration : staffTotalDuration}
         </Typography>
       </div>
