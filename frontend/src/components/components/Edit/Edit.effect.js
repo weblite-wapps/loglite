@@ -15,7 +15,7 @@ const submitEditEpic = (action$, { dispatch }) =>
     .ofType(SUBMIT_EDIT)
     .pluck('payload')
     .filter(({ times }) => checkEditTimesOrder(times))
-    .map(({ log, times }) => ({
+    .map(({ log, times, title }) => ({
       ...log,
       times: R.map(
         ({ _id, start, end }) => ({
@@ -25,6 +25,7 @@ const submitEditEpic = (action$, { dispatch }) =>
         }),
         times,
       ),
+      title,
     }))
     .do(log => {
       postRequest('/updateLog')

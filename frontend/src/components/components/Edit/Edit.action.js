@@ -35,6 +35,13 @@ export const changeEditEndTime = createAction(
 export const dispatchChangeEditEndTime = (...args) =>
   dispatch(changeEditEndTime(...args))
 
+export const CHANGE_EDIT_TITLE = 'CHANGE_EDIT_TITLE'
+export const changeEditTitle = createAction(CHANGE_EDIT_TITLE, title => ({
+  title,
+}))
+export const dispatchChangeEditTitle = (...args) =>
+  dispatch(changeEditTitle(...args))
+
 export const CLOSE_EDIT = 'CLOSE_EDIT'
 export const closeEdit = createAction(CLOSE_EDIT)
 export const dispatchCloseEdit = (...args) => dispatch(closeEdit(...args))

@@ -9,17 +9,21 @@ import {
   INSERT_LOG,
   CHANGE_EDIT_START_TIME,
   CHANGE_EDIT_END_TIME,
+  CHANGE_EDIT_TITLE,
 } from './Edit.action'
 
 // state
 const initialState = {
   log: {},
   times: [],
+  title: '',
 }
 
 // views
 export const logView = () => R.path(['Edit', 'log'])(getState())
 export const timesView = () => R.path(['Edit', 'times'])(getState())
+export const titleView = () => R.path(['Edit', 'title'])(getState())
+
 // reducers
 const reducers = {
   [INSERT_LOG]: (state, { log }) => ({
@@ -32,6 +36,7 @@ const reducers = {
       }),
       R.prop('times', log),
     ),
+    title: R.prop('title', log),
   }),
 
   [CHANGE_EDIT_START_TIME]: (state, { value, id }) => ({
@@ -48,6 +53,11 @@ const reducers = {
       time => (time._id === id ? { ...time, end: value } : time),
       state.times,
     ),
+  }),
+
+  [CHANGE_EDIT_TITLE]: (state, { title }) => ({
+    ...state,
+    title,
   }),
 }
 
