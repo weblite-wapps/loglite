@@ -50,7 +50,7 @@ export const formattedMinutes = minutes => {
 }
 
 export const getCurrentTime = time =>
-  `${getHours(time) > 11 ? getHours(time) : '0' + getHours(time)}:${
+  `${getHours(time) > 9 ? getHours(time) : '0' + getHours(time)}:${
     getMinutes(time) > 9 ? getMinutes(time) : '0' + getMinutes(time)
   }`
 
