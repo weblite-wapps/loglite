@@ -13,7 +13,7 @@ const mapStateToProps = () => ({
 
 const mapDispatchToProps = () => ({
   changeSnackbarStage: (open, message) =>
-    dispatchChangeSnackbarStage(open, message),
+    dispatchChangeSnackbarStage({ open, message }),
 })
 
 export default connect(

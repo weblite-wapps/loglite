@@ -1,11 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Snackbar from '@material-ui/core/Snackbar'
-import Slide from '@material-ui/core/Slide'
-
-function TransitionLeft(props) {
-  return <Slide direction="left" {...props} />
-}
 
 class AppSnackbar extends React.Component {
   constructor(props) {
@@ -27,11 +22,7 @@ class AppSnackbar extends React.Component {
         }}
         open={snackbarIsOpen}
         autoHideDuration={3000}
-        transition={TransitionLeft}
         onClose={this.handleClose}
-        SnackbarContentProps={{
-          'aria-describedby': 'message-id',
-        }}
         message={<span id="message-id">{message}</span>}
       />
     )
