@@ -10,8 +10,8 @@ import styles from "./Summary.style";
 
 const Summary = props => (
   <div className="summary-container">
-    <SliderText text="You worked" variant="display1" />
-    <SliderText text={props.duration} variant="display2" />
+    <SliderText text="You worked" variant="h4" />
+    <SliderText text={props.duration} variant="h3" />
     <DurationPanel {...props} />
   </div>
 );

@@ -8,7 +8,7 @@ import "./TagShapeForReport.scss";
 const TagShape = ({ tag }) => (
   <div className="tagShapeForReport-container">
     <div className="tagShapeForReport-content">
-      <Typography variant="body1">{tag}</Typography>
+      <Typography variant="body2">{tag}</Typography>
     </div>
   </div>
 );

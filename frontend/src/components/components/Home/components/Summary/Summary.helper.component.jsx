@@ -33,7 +33,7 @@ IconButton.propTypes = {
 export const DurationPanel = props => (
   <div className="summary-textSlider">
     <IconButton {...props} direction="Back" />
-    <Typography variant="headline"> {props.name} </Typography>
+    <Typography variant="h5"> {props.name} </Typography> 
     <IconButton {...props} direction="Next" />
   </div>
 );
