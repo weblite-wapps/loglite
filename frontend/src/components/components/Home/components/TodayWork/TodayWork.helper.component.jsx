@@ -31,7 +31,7 @@ PinButton.propTypes = {
 };
 
 export const BriefInfo = ({ runningId, log: { _id, title }, workDuration }) => (
-  <Typography variant="body2">
+  <Typography variant="body1">
     {formattedName(title) === title ? (
       <span className="todayWork-title">{formattedName(title)}</span>
     ) : (
@@ -93,7 +93,7 @@ export const Collapse = ({ runningId, log: { _id }, secondsElapsed }) => (
   >
     <Divider light variant="inset" />
     <div className="todayWork-stopwatch">
-      <Typography variant="subheading">
+      <Typography variant="subtitle1">
         {formattedSeconds(secondsElapsed)}
       </Typography>
     </div>

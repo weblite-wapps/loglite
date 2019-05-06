@@ -4,7 +4,7 @@ import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import { push } from 'react-router-redux'
 // local modules
-// import { snackbarMessage } from 'weblite-web-snackbar'
+import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 // helpers
 import { getRequest } from '../../../../helper/functions/request.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
@@ -94,18 +94,30 @@ const loadStaffDataEpic = action$ =>
           })
           .on('error', err => {
             if (err.status !== 304) {
-              // snackbarMessage({ message: 'Server disconnected!' })
+              dispatchChangeSnackbarStage({
+                open: true,
+                message: 'Server disconnected!',
+              })
               dispatchRemovePage(
                 formattedDate(currentPageView()),
                 selectedUserView(),
               )
             }
           }),
-        getRequest('/fetchTags').query({
-          wis: wisView(),
-          userId: selectedUserView(),
-        }),
-        // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })),
+        getRequest('/fetchTags')
+          .query({
+            wis: wisView(),
+            userId: selectedUserView(),
+          })
+          .on(
+            'error',
+            err =>
+              err.status !== 304 &&
+              dispatchChangeSnackbarStage({
+                open: true,
+                message: 'Server disconnected!',
+              }),
+          ),
       ]),
     )
     .do(() => dispatchSetIsLoading(false))
@@ -128,13 +140,22 @@ const effectSearchTagsEpic = action$ =>
     .filter(payload => payload.queryTag.trim() !== '')
     .debounceTime(250)
     .mergeMap(payload =>
-      getRequest('/searchTags').query({
-        wis: wisView(),
-        userId: selectedUserView(),
-        label: payload.queryTag,
-      }),
+      getRequest('/searchTags')
+        .query({
+          wis: wisView(),
+          userId: selectedUserView(),
+          label: payload.queryTag,
+        })
+        .on(
+          'error',
+          err =>
+            err.status !== 304 &&
+            dispatchChangeSnackbarStage({
+              open: true,
+              message: 'Server disconnected!',
+            }),
+        ),
     )
-    // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .map(({ body }) => fetchTags(body))
 
 const calculateTotalDurationEpic = action$ =>
@@ -142,15 +163,24 @@ const calculateTotalDurationEpic = action$ =>
     .ofType(CALCULATE_TOTAL_DURATION)
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() =>
-      getRequest('/calculateTotalDuration').query({
-        wis: wisView(),
-        userId: selectedUserView(),
-        startDate: startDateView(),
-        endDate: endDateView(),
-        selectedTags: selectedTagsView(),
-      }),
+      getRequest('/calculateTotalDuration')
+        .query({
+          wis: wisView(),
+          userId: selectedUserView(),
+          startDate: startDateView(),
+          endDate: endDateView(),
+          selectedTags: selectedTagsView(),
+        })
+        .on(
+          'error',
+          err =>
+            err.status !== 304 &&
+            dispatchChangeSnackbarStage({
+              open: true,
+              message: 'Server disconnected!',
+            }),
+        ),
     )
-    // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .do(() => W && W.analytics('CALCULATE_CLICK'))
     .map(({ body }) => restoreTotalDuration(body))
@@ -160,15 +190,24 @@ const convertJSONToCSVEpic = action$ =>
     .ofType(CONVERT_JSON_TO_CSV)
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(() =>
-      getRequest('/convertJSONToCSV').query({
-        wis: wisView(),
-        userId: selectedUserView(),
-        startDate: startDateView(),
-        endDate: endDateView(),
-        selectedTags: selectedTagsView(),
-      }),
+      getRequest('/convertJSONToCSV')
+        .query({
+          wis: wisView(),
+          userId: selectedUserView(),
+          startDate: startDateView(),
+          endDate: endDateView(),
+          selectedTags: selectedTagsView(),
+        })
+        .on(
+          'error',
+          err =>
+            err.status !== 304 &&
+            dispatchChangeSnackbarStage({
+              open: true,
+              message: 'Server disconnected!',
+            }),
+        ),
     )
-    // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .do(() => W && W.analytics('EXPORT_CLICK'))
     .map(({ text }) => restoreCSV(text))
@@ -196,7 +235,10 @@ const fetchPreviousDayLogsDataEpic = action$ =>
         })
         .on('error', err => {
           if (err.status !== 304) {
-            // snackbarMessage({ message: 'Server disconnected!' })
+            dispatchChangeSnackbarStage({
+              open: true,
+              message: 'Server disconnected!',
+            })
             dispatchRemovePage(
               formattedDate(currentPageView()),
               selectedUserView(),
@@ -235,7 +277,10 @@ const fetchNextDayLogsDataEpic = action$ =>
         })
         .on('error', err => {
           if (err.status !== 304) {
-            // snackbarMessage({ message: 'Server disconnected!' })
+            dispatchChangeSnackbarStage({
+              open: true,
+              message: 'Server disconnected!',
+            })
             dispatchRemovePage(
               formattedDate(currentPageView()),
               selectedUserView(),
@@ -263,14 +308,23 @@ const updateChartEpic = action$ =>
     .do(() => dispatchSetIsLoading(true))
     .pluck('payload')
     .mergeMap(({ startDate, endDate }) =>
-      getRequest('/barChartData').query({
-        wis: wisView(),
-        userId: selectedUserView(),
-        startDate,
-        endDate,
-      }),
+      getRequest('/barChartData')
+        .query({
+          wis: wisView(),
+          userId: selectedUserView(),
+          startDate,
+          endDate,
+        })
+        .on(
+          'error',
+          err =>
+            err.status !== 304 &&
+            dispatchChangeSnackbarStage({
+              open: true,
+              message: 'Server disconnected!',
+            }),
+        ),
     )
-    // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .map(({ body }) => restoreBarChartData(body))
 
@@ -280,13 +334,22 @@ const updateLeaderboardEpic = action$ =>
     .do(() => dispatchSetIsLoading(true))
     .pluck('payload')
     .mergeMap(({ startDate, endDate }) =>
-      getRequest('/leaderboardData').query({
-        wis: wisView(),
-        startDate,
-        endDate,
-      }),
+      getRequest('/leaderboardData')
+        .query({
+          wis: wisView(),
+          startDate,
+          endDate,
+        })
+        .on(
+          'error',
+          err =>
+            err.status !== 304 &&
+            dispatchChangeSnackbarStage({
+              open: true,
+              message: 'Server disconnected!',
+            }),
+        ),
     )
-    // .on('error', err => err.status !== 304 && snackbarMessage({ message: 'Server disconnected!' })))
     .do(() => dispatchSetIsLoading(false))
     .do(() => W && W.analytics('UPDATE_LEADERBOARD'))
     .map(({ body }) => restoreLeaderboardData(body))
@@ -297,7 +360,10 @@ const effectHandleAddTag = action$ =>
     .ofType(HANDLE_ADD_TAG)
     .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
     .do(({ permission }) => permission && dispatchAddTag())
-    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .do(
+      ({ permission, message }) =>
+        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+    )
     .ignoreElements()
 
 const effectHandleCalculation = action$ =>
@@ -306,7 +372,10 @@ const effectHandleCalculation = action$ =>
     .map(() => ({ ...checkBeforeAction() }))
     .do(({ isError }) => dispatchChangeIsError(isError))
     .do(({ permission }) => permission && dispatchCalculateTotalDuration())
-    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .do(
+      ({ permission, message }) =>
+        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+    )
     .ignoreElements()
 
 const effectHandleExport = action$ =>
@@ -315,7 +384,10 @@ const effectHandleExport = action$ =>
     .map(() => ({ ...checkBeforeAction() }))
     .do(({ isError }) => dispatchChangeIsError(isError))
     .do(({ permission }) => permission && dispatchConvertJSONToCSV())
-    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .do(
+      ({ permission, message }) =>
+        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+    )
     .ignoreElements()
 
 const effectHandleUpdateChart = action$ =>
@@ -328,7 +400,10 @@ const effectHandleUpdateChart = action$ =>
       ({ startDate, endDate, permission }) =>
         permission && dispatchUpdateChart(startDate, endDate),
     )
-    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .do(
+      ({ permission, message }) =>
+        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+    )
     .ignoreElements()
 
 const effectHandleUpdateLeaderboard = action$ =>
@@ -341,7 +416,10 @@ const effectHandleUpdateLeaderboard = action$ =>
       ({ startDate, endDate, permission }) =>
         permission && dispatchUpdateLeaderboard(startDate, endDate),
     )
-    // .do(({ permission, message }) => !permission && snackbarMessage({ message }))
+    .do(
+      ({ permission, message }) =>
+        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+    )
     .ignoreElements()
 
 const changeExpandModeEpic = action$ =>
@@ -357,7 +435,6 @@ const handlEditButtonEpic = (action$, { dispatch }) =>
     .pluck('payload')
     .pluck('value')
     .do(dispatchInsertLog)
-    // .do(console.log)
     .do(() => dispatch(push('/Edit')))
     .ignoreElements()
 

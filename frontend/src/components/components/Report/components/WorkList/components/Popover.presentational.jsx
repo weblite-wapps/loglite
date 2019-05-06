@@ -31,7 +31,7 @@ const CustomizedPopover = ({
       horizontal: "center"
     }}
   >
-    <Typography variant="subheading" style={{ margin: "5px" }}>
+    <Typography variant="subtitle1" style={{ margin: "5px" }}>
       Are you sure?
     </Typography>
     <Button

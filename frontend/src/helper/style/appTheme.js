@@ -2,6 +2,9 @@ import { createMuiTheme } from "@material-ui/core/styles"
 import { primary_color, secondary_color, accent_color } from "./_color"
 
 export default createMuiTheme({
+  typography: { // TODO: should remove in next version
+    useNextVariants: true,
+  },
   palette: {
     primary: {
       light: accent_color,
@@ -18,15 +21,15 @@ export default createMuiTheme({
   },
   overrides: {
     MuiTypography: {
-      display1: {
+      h4: {
         color: "#000000",
         fontWeight: "500",
       },
-      display2: {
+      h3: {
         fontWeight: "100",
         color: primary_color,
       },
-      headline: {
+      h5: {
         color: secondary_color,
         textTransform: "uppercase",
         margin: "5px",

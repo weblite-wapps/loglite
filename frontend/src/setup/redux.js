@@ -9,6 +9,7 @@ import HomeReducer from '../components/components/Home/Main/Home.reducer'
 import AddReducer from '../components/components/Add/Main/Add.reducer'
 import ReportReducer from '../components/components/Report/Main/Report.reducer'
 import EditReducer from '../components/components/Edit/Edit.reducer'
+import SnackbarReducer from '../components/components/Snackbar/Snackbar.reducer'
 // epics
 import AppEpic from '../components/Main/App.effect'
 import HomeEpic from '../components/components/Home/Main/Home.effect'
@@ -37,6 +38,7 @@ const store = createStore(
     Add: AddReducer,
     Report: ReportReducer,
     Edit: EditReducer,
+    Snackbar: SnackbarReducer,
     router: routerReducer,
   }),
   composeEnhancers(applyMiddleware(middleware, epicMiddleware)),

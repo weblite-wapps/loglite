@@ -43,7 +43,7 @@ Button.propTypes = {
 };
 
 export const Text = ({ isActive, expandMode, currentPage }) => (
-  <Typography variant="body1" align="center" className="navigator-textSlider">
+  <Typography variant="body2" align="center" className="navigator-textSlider">
     {!isActive ? expandMode : formattedDate(currentPage)}
   </Typography>
 );

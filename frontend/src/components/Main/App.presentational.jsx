@@ -2,8 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // local modules
-// import Snackbar from 'weblite-web-snackbar'
-
+import Snackbar from '../components/Snackbar/Snackbar.container.react'
 // helpers
 import { Logo, Tabs } from './App.helper.component'
 // styles
@@ -43,7 +42,7 @@ export default class App extends React.Component {
       <div className="AppBar">
         <Logo {...this.props} />
         <Tabs {...this.props} />
-        {/* <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} /> */}
+        <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} />
       </div>
     )
   }
