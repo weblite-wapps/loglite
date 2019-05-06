@@ -252,7 +252,9 @@ const effectSaveStartTime = action$ =>
         ),
     )
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { _id, start } }) => dispatchSaveStartTime(_id, start))
+    .do(({ body: { _id, start, runningTimeId } }) =>
+      dispatchSaveStartTime(_id, start, runningTimeId),
+    )
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .do(() => W && W.analytics('PLAY_CLICK'))
     .ignoreElements()

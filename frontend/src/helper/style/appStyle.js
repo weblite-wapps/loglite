@@ -2,7 +2,7 @@ import { secondary_color } from './_color'
 
 export default () => ({
   container: {
-    margin: '10px',
+    margin: '10px 1px',
     display: 'flex',
     flexWrap: 'wrap',
     userSelect: 'none',
@@ -12,7 +12,7 @@ export default () => ({
     width: '90%',
   },
   textFieldFormLabel: {
-    color: secondary_color, 
+    color: secondary_color,
   },
   textFieldInkbar: {
     '&:after': {

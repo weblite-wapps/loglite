@@ -3,6 +3,7 @@ import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import { SUBMIT_EDIT, CLOSE_EDIT } from './Edit.action'
 import { dispatchSetEditedLog } from '../../Main/App.action'
+import { dispatchChangeSnackbarStage } from '../Snackbar/Snackbar.action'
 //helper
 import { postRequest } from '../../../helper/functions/request.helper'
 import {
@@ -32,13 +33,21 @@ const submitEditEpic = (action$, { dispatch }) =>
         .send(log)
         .on('error', err => {
           if (err.status !== 304) {
-            console.log(err)
-            // snackbarMessage({ message: 'Server disconnected!' })
+            dispatchChangeSnackbarStage({
+              open: true,
+              message: 'Server disconnected!',
+            })
           }
         })
         .then(() => dispatchSetEditedLog(log))
     })
     .do(() => dispatch(push('/Report')))
+    .do(() =>
+      dispatchChangeSnackbarStage({
+        open: true,
+        message: 'Updated Succesfully!',
+      }),
+    )
     .ignoreElements()
 
 const closeEditEpic = (action$, { dispatch }) =>

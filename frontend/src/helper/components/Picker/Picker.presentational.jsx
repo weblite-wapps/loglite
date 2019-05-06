@@ -11,11 +11,13 @@ const Picker = ({
   type,
   isError,
   value,
+  style,
   onChange,
   defaultValue,
 }) => (
   <form className={classes.container} noValidate>
     <TextField
+      style={style}
       id={type}
       label={label}
       type={type}
@@ -32,12 +34,17 @@ const Picker = ({
 
 Picker.propTypes = {
   classes: PropTypes.shape({}).isRequired,
+  style: PropTypes.shape({}),
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   isError: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   defaultValue: PropTypes.string.isRequired,
+}
+
+Picker.defaultProps = {
+  style: {},
 }
 
 export default withStyles(styles)(Picker)
