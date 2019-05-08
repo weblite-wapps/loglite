@@ -47,7 +47,7 @@ export default createMuiTheme({
     },
     MuiToolbar: {
       root: {
-        backgroundColor: 'gray',
+        backgroundColor: '#62666C',
         justifyContent: 'space-between',
       },
     },

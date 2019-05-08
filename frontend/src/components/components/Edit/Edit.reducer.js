@@ -10,6 +10,7 @@ import {
   CHANGE_EDIT_START_TIME,
   CHANGE_EDIT_END_TIME,
   CHANGE_EDIT_TITLE,
+  CHANGE_TITLE_ISERROR,
 } from './Edit.action'
 
 // state
@@ -17,16 +18,19 @@ const initialState = {
   log: {},
   times: [],
   title: '',
+  isError: { title: false },
 }
 
 // views
 export const logView = () => R.path(['Edit', 'log'])(getState())
 export const timesView = () => R.path(['Edit', 'times'])(getState())
 export const titleView = () => R.path(['Edit', 'title'])(getState())
+export const isErrorView = () => R.path(['Edit', 'isError'])(getState())
 
 // reducers
 const reducers = {
   [INSERT_LOG]: (state, { log }) => ({
+    ...state,
     log,
     times: R.map(
       ({ _id, start, end }) => ({
@@ -58,6 +62,13 @@ const reducers = {
   [CHANGE_EDIT_TITLE]: (state, { title }) => ({
     ...state,
     title,
+  }),
+  [CHANGE_TITLE_ISERROR]: (state, { value }) => ({
+    ...state,
+    isError: {
+      ...state.isError,
+      title: value,
+    },
   }),
 }
 

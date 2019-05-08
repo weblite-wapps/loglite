@@ -45,3 +45,10 @@ export const dispatchChangeEditTitle = (...args) =>
 export const CLOSE_EDIT = 'CLOSE_EDIT'
 export const closeEdit = createAction(CLOSE_EDIT)
 export const dispatchCloseEdit = (...args) => dispatch(closeEdit(...args))
+
+export const CHANGE_TITLE_ISERROR = 'CHANGE_TITLE_ISERROR'
+export const changeTitleIserror = createAction(CHANGE_TITLE_ISERROR, value => ({
+  value,
+}))
+export const dispatchChangeTitleIserror = (...args) =>
+  dispatch(changeTitleIserror(...args))

@@ -1,7 +1,11 @@
 import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-import { SUBMIT_EDIT, CLOSE_EDIT } from './Edit.action'
+import {
+  SUBMIT_EDIT,
+  CLOSE_EDIT,
+  dispatchChangeTitleIserror,
+} from './Edit.action'
 import { dispatchSetEditedLog } from '../../Main/App.action'
 import { dispatchChangeSnackbarStage } from '../Snackbar/Snackbar.action'
 //helper
@@ -15,7 +19,29 @@ const submitEditEpic = (action$, { dispatch }) =>
   action$
     .ofType(SUBMIT_EDIT)
     .pluck('payload')
-    .filter(({ times }) => checkEditTimesOrder(times))
+    .filter(
+      ({ title }) =>
+        title.length ||
+        (() => {
+          dispatchChangeTitleIserror(true)
+          dispatchChangeSnackbarStage({
+            open: true,
+            message: 'Title is empty',
+          })
+          return false
+        })(),
+    )
+    .filter(
+      ({ times }) =>
+        checkEditTimesOrder(times) ||
+        (() => {
+          dispatchChangeSnackbarStage({
+            open: true,
+            message: 'Your intervals have overlap',
+          })
+          return false
+        })(),
+    )
     .map(({ log, times, title }) => ({
       ...log,
       times: R.map(
@@ -42,6 +68,7 @@ const submitEditEpic = (action$, { dispatch }) =>
         .then(() => dispatchSetEditedLog(log))
     })
     .do(() => dispatch(push('/Report')))
+    .do(() => dispatchChangeTitleIserror(false))
     .do(() =>
       dispatchChangeSnackbarStage({
         open: true,

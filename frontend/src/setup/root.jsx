@@ -10,6 +10,7 @@ import store, { history } from './redux'
 import App from '../components/Main/App.container.react'
 import About from '../components/components/About/About.jsx'
 import Loading from '../helper/components/Loading/Loading.presentational'
+import Snackbar from '../components/components/Snackbar/Snackbar.container.react'
 // styles
 import './root.scss'
 import theme from '../helper/style/appTheme'
@@ -35,6 +36,7 @@ export default () => (
       <ConnectedRouter history={history}>
         <div className="app-container ">
           <App />
+          <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} />
 
           <Suspense fallback={<Loading />}>
             <Route exact path="/" render={() => <Home />} />

@@ -5,16 +5,7 @@ import TextField from '@material-ui/core/TextField'
 // styles
 import styles from '../../style/appStyle'
 
-const Picker = ({
-  classes,
-  label,
-  type,
-  isError,
-  value,
-  style,
-  onChange,
-  defaultValue,
-}) => (
+const Picker = ({ classes, label, type, isError, value, style, onChange }) => (
   <form className={classes.container} noValidate>
     <TextField
       style={style}
@@ -27,7 +18,6 @@ const Picker = ({
       required
       error={isError}
       InputLabelProps={{ className: classes.textFieldFormLabel, shrink: true }}
-      defaultValue={defaultValue}
     />
   </form>
 )
@@ -40,7 +30,6 @@ Picker.propTypes = {
   isError: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  defaultValue: PropTypes.string.isRequired,
 }
 
 Picker.defaultProps = {

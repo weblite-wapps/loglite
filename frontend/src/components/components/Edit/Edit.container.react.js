@@ -11,12 +11,13 @@ import {
   dispatchCloseEdit,
   dispatchChangeEditTitle,
 } from './Edit.action'
-import { logView, timesView, titleView } from './Edit.reducer'
+import { logView, timesView, titleView, isErrorView } from './Edit.reducer'
 
 const mapStateToProps = () => ({
   log: logView(),
   times: timesView(),
   title: titleView(),
+  isError: isErrorView(),
 })
 
 const mapDispatchToProps = () => ({

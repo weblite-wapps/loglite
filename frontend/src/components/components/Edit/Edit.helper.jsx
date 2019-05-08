@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 //cores
 import Slide from '@material-ui/core/Slide'
 import { default as MuiAppBar } from '@material-ui/core/AppBar'
+import { withStyles } from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Done from '@material-ui/icons/Done'
@@ -19,21 +20,23 @@ import Picker from '../../../helper/components/Picker/Picker.presentational'
 //classes
 import './Edit.scss'
 
+import { default as style } from './Edit.style'
+
 export function Transition(props) {
   return <Slide direction="up" {...props} />
 }
 
-export const AppBar = ({ close, submit }) => (
+const AppBar = ({ close, submit, classes }) => (
   <MuiAppBar style={{ position: 'fixed' }}>
     <Toolbar>
       <IconButton className="icon" onClick={close}>
-        <CloselButton />
+        <CloselButton classes={{ root: classes.svgIcon }} />
       </IconButton>
       <em>
         <strong>Edit Log</strong>
       </em>
       <IconButton className="icon" onClick={submit}>
-        <Done />
+        <Done classes={{ root: classes.svgIcon }} />
       </IconButton>
     </Toolbar>
   </MuiAppBar>
@@ -42,25 +45,28 @@ export const AppBar = ({ close, submit }) => (
 AppBar.propTypes = {
   submit: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
+  classes: PropTypes.shape({}).isRequired,
 }
+export const AppBarWithStyle = withStyles(style)(AppBar)
 
-export const Content = ({
+const Content = ({
   title,
   onTitleChange,
   times,
   onStartTimeChange,
   onEndTimeChange,
+  classes,
+  isError,
 }) => (
   <div className="intervalList">
     <List>
       <Picker
-        defaultValue="Datas are not imported!"
         value={title}
         onChange={onTitleChange}
         placeholder="Title goes here ..."
         type="text"
         label="Title"
-        isError={false}
+        isError={isError && isError.title}
       />
       {times.map((item, index) => (
         <ListItem className="todayWorklist" key={item._id}>
@@ -70,19 +76,19 @@ export const Content = ({
           </div>
           <Picker
             value={item.start}
-            defaultValue="00:00"
             onChange={e => onStartTimeChange(e, item._id)}
             label="Start time"
             type="time"
             isError={false}
+            classes={{ container: classes.textField }}
           />
           <Picker
-            defaultValue="00:00"
             value={item.end}
             onChange={e => onEndTimeChange(e, item._id)}
             label="End time"
             type="time"
             isError={false}
+            classes={{ container: classes.textField }}
           />
           <div className="deletePanel">
             <Tooltip
@@ -92,7 +98,7 @@ export const Content = ({
               leaveDelay={150}
             >
               <IconButton>
-                <CancelIcon />
+                <CancelIcon classes={{ root: classes.deletePanel }} />
               </IconButton>
             </Tooltip>
           </div>
@@ -108,4 +114,8 @@ Content.propTypes = {
   times: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   title: PropTypes.string,
   onTitleChange: PropTypes.func.isRequired,
+  classes: PropTypes.shape({}).isRequired,
+  isError: PropTypes.shape({}).isRequired,
 }
+
+export const ContentWithStyle = withStyles(style)(Content)
