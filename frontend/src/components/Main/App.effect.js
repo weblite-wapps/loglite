@@ -72,10 +72,7 @@ const fetchUsersEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(({ body }) => dispatchLoadUsersData(body))
@@ -95,10 +92,7 @@ const saveUsersEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(({ body }) => body && dispatchLoadUsersData([body]))
@@ -122,10 +116,7 @@ const initialFetchEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(({ body: { logs } }) => dispatchLoadLogsData(logs))
@@ -154,10 +145,7 @@ const initialFetchEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(({ body }) => dispatchLoadLogsData(body))
@@ -190,10 +178,7 @@ const addLogToNextDayEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(() => dispatchSetIsLoading(false))
@@ -213,20 +198,12 @@ const effectDeleteLog = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(() => dispatchSetIsLoading(false))
     .do(({ body }) => dispatchDeleteLog(body._id))
-    .do(() =>
-      dispatchChangeSnackbarStage({
-        open: true,
-        message: 'Deleted successfully !',
-      }),
-    )
+    .do(() => dispatchChangeSnackbarStage('Deleted successfully !'))
     .do(() => dispatchChangePopoverId(''))
     .do(() => dispatchRefetchTotalDuration())
     .do(() => W && W.analytics('DELETE_LOG'))
@@ -245,14 +222,13 @@ const effectSaveStartTime = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { _id, start } }) => dispatchSaveStartTime(_id, start))
+    .do(({ body: { _id, start, runningTimeId } }) =>
+      dispatchSaveStartTime(_id, start, runningTimeId),
+    )
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .do(() => W && W.analytics('PLAY_CLICK'))
     .ignoreElements()
@@ -269,10 +245,7 @@ const effectSaveEndTime = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(() => dispatchSetIsLoading(false))
@@ -305,10 +278,7 @@ const effectToggleIsPinned = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(() => dispatchSetIsLoading(false))

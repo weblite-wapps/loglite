@@ -6,8 +6,12 @@ import App from './App.presentational'
 import { isLoadingView, tabIndexView, aboutModeView } from './App.reducer'
 // actions
 import { dispatchCheckToSetSecondsElapsed } from '../components/Home/Main/Home.action'
-import { dispatchChangeTab, dispatchSetApi, dispatchFetchTodayData, dispatchSetAboutMode } from './App.action'
-
+import {
+  dispatchChangeTab,
+  dispatchSetApi,
+  dispatchFetchTodayData,
+  dispatchSetAboutMode,
+} from './App.action'
 
 const mapStateToProps = () => ({
   isLoading: isLoadingView(),
@@ -23,5 +27,7 @@ const mapDispatchToProps = () => ({
   setAboutMode: dispatchSetAboutMode,
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App)

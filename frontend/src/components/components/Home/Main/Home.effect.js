@@ -52,10 +52,7 @@ const refetchTotalDurationEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(() => dispatchSetIsLoading(false))

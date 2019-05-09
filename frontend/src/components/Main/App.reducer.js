@@ -17,6 +17,7 @@ import {
   TOGGLE_IS_PINNED,
   SET_ABOUT_MODE,
   SET_TIME_DIFFERENCE,
+  SET_EDITED_LOG,
 } from './App.action'
 
 // state
@@ -49,7 +50,8 @@ export const popoverIdView = () => R.path(['App', 'popoverId'])(getState())
 export const isLoadingView = () => R.path(['App', 'isLoading'])(getState())
 export const tabIndexView = () => R.path(['App', 'tabIndex'])(getState())
 export const aboutModeView = () => R.path(['App', 'aboutMode'])(getState())
-export const timeDifferenceView = () => R.path(['App', 'timeDifference'])(getState())
+export const timeDifferenceView = () =>
+  R.path(['App', 'timeDifference'])(getState())
 
 // reducers
 const reducers = {
@@ -59,10 +61,15 @@ const reducers = {
 
   [CHANGE_TAB]: (state, { value }) => R.set(tabIndexLens, value, state),
 
-  [LOAD_USERS_DATA]: (state, { users }) =>
-    ({ ...state, users: R.uniq(R.concat(state.users, users)) }),
+  [LOAD_USERS_DATA]: (state, { users }) => ({
+    ...state,
+    users: R.uniq(R.concat(state.users, users)),
+  }),
 
-  [LOAD_LOGS_DATA]: (state, { logs }) => ({ ...state, logs: R.uniq(R.concat(state.logs, logs)) }),
+  [LOAD_LOGS_DATA]: (state, { logs }) => ({
+    ...state,
+    logs: R.uniq(R.concat(state.logs, logs)),
+  }),
 
   [CHANGE_POPOVER_ID]: (state, { value }) => R.set(popoverIdLens, value, state),
 
@@ -71,38 +78,70 @@ const reducers = {
     logs: R.prepend(log, state.logs),
   }),
 
-  [DELETE_LOG]: (state, { _id }) => ({ 
+  [DELETE_LOG]: (state, { _id }) => ({
     ...state,
-    logs: R.remove(R.findIndex(R.propEq('_id', _id))(state.logs), 1, state.logs),
+    logs: R.remove(
+      R.findIndex(R.propEq('_id', _id))(state.logs),
+      1,
+      state.logs,
+    ),
   }),
 
-  [SAVE_START_TIME]: (state, { _id, start }) => ({ 
+  [SAVE_START_TIME]: (state, { _id, start, runningTimeId }) => ({
     ...state,
-    logs: R.map(log => (log._id === _id) ?
-      { ...log, times: R.append({ start, end: 'running' }, log.times) } : log, state.logs),
+    logs: R.map(
+      log =>
+        log._id === _id
+          ? {
+              ...log,
+              times: R.append(
+                { _id: runningTimeId, start, end: 'running' },
+                log.times,
+              ),
+            }
+          : log,
+      state.logs,
+    ),
   }),
 
   [SAVE_END_TIME]: (state, { _id, end }) => ({
     ...state,
-    logs: R.map(log => (log._id === _id) ?
-      {
-        ...log,
-        times: R.map(time => (time.end === 'running') ?
-          R.set(endLens, end, time) : time, log.times),
-      } : log, state.logs),
+    logs: R.map(
+      log =>
+        log._id === _id
+          ? {
+              ...log,
+              times: R.map(
+                time =>
+                  time.end === 'running' ? R.set(endLens, end, time) : time,
+                log.times,
+              ),
+            }
+          : log,
+      state.logs,
+    ),
   }),
 
-  [TOGGLE_IS_PINNED]: (state, { _id, value }) => ({ 
+  [TOGGLE_IS_PINNED]: (state, { _id, value }) => ({
     ...state,
-    logs: R.map(log => (log._id === _id) ?
-      { ...log, isPinned: value } : log, state.logs),
+    logs: R.map(
+      log => (log._id === _id ? { ...log, isPinned: value } : log),
+      state.logs,
+    ),
   }),
 
   [SET_ABOUT_MODE]: (state, aboutMode) => ({ ...state, aboutMode }),
 
-  [SET_TIME_DIFFERENCE]:  (state, timeDifference) => ({ ...state, timeDifference })
-}
+  [SET_TIME_DIFFERENCE]: (state, timeDifference) => ({
+    ...state,
+    timeDifference,
+  }),
 
+  [SET_EDITED_LOG]: (state, newlog) => ({
+    ...state,
+    logs: R.map(log => (log._id === newlog._id ? newlog : log), state.logs),
+  }),
+}
 
 export default (state = initialState, { type, payload }) =>
   reducers[type] ? reducers[type](state, payload) : state

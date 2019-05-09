@@ -2,6 +2,7 @@
 import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
+import { push } from 'react-router-redux'
 // local modules
 import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 // helpers
@@ -46,6 +47,7 @@ import {
   dispatchUpdateChart,
   dispatchUpdateLeaderboard,
   CHANGE_EXPAND_MODE,
+  EDIT_BUTTON_CLICK,
 } from './Report.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
@@ -59,6 +61,8 @@ import {
   queryTagView,
   tagsView,
 } from './Report.reducer'
+
+import { dispatchInsertLog } from '../../Edit/Edit.action'
 // const
 const { W } = window
 
@@ -90,10 +94,7 @@ const loadStaffDataEpic = action$ =>
           })
           .on('error', err => {
             if (err.status !== 304) {
-              dispatchChangeSnackbarStage({
-                open: true,
-                message: 'Server disconnected!',
-              })
+              dispatchChangeSnackbarStage('Server disconnected!')
               dispatchRemovePage(
                 formattedDate(currentPageView()),
                 selectedUserView(),
@@ -109,10 +110,7 @@ const loadStaffDataEpic = action$ =>
             'error',
             err =>
               err.status !== 304 &&
-              dispatchChangeSnackbarStage({
-                open: true,
-                message: 'Server disconnected!',
-              }),
+              dispatchChangeSnackbarStage('Server disconnected!'),
           ),
       ]),
     )
@@ -146,10 +144,7 @@ const effectSearchTagsEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .map(({ body }) => fetchTags(body))
@@ -171,10 +166,7 @@ const calculateTotalDurationEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(() => dispatchSetIsLoading(false))
@@ -198,10 +190,7 @@ const convertJSONToCSVEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(() => dispatchSetIsLoading(false))
@@ -231,10 +220,7 @@ const fetchPreviousDayLogsDataEpic = action$ =>
         })
         .on('error', err => {
           if (err.status !== 304) {
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            })
+            dispatchChangeSnackbarStage('Server disconnected!')
             dispatchRemovePage(
               formattedDate(currentPageView()),
               selectedUserView(),
@@ -273,10 +259,7 @@ const fetchNextDayLogsDataEpic = action$ =>
         })
         .on('error', err => {
           if (err.status !== 304) {
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            })
+            dispatchChangeSnackbarStage('Server disconnected!')
             dispatchRemovePage(
               formattedDate(currentPageView()),
               selectedUserView(),
@@ -315,10 +298,7 @@ const updateChartEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(() => dispatchSetIsLoading(false))
@@ -340,10 +320,7 @@ const updateLeaderboardEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(() => dispatchSetIsLoading(false))
@@ -358,7 +335,7 @@ const effectHandleAddTag = action$ =>
     .do(({ permission }) => permission && dispatchAddTag())
     .do(
       ({ permission, message }) =>
-        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+        !permission && dispatchChangeSnackbarStage(message),
     )
     .ignoreElements()
 
@@ -370,7 +347,7 @@ const effectHandleCalculation = action$ =>
     .do(({ permission }) => permission && dispatchCalculateTotalDuration())
     .do(
       ({ permission, message }) =>
-        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+        !permission && dispatchChangeSnackbarStage(message),
     )
     .ignoreElements()
 
@@ -382,7 +359,7 @@ const effectHandleExport = action$ =>
     .do(({ permission }) => permission && dispatchConvertJSONToCSV())
     .do(
       ({ permission, message }) =>
-        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+        !permission && dispatchChangeSnackbarStage(message),
     )
     .ignoreElements()
 
@@ -398,7 +375,7 @@ const effectHandleUpdateChart = action$ =>
     )
     .do(
       ({ permission, message }) =>
-        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+        !permission && dispatchChangeSnackbarStage(message),
     )
     .ignoreElements()
 
@@ -414,7 +391,7 @@ const effectHandleUpdateLeaderboard = action$ =>
     )
     .do(
       ({ permission, message }) =>
-        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+        !permission && dispatchChangeSnackbarStage(message),
     )
     .ignoreElements()
 
@@ -424,6 +401,14 @@ const changeExpandModeEpic = action$ =>
     .pluck('payload')
     .do(({ value }) => W && W.analytics('EXPAND_MODE_CLICK', { mode: value }))
     .ignoreElements()
+
+const handlEditButtonEpic = action$ =>
+  action$
+    .ofType(EDIT_BUTTON_CLICK)
+    .pluck('payload')
+    .pluck('value')
+    .do(dispatchInsertLog)
+    .map(() => push('/Edit'))
 
 export default combineEpics(
   resetStaffDataEpic,
@@ -443,4 +428,5 @@ export default combineEpics(
   effectHandleUpdateChart,
   effectHandleUpdateLeaderboard,
   changeExpandModeEpic,
+  handlEditButtonEpic,
 )

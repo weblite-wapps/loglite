@@ -10,6 +10,7 @@ import store, { history } from './redux'
 import App from '../components/Main/App.container.react'
 import About from '../components/components/About/About.jsx'
 import Loading from '../helper/components/Loading/Loading.presentational'
+import Snackbar from '../components/components/Snackbar/Snackbar.container.react'
 // styles
 import './root.scss'
 import theme from '../helper/style/appTheme'
@@ -23,6 +24,10 @@ const Add = lazy(() =>
 const Report = lazy(() =>
   import('../components/components/Report/Main/Report.container.react'),
 )
+
+const Edit = lazy(() =>
+  import('../components/components/Edit/Edit.container.react'),
+)
 // const About = lazy(() => import('../components/components/About/About.jsx'));
 
 export default () => (
@@ -31,12 +36,14 @@ export default () => (
       <ConnectedRouter history={history}>
         <div className="app-container ">
           <App />
+          <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} />
 
           <Suspense fallback={<Loading />}>
             <Route exact path="/" render={() => <Home />} />
             <Route path="/Add" render={() => <Add />} />
             <Route path="/Report" render={() => <Report />} />
             <Route path="/About" render={() => <About />} />
+            <Route path="/Edit" render={() => <Edit />} />
           </Suspense>
         </div>
       </ConnectedRouter>

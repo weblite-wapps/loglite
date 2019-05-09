@@ -1,0 +1,43 @@
+.intervalList {
+  margin-top: 50px;
+  min-width: 200px;
+}
+
+.todayWorklist {
+  justify-content: space-between;
+  margin: 5px 0px;
+  width: 100%;
+  padding-right: 5px;
+}
+
+.interval-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0px;
+  font-size: 10px;
+}
+.interval {
+  font-size: 9px;
+  margin: 0px;
+}
+
+.counter {
+  margin: 0px auto;
+  font-size: 20px;
+  font-weight: 600;
+}
+.deletePanel {
+  justify-content: center;
+}
+
+.icon {
+  color: white;
+}
+@media screen and(max-width: '200px') {
+  .todayWorklist {
+    display: flex;
+    flex-direction: column;
+  }
+}
