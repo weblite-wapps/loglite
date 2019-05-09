@@ -101,7 +101,7 @@ export const dispatchSetTimeDifference = (...args) =>
   dispatch(setTimeDifference(...args))
 
 export const SET_EDITED_LOG = 'SET_EDITED_LOG'
-export const setEditedLog = createAction(SET_EDITED_LOG, log => log)
+export const setEditedLog = createAction(SET_EDITED_LOG)
 export const dispatchSetEditedLog = (...args) => dispatch(setEditedLog(...args))
 
 // effects

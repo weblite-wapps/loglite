@@ -17,7 +17,7 @@ import {
   getStartDayOfWeek,
   getStartDayOfMonth,
   getLeaderboardData,
-  get_idOfRunningTimeInALog
+  getRunningTimeId
 } from "../../main/helper";
 // const
 const logger = console.log;
@@ -65,7 +65,7 @@ app.post("/saveStartTime", ({ body }, res) =>
       res.send({
         ...body,
         start: new Date(),
-        runningTimeId: get_idOfRunningTimeInALog(times)
+        runningTimeId: getRunningTimeId(times)
       });
     })
     .catch(logger)

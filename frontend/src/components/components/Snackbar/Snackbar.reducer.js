@@ -14,9 +14,9 @@ export const snackbarIsOpenView = () =>
 export const messageView = () => R.path(['Snackbar', 'message'])(getState())
 // reducers
 const reducers = {
-  [CHANGE_SNACKBAR_STAGE]: (state, { open, message }) => ({
+  [CHANGE_SNACKBAR_STAGE]: (state, message) => ({
     ...state,
-    snackbarIsOpen: open,
+    snackbarIsOpen: !!message,
     message,
   }),
 }

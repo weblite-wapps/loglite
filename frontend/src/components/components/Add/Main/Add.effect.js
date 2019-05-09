@@ -52,10 +52,7 @@ const effectSearchTagsEpic = action$ =>
           'error',
           err =>
             err.status !== 304 &&
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            }),
+            dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
     .do(() => dispatchSetIsLoading(false))
@@ -69,7 +66,7 @@ const effectHandleAddTag = action$ =>
     .do(({ permission }) => permission && dispatchAddTagInAdd())
     .do(
       ({ permission, message }) =>
-        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+        !permission && dispatchChangeSnackbarStage(message),
     )
     .do(() => W && W.analytics('ADD_TAG'))
     .ignoreElements()
@@ -81,7 +78,7 @@ const effectHandleAddLog = action$ =>
     .map(payload => ({ ...payload, ...checkBeforeAddLog(payload) }))
     .do(
       ({ permission, message }) =>
-        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+        !permission && dispatchChangeSnackbarStage(message),
     )
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
@@ -101,10 +98,7 @@ const effectHandleAddLog = action$ =>
             'error',
             err =>
               err.status !== 304 &&
-              dispatchChangeSnackbarStage({
-                open: true,
-                message: 'Server disconnected!',
-              }),
+              dispatchChangeSnackbarStage('Server disconnected!'),
           ),
         postRequest('/saveTags')
           .send({
@@ -116,10 +110,7 @@ const effectHandleAddLog = action$ =>
             'error',
             err =>
               err.status !== 304 &&
-              dispatchChangeSnackbarStage({
-                open: true,
-                message: 'Server disconnected!',
-              }),
+              dispatchChangeSnackbarStage('Server disconnected!'),
           ),
       ]),
     )
@@ -127,12 +118,7 @@ const effectHandleAddLog = action$ =>
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeTab('Home'))
-    .do(() =>
-      dispatchChangeSnackbarStage({
-        open: true,
-        message: 'Added successfully!',
-      }),
-    )
+    .do(() => dispatchChangeSnackbarStage('Added successfully!'))
     .do(() => dispatchResetInputs())
     .do(() => W && W.analytics('ADD_LOG', { custom: false }))
     .ignoreElements()
@@ -144,7 +130,7 @@ const effectHandleAddCustomLog = action$ =>
     .map(payload => ({ ...payload, ...checkBeforeAddCustomLog() }))
     .do(
       ({ message, permission }) =>
-        !permission && dispatchChangeSnackbarStage({ open: true, message }),
+        !permission && dispatchChangeSnackbarStage(message),
     )
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
@@ -165,10 +151,7 @@ const effectHandleAddCustomLog = action$ =>
             'error',
             err =>
               err.status !== 304 &&
-              dispatchChangeSnackbarStage({
-                open: true,
-                message: 'Server disconnected!',
-              }),
+              dispatchChangeSnackbarStage('Server disconnected!'),
           ),
         postRequest('/saveTags')
           .send({
@@ -180,22 +163,14 @@ const effectHandleAddCustomLog = action$ =>
             'error',
             err =>
               err.status !== 304 &&
-              dispatchChangeSnackbarStage({
-                open: true,
-                message: 'Server disconnected!',
-              }),
+              dispatchChangeSnackbarStage('Server disconnected!'),
           ),
       ]),
     )
     .do(success => dispatchAddLog(success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
-    .do(() =>
-      dispatchChangeSnackbarStage({
-        open: true,
-        message: 'Added successfully!',
-      }),
-    )
+    .do(() => dispatchChangeSnackbarStage('Added successfully!'))
     .do(() => dispatchChangeTab('Home'))
     .do(() => dispatchResetInputs())
     .do(() => W && W.analytics('ADD_LOG', { custom: true }))

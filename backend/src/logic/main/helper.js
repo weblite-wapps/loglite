@@ -142,7 +142,7 @@ export const getStartDayOfWeek = date =>
 
 export const getStartDayOfMonth = date => formattedDate(startOfMonth(date));
 
-export const get_idOfRunningTimeInALog = times =>
+export const getRunningTimeId = times =>
   R.reduce(
     (acc, item) => (item.end === "running" ? (acc = item._id) : acc),
     "",

@@ -2,7 +2,6 @@
 import { connect } from 'react-redux'
 // components
 import Edit from './Edit.presentational'
-// views
 // actions
 import {
   dispatchSubmitEdit,
@@ -11,6 +10,7 @@ import {
   dispatchCloseEdit,
   dispatchChangeEditTitle,
 } from './Edit.action'
+// views
 import { logView, timesView, titleView, isErrorView } from './Edit.reducer'
 
 const mapStateToProps = () => ({
@@ -28,9 +28,9 @@ const mapDispatchToProps = () => ({
       title: titleView(),
     }),
   onStartTimeChange: ({ target: { value } }, id) =>
-    dispatchChangeEditStartTime(value, id),
+    dispatchChangeEditStartTime({ value, id }),
   onEndTimeChange: ({ target: { value } }, id) =>
-    dispatchChangeEditEndTime(value, id),
+    dispatchChangeEditEndTime({ value, id }),
   close: dispatchCloseEdit,
   onTitleChange: ({ target: { value } }) => dispatchChangeEditTitle(value),
 })

@@ -1,6 +1,10 @@
+// modules
 import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
+import { push } from 'react-router-redux'
+
+//actions
 import {
   SUBMIT_EDIT,
   CLOSE_EDIT,
@@ -8,13 +12,15 @@ import {
 } from './Edit.action'
 import { dispatchSetEditedLog } from '../../Main/App.action'
 import { dispatchChangeSnackbarStage } from '../Snackbar/Snackbar.action'
+
 //helper
 import { postRequest } from '../../../helper/functions/request.helper'
 import {
   formatTime,
   checkEditTimesOrder,
 } from '../../../helper/functions/time.helper'
-import { push } from 'react-router-redux'
+
+// epics
 const submitEditEpic = (action$, { dispatch }) =>
   action$
     .ofType(SUBMIT_EDIT)
@@ -24,10 +30,7 @@ const submitEditEpic = (action$, { dispatch }) =>
         title.length ||
         (() => {
           dispatchChangeTitleIserror(true)
-          dispatchChangeSnackbarStage({
-            open: true,
-            message: 'Title is empty',
-          })
+          dispatchChangeSnackbarStage('Title is empty')
           return false
         })(),
     )
@@ -35,10 +38,7 @@ const submitEditEpic = (action$, { dispatch }) =>
       ({ times }) =>
         checkEditTimesOrder(times) ||
         (() => {
-          dispatchChangeSnackbarStage({
-            open: true,
-            message: 'Your intervals have overlap',
-          })
+          dispatchChangeSnackbarStage('Your intervals have overlap')
           return false
         })(),
     )
@@ -59,28 +59,19 @@ const submitEditEpic = (action$, { dispatch }) =>
         .send(log)
         .on('error', err => {
           if (err.status !== 304) {
-            dispatchChangeSnackbarStage({
-              open: true,
-              message: 'Server disconnected!',
-            })
+            dispatchChangeSnackbarStage('Server disconnected!')
           }
         })
         .then(() => dispatchSetEditedLog(log))
+        .then(() => {
+          dispatchChangeSnackbarStage('Updated Succesfully!')
+          dispatch(push('/Report'))
+          dispatchChangeTitleIserror(false)
+        })
     })
-    .do(() => dispatch(push('/Report')))
-    .do(() => dispatchChangeTitleIserror(false))
-    .do(() =>
-      dispatchChangeSnackbarStage({
-        open: true,
-        message: 'Updated Succesfully!',
-      }),
-    )
     .ignoreElements()
 
-const closeEditEpic = (action$, { dispatch }) =>
-  action$
-    .ofType(CLOSE_EDIT)
-    .do(() => dispatch(push('/Report')))
-    .ignoreElements()
+const closeEditEpic = action$ =>
+  action$.ofType(CLOSE_EDIT).map(() => push('/Report'))
 
 export default combineEpics(submitEditEpic, closeEditEpic)

@@ -29,7 +29,7 @@ export const isErrorView = () => R.path(['Edit', 'isError'])(getState())
 
 // reducers
 const reducers = {
-  [INSERT_LOG]: (state, { log }) => ({
+  [INSERT_LOG]: (state, log) => ({
     ...state,
     log,
     times: R.map(
@@ -59,11 +59,11 @@ const reducers = {
     ),
   }),
 
-  [CHANGE_EDIT_TITLE]: (state, { title }) => ({
+  [CHANGE_EDIT_TITLE]: (state, title) => ({
     ...state,
     title,
   }),
-  [CHANGE_TITLE_ISERROR]: (state, { value }) => ({
+  [CHANGE_TITLE_ISERROR]: (state, value) => ({
     ...state,
     isError: {
       ...state.isError,

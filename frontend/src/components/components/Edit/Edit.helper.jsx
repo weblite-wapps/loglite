@@ -112,7 +112,7 @@ Content.propTypes = {
   onStartTimeChange: PropTypes.func.isRequired,
   onEndTimeChange: PropTypes.func.isRequired,
   times: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  title: PropTypes.string,
+  title: PropTypes.string.isRequired,
   onTitleChange: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   isError: PropTypes.shape({}).isRequired,
