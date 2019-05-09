@@ -11,6 +11,7 @@ import {
   dispatchChangeTitleIserror,
 } from './Edit.action'
 import { dispatchSetEditedLog } from '../../Main/App.action'
+import { dispatchRefetchTotalDuration } from '../../components/Home/Main/Home.action'
 import { dispatchChangeSnackbarStage } from '../Snackbar/Snackbar.action'
 
 //helper
