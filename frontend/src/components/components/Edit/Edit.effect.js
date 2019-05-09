@@ -3,7 +3,6 @@ import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import { push } from 'react-router-redux'
-
 //actions
 import {
   SUBMIT_EDIT,
@@ -13,13 +12,14 @@ import {
 import { dispatchSetEditedLog } from '../../Main/App.action'
 import { dispatchRefetchTotalDuration } from '../../components/Home/Main/Home.action'
 import { dispatchChangeSnackbarStage } from '../Snackbar/Snackbar.action'
-
 //helper
 import { postRequest } from '../../../helper/functions/request.helper'
 import {
   formatTime,
   checkEditTimesOrder,
 } from '../../../helper/functions/time.helper'
+// const
+const { W } = window
 
 // epics
 const submitEditEpic = (action$, { dispatch }) =>
@@ -68,6 +68,8 @@ const submitEditEpic = (action$, { dispatch }) =>
           dispatchChangeSnackbarStage('Updated Succesfully!')
           dispatch(push('/Report'))
           dispatchChangeTitleIserror(false)
+          dispatchRefetchTotalDuration()
+          W && W.analytics('EDIT_LOG')
         })
     })
     .ignoreElements()
