@@ -26,7 +26,7 @@ export const CSVDownloader = ({ CSV }) =>
       data={CSV}
       separator=";"
       filename="LogliteReport.csv"
-      target="_blank"
+      target="_self"
     />
   );
 
