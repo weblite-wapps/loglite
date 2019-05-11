@@ -7,7 +7,7 @@ import { push } from 'react-router-redux'
 import {
   SUBMIT_EDIT,
   CLOSE_EDIT,
-  dispatchChangeTitleIserror,
+  dispatchChangeTitleIsError,
 } from './Edit.action'
 import { dispatchSetEditedLog } from '../../Main/App.action'
 import { dispatchRefetchTotalDuration } from '../../components/Home/Main/Home.action'
@@ -30,7 +30,7 @@ const submitEditEpic = (action$, { dispatch }) =>
       ({ title }) =>
         title.length ||
         (() => {
-          dispatchChangeTitleIserror(true)
+          dispatchChangeTitleIsError(true)
           dispatchChangeSnackbarStage('Title is empty')
           return false
         })(),
@@ -67,7 +67,7 @@ const submitEditEpic = (action$, { dispatch }) =>
         .then(() => {
           dispatchChangeSnackbarStage('Updated Succesfully!')
           dispatch(push('/Report'))
-          dispatchChangeTitleIserror(false)
+          dispatchChangeTitleIsError(false)
           dispatchRefetchTotalDuration()
           W && W.analytics('EDIT_LOG')
         })

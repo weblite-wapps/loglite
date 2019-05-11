@@ -19,10 +19,9 @@ app.get("/fetchLogs", ({ query: { wis, userId, date } }, res) =>
 );
 
 app.post("/saveLog", (req, res) =>
-  saveLog({ ...req.body, created_at: new Date() })
-    .then(log => res.send(log))
-    .catch(logger)
-);
+    saveLog({ ...req.body, created_at: new Date() })
+      .then(log => res.send(log))
+      .catch(logger))
 
 app.post("/saveCustomLog", ({ body: { start, end, ...other } }, res) =>
   saveLog({

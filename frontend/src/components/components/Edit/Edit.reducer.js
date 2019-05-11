@@ -10,7 +10,7 @@ import {
   CHANGE_EDIT_START_TIME,
   CHANGE_EDIT_END_TIME,
   CHANGE_EDIT_TITLE,
-  CHANGE_TITLE_ISERROR,
+  CHANGE_TITLE_IS_ERROR,
 } from './Edit.action'
 
 // state
@@ -63,7 +63,7 @@ const reducers = {
     ...state,
     title,
   }),
-  [CHANGE_TITLE_ISERROR]: (state, value) => ({
+  [CHANGE_TITLE_IS_ERROR]: (state, value) => ({
     ...state,
     isError: {
       ...state.isError,

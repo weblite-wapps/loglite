@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-//cores
+// cores
 import Slide from '@material-ui/core/Slide'
 import { default as MuiAppBar } from '@material-ui/core/AppBar'
 import { withStyles } from '@material-ui/core/styles'
@@ -12,14 +11,13 @@ import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
 import { ListItem } from '@material-ui/core'
 import Tooltip from '@material-ui/core/Tooltip'
-//icons
+// icons
 import CancelIcon from '@material-ui/icons/Cancel'
-import CloselButton from '@material-ui/icons/Close'
-//helper
+import CloseButton from '@material-ui/icons/Close'
+// helpers
 import Picker from '../../../helper/components/Picker/Picker.presentational'
-//classes
+// classes
 import './Edit.scss'
-
 import { default as style } from './Edit.style'
 
 export function Transition(props) {
@@ -30,7 +28,7 @@ const AppBar = ({ close, submit, classes }) => (
   <MuiAppBar style={{ position: 'fixed' }}>
     <Toolbar>
       <IconButton className="icon" onClick={close}>
-        <CloselButton classes={{ root: classes.svgIcon }} />
+        <CloseButton classes={{ root: classes.svgIcon }} />
       </IconButton>
       <strong>Edit Log</strong>
       <IconButton className="icon" onClick={submit}>

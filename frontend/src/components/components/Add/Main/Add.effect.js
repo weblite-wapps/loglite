@@ -89,7 +89,7 @@ const effectHandleAddLog = action$ =>
           .send({
             title,
             tags,
-            data: getToday(),
+            date: getToday(), 
             times: [],
             isPinned: false,
             userId: userIdView(),
