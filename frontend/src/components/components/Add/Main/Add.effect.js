@@ -83,7 +83,6 @@ const effectHandleAddLog = action$ =>
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
     .do(() => dispatchSetIsLoading(true))
-    .do(() => console.log(getToday()))
     .mergeMap(({ title, tags }) =>
       Promise.all([
         postRequest('/saveLog')
@@ -116,7 +115,6 @@ const effectHandleAddLog = action$ =>
           ),
       ]),
     )
-    .do(success => console.log(success[0].body))
     .do(success => dispatchAddLog(success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
