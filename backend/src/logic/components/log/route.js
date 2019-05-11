@@ -9,7 +9,7 @@ import { fetchLogs, saveLog, deleteLog, saveTime, updateLog } from "./db";
 import { sumLogs, modifiedQuery, getBarChartData, getJSON, defaultQueryGenerator, getLeaderboardData, getRunningTimeId } from '../../../helper/query.helper'
 import { getStartDayOfWeek, getStartDayOfMonth } from '../../../helper/date.helper'
 import { formattedSeconds, formatTime } from '../../../helper/time.helper'
-// const
+// const 
 const logger = console.log;
 
 app.get("/fetchLogs", ({ query: { wis, userId, date } }, res) =>
