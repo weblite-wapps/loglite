@@ -20,16 +20,15 @@ Buttons.propTypes = {
   onExport: PropTypes.func.isRequired
 };
 
-export const CSVDownloader = ({ CSV }) =>
-  CSV && (
+export const CSVDownloader = ({ CSVData }) =>
+  CSVData && (
     <CSVDownload
-      data={CSV}
+      data={CSVData}
       separator=";"
-      filename="LogliteReport.csv"
       target="_self"
     />
   );
 
 CSVDownloader.propTypes = {
-  CSV: PropTypes.string.isRequired
+  CSVData: PropTypes.string.isRequired
 };

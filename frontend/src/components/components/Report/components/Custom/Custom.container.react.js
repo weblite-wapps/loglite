@@ -25,7 +25,7 @@ const mapStateToProps = state => ({
   queryTag: queryTagView(),
   tags: tagsView(),
   suggestions: getReportFilteredSuggestions(state),
-  CSV: CSVView(),
+  CSVData: CSVView(),
   startDate: startDateView(),
   endDate: endDateView(),
   isError: isErrorView(),

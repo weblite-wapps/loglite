@@ -78,7 +78,6 @@ export const modifiedQuery = query => {
 };
 
 export const getJSON = logs => {
-  // let formattedData = logs.map( R.compose())
   let formattedData = R.map(
     log =>
       R.dissoc(
