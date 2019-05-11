@@ -8,7 +8,9 @@ import {
   addDays,
   subDays,
   format,
-  getDay,
+  setHours,
+  setMinutes,
+  setSeconds,
   differenceInSeconds,
   differenceInDays
 } from "date-fns";
@@ -130,6 +132,15 @@ export const checkInProgress = R.compose(
 );
 
 export const formattedDate = date => format(date, "YYYY-MM-DD");
+
+export const formatTime = time =>
+  setHours(
+    setMinutes( 
+      setSeconds(new Date(), R.slice(6, 8, time)),
+      R.slice(3, 5, time),
+    ),
+    R.slice(0, 2, time),
+  )
 
 export const getYesterday = date => formattedDate(subDays(startOfDay(date), 1));
 

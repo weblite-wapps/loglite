@@ -9,7 +9,7 @@ import { fetchLogs, saveLog, deleteLog, saveTime, updateLog } from "./db";
 import {
   sumLogs,
   formattedSeconds,
-  formattedDate,
+  formatTime,
   modifiedQuery,
   getBarChartData,
   getJSON,
@@ -29,16 +29,17 @@ app.get("/fetchLogs", ({ query: { wis, userId, date } }, res) =>
 );
 
 app.post("/saveLog", (req, res) =>
-  saveLog({
-    ...req.body,
-    created_at: new Date()
-  })
+  saveLog({ ...req.body, created_at: new Date() })
     .then(log => res.send(log))
     .catch(logger)
 );
 
-app.post("/saveCustomLog", (req, res) =>
-  saveLog({ ...req.body, created_at: new Date() })
+app.post("/saveCustomLog", ({ body: { start, end, ...other } }, res) =>
+  saveLog({
+    ...other,
+    created_at: new Date(),
+    times: [{ start: formatTime(start), end: formatTime(end) }],
+  })
     .then(log => res.send(log))
     .catch(logger)
 );

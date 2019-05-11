@@ -8,7 +8,6 @@ import {
   getRequest,
   postRequest,
 } from '../../../../helper/functions/request.helper'
-import { formatTime } from '../../../../helper/functions/time.helper'
 import { getToday } from '../../../../helper/functions/date.helper'
 import { checkBeforeAddTag } from '../../../Main/App.helper'
 import { checkBeforeAddLog, checkBeforeAddCustomLog } from './Add.helper'
@@ -141,9 +140,10 @@ const effectHandleAddCustomLog = action$ =>
       Promise.all([
         postRequest('/saveCustomLog')
           .send({
-            title,
+            title, 
             tags,
-            times: [{ start: formatTime(start), end: formatTime(end) }],
+            start,
+            end,
             date,
             isPinned: false,
             userId: userIdView(),
