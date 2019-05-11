@@ -31,7 +31,6 @@ app.get("/fetchLogs", ({ query: { wis, userId, date } }, res) =>
 app.post("/saveLog", (req, res) =>
   saveLog({
     ...req.body,
-    date: formattedDate(new Date()),
     created_at: new Date()
   })
     .then(log => res.send(log))

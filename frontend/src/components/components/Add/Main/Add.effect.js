@@ -9,6 +9,7 @@ import {
   postRequest,
 } from '../../../../helper/functions/request.helper'
 import { formatTime } from '../../../../helper/functions/time.helper'
+import { getToday } from '../../../../helper/functions/date.helper'
 import { checkBeforeAddTag } from '../../../Main/App.helper'
 import { checkBeforeAddLog, checkBeforeAddCustomLog } from './Add.helper'
 // actions
@@ -89,6 +90,7 @@ const effectHandleAddLog = action$ =>
           .send({
             title,
             tags,
+            data: getToday(),
             times: [],
             isPinned: false,
             userId: userIdView(),
