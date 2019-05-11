@@ -402,7 +402,7 @@ const changeExpandModeEpic = action$ =>
     .do(({ value }) => W && W.analytics('EXPAND_MODE_CLICK', { mode: value }))
     .ignoreElements()
 
-const handlEditButtonEpic = action$ =>
+const handleEditButtonEpic = action$ =>
   action$
     .ofType(EDIT_BUTTON_CLICK)
     .pluck('payload')
@@ -428,5 +428,5 @@ export default combineEpics(
   effectHandleUpdateChart,
   effectHandleUpdateLeaderboard,
   changeExpandModeEpic,
-  handlEditButtonEpic,
+  handleEditButtonEpic,
 )
