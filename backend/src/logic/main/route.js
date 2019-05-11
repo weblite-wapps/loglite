@@ -11,7 +11,9 @@ import { fetchLogs, updateLog, saveLog } from '../components/log/db'
 import { fetchTags } from '../components/tag/db'
 import { fetchPins, savePin, deletePin, updatePins } from '../components/pin/db'
 // helpers
-import { sumLogs, formattedSeconds, formattedDate, getSixDaysAgo, getStartDayOfWeek, getStartDayOfMonth, defaultQueryGenerator, getLeaderboardData } from './helper'
+import { sumLogs, defaultQueryGenerator, getLeaderboardData } from '../../helper/query.helper'
+import { formattedDate, getSixDaysAgo, getStartDayOfWeek, getStartDayOfMonth } from '../../helper/date.helper'
+import { formattedSeconds } from '../../helper/time.helper'
 // const
 const logger = console.log
 

@@ -2,18 +2,25 @@
 import json2csv from "json2csv";
 import * as R from "ramda";
 import {
-  startOfDay,
-  startOfWeek,
-  startOfMonth,
   addDays,
-  subDays,
   format,
-  setHours,
-  setMinutes,
-  setSeconds,
+  differenceInDays,
   differenceInSeconds,
-  differenceInDays
 } from "date-fns";
+
+
+const sumTimes = times =>
+  R.reduce(
+    (acc, time) =>
+      time.end === "running"
+        ? acc + differenceInSeconds(new Date(), time.start)
+        : acc + differenceInSeconds(time.end, time.start),
+    0
+  )(times);
+
+export const sumLogs = logs =>
+  R.reduce((acc, log) => acc + sumTimes(log.times), 0)(logs);
+
 
 export const defaultQueryGenerator = ({ wis, userId }) => ({
   wis,
@@ -28,39 +35,6 @@ export const queryGenerator = query => ({
 
 const formattedTags = tags =>
   R.slice(1, JSON.stringify(tags).length - 1, JSON.stringify(tags));
-
-const sumTimes = times =>
-  R.reduce(
-    (acc, time) =>
-      time.end === "running"
-        ? acc + differenceInSeconds(new Date(), time.start)
-        : acc + differenceInSeconds(time.end, time.start),
-    0
-  )(times);
-
-export const sumLogs = logs =>
-  R.reduce((acc, log) => acc + sumTimes(log.times), 0)(logs);
-
-export const formattedSeconds = (seconds, pageName) => {
-  if (pageName === "Home") {
-    if (Math.floor(seconds / 3600) === 0) {
-      return `${Math.floor(seconds / 60)}m`;
-    }
-    return Math.floor((seconds % 3600) / 60) === 0
-      ? `${Math.floor(seconds / 3600)}h`
-      : `${Math.floor(seconds / 3600)}h & ${Math.floor(
-          (seconds % 3600) / 60
-        )}m`;
-  }
-  if (Math.floor(seconds / 3600) === 0) {
-    return `Total: ${Math.floor(seconds / 60)}m`;
-  }
-  return Math.floor((seconds % 3600) / 60) === 0
-    ? `Total: ${Math.floor(seconds / 3600)}h`
-    : `Total: ${Math.floor(seconds / 3600)}h & ${Math.floor(
-        (seconds % 3600) / 60
-      )}m`;
-};
 
 export const modifiedQuery = query => {
   if (!query.selectedTags) {
@@ -130,27 +104,6 @@ export const checkInProgress = R.compose(
   R.map(log => R.findIndex(R.propEq("end", "running"))(log.times) !== -1),
   R.filter(log => log.date === format(new Date(), "YYYY-MM-DD"))
 );
-
-export const formattedDate = date => format(date, "YYYY-MM-DD");
-
-export const formatTime = time =>
-  setHours(
-    setMinutes( 
-      setSeconds(new Date(), R.slice(6, 8, time)),
-      R.slice(3, 5, time),
-    ),
-    R.slice(0, 2, time),
-  )
-
-export const getYesterday = date => formattedDate(subDays(startOfDay(date), 1));
-
-export const getSixDaysAgo = date =>
-  formattedDate(subDays(startOfDay(date), 6));
-
-export const getStartDayOfWeek = date =>
-  formattedDate(subDays(startOfWeek(date), 1));
-
-export const getStartDayOfMonth = date => formattedDate(startOfMonth(date));
 
 export const getRunningTimeId = times =>
   R.reduce(

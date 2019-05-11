@@ -6,19 +6,9 @@ import app from "../../../setup/server";
 // db helpers
 import { fetchLogs, saveLog, deleteLog, saveTime, updateLog } from "./db";
 // helpers
-import {
-  sumLogs,
-  formattedSeconds,
-  formatTime,
-  modifiedQuery,
-  getBarChartData,
-  getJSON,
-  defaultQueryGenerator,
-  getStartDayOfWeek,
-  getStartDayOfMonth,
-  getLeaderboardData,
-  getRunningTimeId
-} from "../../main/helper";
+import { sumLogs, modifiedQuery, getBarChartData, getJSON, defaultQueryGenerator, getLeaderboardData, getRunningTimeId } from '../../../helper/query.helper'
+import { getStartDayOfWeek, getStartDayOfMonth } from '../../../helper/date.helper'
+import { formattedSeconds, formatTime } from '../../../helper/time.helper'
 // const
 const logger = console.log;
 
