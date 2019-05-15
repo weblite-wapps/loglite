@@ -80,9 +80,11 @@ const Content = ({
           />
           <Picker
             value={item.end}
-            onChange={e => onEndTimeChange(e, item._id)}
+            onChange={e =>
+              item.end !== 'Running' && onEndTimeChange(e, item._id)
+            }
             label="End time"
-            type="time"
+            type={item.end === 'Running' ? 'text' : 'time'}
             isError={false}
             classes={{ container: classes.textField }}
           />
