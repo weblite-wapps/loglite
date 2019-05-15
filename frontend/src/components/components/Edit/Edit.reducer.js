@@ -36,10 +36,7 @@ const reducers = {
       ({ _id, start, end }) => ({
         _id,
         start: getCurrentTime(start),
-        end:
-          end === 'running' || end === 'Running'
-            ? 'Running'
-            : getCurrentTime(end),
+        end: end === 'running' ? end : getCurrentTime(end),
       }),
       R.prop('times', log),
     ),

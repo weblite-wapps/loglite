@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 // cores
@@ -79,12 +80,12 @@ const Content = ({
             classes={{ container: classes.textField }}
           />
           <Picker
-            value={item.end}
+            value={R.toUpper(R.head(item.end)) + R.tail(item.end)}
             onChange={e =>
-              item.end !== 'Running' && onEndTimeChange(e, item._id)
+              item.end !== 'running' && onEndTimeChange(e, item._id)
             }
             label="End time"
-            type={item.end === 'Running' ? 'text' : 'time'}
+            type={item.end === 'running' ? 'text' : 'time'}
             isError={false}
             classes={{ container: classes.textField }}
           />

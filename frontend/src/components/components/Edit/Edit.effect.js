@@ -49,7 +49,7 @@ const submitEditEpic = (action$, { dispatch }) =>
         ({ _id, start, end }) => ({
           _id,
           start: formatTime(start),
-          end: end === 'Running' ? 'running' : formatTime(end),
+          end: end === 'running' ? end : formatTime(end),
         }),
         times,
       ),
