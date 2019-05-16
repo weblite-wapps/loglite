@@ -22,7 +22,7 @@ class WorkList extends React.Component {
     this.handleOpenPopover = this._handleOpenPopover.bind(this)
   }
 
-  componentWillMount() {
+  componentWillMount() { 
     const {
       log: { _id, times },
       setSecondsElapsed,

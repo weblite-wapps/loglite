@@ -40,12 +40,12 @@ export const removeInterval = createAction(REMOVE_INTERVAL)
 export const dispatchRemoveInterval = (...args) =>
   dispatch(removeInterval(...args))
 
-export const CHANGE_POPOVER_ID = 'CHANGE_POPOVER_ID'
-export const changePopOverId = createAction(CHANGE_POPOVER_ID)
-export const dispatchChangePopoverId = (...args) =>
-  dispatch(changePopOverId(...args))
+export const CHANGE_EDIT_POPOVER_ID = 'CHANGE_EDIT_POPOVER_ID'
+export const changeEditPopOverId = createAction(CHANGE_EDIT_POPOVER_ID)
+export const dispatchChangeEditPopOverId = (...args) =>
+  dispatch(changeEditPopOverId(...args))
 
-export const CHANGE_ANCHOREL = 'CHANGE_ANCHOREL'
-export const changeAnchorEl = createAction(CHANGE_ANCHOREL)
-export const dispatchChangeAnchorEl = (...args) =>
-  dispatch(changeAnchorEl(...args))
+export const CHANGE_EDIT_ANCHOR_EL = 'CHANGE_EDIT_ANCHOR_EL' 
+export const changeEditAnchorEl = createAction(CHANGE_EDIT_ANCHOR_EL)
+export const dispatchChangeEditAnchorEl = (...args) =>
+  dispatch(changeEditAnchorEl(...args))

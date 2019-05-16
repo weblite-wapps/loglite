@@ -10,6 +10,8 @@ import {
   dispatchCloseEdit,
   dispatchChangeEditTitle,
   dispatchRemoveInterval,
+  dispatchChangeEditPopOverId, 
+  dispatchChangeEditAnchorEl,
 } from './Edit.action'
 // views
 import {
@@ -20,7 +22,7 @@ import {
   anchorElView,
   popoverIdView,
 } from './Edit.reducer'
-import { dispatchChangePopoverId, dispatchChangeAnchorEl } from './Edit.action'
+
 
 const mapStateToProps = () => ({
   log: logView(),
@@ -45,8 +47,8 @@ const mapDispatchToProps = () => ({
   close: dispatchCloseEdit,
   onTitleChange: ({ target: { value } }) => dispatchChangeEditTitle(value),
   removeInterval: dispatchRemoveInterval,
-  changePopoverId: dispatchChangePopoverId,
-  changeAnchorEl: dispatchChangeAnchorEl,
+  changePopoverId: dispatchChangeEditPopOverId,
+  changeAnchorEl: dispatchChangeEditAnchorEl,
 })
 
 export default connect(

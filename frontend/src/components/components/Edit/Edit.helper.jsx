@@ -1,3 +1,4 @@
+// modules
 import * as R from 'ramda'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -9,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
 import ListItem from '@material-ui/core/ListItem'
-import Tooltip from '@material-ui/core/Tooltip'
 import MuiAppBar from '@material-ui/core/AppBar'
 import { withStyles } from '@material-ui/core/styles'
 // icons
@@ -47,106 +47,113 @@ AppBar.propTypes = {
 
 export const AppBarWithStyle = withStyles(style)(AppBar)
 
-class Content extends Component {
+
+export const Content = ({ title, onTitleChange, times, isError, ...other }) => (
+  <div className="intervalList">
+    <List>
+      <Picker
+        value={title}
+        onChange={onTitleChange}
+        placeholder="Title goes here ..."
+        type="text"
+        label="Title"
+        isError={isError && isError.title}
+      />
+      {times.map((time, index) => (
+        <IntervalItem {...other} index={index} time={time} key={time._id} />
+      ))}
+    </List>
+  </div>
+)
+
+Content.propTypes = {
+  times: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  title: PropTypes.string.isRequired,
+  onTitleChange: PropTypes.func.isRequired,
+  isError: PropTypes.shape({}).isRequired,
+}
+
+export const ContentWithStyle = withStyles(style)(Content)
+
+
+class IntervalItem extends Component {
   constructor(props) {
     super(props)
-    this.handleOpenPopOver = this.handleOpenPopOver.bind(this)
+    this.handleOpenPopOver = this._handleOpenPopOver.bind(this)
   }
-  handleOpenPopOver(id) {
+
+  _handleOpenPopOver(id) {
     const { changeAnchorEl, changePopoverId } = this.props
     changeAnchorEl(findDOMNode(this.iconButton))
-    console.log(this.iconButton)
     changePopoverId(id)
   }
 
-  handleClosePopOver() {
-    const { changeAnchorEl, changePopoverId } = this.props
-    changeAnchorEl(null)
-    changePopoverId('')
-  }
   render() {
     const {
-      title,
-      onTitleChange,
-      times,
+      time: { _id, start, end },
+      index,
       onStartTimeChange,
       onEndTimeChange,
       classes,
-      isError,
       removeInterval,
       anchorEl,
       popoverId,
     } = this.props
+
     return (
-      <div className="intervalList">
-        <List>
-          <Picker
-            value={title}
-            onChange={onTitleChange}
-            placeholder="Title goes here ..."
-            type="text"
-            label="Title"
-            isError={isError && isError.title}
-          />
-          {times.map(({ _id, start, end }, index) => (
-            <ListItem className="todayWorklist" key={_id}>
-              <div className="interval-panel">
-                <Typography className="interval">INTERVAL</Typography>
-                <Typography className="counter">{index + 1}</Typography>
-              </div>
-              <Picker
-                value={start}
-                onChange={e => onStartTimeChange(e, _id)}
-                label="Start time"
-                type="time"
-                isError={false}
-                classes={{ container: classes.textField }}
-              />
-              <Picker
-                value={R.toUpper(R.head(end)) + R.tail(end)}
-                onChange={e => end !== 'running' && onEndTimeChange(e, _id)}
-                label="End time"
-                type={end === 'running' ? 'text' : 'time'}
-                isError={false}
-                classes={{ container: classes.textField }}
-              />
-              <div className="deletePanel">
+      <ListItem className="todayWorklist" key={_id}>
+        <div className="interval-panel">
+          <Typography className="interval">INTERVAL</Typography>
+          <Typography className="counter">{index + 1}</Typography>
+        </div>
+        <Picker
+          value={start}
+          onChange={e => onStartTimeChange(e, _id)}
+          label="Start time"
+          type="time"
+          isError={false}
+          classes={{ container: classes.textField }}
+        />
+        <Picker
+          value={R.toUpper(R.head(end)) + R.tail(end)}
+          onChange={e => end !== 'running' && onEndTimeChange(e, _id)}
+          label="End time"
+          type={end === 'running' ? 'text' : 'time'}
+          isError={false}
+          classes={{ container: classes.textField }}
+        />
+        <div className="deletePanel">
+          {
+            end !== 'running' && (
+              <>
                 <IconButton
                   ref={node => {
-                    // if (popoverId === _id) {
                     this.iconButton = node
-                    console.log('node ', node)
-                    // }
                   }}
                   onClick={() => this.handleOpenPopOver(_id)}
                 >
                   <CancelIcon classes={{ root: classes.deletePanel }} />
                 </IconButton>
-              </div>
-              <Popover
-                popoverIsOpen={popoverId === _id}
-                anchorEl={anchorEl}
-                anchorReference="anchorEl"
-                onClose={this.handleOpenPopOver}
-                onYep={() => removeInterval(_id)}
-                onNop={this.handleOpenPopOver}
-              />
-            </ListItem>
-          ))}
-        </List>
-      </div>
+                <Popover
+                  popoverIsOpen={popoverId === _id}
+                  anchorEl={anchorEl}
+                  anchorReference="anchorEl"
+                  onClose={this.handleOpenPopOver}
+                  onYep={() => removeInterval(_id)}
+                  onNop={this.handleOpenPopOver}
+                />
+              </>
+            )
+          }
+        </div>
+      </ListItem>
     )
   }
 }
-Content.propTypes = {
+
+IntervalItem.propTypes = {
   onStartTimeChange: PropTypes.func.isRequired,
   onEndTimeChange: PropTypes.func.isRequired,
-  times: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  title: PropTypes.string.isRequired,
-  onTitleChange: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
-  isError: PropTypes.shape({}).isRequired,
   removeInterval: PropTypes.func.isRequired,
 }
-
-export const ContentWithStyle = withStyles(style)(Content)

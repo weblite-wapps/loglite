@@ -12,8 +12,8 @@ import {
   CHANGE_EDIT_TITLE,
   CHANGE_TITLE_IS_ERROR,
   REMOVE_INTERVAL,
-  CHANGE_POPOVER_ID,
-  CHANGE_ANCHOREL,
+  CHANGE_EDIT_POPOVER_ID,
+  CHANGE_EDIT_ANCHOR_EL,
 } from './Edit.action'
 
 // state
@@ -82,12 +82,12 @@ const reducers = {
     times: R.filter(time => time._id !== id, state.times),
   }),
 
-  [CHANGE_POPOVER_ID]: (state, value) => ({
+  [CHANGE_EDIT_POPOVER_ID]: (state, value) => ({
     ...state,
     popoverId: value,
   }),
 
-  [CHANGE_ANCHOREL]: (state, value) => ({
+  [CHANGE_EDIT_ANCHOR_EL]: (state, value) => ({
     ...state,
     anchorEl: value,
   }),
