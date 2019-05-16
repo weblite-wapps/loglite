@@ -3,27 +3,27 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // cores
 import Slide from '@material-ui/core/Slide'
-import { default as MuiAppBar } from '@material-ui/core/AppBar'
-import { withStyles } from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
-import Done from '@material-ui/icons/Done'
 import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
-import { ListItem } from '@material-ui/core'
+import ListItem from '@material-ui/core/ListItem'
 import Tooltip from '@material-ui/core/Tooltip'
+import MuiAppBar from '@material-ui/core/AppBar'
+import { withStyles } from '@material-ui/core/styles'
 // icons
 import CancelIcon from '@material-ui/icons/Cancel'
 import CloseButton from '@material-ui/icons/Close'
+import Done from '@material-ui/icons/Done'
 // helpers
 import Picker from '../../../helper/components/Picker/Picker.presentational'
 // classes
 import './Edit.scss'
 import { default as style } from './Edit.style'
 
-export function Transition(props) {
-  return <Slide direction="up" {...props} />
-}
+export const Transition = props => (
+  <Slide direction="up" {...props} />
+)
 
 const AppBar = ({ close, submit, classes }) => (
   <MuiAppBar style={{ position: 'fixed' }}>
@@ -44,6 +44,7 @@ AppBar.propTypes = {
   close: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
 }
+
 export const AppBarWithStyle = withStyles(style)(AppBar)
 
 const Content = ({
@@ -65,27 +66,27 @@ const Content = ({
         label="Title"
         isError={isError && isError.title}
       />
-      {times.map((item, index) => (
-        <ListItem className="todayWorklist" key={item._id}>
+      {times.map(({ _id, start, end }, index) => (
+        <ListItem className="todayWorklist" key={_id}>
           <div className="interval-panel">
             <Typography className="interval">INTERVAL</Typography>
             <Typography className="counter">{index + 1}</Typography>
           </div>
           <Picker
-            value={item.start}
-            onChange={e => onStartTimeChange(e, item._id)}
+            value={start}
+            onChange={e => onStartTimeChange(e, _id)}
             label="Start time"
             type="time"
             isError={false}
             classes={{ container: classes.textField }}
           />
           <Picker
-            value={R.toUpper(R.head(item.end)) + R.tail(item.end)}
+            value={R.toUpper(R.head(end)) + R.tail(end)}
             onChange={e =>
-              item.end !== 'running' && onEndTimeChange(e, item._id)
+              end !== 'running' && onEndTimeChange(e, _id)
             }
             label="End time"
-            type={item.end === 'running' ? 'text' : 'time'}
+            type={end === 'running' ? 'text' : 'time'}
             isError={false}
             classes={{ container: classes.textField }}
           />
