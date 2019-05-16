@@ -43,6 +43,7 @@ export default createMuiTheme({
       root: {
         display: 'flex',
         flexDirection: 'column',
+        top: '50px',
       },
     },
     MuiToolbar: {
@@ -125,9 +126,8 @@ export default createMuiTheme({
     },
     MuiModal: {
       root: {
-        top: '50px',
         zIndex: '0',
-      }
-    }
+      },
+    },
   },
 })

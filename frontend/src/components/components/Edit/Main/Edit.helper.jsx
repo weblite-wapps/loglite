@@ -17,7 +17,7 @@ import CancelIcon from '@material-ui/icons/Cancel'
 import CloseButton from '@material-ui/icons/Close'
 import Done from '@material-ui/icons/Done'
 // components
-import Popover from '../components/Popover'
+import Popover from '../../../../helper/components/Popover/Popover.presentational'
 // helpers
 import Picker from '../../../../helper/components/Picker/Picker.presentational'
 // classes

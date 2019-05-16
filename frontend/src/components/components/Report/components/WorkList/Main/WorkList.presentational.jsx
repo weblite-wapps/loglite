@@ -8,7 +8,7 @@ import Divider from '@material-ui/core/Divider'
 import MuiButton from '@material-ui/core/Button'
 import { differenceInSeconds } from 'date-fns'
 // components
-import Popover from '../components/Popover.presentational'
+import Popover from '../../../../../../helper/components/Popover/Popover.presentational'
 // helpers
 import { TitleAndDuration, Tags } from './WorkList.helper.component'
 import { sumTimes, getNow } from '../../../../../../helper/functions/time.helper'
