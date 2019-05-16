@@ -8,6 +8,7 @@ import {
   SUBMIT_EDIT,
   CLOSE_EDIT,
   dispatchChangeTitleIsError,
+  dispatchChangeIsOpenDialog,
 } from './Edit.action'
 import { dispatchSetEditedLog } from '../../../Main/App.action'
 import { dispatchRefetchTotalDuration } from '../../Home/Main/Home.action'
@@ -65,6 +66,7 @@ const submitEditEpic = (action$, { dispatch }) =>
         })
         .then(() => dispatchSetEditedLog(log))
         .then(() => {
+          dispatchChangeIsOpenDialog(false)
           dispatchChangeSnackbarStage('Updated Succesfully!')
           dispatch(push('/Report'))
           dispatchChangeTitleIsError(false)
@@ -73,8 +75,11 @@ const submitEditEpic = (action$, { dispatch }) =>
         })
     })
     .ignoreElements()
-
+ 
 const closeEditEpic = action$ =>
-  action$.ofType(CLOSE_EDIT).map(() => push('/Report'))
+  action$.ofType(CLOSE_EDIT)
+    .do(() => dispatchChangeIsOpenDialog(false))
+    .delay(200)
+    .map(() => push('/Report'))
 
 export default combineEpics(submitEditEpic, closeEditEpic)

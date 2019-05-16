@@ -39,6 +39,7 @@ export default class TodayWork extends React.Component {
     } = this.props;
     const len = times.length;
     if (len && times[len - 1].end === "running") {
+      console.log(sumTimes(times), differenceInSeconds(getNow(), times[len - 1].start))
       setSecondsElapsed(
         sumTimes(times) + differenceInSeconds(getNow(), times[len - 1].start)
       );

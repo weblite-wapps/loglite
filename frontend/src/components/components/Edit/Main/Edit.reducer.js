@@ -14,6 +14,7 @@ import {
   REMOVE_INTERVAL,
   CHANGE_EDIT_POPOVER_ID,
   CHANGE_EDIT_ANCHOR_EL,
+  CHANGE_IS_OPEN_DIALOG,
 } from './Edit.action'
 
 // state
@@ -24,6 +25,7 @@ const initialState = {
   isError: { title: false },
   anchorEl: null,
   popoverId: '',
+  isOpenDialog: false,
 }
 
 // views
@@ -33,6 +35,7 @@ export const titleView = () => R.path(['Edit', 'title'])(getState())
 export const isErrorView = () => R.path(['Edit', 'isError'])(getState())
 export const anchorElView = () => R.path(['Edit', 'anchorEl'])(getState())
 export const popoverIdView = () => R.path(['Edit', 'popoverId'])(getState())
+export const isOpenDialogView = () => R.path(['Edit', 'isOpenDialog'])(getState())
 
 // reducers
 const reducers = {
@@ -70,6 +73,7 @@ const reducers = {
     ...state,
     title,
   }),
+
   [CHANGE_TITLE_IS_ERROR]: (state, value) => ({
     ...state,
     isError: {
@@ -77,6 +81,7 @@ const reducers = {
       title: value,
     },
   }),
+
   [REMOVE_INTERVAL]: (state, id) => ({
     ...state,
     times: R.filter(time => time._id !== id, state.times),
@@ -90,6 +95,11 @@ const reducers = {
   [CHANGE_EDIT_ANCHOR_EL]: (state, value) => ({
     ...state,
     anchorEl: value,
+  }),
+
+  [CHANGE_IS_OPEN_DIALOG]: (state, value) => ({
+    ...state,
+    isOpenDialog: value,
   }),
 }
 

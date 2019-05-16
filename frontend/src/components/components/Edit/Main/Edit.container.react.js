@@ -21,6 +21,7 @@ import {
   isErrorView,
   anchorElView,
   popoverIdView,
+  isOpenDialogView,
 } from './Edit.reducer'
 
 
@@ -31,6 +32,7 @@ const mapStateToProps = () => ({
   isError: isErrorView(),
   anchorEl: anchorElView(),
   popoverId: popoverIdView(),
+  isOpen: isOpenDialogView(),
 })
 
 const mapDispatchToProps = () => ({
