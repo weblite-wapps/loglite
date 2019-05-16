@@ -24,7 +24,8 @@ import {
   formattedDate,
 } from '../../../../helper/functions/date.helper'
 import {
-  getCurrentTime
+  getCurrentTime,
+  getNow,
 } from '../../../../helper/functions/time.helper'
 
 // state 
@@ -33,9 +34,9 @@ const initialState = {
   title: '',
   queryTag: '',
   suggestions: [],
-  date: formattedDate(new Date()),
-  startTime: getCurrentTime(new Date()),
-  endTime: getCurrentTime(new Date()),
+  date: formattedDate(getNow()), 
+  startTime: getCurrentTime(getNow()),
+  endTime: getCurrentTime(getNow()),
   selectedTags: [],
   tags: [],
   isError: {
@@ -127,9 +128,9 @@ const reducers = {
   [RESET_INPUTS]: state =>
     ({
       ...state,
-      date: formattedDate(new Date()),
-      startTime: getCurrentTime(new Date()),
-      endTime: getCurrentTime(new Date()),
+      date: formattedDate(getNow()),
+      startTime: getCurrentTime(getNow()),
+      endTime: getCurrentTime(getNow()),
       title: '',
       selectedTags: [],
       queryTag: '',

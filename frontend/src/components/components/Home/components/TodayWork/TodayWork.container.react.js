@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // components
 import TodayWork from './TodayWork.presentational'
 // views
-import { isLoadingView, timeDifferenceView } from '../../../../Main/App.reducer'
+import { isLoadingView } from '../../../../Main/App.reducer'
 import { secondsElapsedView, runningIdView } from '../../Main/Home.reducer'
 // actions
 import { dispatchCountinueCounting, dispatchSetSecondsElapsed, dispatchChangeRunningId } from '../../Main/Home.action'
@@ -17,7 +17,6 @@ const mapStateToProps = (state, { log: { _id } }) => ({
   runningId: runningIdView(),
   secondsElapsed: secondsElapsedView(),
   workDuration: getWorksDuration(state)[_id],
-  timeDifference: timeDifferenceView(),
 })
 
 const mapDispatchToProps = (_, { log: { title, tags } }) => ({

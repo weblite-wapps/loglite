@@ -13,6 +13,8 @@ import CustomizedBarChart from "../../helper/components/BarCharts/BarChart.prese
 import CustomizedDoubleBarChart from "../../helper/components/BarCharts/DoubleBarChart.presentational"
 // helpers
 import { formattedDate } from "../../helper/functions/date.helper";
+import { getNow } from "../../helper/functions/time.helper";
+
 // styles
 import "./common.scss";
 
@@ -87,7 +89,7 @@ Pickers.propTypes = {
 };
 
 export const Buttons = ({ startDate, endDate, update, handleUpdate }) => {
-  const now = new Date()
+  const now = getNow()
 
   return (
     <>

@@ -2,7 +2,7 @@
 import * as R from 'ramda'
 import differenceInSeconds from 'date-fns/difference_in_seconds'
 // helpers
-import { sumTimes } from '../../../../helper/functions/time.helper'
+import { sumTimes, getNow } from '../../../../helper/functions/time.helper'
 import { formattedDate } from "../../../../helper/functions/date.helper"
 
 
@@ -31,8 +31,8 @@ export const NextDuration = (currentStage, direction) => {
 }
 
 export const getSecondsElapsed = (logs, _id, timeDifference) => 
-  sumTimes(getTimes(logs, _id)) + differenceInSeconds(new Date(), getStartTime(getTimes(logs, _id))) - timeDifference
+  sumTimes(getTimes(logs, _id)) + differenceInSeconds(getNow(), getStartTime(getTimes(logs, _id))) - timeDifference
 
 const checkIsRunning = log => R.prop('end', R.last(log.times)) === 'running'
 
-export const checkToShowInHome = log => log.date === formattedDate(new Date()) || checkIsRunning(log) 
+export const checkToShowInHome = log => log.date === formattedDate(getNow()) || checkIsRunning(log) 

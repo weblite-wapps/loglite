@@ -8,14 +8,14 @@ import {
   differenceInSeconds,
 } from "date-fns";
 // helpers
-import { formattedSeconds } from './time.helper'
+import { formattedSeconds, getNow } from './time.helper'
 
 
 const sumTimes = times =>
   R.reduce(
     (acc, time) =>
       time.end === "running"
-        ? acc + differenceInSeconds(new Date(), time.start)
+        ? acc + differenceInSeconds(getNow(), time.start)
         : acc + differenceInSeconds(time.end, time.start),
     0
   )(times);
@@ -75,10 +75,10 @@ export const getJSON = logs => {
 
 export const getBarChartData = (logs, query) => {
   let dates = Array(
-    differenceInDays(new Date(query.endDate), new Date(query.startDate)) + 1
+    differenceInDays(getNow(query.endDate), getNow(query.startDate)) + 1
   ).fill(query.startDate);
   dates = dates.map((date, index) =>
-    format(addDays(new Date(date), index), "YYYY-MM-DD")
+    format(addDays(getNow(date), index), "YYYY-MM-DD")
   );
   return R.map(
     date => ({
@@ -104,7 +104,7 @@ export const getLeaderboardData = R.compose(
 export const checkInProgress = R.compose(
   R.reduce(R.or, false),
   R.map(log => R.findIndex(R.propEq("end", "running"))(log.times) !== -1),
-  R.filter(log => log.date === format(new Date(), "YYYY-MM-DD"))
+  R.filter(log => log.date === format(getNow(), "YYYY-MM-DD"))
 );
 
 export const getRunningTimeId = times =>

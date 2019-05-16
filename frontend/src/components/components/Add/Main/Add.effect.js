@@ -8,7 +8,8 @@ import {
   getRequest,
   postRequest,
 } from '../../../../helper/functions/request.helper'
-import { getToday } from '../../../../helper/functions/date.helper'
+import { formattedDate } from '../../../../helper/functions/date.helper'
+import { formatTime, getNow } from '../../../../helper/functions/time.helper'
 import { checkBeforeAddTag } from '../../../Main/App.helper'
 import { checkBeforeAddLog, checkBeforeAddCustomLog } from './Add.helper'
 // actions
@@ -89,7 +90,7 @@ const effectHandleAddLog = action$ =>
           .send({
             title,
             tags,
-            date: getToday(), 
+            date: formattedDate(getNow()),
             times: [],
             isPinned: false,
             userId: userIdView(),
@@ -136,14 +137,13 @@ const effectHandleAddCustomLog = action$ =>
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ title, tags, start, end, date }) =>
+    .mergeMap(({ title, tags, start, end, date }) => 
       Promise.all([
         postRequest('/saveCustomLog')
           .send({
             title, 
             tags,
-            start,
-            end,
+            times: [{ start: formatTime(start), end: formatTime(end) }],
             date,
             isPinned: false,
             userId: userIdView(),

@@ -1,5 +1,6 @@
 // modules
 import * as R from 'ramda'
+import moment from 'moment-timezone'
 import {
   getHours,
   getMinutes,
@@ -9,10 +10,15 @@ import {
   differenceInSeconds,
 } from 'date-fns'
 
+
+export const getTimeZone = time => moment(time).tz('Asia/Tehran')._d
+
+export const getNow = () => moment().tz('Asia/Tehran')._d
+
 export const formatTime = time =>
   setHours(
     setMinutes(
-      setSeconds(new Date(), R.slice(6, 8, time)),
+      setSeconds(getNow(), R.slice(6, 8, time)),
       R.slice(3, 5, time),
     ),
     R.slice(0, 2, time),
@@ -47,7 +53,7 @@ export const formattedMinutes = minutes => {
   return minutes % 60 === 0
     ? `${Math.floor(minutes / 60)}h`
     : `${Math.floor(minutes / 60)}h${minutes % 60}m`
-}
+} 
 
 export const getCurrentTime = time =>
   `${getHours(time) > 9 ? getHours(time) : '0' + getHours(time)}:${
