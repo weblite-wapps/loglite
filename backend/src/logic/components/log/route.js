@@ -39,7 +39,7 @@ app.post("/deleteLog", ({ query }, res) =>
   deleteLog({ _id: mongoose.Types.ObjectId(query._id) })
     .then(() => res.send(query))
     .catch(logger)
-);
+); 
 
 app.post("/saveStartTime", ({ body }, res) =>
   saveTime(
