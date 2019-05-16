@@ -123,5 +123,11 @@ export default createMuiTheme({
         color: '#3d3d3d',
       },
     },
+    MuiModal: {
+      root: {
+        top: '50px',
+        zIndex: '0',
+      }
+    }
   },
 })
