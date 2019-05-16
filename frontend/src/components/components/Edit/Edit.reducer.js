@@ -11,6 +11,9 @@ import {
   CHANGE_EDIT_END_TIME,
   CHANGE_EDIT_TITLE,
   CHANGE_TITLE_IS_ERROR,
+  REMOVE_INTERVAL,
+  CHANGE_POPOVER_ID,
+  CHANGE_ANCHOREL,
 } from './Edit.action'
 
 // state
@@ -19,6 +22,8 @@ const initialState = {
   times: [],
   title: '',
   isError: { title: false },
+  anchorEl: null,
+  popoverId: '',
 }
 
 // views
@@ -26,6 +31,8 @@ export const logView = () => R.path(['Edit', 'log'])(getState())
 export const timesView = () => R.path(['Edit', 'times'])(getState())
 export const titleView = () => R.path(['Edit', 'title'])(getState())
 export const isErrorView = () => R.path(['Edit', 'isError'])(getState())
+export const anchorElView = () => R.path(['Edit', 'anchorEl'])(getState())
+export const popoverIdView = () => R.path(['Edit', 'popoverId'])(getState())
 
 // reducers
 const reducers = {
@@ -69,6 +76,20 @@ const reducers = {
       ...state.isError,
       title: value,
     },
+  }),
+  [REMOVE_INTERVAL]: (state, id) => ({
+    ...state,
+    times: R.filter(time => time._id !== id, state.times),
+  }),
+
+  [CHANGE_POPOVER_ID]: (state, value) => ({
+    ...state,
+    popoverId: value,
+  }),
+
+  [CHANGE_ANCHOREL]: (state, value) => ({
+    ...state,
+    anchorEl: value,
   }),
 }
 

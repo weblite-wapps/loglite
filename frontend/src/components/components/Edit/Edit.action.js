@@ -34,3 +34,18 @@ export const CHANGE_TITLE_IS_ERROR = 'CHANGE_TITLE_IS_ERROR'
 export const changeTitleIsError = createAction(CHANGE_TITLE_IS_ERROR)
 export const dispatchChangeTitleIsError = (...args) =>
   dispatch(changeTitleIsError(...args))
+
+export const REMOVE_INTERVAL = 'REMOVE_INTERVAL'
+export const removeInterval = createAction(REMOVE_INTERVAL)
+export const dispatchRemoveInterval = (...args) =>
+  dispatch(removeInterval(...args))
+
+export const CHANGE_POPOVER_ID = 'CHANGE_POPOVER_ID'
+export const changePopOverId = createAction(CHANGE_POPOVER_ID)
+export const dispatchChangePopoverId = (...args) =>
+  dispatch(changePopOverId(...args))
+
+export const CHANGE_ANCHOREL = 'CHANGE_ANCHOREL'
+export const changeAnchorEl = createAction(CHANGE_ANCHOREL)
+export const dispatchChangeAnchorEl = (...args) =>
+  dispatch(changeAnchorEl(...args))
