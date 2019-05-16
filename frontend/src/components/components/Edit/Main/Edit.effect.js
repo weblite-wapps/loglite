@@ -9,15 +9,15 @@ import {
   CLOSE_EDIT,
   dispatchChangeTitleIsError,
 } from './Edit.action'
-import { dispatchSetEditedLog } from '../../Main/App.action'
-import { dispatchRefetchTotalDuration } from '../../components/Home/Main/Home.action'
-import { dispatchChangeSnackbarStage } from '../Snackbar/Snackbar.action'
+import { dispatchSetEditedLog } from '../../../Main/App.action'
+import { dispatchRefetchTotalDuration } from '../../Home/Main/Home.action'
+import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 //helper
-import { postRequest } from '../../../helper/functions/request.helper'
+import { postRequest } from '../../../../helper/functions/request.helper'
 import {
   formatTime,
   checkEditTimesOrder,
-} from '../../../helper/functions/time.helper'
+} from '../../../../helper/functions/time.helper'
 // const
 const { W } = window
 

@@ -16,12 +16,13 @@ import { withStyles } from '@material-ui/core/styles'
 import CancelIcon from '@material-ui/icons/Cancel'
 import CloseButton from '@material-ui/icons/Close'
 import Done from '@material-ui/icons/Done'
+// components
+import Popover from '../components/Popover'
 // helpers
-import Picker from '../../../helper/components/Picker/Picker.presentational'
+import Picker from '../../../../helper/components/Picker/Picker.presentational'
 // classes
 import './Edit.scss'
 import { default as style } from './Edit.style'
-import Popover from './component/Popover'
 
 export const Transition = props => <Slide direction="up" {...props} />
 

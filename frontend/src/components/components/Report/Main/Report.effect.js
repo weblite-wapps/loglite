@@ -62,7 +62,7 @@ import {
   tagsView,
 } from './Report.reducer'
 
-import { dispatchInsertLog } from '../../Edit/Edit.action'
+import { dispatchInsertLog } from '../../Edit/Main/Edit.action'
 // const
 const { W } = window
 

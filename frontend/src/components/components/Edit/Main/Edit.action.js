@@ -1,6 +1,6 @@
 // modules
 import { createAction } from 'redux-actions'
-import { dispatch } from '../../../setup/redux'
+import { dispatch } from '../../../../setup/redux'
 
 // actions
 export const INSERT_LOG = 'INSERT_LOG'
