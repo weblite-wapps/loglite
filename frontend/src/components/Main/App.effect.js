@@ -3,6 +3,7 @@ import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import { dispatchChangeSnackbarStage } from '../components/Snackbar/Snackbar.action'
 import { push } from 'react-router-redux'
+// import moment from 'moment-timezone'
 // helpers
 import { differenceInSeconds } from 'date-fns'
 import { getUnique } from './App.helper'
@@ -157,6 +158,7 @@ const initialFetchEpic = action$ =>
     )
     .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
     .do(() => dispatchSetIsLoading(false))
+    // .do(() => console.log(moment().tz('Asia/Tehran').format()))
     .ignoreElements()
 
 const addLogToNextDayEpic = action$ =>
