@@ -1,5 +1,6 @@
 // modules
 import * as R from "ramda";
+import moment from 'moment-timezone'
 import {
   setHours,
   setMinutes,
@@ -30,9 +31,11 @@ export const formattedSeconds = (seconds, pageName) => {
 
 export const formatTime = time =>
   setHours(
-    setMinutes( 
-      setSeconds(new Date(), R.slice(6, 8, time)),
+    setMinutes(
+      setSeconds(getNow(), R.slice(6, 8, time)),
       R.slice(3, 5, time),
     ),
     R.slice(0, 2, time),
   )
+
+  export const getNow = () => new Date(moment().tz('Asia/Tehran').format())

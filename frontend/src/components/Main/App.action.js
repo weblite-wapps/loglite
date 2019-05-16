@@ -95,11 +95,6 @@ export const SET_ABOUT_MODE = 'SET_ABOUT_MODE'
 export const setAboutMode = createAction(SET_ABOUT_MODE)
 export const dispatchSetAboutMode = (...args) => dispatch(setAboutMode(...args))
 
-export const SET_TIME_DIFFERENCE = 'SET_TIME_DIFFERENCE'
-export const setTimeDifference = createAction(SET_TIME_DIFFERENCE)
-export const dispatchSetTimeDifference = (...args) =>
-  dispatch(setTimeDifference(...args))
-
 export const SET_EDITED_LOG = 'SET_EDITED_LOG'
 export const setEditedLog = createAction(SET_EDITED_LOG)
 export const dispatchSetEditedLog = (...args) => dispatch(setEditedLog(...args))

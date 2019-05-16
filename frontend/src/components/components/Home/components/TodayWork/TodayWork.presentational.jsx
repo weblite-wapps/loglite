@@ -14,7 +14,8 @@ import {
 } from "./TodayWork.helper.component";
 import {
   formatTime,
-  sumTimes
+  sumTimes,
+  getNow,
 } from "../../../../../helper/functions/time.helper";
 import {
   previousDay,
@@ -33,14 +34,13 @@ export default class TodayWork extends React.Component {
   componentWillMount() {
     const {
       log: { _id, times },
-      timeDifference,
       setSecondsElapsed, 
       countinueCounting
     } = this.props;
     const len = times.length;
     if (len && times[len - 1].end === "running") {
       setSecondsElapsed(
-        sumTimes(times) + differenceInSeconds(new Date(), times[len - 1].start) - timeDifference
+        sumTimes(times) + differenceInSeconds(getNow(), times[len - 1].start)
       );
       countinueCounting(_id);
     }
@@ -71,7 +71,7 @@ export default class TodayWork extends React.Component {
   }
 
   _handleStopClick() {
-    const now = new Date();
+    const now = getNow();
     const {
       log: { _id, times },
       addLogToNextDay,
