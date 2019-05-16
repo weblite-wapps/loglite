@@ -38,5 +38,4 @@ export const formatTime = time =>
     R.slice(0, 2, time),
   )
 
-export const getNow = () => moment().tz('Asia/Tehran')._d
-
+  export const getNow = () => new Date(moment().tz('Asia/Tehran').format())

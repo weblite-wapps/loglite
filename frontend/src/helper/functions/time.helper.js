@@ -11,9 +11,9 @@ import {
 } from 'date-fns'
 
 
-export const getTimeZone = time => moment(time).tz('Asia/Tehran')._d
+export const getTimeZone = time => new Date(moment(time).tz('Asia/Tehran').format())
 
-export const getNow = () => moment().tz('Asia/Tehran')._d
+export const getNow = () => new Date(moment().tz('Asia/Tehran').format())
 
 export const formatTime = time =>
   setHours(
