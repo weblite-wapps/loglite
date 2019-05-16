@@ -81,6 +81,7 @@ const effectHandleAddLog = action$ =>
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
     )
+    // .do(({ permission, message }) => console.log(permission, message))
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
     .do(() => dispatchSetIsLoading(true))
@@ -129,7 +130,7 @@ const effectHandleAddCustomLog = action$ =>
   action$
     .ofType(HANDLE_ADD_CUSTOM_LOG)
     .pluck('payload')
-    .map(payload => ({ ...payload, ...checkBeforeAddCustomLog() }))
+    .map(payload => ({ ...payload, ...checkBeforeAddCustomLog(payload) }))
     .do(
       ({ message, permission }) =>
         !permission && dispatchChangeSnackbarStage(message),
