@@ -16,7 +16,6 @@ import {
   SAVE_END_TIME,
   TOGGLE_IS_PINNED,
   SET_ABOUT_MODE,
-  SET_TIME_DIFFERENCE,
   SET_EDITED_LOG,
 } from './App.action'
 
@@ -25,7 +24,6 @@ const initialState = {
   tabIndex: 'Home',
   aboutMode: false,
   isLoading: false,
-  timeDifference: 0,
   popoverId: '',
   logs: [],
   users: [],
@@ -50,8 +48,6 @@ export const popoverIdView = () => R.path(['App', 'popoverId'])(getState())
 export const isLoadingView = () => R.path(['App', 'isLoading'])(getState())
 export const tabIndexView = () => R.path(['App', 'tabIndex'])(getState())
 export const aboutModeView = () => R.path(['App', 'aboutMode'])(getState())
-export const timeDifferenceView = () =>
-  R.path(['App', 'timeDifference'])(getState())
 
 // reducers
 const reducers = {
@@ -131,11 +127,6 @@ const reducers = {
   }),
 
   [SET_ABOUT_MODE]: (state, aboutMode) => ({ ...state, aboutMode }),
-
-  [SET_TIME_DIFFERENCE]: (state, timeDifference) => ({
-    ...state,
-    timeDifference,
-  }),
 
   [SET_EDITED_LOG]: (state, newlog) => ({
     ...state,

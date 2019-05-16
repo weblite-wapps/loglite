@@ -2,7 +2,7 @@
 import * as R from 'ramda'
 import { areRangesOverlapping, isAfter } from 'date-fns'
 // helpers
-import { formatTime } from '../../../../helper/functions/time.helper'
+import { formatTime, getNow, getTimeZone } from '../../../../helper/functions/time.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 // views
 import { titleView, startTimeView, endTimeView, dateView } from './Add.reducer'
@@ -40,10 +40,10 @@ export const checkBeforeAddCustomLog = () => {
   const start = startTimeView()
   const end = endTimeView()
   const logs = logsView()
-  const now = new Date()
+  const now = getNow()
 
   if (title && date && start && end) {
-    if (isAfter(new Date(date), now)) {
+    if (isAfter(getTimeZone(date), now)) {
       return getObject('date', 'Are you predictor?!', false)
     } else if (date === formattedDate(now) &&
       isAfter(formatTime(start), now)) {

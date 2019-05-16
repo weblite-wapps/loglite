@@ -8,6 +8,7 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 // helpers
 import { formattedDate } from "../../../../../helper/functions/date.helper";
+import { getNow } from "../../../../../helper/functions/time.helper";
 // styles
 import "./Navigator.scss";
 
@@ -23,7 +24,7 @@ export const Button = ({
       disabled={
         direction === "Back"
           ? !isActive
-          : !isActive || formattedDate(currentPage) === formattedDate(new Date())
+          : !isActive || formattedDate(currentPage) === formattedDate(getNow())
       }
       onClick={direction === "Back" ? onPreviousClick : onNextClick}
       classes={{ root: classes.root, disabled: classes.disabled }}

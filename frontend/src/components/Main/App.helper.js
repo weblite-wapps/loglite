@@ -5,6 +5,7 @@ import { logsView } from './App.reducer'
 // helpers
 import { checkToShowInHome } from '../components/Home/Main/Home.helper'
 import { formattedDate } from '../../helper/functions/date.helper'
+import { getNow } from '../../helper/functions/time.helper'
 
 const getObject = (message, permission) => ({ message, permission })
 
@@ -24,7 +25,7 @@ const checkIsUnique = logId => R.findIndex(R.propEq('_id', logId))(filteredLogs(
 
 export const getUnique = R.compose(
   R.filter(pin => checkIsUnique(pin.logId)),
-  R.filter(pin => pin.lastDate !== formattedDate(new Date()))
+  R.filter(pin => pin.lastDate !== formattedDate(getNow()))
 )
   
   
