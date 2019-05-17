@@ -124,7 +124,7 @@ const initialFetchEpic = action$ =>
     .do(({ body: { leaderboard } }) =>
       dispatchRestoreLeaderboardData(leaderboard),
     )
-    .do(({ body: { time } }) => console.log(time))
+    .do(({ body: { time } }) => console.log(getTimeZone(time)))
     .do(() => console.log(getNow()))
     .mergeMap(({ body: { pins } }) =>
       postRequest('/saveLogs')
