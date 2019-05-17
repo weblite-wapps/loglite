@@ -39,17 +39,16 @@ app.post("/deleteLog", ({ query }, res) =>
   deleteLog({ _id: mongoose.Types.ObjectId(query._id) })
     .then(() => res.send(query))
     .catch(logger)
-);
+); 
 
 app.post("/saveStartTime", ({ body }, res) =>
   saveTime(
     { _id: mongoose.Types.ObjectId(body._id) },
-    { $push: { times: { start: getNow(), end: "running" } } }
+    { $push: { times: { start: body.start, end: "running" } } }
   )
     .then(({ times }) => {
       res.send({
         ...body,
-        start: getNow(),
         runningTimeId: getRunningTimeId(times)
       });
     })
@@ -59,9 +58,9 @@ app.post("/saveStartTime", ({ body }, res) =>
 app.post("/saveEndTime", ({ body }, res) =>
   saveTime(
     { _id: mongoose.Types.ObjectId(body.runningId), "times.end": "running" },
-    { $set: { "times.$.end": body.end || getNow() } }
+    { $set: { "times.$.end": body.end } }
   )
-    .then(() => res.send({ ...body, end: body.end || getNow() }))
+    .then(() => res.send(body))
     .catch(logger)
 );
 
