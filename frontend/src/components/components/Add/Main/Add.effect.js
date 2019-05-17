@@ -129,7 +129,7 @@ const effectHandleAddCustomLog = action$ =>
   action$
     .ofType(HANDLE_ADD_CUSTOM_LOG)
     .pluck('payload')
-    .map(payload => ({ ...payload, ...checkBeforeAddCustomLog() }))
+    .map(payload => ({ ...payload, ...checkBeforeAddCustomLog(payload) }))
     .do(
       ({ message, permission }) =>
         !permission && dispatchChangeSnackbarStage(message),

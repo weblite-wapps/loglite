@@ -9,15 +9,30 @@ import {
   dispatchChangeEditEndTime,
   dispatchCloseEdit,
   dispatchChangeEditTitle,
+  dispatchRemoveInterval,
+  dispatchChangeEditPopOverId, 
+  dispatchChangeEditAnchorEl,
 } from './Edit.action'
 // views
-import { logView, timesView, titleView, isErrorView } from './Edit.reducer'
+import {
+  logView,
+  timesView,
+  titleView,
+  isErrorView,
+  anchorElView,
+  popoverIdView,
+  isOpenDialogView,
+} from './Edit.reducer'
+
 
 const mapStateToProps = () => ({
   log: logView(),
   times: timesView(),
   title: titleView(),
   isError: isErrorView(),
+  anchorEl: anchorElView(),
+  popoverId: popoverIdView(),
+  isOpen: isOpenDialogView(),
 })
 
 const mapDispatchToProps = () => ({
@@ -33,6 +48,9 @@ const mapDispatchToProps = () => ({
     dispatchChangeEditEndTime({ value, id }),
   close: dispatchCloseEdit,
   onTitleChange: ({ target: { value } }) => dispatchChangeEditTitle(value),
+  removeInterval: dispatchRemoveInterval,
+  changePopoverId: dispatchChangeEditPopOverId,
+  changeAnchorEl: dispatchChangeEditAnchorEl,
 })
 
 export default connect(

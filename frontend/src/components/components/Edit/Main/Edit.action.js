@@ -1,6 +1,6 @@
 // modules
 import { createAction } from 'redux-actions'
-import { dispatch } from '../../../setup/redux'
+import { dispatch } from '../../../../setup/redux'
 
 // actions
 export const INSERT_LOG = 'INSERT_LOG'
@@ -34,3 +34,23 @@ export const CHANGE_TITLE_IS_ERROR = 'CHANGE_TITLE_IS_ERROR'
 export const changeTitleIsError = createAction(CHANGE_TITLE_IS_ERROR)
 export const dispatchChangeTitleIsError = (...args) =>
   dispatch(changeTitleIsError(...args))
+
+export const REMOVE_INTERVAL = 'REMOVE_INTERVAL'
+export const removeInterval = createAction(REMOVE_INTERVAL)
+export const dispatchRemoveInterval = (...args) =>
+  dispatch(removeInterval(...args))
+
+export const CHANGE_EDIT_POPOVER_ID = 'CHANGE_EDIT_POPOVER_ID'
+export const changeEditPopOverId = createAction(CHANGE_EDIT_POPOVER_ID)
+export const dispatchChangeEditPopOverId = (...args) =>
+  dispatch(changeEditPopOverId(...args))
+
+export const CHANGE_EDIT_ANCHOR_EL = 'CHANGE_EDIT_ANCHOR_EL' 
+export const changeEditAnchorEl = createAction(CHANGE_EDIT_ANCHOR_EL)
+export const dispatchChangeEditAnchorEl = (...args) =>
+  dispatch(changeEditAnchorEl(...args))
+
+export const CHANGE_IS_OPEN_DIALOG = 'CHANGE_IS_OPEN_DIALOG'
+export const changeIsOpenDialog = createAction(CHANGE_IS_OPEN_DIALOG)
+export const dispatchChangeIsOpenDialog = (...args) =>
+  dispatch(changeIsOpenDialog(...args))

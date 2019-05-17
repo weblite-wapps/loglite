@@ -7,7 +7,7 @@ import { push } from 'react-router-redux'
 // helpers
 import { getUnique } from './App.helper'
 import { getRequest, postRequest } from '../../helper/functions/request.helper'
-import { formatTime, sumTimes, getNow } from '../../helper/functions/time.helper'
+import { formatTime, sumTimes, getNow, getTimeZone } from '../../helper/functions/time.helper'
 import {
   formattedDate,
   getToday,
@@ -211,7 +211,7 @@ const effectSaveStartTime = action$ =>
     .delay(250)
     .mergeMap(({ _id }) =>
       postRequest('/saveStartTime')
-        .send({ _id })
+        .send({ _id, start: getNow() })
         .on(
           'error',
           err =>
@@ -223,6 +223,7 @@ const effectSaveStartTime = action$ =>
     .do(({ body: { _id, start, runningTimeId } }) =>
       dispatchSaveStartTime(_id, start, runningTimeId),
     )
+    .do(({ body: { start } }) => console.log(getTimeZone(start)))
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .do(() => W && W.analytics('PLAY_CLICK'))
     .ignoreElements()

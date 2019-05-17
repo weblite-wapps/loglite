@@ -5,7 +5,6 @@ import { areRangesOverlapping, isAfter } from 'date-fns'
 import { formatTime, getNow, getTimeZone } from '../../../../helper/functions/time.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 // views
-import { titleView, startTimeView, endTimeView, dateView } from './Add.reducer'
 import { logsView } from '../../../Main/App.reducer'
 
 
@@ -26,19 +25,15 @@ const getObject = (trueOption, message, permission) => {
 }
 
 
-export const checkBeforeAddLog = (quickMode = false) => {
-  if (quickMode || titleView()) {
+export const checkBeforeAddLog = ({ title, quickMode = false }) => {
+  if (quickMode || title) {
     return getObject('', 'Added successfully!', true)
   }
   return getObject('title', 'Enter title first!', false)
 }
 
 
-export const checkBeforeAddCustomLog = () => {
-  const title = titleView()
-  const date = dateView()
-  const start = startTimeView()
-  const end = endTimeView()
+export const checkBeforeAddCustomLog = ({ title, date, start, end }) => {
   const logs = logsView()
   const now = getNow()
 

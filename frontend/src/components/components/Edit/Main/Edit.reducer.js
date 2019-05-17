@@ -1,9 +1,9 @@
 // modules
 import * as R from 'ramda'
 // local modules
-import { getState } from '../../../setup/redux'
+import { getState } from '../../../../setup/redux'
 // helpers
-import { getCurrentTime } from '../../../helper/functions/time.helper'
+import { getCurrentTime } from '../../../../helper/functions/time.helper'
 // actions
 import {
   INSERT_LOG,
@@ -11,6 +11,10 @@ import {
   CHANGE_EDIT_END_TIME,
   CHANGE_EDIT_TITLE,
   CHANGE_TITLE_IS_ERROR,
+  REMOVE_INTERVAL,
+  CHANGE_EDIT_POPOVER_ID,
+  CHANGE_EDIT_ANCHOR_EL,
+  CHANGE_IS_OPEN_DIALOG,
 } from './Edit.action'
 
 // state
@@ -19,6 +23,9 @@ const initialState = {
   times: [],
   title: '',
   isError: { title: false },
+  anchorEl: null,
+  popoverId: '',
+  isOpenDialog: false,
 }
 
 // views
@@ -26,6 +33,9 @@ export const logView = () => R.path(['Edit', 'log'])(getState())
 export const timesView = () => R.path(['Edit', 'times'])(getState())
 export const titleView = () => R.path(['Edit', 'title'])(getState())
 export const isErrorView = () => R.path(['Edit', 'isError'])(getState())
+export const anchorElView = () => R.path(['Edit', 'anchorEl'])(getState())
+export const popoverIdView = () => R.path(['Edit', 'popoverId'])(getState())
+export const isOpenDialogView = () => R.path(['Edit', 'isOpenDialog'])(getState())
 
 // reducers
 const reducers = {
@@ -63,12 +73,33 @@ const reducers = {
     ...state,
     title,
   }),
+
   [CHANGE_TITLE_IS_ERROR]: (state, value) => ({
     ...state,
     isError: {
       ...state.isError,
       title: value,
     },
+  }),
+
+  [REMOVE_INTERVAL]: (state, id) => ({
+    ...state,
+    times: R.filter(time => time._id !== id, state.times),
+  }),
+
+  [CHANGE_EDIT_POPOVER_ID]: (state, value) => ({
+    ...state,
+    popoverId: value,
+  }),
+
+  [CHANGE_EDIT_ANCHOR_EL]: (state, value) => ({
+    ...state,
+    anchorEl: value,
+  }),
+
+  [CHANGE_IS_OPEN_DIALOG]: (state, value) => ({
+    ...state,
+    isOpenDialog: value,
   }),
 }
 

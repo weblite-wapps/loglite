@@ -8,14 +8,14 @@ import AppReducer from '../components/Main/App.reducer'
 import HomeReducer from '../components/components/Home/Main/Home.reducer'
 import AddReducer from '../components/components/Add/Main/Add.reducer'
 import ReportReducer from '../components/components/Report/Main/Report.reducer'
-import EditReducer from '../components/components/Edit/Edit.reducer'
+import EditReducer from '../components/components/Edit/Main/Edit.reducer'
 import SnackbarReducer from '../components/components/Snackbar/Snackbar.reducer'
 // epics
 import AppEpic from '../components/Main/App.effect'
 import HomeEpic from '../components/components/Home/Main/Home.effect'
 import AddEpic from '../components/components/Add/Main/Add.effect'
 import ReportEpic from '../components/components/Report/Main/Report.effect'
-import EditEpic from '../components/components/Edit/Edit.effect'
+import EditEpic from '../components/components/Edit/Main/Edit.effect'
 
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory()
