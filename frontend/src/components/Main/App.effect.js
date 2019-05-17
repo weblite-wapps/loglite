@@ -1,7 +1,7 @@
 // modules
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-// import moment from 'moment-timezone'
+import moment from 'moment-timezone'
 import { dispatchChangeSnackbarStage } from '../components/Snackbar/Snackbar.action'
 import { push } from 'react-router-redux'
 // helpers
@@ -124,6 +124,8 @@ const initialFetchEpic = action$ =>
     .do(({ body: { leaderboard } }) =>
       dispatchRestoreLeaderboardData(leaderboard),
     )
+    .do(({ body: { time } }) => console.log(time))
+    .do(() => console.log(getNow()))
     .mergeMap(({ body: { pins } }) =>
       postRequest('/saveLogs')
         .send({
@@ -148,7 +150,7 @@ const initialFetchEpic = action$ =>
     )
     .do(() => dispatchAddPage(formattedDate(getNow()), selectedUserView()))
     .do(() => dispatchSetIsLoading(false))
-    // .do(() => console.log(moment().tz('Asia/Tehran').format()))
+    .do(() => console.log(moment().tz('Asia/Tehran')))
     .ignoreElements()
 
 const addLogToNextDayEpic = action$ =>

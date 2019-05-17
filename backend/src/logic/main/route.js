@@ -45,6 +45,7 @@ app.get('/initialFetch', ({ query }, res) =>
     },
     leaderboard: getLeaderboardData(success[5]),
     pins: success[6],
+    time: getNow(),
   })).catch(logger))
 
   app.post("/toggleIsPinned", ({ body: { _id, title, tags, value, userId, wis } }, res) =>
