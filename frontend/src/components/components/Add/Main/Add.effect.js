@@ -81,7 +81,6 @@ const effectHandleAddLog = action$ =>
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
     )
-    // .do(({ permission, message }) => console.log(permission, message))
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
     .do(() => dispatchSetIsLoading(true))

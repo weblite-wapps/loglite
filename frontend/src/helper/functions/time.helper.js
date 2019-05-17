@@ -26,10 +26,8 @@ export const formatTime = time =>
 
 export const sumTimes = times =>
   R.reduce(
-    (acc, time) =>
-      time.end === 'running'
-        ? acc
-        : acc + differenceInSeconds(time.end, time.start),
+    (acc, { start, end }) =>
+      end === 'running' ? acc : acc + differenceInSeconds(end, start),
     0,
   )(times)
 

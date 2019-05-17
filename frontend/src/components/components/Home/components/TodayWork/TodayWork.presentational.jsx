@@ -16,6 +16,7 @@ import {
   formatTime,
   sumTimes,
   getNow,
+  getTimeZone,
 } from "../../../../../helper/functions/time.helper";
 import {
   previousDay,
@@ -38,9 +39,10 @@ export default class TodayWork extends React.Component {
       countinueCounting
     } = this.props;
     const len = times.length;
-    if (len && times[len - 1].end === "running") {
+    if (len && times[len - 1].end === "running") { 
+      console.log("now:", getNow(), "start:", getTimeZone(times[len - 1].start), differenceInSeconds(getNow(), getTimeZone(times[len - 1].start)))
       setSecondsElapsed(
-        sumTimes(times) + differenceInSeconds(getNow(), times[len - 1].start)
+        sumTimes(times) + differenceInSeconds(getNow(), getTimeZone(times[len - 1].start))
       );
       countinueCounting(_id);
     }
@@ -63,7 +65,7 @@ export default class TodayWork extends React.Component {
       onStopClick,
       setSecondsElapsed
     } = this.props;
-    if (runningId) onStopClick(runningId, null, _id, times);
+    if (runningId) onStopClick(runningId, getNow(), _id, times); 
     else {
       setSecondsElapsed(sumTimes(times));
       onStartClick(_id);
@@ -88,7 +90,7 @@ export default class TodayWork extends React.Component {
       addLogToNextDay(now, formattedDate(now));
       onStopClick(_id, previousDay(formatTime("24:00:00")), null, null);
     } else {
-      onStopClick(_id, null, null, null);
+      onStopClick(_id, getNow(), null, null);
     }
   }
 
