@@ -1,8 +1,10 @@
 // Modules
 import React, { Suspense, lazy } from 'react'
 import { Provider } from 'react-redux'
-import { Route } from 'react-router'
-import { ConnectedRouter } from 'react-router-redux'
+// import { Route } from 'react-router'
+// import { ConnectedRouter } from 'react-router-redux'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+
 import { MuiThemeProvider } from '@material-ui/core/styles'
 // Setup
 import store, { history } from './redux'
@@ -33,7 +35,7 @@ const Edit = lazy(() =>
 export default () => (
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
-      <ConnectedRouter history={history}>
+      <Router history={history}>
         <div className="app-container ">
           <App />
           <Snackbar location={{ vertical: 'bottom', horizontal: 'right' }} />
@@ -46,7 +48,7 @@ export default () => (
             <Route path="/Edit" render={() => <Edit />} />
           </Suspense>
         </div>
-      </ConnectedRouter>
+      </Router>
     </MuiThemeProvider>
   </Provider>
 )
