@@ -12,6 +12,7 @@ import { checkBeforeAddTag } from '../../../Main/App.helper'
 import { checkBeforeAction } from './Report.helper'
 // actions
 import { loadLogsData, dispatchSetIsLoading } from '../../../Main/App.action'
+import { dispatchChangeIsOpenDialog } from '../../../components/Edit/Main/Edit.action'
 import { LOAD_TAGS_DATA_IN_ADD } from '../../Add/Main/Add.action'
 import {
   RESET_STAFF_LOGS,
@@ -62,7 +63,7 @@ import {
   tagsView,
 } from './Report.reducer'
 
-import { dispatchInsertLog } from '../../Edit/Edit.action'
+import { dispatchInsertLog } from '../../Edit/Main/Edit.action'
 // const
 const { W } = window
 
@@ -408,6 +409,7 @@ const handleEditButtonEpic = action$ =>
     .pluck('payload')
     .pluck('value')
     .do(dispatchInsertLog)
+    .do(() => dispatchChangeIsOpenDialog(true))
     .map(() => push('/Edit'))
 
 export default combineEpics(

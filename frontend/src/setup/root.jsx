@@ -26,7 +26,7 @@ const Report = lazy(() =>
 )
 
 const Edit = lazy(() =>
-  import('../components/components/Edit/Edit.container.react'),
+  import('../components/components/Edit/Main/Edit.container.react'),
 )
 // const About = lazy(() => import('../components/components/About/About.jsx'));
 

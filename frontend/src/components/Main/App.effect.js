@@ -1,14 +1,13 @@
 // modules
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
+import moment from 'moment-timezone'
 import { dispatchChangeSnackbarStage } from '../components/Snackbar/Snackbar.action'
 import { push } from 'react-router-redux'
-// import moment from 'moment-timezone'
 // helpers
-import { differenceInSeconds } from 'date-fns'
 import { getUnique } from './App.helper'
 import { getRequest, postRequest } from '../../helper/functions/request.helper'
-import { formatTime, sumTimes } from '../../helper/functions/time.helper'
+import { formatTime, sumTimes, getNow, getTimeZone } from '../../helper/functions/time.helper'
 import {
   formattedDate,
   getToday,
@@ -48,7 +47,6 @@ import {
   dispatchSaveEndTime,
   dispatchToggleIsPinned,
   dispatchHandleSaveStartTime,
-  dispatchSetTimeDifference,
 } from './App.action'
 // views
 import {
@@ -56,10 +54,8 @@ import {
   userIdView,
   userNameView,
   aboutModeView,
-  timeDifferenceView,
 } from './App.reducer'
 import { selectedUserView } from '../components/Report/Main/Report.reducer'
-import { secondsElapsedView } from '../components/Home/Main/Home.reducer'
 // const
 const { W } = window
 
@@ -128,16 +124,12 @@ const initialFetchEpic = action$ =>
     .do(({ body: { leaderboard } }) =>
       dispatchRestoreLeaderboardData(leaderboard),
     )
-    .do(({ body: { time } }) =>
-      dispatchSetTimeDifference(differenceInSeconds(new Date(), time)),
-    )
-    .do(() =>
-      dispatchSetSecondsElapsed(secondsElapsedView() - timeDifferenceView()),
-    )
+    .do(({ body: { time } }) => console.log(getTimeZone(time)))
+    .do(() => console.log(getNow()))
     .mergeMap(({ body: { pins } }) =>
       postRequest('/saveLogs')
         .send({
-          date: formattedDate(new Date()),
+          date: formattedDate(getNow()),
           pins: getUnique(pins),
           userId: userIdView(),
           wis: wisView(),
@@ -152,13 +144,13 @@ const initialFetchEpic = action$ =>
     .do(({ body }) => dispatchLoadLogsData(body))
     .do(() =>
       dispatchAddPage(
-        formattedDate(previousDay(new Date())),
+        formattedDate(previousDay(getNow())),
         selectedUserView(),
       ),
     )
-    .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
+    .do(() => dispatchAddPage(formattedDate(getNow()), selectedUserView()))
     .do(() => dispatchSetIsLoading(false))
-    // .do(() => console.log(moment().tz('Asia/Tehran').format()))
+    .do(() => console.log(moment().tz('Asia/Tehran')))
     .ignoreElements()
 
 const addLogToNextDayEpic = action$ =>
@@ -184,7 +176,7 @@ const addLogToNextDayEpic = action$ =>
         ),
     )
     .do(() => dispatchSetIsLoading(false))
-    .do(() => dispatchAddPage(formattedDate(new Date()), selectedUserView()))
+    .do(() => dispatchAddPage(formattedDate(getNow()), selectedUserView()))
     .do(({ body }) => dispatchAddLog(body))
     .do(() => W && W.analytics('PAUSE_AFTER_24'))
     .ignoreElements()
@@ -219,7 +211,7 @@ const effectSaveStartTime = action$ =>
     .delay(250)
     .mergeMap(({ _id }) =>
       postRequest('/saveStartTime')
-        .send({ _id })
+        .send({ _id, start: getNow() })
         .on(
           'error',
           err =>
@@ -231,6 +223,7 @@ const effectSaveStartTime = action$ =>
     .do(({ body: { _id, start, runningTimeId } }) =>
       dispatchSaveStartTime(_id, start, runningTimeId),
     )
+    .do(({ body: { start } }) => console.log(getTimeZone(start)))
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .do(() => W && W.analytics('PLAY_CLICK'))
     .ignoreElements()

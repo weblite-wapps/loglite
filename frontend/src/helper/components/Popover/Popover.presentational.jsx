@@ -1,12 +1,12 @@
 // modules
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import Popover from "@material-ui/core/Popover";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import Popover from '@material-ui/core/Popover'
 // styles
-import styles from "../../../../../../helper/components/Button/Button.style";
+import styles from '../../components/Button/Button.style'
 
 const CustomizedPopover = ({
   classes,
@@ -15,7 +15,7 @@ const CustomizedPopover = ({
   anchorReference,
   onClose,
   onYep,
-  onNop
+  onNop,
 }) => (
   <Popover
     open={popoverIsOpen}
@@ -23,15 +23,15 @@ const CustomizedPopover = ({
     anchorEl={anchorEl}
     anchorReference={anchorReference}
     anchorOrigin={{
-      vertical: "center",
-      horizontal: "right"
+      vertical: 'center',
+      horizontal: 'right',
     }}
     transformOrigin={{
-      vertical: "top",
-      horizontal: "center"
+      vertical: 'top',
+      horizontal: 'center',
     }}
   >
-    <Typography variant="subtitle1" style={{ margin: "5px" }}>
+    <Typography variant="subtitle1" style={{ margin: '5px' }}>
       Are you sure?
     </Typography>
     <Button
@@ -49,7 +49,7 @@ const CustomizedPopover = ({
       Nop
     </Button>
   </Popover>
-);
+)
 
 CustomizedPopover.propTypes = {
   classes: PropTypes.shape({}).isRequired,
@@ -58,11 +58,11 @@ CustomizedPopover.propTypes = {
   anchorReference: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   onYep: PropTypes.func.isRequired,
-  onNop: PropTypes.func.isRequired
-};
+  onNop: PropTypes.func.isRequired,
+}
 
 CustomizedPopover.defaultProps = {
-  anchorEl: null
-};
+  anchorEl: null,
+}
 
-export default withStyles(styles)(CustomizedPopover);
+export default withStyles(styles)(CustomizedPopover)

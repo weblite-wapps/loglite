@@ -33,7 +33,6 @@ import {
   wisView,
   userIdView,
   logsView,
-  timeDifferenceView,
 } from '../../../Main/App.reducer'
 import { runningIdView } from '../../Home/Main/Home.reducer'
 
@@ -80,7 +79,7 @@ const effectSetSecondsElapsed = action$ =>
     .filter(runningIdView)
     .do(() =>
       dispatchSetSecondsElapsed(
-        getSecondsElapsed(logsView(), runningIdView(), timeDifferenceView()),
+        getSecondsElapsed(logsView(), runningIdView()),
       ),
     )
     .ignoreElements()

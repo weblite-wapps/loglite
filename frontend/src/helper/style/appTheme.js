@@ -43,6 +43,7 @@ export default createMuiTheme({
       root: {
         display: 'flex',
         flexDirection: 'column',
+        top: '50px',
       },
     },
     MuiToolbar: {
@@ -121,6 +122,11 @@ export default createMuiTheme({
       badge: {
         backgroundColor: '#a3cb38',
         color: '#3d3d3d',
+      },
+    },
+    MuiModal: {
+      root: {
+        zIndex: '0',
       },
     },
   },

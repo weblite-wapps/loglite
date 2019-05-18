@@ -8,7 +8,7 @@ import { fetchLogs, saveLog, deleteLog, saveTime, updateLog } from "./db";
 // helpers
 import { sumLogs, modifiedQuery, getBarChartData, getJSON, defaultQueryGenerator, getLeaderboardData, getRunningTimeId } from '../../../helper/query.helper'
 import { getStartDayOfWeek, getStartDayOfMonth } from '../../../helper/date.helper'
-import { formattedSeconds, formatTime } from '../../../helper/time.helper'
+import { formattedSeconds, getNow } from '../../../helper/time.helper'
 // const 
 const logger = console.log;
 
@@ -19,22 +19,18 @@ app.get("/fetchLogs", ({ query: { wis, userId, date } }, res) =>
 );
 
 app.post("/saveLog", (req, res) =>
-    saveLog({ ...req.body, created_at: new Date() })
+    saveLog({ ...req.body, created_at: getNow() })
       .then(log => res.send(log))
       .catch(logger))
 
-app.post("/saveCustomLog", ({ body: { start, end, ...other } }, res) =>
-  saveLog({
-    ...other,
-    created_at: new Date(),
-    times: [{ start: formatTime(start), end: formatTime(end) }],
-  })
+app.post("/saveCustomLog", (req, res) =>
+  saveLog({ ...req.body, created_at: getNow() })
     .then(log => res.send(log))
     .catch(logger)
 );
 
 app.post("/insertLogToNextDay", (req, res) =>
-  saveLog({ ...req.body, created_at: new Date() })
+  saveLog({ ...req.body, created_at: getNow() })
     .then(log => res.send(log))
     .catch(logger)
 );
@@ -43,17 +39,16 @@ app.post("/deleteLog", ({ query }, res) =>
   deleteLog({ _id: mongoose.Types.ObjectId(query._id) })
     .then(() => res.send(query))
     .catch(logger)
-);
+); 
 
 app.post("/saveStartTime", ({ body }, res) =>
   saveTime(
     { _id: mongoose.Types.ObjectId(body._id) },
-    { $push: { times: { start: new Date(), end: "running" } } }
+    { $push: { times: { start: body.start, end: "running" } } }
   )
     .then(({ times }) => {
       res.send({
         ...body,
-        start: new Date(),
         runningTimeId: getRunningTimeId(times)
       });
     })
@@ -63,9 +58,9 @@ app.post("/saveStartTime", ({ body }, res) =>
 app.post("/saveEndTime", ({ body }, res) =>
   saveTime(
     { _id: mongoose.Types.ObjectId(body.runningId), "times.end": "running" },
-    { $set: { "times.$.end": body.end || new Date() } }
+    { $set: { "times.$.end": body.end } }
   )
-    .then(() => res.send({ ...body, end: body.end || new Date() }))
+    .then(() => res.send(body))
     .catch(logger)
 );
 

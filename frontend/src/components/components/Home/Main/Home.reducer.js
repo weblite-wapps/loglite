@@ -20,7 +20,7 @@ const initialState = {
   runningId: '',
 }
 
-// lens
+// lenses
 const durationLens = R.lensProp('duration')
 const secondsElapsedLens = R.lensProp('secondsElapsed')
 const runningIdLens = R.lensProp('runningId')
