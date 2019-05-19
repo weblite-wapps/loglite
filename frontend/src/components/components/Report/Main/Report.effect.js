@@ -317,6 +317,7 @@ const updateLeaderboardEpic = action$ =>
           wis: wisView(),
           startDate,
           endDate,
+          now: getParsedNow(),
         })
         .on(
           'error',

@@ -8,7 +8,7 @@ import {
   differenceInSeconds,
 } from "date-fns";
 // helpers
-import { formattedSeconds, getNow } from './time.helper'
+import { formattedSeconds, getTimeZone } from './time.helper'
 
 
 const sumTimes = (times, now) =>
@@ -68,18 +68,18 @@ export const getJSON = logs => {
   return json2csv({ data: formattedData, fields });
 };
 
-export const getBarChartData = (logs, query) => {
+export const getBarChartData = (logs, { startDate, endDate, now } ) => {
   let dates = Array( 
-    differenceInDays(getNow(query.endDate), getNow(query.startDate)) + 1
-  ).fill(query.startDate);
+    differenceInDays(getTimeZone(endDate), getTimeZone(startDate)) + 1
+  ).fill(startDate);
   dates = dates.map((date, index) =>
-    format(addDays(getNow(date), index), "YYYY-MM-DD")
+    format(addDays(getTimeZone(date), index), "YYYY-MM-DD")
   );
   return R.map(
     date => ({
       name: date,
       duration: Math.floor(
-        sumLogs(R.filter(log => log.date === date, logs), query.now) / 60
+        sumLogs(R.filter(log => log.date === date, logs), now) / 60
       )
     }),
     dates
@@ -90,17 +90,17 @@ export const getLeaderboardData = (logs, now) => R.compose(
   R.map(logs => ({
     userId: logs[0].userId,
     score: Math.floor(sumLogs(logs, now) / 60),
-    workInProgress: checkInProgress(logs)
+    workInProgress: checkInProgress(logs, now)
   })),
   R.values,
   R.groupBy(R.prop("userId"))
 )(logs)
 
-export const checkInProgress = R.compose(
+export const checkInProgress = (logs, now) => R.compose(
   R.reduce(R.or, false),
   R.map(log => R.findIndex(R.propEq("end", "running"))(log.times) !== -1),
-  R.filter(log => log.date === format(getNow(), "YYYY-MM-DD"))
-);
+  R.filter(log => log.date === format(now, "YYYY-MM-DD"))
+)(logs)
 
 export const getRunningTimeId = times =>
   R.reduce(
