@@ -11,23 +11,18 @@ import {
 import { formattedSeconds, getNow } from './time.helper'
 
 
-const sumTimes = times =>
+const sumTimes = (times, now) =>
   R.reduce(
     (acc, time) =>
       time.end === "running"
-        ? acc + differenceInSeconds(getNow(), time.start)
+        ? acc + differenceInSeconds(now, time.start)
         : acc + differenceInSeconds(time.end, time.start),
     0
   )(times);
 
-export const sumLogs = logs =>
-  R.reduce((acc, log) => acc + sumTimes(log.times), 0)(logs);
-
-
-export const defaultQueryGenerator = ({ wis, userId }) => ({
-  wis,
-  userId
-});
+export const sumLogs = (logs, now) => {
+  return R.reduce((acc, log) => acc + sumTimes(log.times, now), 0)(logs);
+}
 
 export const queryGenerator = query => ({
   wis: query.wis,
@@ -74,7 +69,7 @@ export const getJSON = logs => {
 };
 
 export const getBarChartData = (logs, query) => {
-  let dates = Array(
+  let dates = Array( 
     differenceInDays(getNow(query.endDate), getNow(query.startDate)) + 1
   ).fill(query.startDate);
   dates = dates.map((date, index) =>
@@ -84,22 +79,22 @@ export const getBarChartData = (logs, query) => {
     date => ({
       name: date,
       duration: Math.floor(
-        sumLogs(R.filter(log => log.date === date, logs)) / 60
+        sumLogs(R.filter(log => log.date === date, logs), query.now) / 60
       )
     }),
     dates
   );
 };
 
-export const getLeaderboardData = R.compose(
+export const getLeaderboardData = (logs, now) => R.compose(
   R.map(logs => ({
     userId: logs[0].userId,
-    score: Math.floor(sumLogs(logs) / 60),
+    score: Math.floor(sumLogs(logs, now) / 60),
     workInProgress: checkInProgress(logs)
   })),
   R.values,
   R.groupBy(R.prop("userId"))
-);
+)(logs)
 
 export const checkInProgress = R.compose(
   R.reduce(R.or, false),

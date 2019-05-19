@@ -6,7 +6,7 @@ import app from "../../../setup/server";
 // db helpers
 import { fetchLogs, saveLog, deleteLog, saveTime, updateLog } from "./db";
 // helpers
-import { sumLogs, modifiedQuery, getBarChartData, getJSON, defaultQueryGenerator, getLeaderboardData, getRunningTimeId } from '../../../helper/query.helper'
+import { sumLogs, modifiedQuery, getBarChartData, getJSON, getLeaderboardData, getRunningTimeId } from '../../../helper/query.helper'
 import { getStartDayOfWeek, getStartDayOfMonth } from '../../../helper/date.helper'
 import { formattedSeconds, getNow } from '../../../helper/time.helper'
 // const 
@@ -64,29 +64,29 @@ app.post("/saveEndTime", ({ body }, res) =>
     .catch(logger)
 );
 
-app.get("/fetchTotalDurations", ({ query }, res) =>
+app.get("/fetchTotalDurations", ({ query: { wis, userId, today, now } }, res) =>
   Promise.all([
-    fetchLogs({ ...defaultQueryGenerator(query), date: query.today }),
+    fetchLogs({ wis, userId, date: today }),
     fetchLogs({
-      ...defaultQueryGenerator(query),
+      wis, userId,
       $and: [
-        { date: { $gte: getStartDayOfWeek(query.today) } },
-        { date: { $lte: query.today } }
+        { date: { $gte: getStartDayOfWeek(today) } },
+        { date: { $lte: today } }
       ]
     }),
     fetchLogs({
-      ...defaultQueryGenerator(query),
+      wis, userId,
       $and: [
-        { date: { $gte: getStartDayOfMonth(query.today) } },
-        { date: { $lte: query.today } }
+        { date: { $gte: getStartDayOfMonth(today) } },
+        { date: { $lte: today } }
       ]
     })
   ])
     .then(success =>
       res.json({
-        today: formattedSeconds(sumLogs(success[0]), "Home"),
-        thisWeek: formattedSeconds(sumLogs(success[1]), "Home"),
-        thisMonth: formattedSeconds(sumLogs(success[2]), "Home")
+        today: formattedSeconds(sumLogs(success[0], now), "Home"),
+        thisWeek: formattedSeconds(sumLogs(success[1], now), "Home"),
+        thisMonth: formattedSeconds(sumLogs(success[2], now), "Home")
       })
     )
     .catch(logger)

@@ -15,6 +15,8 @@ export const getTimeZone = time => new Date(moment(time).tz('Asia/Tehran').forma
 
 export const getNow = () => new Date(moment().tz('Asia/Tehran').format())
 
+export const getParsedNow = () => moment().tz('Asia/Tehran').format()
+
 export const formatTime = time =>
   setHours(
     setMinutes(
