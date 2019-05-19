@@ -51,7 +51,7 @@ export const dispatchAddLog = (...args) => dispatch(addLog(...args))
 export const ADD_LOG_TO_NEXT_DAY = 'ADD_LOG_TO_NEXT_DAY'
 export const addLogToNextDay = createAction(
   ADD_LOG_TO_NEXT_DAY,
-  (title, tags, end, date) => ({ title, tags, end, date }),
+  (title, tags, isPinned, end, date) => ({ title, tags, isPinned, end, date }),
 )
 export const dispatchAddLogToNextDay = (...args) =>
   dispatch(addLogToNextDay(...args))

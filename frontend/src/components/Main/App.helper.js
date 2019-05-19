@@ -21,10 +21,10 @@ export const checkBeforeAddTag = (queryTag, tags) => {
 
 const filteredLogs = () => R.filter(checkToShowInHome)(logsView())
 
-const checkIsUnique = logId => R.findIndex(R.propEq('_id', logId))(filteredLogs()) === -1
+const checkIsUnique = title => R.findIndex(R.propEq('title', title))(filteredLogs()) === -1
 
 export const getUnique = R.compose(
-  R.filter(pin => checkIsUnique(pin.logId)),
+  R.filter(pin => checkIsUnique(pin.title)),
   R.filter(pin => pin.lastDate !== formattedDate(getNow()))
 )
   

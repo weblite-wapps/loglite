@@ -19,13 +19,13 @@ const mapStateToProps = (state, { log: { _id } }) => ({
   workDuration: getWorksDuration(state)[_id],
 })
 
-const mapDispatchToProps = (_, { log: { title, tags } }) => ({
+const mapDispatchToProps = (_, { log: { title, tags, isPinned } }) => ({
   setSecondsElapsed: dispatchSetSecondsElapsed,
   countinueCounting: dispatchCountinueCounting,
   onStartClick: dispatchHandleSaveStartTime,
   onStopClick: dispatchHandleSaveEndTime,
   onToggleIsPinned: dispatchHandleToggleIsPinned,
-  addLogToNextDay: (end, date) => dispatchAddLogToNextDay(title, tags, end, date),
+  addLogToNextDay: (end, date) => dispatchAddLogToNextDay(title, tags, isPinned, end, date),
   changeRunningId: dispatchChangeRunningId,
 })
 

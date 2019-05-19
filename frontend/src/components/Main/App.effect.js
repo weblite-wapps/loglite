@@ -128,7 +128,7 @@ const initialFetchEpic = action$ =>
       postRequest('/saveLogs')
         .send({
           date: formattedDate(getNow()),
-          pins: getUnique(pins),
+          pins: getUnique(pins), 
           userId: userIdView(),
           wis: wisView(),
         })
@@ -155,11 +155,12 @@ const addLogToNextDayEpic = action$ =>
     .ofType(ADD_LOG_TO_NEXT_DAY)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ title, tags, end, date }) =>
+    .mergeMap(({ title, tags, isPinned, end, date }) => 
       postRequest('/insertLogToNextDay')
-        .send({
+        .send({ 
           title,
           tags,
+          isPinned,
           times: [{ start: previousDay(formatTime('24:00:00')), end }],
           date,
           userId: userIdView(),
