@@ -6,6 +6,7 @@ import { push } from 'react-router-redux'
 // local modules
 import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 // helpers
+import { getParsedNow } from '../../../../helper/functions/time.helper';
 import { getRequest } from '../../../../helper/functions/request.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 import { checkBeforeAddTag } from '../../../Main/App.helper'
@@ -62,7 +63,6 @@ import {
   queryTagView,
   tagsView,
 } from './Report.reducer'
-
 import { dispatchInsertLog } from '../../Edit/Main/Edit.action'
 // const
 const { W } = window
@@ -294,6 +294,7 @@ const updateChartEpic = action$ =>
           userId: selectedUserView(),
           startDate,
           endDate,
+          now: getParsedNow()
         })
         .on(
           'error',

@@ -1,13 +1,13 @@
 // modules
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-import moment from 'moment-timezone'
+// import moment from 'moment-timezone'
 import { dispatchChangeSnackbarStage } from '../components/Snackbar/Snackbar.action'
 import { push } from 'react-router-redux'
 // helpers
 import { getUnique } from './App.helper'
 import { getRequest, postRequest } from '../../helper/functions/request.helper'
-import { formatTime, sumTimes, getNow, getTimeZone } from '../../helper/functions/time.helper'
+import { formatTime, sumTimes, getNow, getParsedNow } from '../../helper/functions/time.helper'
 import {
   formattedDate,
   getToday,
@@ -52,6 +52,7 @@ import {
 import {
   wisView,
   userIdView,
+  userNameView,
   aboutModeView,
 } from './App.reducer'
 import { selectedUserView } from '../components/Report/Main/Report.reducer'
@@ -106,7 +107,7 @@ const initialFetchEpic = action$ =>
           wis: wisView(),
           userId: userIdView(),
           today: getToday(),
-          now: getNow(),
+          now: getParsedNow(),
         })
         .on(
           'error',
@@ -114,6 +115,9 @@ const initialFetchEpic = action$ =>
             err.status !== 304 &&
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
+    )
+    .do(({ body: { totalDurations } }) => 
+      console.log(totalDurations),
     )
     .do(({ body: { logs } }) => dispatchLoadLogsData(logs))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
@@ -123,8 +127,6 @@ const initialFetchEpic = action$ =>
     .do(({ body: { leaderboard } }) =>
       dispatchRestoreLeaderboardData(leaderboard),
     )
-    .do(({ body: { time } }) => console.log(getTimeZone(time)))
-    .do(() => console.log(getNow()))
     .mergeMap(({ body: { pins } }) =>
       postRequest('/saveLogs')
         .send({
@@ -149,7 +151,6 @@ const initialFetchEpic = action$ =>
     )
     .do(() => dispatchAddPage(formattedDate(getNow()), selectedUserView()))
     .do(() => dispatchSetIsLoading(false))
-    .do(() => console.log(moment().tz('Asia/Tehran')))
     .ignoreElements()
 
 const addLogToNextDayEpic = action$ =>
@@ -222,7 +223,6 @@ const effectSaveStartTime = action$ =>
     .do(({ body: { _id, start, runningTimeId } }) =>
       dispatchSaveStartTime(_id, start, runningTimeId),
     )
-    .do(({ body: { start } }) => console.log(getTimeZone(start)))
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .do(() => W && W.analytics('PLAY_CLICK'))
     .ignoreElements()

@@ -43,9 +43,8 @@ app.get('/initialFetch', ({ query: { wis, userId, today, now } }, res) =>
       thisWeek: formattedSeconds(sumLogs(success[3], now), 'Home'),
       thisMonth: formattedSeconds(sumLogs(success[4], now), 'Home'),
     },
-    leaderboard: getLeaderboardData(success[5]),
+    leaderboard: getLeaderboardData(success[5], now),
     pins: success[6],
-    time: getNow(),
   })).catch(logger))
 
   app.post("/toggleIsPinned", ({ body: { _id, title, tags, value, userId, wis } }, res) =>
