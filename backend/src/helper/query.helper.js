@@ -24,38 +24,37 @@ export const sumLogs = (logs, now) => {
   return R.reduce((acc, log) => acc + sumTimes(log.times, now), 0)(logs);
 }
 
-export const queryGenerator = query => ({
-  wis: query.wis,
-  userId: query.userId,
-  $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }]
+export const queryGenerator = ({ wis, userId, startDate, endDate }) => ({
+  wis, userId,
+  $and: [{ date: { $gte: startDate } }, { date: { $lte: endDate } }]
 });
-
+ 
 const formattedTags = tags =>
   R.slice(1, JSON.stringify(tags).length - 1, JSON.stringify(tags));
 
-export const modifiedQuery = query => {
-  if (!query.selectedTags) {
+export const modifiedQuery = ({ selectedTags, ...other }) => {
+  if (!selectedTags) {
     return {
-      ...queryGenerator(query)
+      ...queryGenerator(other)
     };
-  } else if (Array.isArray(query.selectedTags)) {
+  } else if (Array.isArray(selectedTags)) {
     return {
-      ...queryGenerator(query),
-      tags: { $in: query.selectedTags }
+      ...queryGenerator(other),
+      tags: { $in: selectedTags }
     };
   }
   return {
-    ...queryGenerator(query),
-    tags: query.selectedTags
+    ...queryGenerator(other),
+    tags: selectedTags
   };
 };
 
-export const getJSON = logs => {
+export const getJSON = (logs, now) => {
   let formattedData = R.map(
     log =>
       R.dissoc(
         "times",
-        R.assoc("duration", formattedSeconds(sumTimes(log.times), "Home"), log)
+        R.assoc("duration", formattedSeconds(sumTimes(log.times, now), "Home"), log)
       ),
     logs
   );
@@ -108,25 +107,3 @@ export const getRunningTimeId = times =>
     "",
     times
   );
-
-// export const getAnalysisData = (logs, userId) => R.compose(
-
-// )(logs)
-
-// const data = [
-//   {
-//     "name": "Sat",
-//     "userMean": 4000,
-//     "wisMean": 2400,
-//   },
-//   {
-//     "name": "Sun",
-//     "userMean": 3000,
-//     "wisMean": 1398,
-//   },
-//   {
-//     "name": "Mon",
-//     "userMean": 2000,
-//     "wisMean": 9800,
-//   },
-// ]

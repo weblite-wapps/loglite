@@ -116,9 +116,6 @@ const initialFetchEpic = action$ =>
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
-    .do(({ body: { totalDurations } }) => 
-      console.log(totalDurations),
-    )
     .do(({ body: { logs } }) => dispatchLoadLogsData(logs))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
     .do(({ body: { totalDurations } }) =>

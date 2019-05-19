@@ -92,26 +92,22 @@ app.get("/fetchTotalDurations", ({ query: { wis, userId, today, now } }, res) =>
     .catch(logger)
 );
 
-app.get("/calculateTotalDuration", (req, res) => {
-  const query = modifiedQuery(req.query);
-  fetchLogs(query, "Report")
-    .then(sumLogs)
+app.get("/calculateTotalDuration", ({ query }, res) =>
+  fetchLogs(modifiedQuery(query))
+    .then(logs => sumLogs(logs, query.now))
     .then(sum => formattedSeconds(sum, "Report"))
     .then(totalDuration => res.json(totalDuration))
-    .catch(logger);
-});
+    .catch(logger))
 
-app.get("/convertJSONToCSV", (req, res) => {
-  const query = modifiedQuery(req.query);
-  fetchLogs(query)
-    .then(logs => getJSON(logs))
+app.get("/convertJSONToCSV", ({ query }, res) =>
+  fetchLogs(modifiedQuery(query))
+    .then(logs => getJSON(logs, query.now)) 
     .then(csv => {
       res.setHeader("Content-disposition", "attachment; filename=data.csv");
       res.set("Content-Type", "text/csv");
       res.status(200).send(csv);
     })
-    .catch(logger);
-});
+    .catch(logger))
 
 app.get("/barChartData", ({ query }, res) => {
   const newQuery = {
