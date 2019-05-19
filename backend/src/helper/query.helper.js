@@ -11,23 +11,17 @@ import {
 import { formattedSeconds, getNow } from './time.helper'
 
 
-const sumTimes = times =>
+const sumTimes = (times, now) =>
   R.reduce(
     (acc, time) =>
       time.end === "running"
-        ? acc + differenceInSeconds(getNow(), time.start)
+        ? acc + differenceInSeconds(now, time.start)
         : acc + differenceInSeconds(time.end, time.start),
     0
   )(times);
 
-export const sumLogs = logs =>
-  R.reduce((acc, log) => acc + sumTimes(log.times), 0)(logs);
-
-
-export const defaultQueryGenerator = ({ wis, userId }) => ({
-  wis,
-  userId
-});
+export const sumLogs = (logs, now) =>
+  R.reduce((acc, log) => acc + sumTimes(log.times, now), 0)(logs);
 
 export const queryGenerator = query => ({
   wis: query.wis,

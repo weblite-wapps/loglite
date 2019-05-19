@@ -52,7 +52,6 @@ import {
 import {
   wisView,
   userIdView,
-  userNameView,
   aboutModeView,
 } from './App.reducer'
 import { selectedUserView } from '../components/Report/Main/Report.reducer'
@@ -106,8 +105,8 @@ const initialFetchEpic = action$ =>
         .query({
           wis: wisView(),
           userId: userIdView(),
-          username: userNameView(),
           today: getToday(),
+          now: getNow(),
         })
         .on(
           'error',
