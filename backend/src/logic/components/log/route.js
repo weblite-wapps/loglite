@@ -127,24 +127,18 @@ app.get("/barChartData", ({ query }, res) => {
     .catch(logger);
 });
 
-app.get("/leaderboardData", ({ query }, res) => {
-  const newQuery = {
-    wis: query.wis,
+app.get("/leaderboardData", ({ query: { wis, startDate, endDate, now } }, res) => {
+  const newQuery = { 
+    wis,
     $and: [
-      { date: { $gte: query.startDate } },
-      { date: { $lte: query.endDate } }
+      { date: { $gte: startDate } },
+      { date: { $lte: endDate } }
     ]
   };
   fetchLogs(newQuery)
-    .then(logs => res.send(getLeaderboardData(logs)))
+    .then(logs => res.send(getLeaderboardData(logs, now)))
     .catch(logger);
 });
-
-app.get("/getAnalysisData", ({ query: { wis, userId } }, res) =>
-  fetchLogs({ wis })
-    .then(logs => res.send(getAnalysisData(logs, userId)))
-    .catch(logger)
-);
 
 app.post("/updateLog", ({ body, body: { _id } }, res) =>
   updateLog({ _id }, body)

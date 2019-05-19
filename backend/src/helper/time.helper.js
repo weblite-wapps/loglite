@@ -39,3 +39,5 @@ export const formatTime = time =>
   )
 
 export const getNow = () => moment().tz('Asia/Tehran').format()
+
+export const getTimeZone = time => moment(time).tz('Asia/Tehran').format()
