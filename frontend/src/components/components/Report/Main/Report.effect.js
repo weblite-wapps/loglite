@@ -162,6 +162,7 @@ const calculateTotalDurationEpic = action$ =>
           startDate: startDateView(),
           endDate: endDateView(),
           selectedTags: selectedTagsView(),
+          now: getParsedNow(),
         })
         .on(
           'error',
@@ -186,6 +187,7 @@ const convertJSONToCSVEpic = action$ =>
           startDate: startDateView(),
           endDate: endDateView(),
           selectedTags: selectedTagsView(),
+          now: getParsedNow(),
         })
         .on(
           'error',
