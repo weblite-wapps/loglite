@@ -2,14 +2,13 @@
 import React, { Suspense, lazy } from 'react'
 import { Provider } from 'react-redux'
 import { Route } from 'react-router'
-// import { ConnectedRouter } from 'react-router-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 // Setup
 import store, { history } from './redux'
 // Component
 import App from '../components/Main/App.container.react'
-// import About from '../components/components/About/About.jsx'
+import About from '../components/components/About/About.jsx'
 import Loading from '../helper/components/Loading/Loading.presentational'
 import Snackbar from '../components/components/Snackbar/Snackbar.container.react'
 // styles
@@ -29,7 +28,7 @@ const Report = lazy(() =>
 const Edit = lazy(() =>
   import('../components/components/Edit/Main/Edit.container.react'),
 )
-const About = lazy(() => import('../components/components/About/About.jsx'))
+// const About = lazy(() => import('../components/components/About/About.jsx'))
 
 export default () => (
   <Provider store={store}>
