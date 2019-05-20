@@ -8,59 +8,53 @@ import {
   differenceInSeconds,
 } from "date-fns";
 // helpers
-import { formattedSeconds, getNow } from './time.helper'
+import { formattedSeconds, getTimeZone } from './time.helper'
 
 
-const sumTimes = times =>
+const sumTimes = (times, now) =>
   R.reduce(
     (acc, time) =>
       time.end === "running"
-        ? acc + differenceInSeconds(getNow(), time.start)
+        ? acc + differenceInSeconds(now, time.start)
         : acc + differenceInSeconds(time.end, time.start),
     0
   )(times);
 
-export const sumLogs = logs =>
-  R.reduce((acc, log) => acc + sumTimes(log.times), 0)(logs);
+export const sumLogs = (logs, now) => {
+  return R.reduce((acc, log) => acc + sumTimes(log.times, now), 0)(logs);
+}
 
-
-export const defaultQueryGenerator = ({ wis, userId }) => ({
-  wis,
-  userId
+export const queryGenerator = ({ wis, userId, startDate, endDate }) => ({
+  wis, userId,
+  $and: [{ date: { $gte: startDate } }, { date: { $lte: endDate } }]
 });
-
-export const queryGenerator = query => ({
-  wis: query.wis,
-  userId: query.userId,
-  $and: [{ date: { $gte: query.startDate } }, { date: { $lte: query.endDate } }]
-});
-
+ 
 const formattedTags = tags =>
   R.slice(1, JSON.stringify(tags).length - 1, JSON.stringify(tags));
 
-export const modifiedQuery = query => {
-  if (!query.selectedTags) {
+export const modifiedQuery = ({ selectedTags, ...other }) => {
+  if (!selectedTags) {
     return {
-      ...queryGenerator(query)
+      ...queryGenerator(other)
     };
-  } else if (Array.isArray(query.selectedTags)) {
+  } else if (Array.isArray(selectedTags)) {
     return {
-      ...queryGenerator(query),
-      tags: { $in: query.selectedTags }
+      ...queryGenerator(other),
+      tags: { $in: selectedTags }
     };
   }
   return {
-    ...queryGenerator(query),
-    tags: query.selectedTags
+    ...queryGenerator(other),
+    tags: selectedTags
   };
 };
 
-export const getJSON = logs => {
+export const getJSON = (logs, now) => {
   let formattedData = R.map(
     log =>
       R.dissoc(
         "times",
-        R.assoc("duration", formattedSeconds(sumTimes(log.times), "Home"), log)
+        R.assoc("duration", formattedSeconds(sumTimes(log.times, now), "Home"), log)
       ),
     logs
   );
@@ -73,39 +67,39 @@ export const getJSON = logs => {
   return json2csv({ data: formattedData, fields });
 };
 
-export const getBarChartData = (logs, query) => {
-  let dates = Array(
-    differenceInDays(getNow(query.endDate), getNow(query.startDate)) + 1
-  ).fill(query.startDate);
+export const getBarChartData = (logs, { startDate, endDate, now } ) => {
+  let dates = Array( 
+    differenceInDays(getTimeZone(endDate), getTimeZone(startDate)) + 1
+  ).fill(startDate);
   dates = dates.map((date, index) =>
-    format(addDays(getNow(date), index), "YYYY-MM-DD")
+    format(addDays(getTimeZone(date), index), "YYYY-MM-DD")
   );
   return R.map(
     date => ({
       name: date,
       duration: Math.floor(
-        sumLogs(R.filter(log => log.date === date, logs)) / 60
+        sumLogs(R.filter(log => log.date === date, logs), now) / 60
       )
     }),
     dates
   );
 };
 
-export const getLeaderboardData = R.compose(
+export const getLeaderboardData = (logs, now) => R.compose(
   R.map(logs => ({
     userId: logs[0].userId,
-    score: Math.floor(sumLogs(logs) / 60),
-    workInProgress: checkInProgress(logs)
+    score: Math.floor(sumLogs(logs, now) / 60),
+    workInProgress: checkInProgress(logs, now)
   })),
   R.values,
   R.groupBy(R.prop("userId"))
-);
+)(logs)
 
-export const checkInProgress = R.compose(
+export const checkInProgress = (logs, now) => R.compose(
   R.reduce(R.or, false),
   R.map(log => R.findIndex(R.propEq("end", "running"))(log.times) !== -1),
-  R.filter(log => log.date === format(getNow(), "YYYY-MM-DD"))
-);
+  R.filter(log => log.date === format(now, "YYYY-MM-DD"))
+)(logs)
 
 export const getRunningTimeId = times =>
   R.reduce(
@@ -113,25 +107,3 @@ export const getRunningTimeId = times =>
     "",
     times
   );
-
-// export const getAnalysisData = (logs, userId) => R.compose(
-
-// )(logs)
-
-// const data = [
-//   {
-//     "name": "Sat",
-//     "userMean": 4000,
-//     "wisMean": 2400,
-//   },
-//   {
-//     "name": "Sun",
-//     "userMean": 3000,
-//     "wisMean": 1398,
-//   },
-//   {
-//     "name": "Mon",
-//     "userMean": 2000,
-//     "wisMean": 9800,
-//   },
-// ]

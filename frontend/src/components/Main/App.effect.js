@@ -1,7 +1,7 @@
 // modules
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-import moment from 'moment-timezone'
+// import moment from 'moment-timezone'
 import { dispatchChangeSnackbarStage } from '../components/Snackbar/Snackbar.action'
 import { push } from '../../setup/redux'
 // helpers
@@ -11,7 +11,7 @@ import {
   formatTime,
   sumTimes,
   getNow,
-  getTimeZone,
+  getParsedNow,
 } from '../../helper/functions/time.helper'
 import {
   formattedDate,
@@ -106,8 +106,8 @@ const initialFetchEpic = action$ =>
         .query({
           wis: wisView(),
           userId: userIdView(),
-          username: userNameView(),
           today: getToday(),
+          now: getParsedNow(),
         })
         .on(
           'error',
@@ -124,8 +124,6 @@ const initialFetchEpic = action$ =>
     .do(({ body: { leaderboard } }) =>
       dispatchRestoreLeaderboardData(leaderboard),
     )
-    .do(({ body: { time } }) => console.log(getTimeZone(time)))
-    .do(() => console.log(getNow()))
     .mergeMap(({ body: { pins } }) =>
       postRequest('/saveLogs')
         .send({
@@ -147,7 +145,6 @@ const initialFetchEpic = action$ =>
     )
     .do(() => dispatchAddPage(formattedDate(getNow()), selectedUserView()))
     .do(() => dispatchSetIsLoading(false))
-    .do(() => console.log(moment().tz('Asia/Tehran')))
     .ignoreElements()
 
 const addLogToNextDayEpic = action$ =>
@@ -155,11 +152,12 @@ const addLogToNextDayEpic = action$ =>
     .ofType(ADD_LOG_TO_NEXT_DAY)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ title, tags, end, date }) =>
+    .mergeMap(({ title, tags, isPinned, end, date }) =>
       postRequest('/insertLogToNextDay')
         .send({
           title,
           tags,
+          isPinned,
           times: [{ start: previousDay(formatTime('24:00:00')), end }],
           date,
           userId: userIdView(),
@@ -220,7 +218,6 @@ const effectSaveStartTime = action$ =>
     .do(({ body: { _id, start, runningTimeId } }) =>
       dispatchSaveStartTime(_id, start, runningTimeId),
     )
-    .do(({ body: { start } }) => console.log(getTimeZone(start)))
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .do(() => W && W.analytics('PLAY_CLICK'))
     .ignoreElements()

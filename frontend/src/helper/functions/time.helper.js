@@ -24,6 +24,8 @@ export const getNow = () =>
       .format(),
   )
 
+export const getParsedNow = () => moment().tz('Asia/Tehran').format()
+
 export const formatTime = time =>
   setHours(
     setMinutes(setSeconds(getNow(), R.slice(6, 8, time)), R.slice(3, 5, time)),

@@ -31,6 +31,7 @@ import {
 // views
 import { wisView, userIdView, logsView } from '../../../Main/App.reducer'
 import { runningIdView } from '../../Home/Main/Home.reducer'
+import { getParsedNow } from '../../../../helper/functions/time.helper';
 
 const refetchTotalDurationEpic = action$ =>
   action$
@@ -42,6 +43,7 @@ const refetchTotalDurationEpic = action$ =>
           wis: wisView(),
           userId: userIdView(),
           today: getToday(),
+          now: getParsedNow(),
         })
         .on(
           'error',

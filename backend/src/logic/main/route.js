@@ -11,41 +11,40 @@ import { fetchLogs, updateLog, saveLog } from '../components/log/db'
 import { fetchTags } from '../components/tag/db'
 import { fetchPins, savePin, deletePin, updatePins } from '../components/pin/db'
 // helpers
-import { sumLogs, defaultQueryGenerator, getLeaderboardData } from '../../helper/query.helper'
+import { sumLogs, getLeaderboardData } from '../../helper/query.helper'
 import { formattedDate, getSixDaysAgo, getStartDayOfWeek, getStartDayOfMonth } from '../../helper/date.helper'
 import { formattedSeconds, getNow } from '../../helper/time.helper'
 // const
 const logger = console.log
 
 
-app.get('/initialFetch', ({ query }, res) =>
+app.get('/initialFetch', ({ query: { wis, userId, today, now } }, res) =>
   Promise.all([
-    fetchLogs({ ...defaultQueryGenerator(query),
-      $and: [{ date: { $gte: getSixDaysAgo(query.today) } }, { date: { $lte: query.today } }],
+    fetchLogs({ wis, userId,
+      $and: [{ date: { $gte: getSixDaysAgo(today) } }, { date: { $lte: today } }],
     }),
-    fetchTags({ ...defaultQueryGenerator(query) }),
-    fetchLogs({ ...defaultQueryGenerator(query), date: query.today }),
+    fetchTags({ wis, userId }),
+    fetchLogs({ wis, userId, date: today }),
     fetchLogs({
-      ...defaultQueryGenerator(query),
-      $and: [{ date: { $gte: getStartDayOfWeek(query.today) } }, { date: { $lte: query.today } }],
+      wis, userId,
+      $and: [{ date: { $gte: getStartDayOfWeek(today) } }, { date: { $lte: today } }],
     }),
     fetchLogs({
-      ...defaultQueryGenerator(query),
-      $and: [{ date: { $gte: getStartDayOfMonth(query.today) } }, { date: { $lte: query.today } }],
+      wis, userId,
+      $and: [{ date: { $gte: getStartDayOfMonth(today) } }, { date: { $lte: today } }],
     }),
-    fetchLogs({ wis: query.wis, date: query.today }),
-    fetchPins({ ...defaultQueryGenerator(query) }),
+    fetchLogs({ wis, date: today }),
+    fetchPins({ wis, userId }),
   ]).then(success => res.json({
     logs: success[0],
     tags: success[1],
     totalDurations: {
-      today: formattedSeconds(sumLogs(success[2]), 'Home'),
-      thisWeek: formattedSeconds(sumLogs(success[3]), 'Home'),
-      thisMonth: formattedSeconds(sumLogs(success[4]), 'Home'),
+      today: formattedSeconds(sumLogs(success[2], now), 'Home'), 
+      thisWeek: formattedSeconds(sumLogs(success[3], now), 'Home'),
+      thisMonth: formattedSeconds(sumLogs(success[4], now), 'Home'),
     },
-    leaderboard: getLeaderboardData(success[5]),
+    leaderboard: getLeaderboardData(success[5], now),
     pins: success[6],
-    time: getNow(),
   })).catch(logger))
 
   app.post("/toggleIsPinned", ({ body: { _id, title, tags, value, userId, wis } }, res) =>
