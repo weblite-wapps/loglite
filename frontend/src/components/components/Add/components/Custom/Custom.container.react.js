@@ -4,7 +4,12 @@ import { connect } from 'react-redux'
 import Custom from './Custom.presentational'
 // views
 import { isLoadingView } from '../../../../Main/App.reducer'
-import { expandedView, startTimeView, endTimeView, dateView } from '../../Main/Add.reducer'
+import {
+  expandedView,
+  startTimeView,
+  endTimeView,
+  dateView,
+} from '../../Main/Add.reducer'
 // actions
 import {
   dispatchToggleExpanded,
@@ -12,7 +17,6 @@ import {
   dispatchChangeEndTime,
   dispatchChangeDate,
 } from '../../Main/Add.action'
-
 
 const mapStateToProps = () => ({
   isLoading: isLoadingView(),
@@ -29,5 +33,7 @@ const mapDispatchToProps = () => ({
   onDateChange: ({ target: { value } }) => dispatchChangeDate(value),
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Custom)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Custom)

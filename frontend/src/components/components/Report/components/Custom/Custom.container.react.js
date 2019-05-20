@@ -3,7 +3,14 @@ import { connect } from 'react-redux'
 // components
 import Custom from './Custom.presentational'
 // views
-import { queryTagView, tagsView, CSVView, startDateView, endDateView, isErrorView } from '../../Main/Report.reducer'
+import {
+  queryTagView,
+  tagsView,
+  CSVView,
+  startDateView,
+  endDateView,
+  isErrorView,
+} from '../../Main/Report.reducer'
 // actions
 import {
   dispatchSetQuery,
@@ -19,7 +26,6 @@ import {
 } from '../../Main/Report.action'
 // selector
 import { getReportFilteredSuggestions } from '../../../../Main/App.selector'
-
 
 const mapStateToProps = state => ({
   queryTag: queryTagView(),
@@ -44,5 +50,7 @@ const mapDispatchToProps = () => ({
   onExport: dispatchHandleExport,
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Custom)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Custom)

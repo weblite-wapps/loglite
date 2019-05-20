@@ -1,10 +1,10 @@
 // modules
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 // components
-import TagShape from "../TagShape/TagShape.presentational";
+import TagShape from '../TagShape/TagShape.presentational'
 // styles
-import "./TagList.scss";
+import './TagList.scss'
 
 const TagList = ({ tags, onTagClick }) => (
   <div className="tagList-container">
@@ -12,11 +12,11 @@ const TagList = ({ tags, onTagClick }) => (
       <TagShape onTagClick={() => onTagClick(tag)} key={tag._id} tag={tag} />
     ))}
   </div>
-);
+)
 
 TagList.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onTagClick: PropTypes.func.isRequired
-};
+  onTagClick: PropTypes.func.isRequired,
+}
 
-export default TagList;
+export default TagList

@@ -5,8 +5,16 @@ import { PieChart, Pie, Cell, Tooltip } from 'recharts'
 // helpers
 import { formattedSeconds } from '../../../../../../helper/functions/time.helper'
 // const
-const COLORS = ['#b93433', '#8a2f77', '#f8ce56', '#62aaaf', '#FF8042', '#00C49F', '#FFBB28', '#0088FE']
-
+const COLORS = [
+  '#b93433',
+  '#8a2f77',
+  '#f8ce56',
+  '#62aaaf',
+  '#FF8042',
+  '#00C49F',
+  '#FFBB28',
+  '#0088FE',
+]
 
 function CustomizedPieChart(props) {
   return (
@@ -23,10 +31,9 @@ function CustomizedPieChart(props) {
         paddingAngle={3}
         animationDuration={1000}
       >
-        {
-          props.pieChartData.map((entry, index) =>
-            <Cell key={index} fill={COLORS[index % COLORS.length]} />)
-        }
+        {props.pieChartData.map((entry, index) => (
+          <Cell key={index} fill={COLORS[index % COLORS.length]} />
+        ))}
       </Pie>
       <Tooltip
         formatter={value => formattedSeconds(value)}

@@ -1,9 +1,9 @@
 // modules
-import React from "react";
-import PropTypes from "prop-types";
-import Typography from "@material-ui/core/Typography";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Typography from '@material-ui/core/Typography'
 // styles
-import "./TagShapeForReport.scss";
+import './TagShapeForReport.scss'
 
 const TagShape = ({ tag }) => (
   <div className="tagShapeForReport-container">
@@ -11,10 +11,10 @@ const TagShape = ({ tag }) => (
       <Typography variant="body2">{tag}</Typography>
     </div>
   </div>
-);
+)
 
 TagShape.propTypes = {
-  tag: PropTypes.string.isRequired
-};
+  tag: PropTypes.string.isRequired,
+}
 
-export default TagShape;
+export default TagShape

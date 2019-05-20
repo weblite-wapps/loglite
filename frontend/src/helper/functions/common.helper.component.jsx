@@ -1,22 +1,22 @@
 // modules
-import React from "react";
-import PropTypes from "prop-types";
-import startOfToday from "date-fns/start_of_today";
-import subDays from "date-fns/sub_days";
+import React from 'react'
+import PropTypes from 'prop-types'
+import startOfToday from 'date-fns/start_of_today'
+import subDays from 'date-fns/sub_days'
 // components
-import Autocomplete from "../components/Autocomplete/Autocomplete.presentational";
-import CustomizedButton from "../components/Button/Button.presentational";
-import TagList from "../components/TagList/TagList.presentational";
-import Picker from "../components/Picker/Picker.presentational";
-import Button from "../../helper/components/Button/Button.presentational";
-import CustomizedBarChart from "../../helper/components/BarCharts/BarChart.presentational";
-import CustomizedDoubleBarChart from "../../helper/components/BarCharts/DoubleBarChart.presentational"
+import Autocomplete from '../components/Autocomplete/Autocomplete.presentational'
+import CustomizedButton from '../components/Button/Button.presentational'
+import TagList from '../components/TagList/TagList.presentational'
+import Picker from '../components/Picker/Picker.presentational'
+import Button from '../../helper/components/Button/Button.presentational'
+import CustomizedBarChart from '../../helper/components/BarCharts/BarChart.presentational'
+import CustomizedDoubleBarChart from '../../helper/components/BarCharts/DoubleBarChart.presentational'
 // helpers
-import { formattedDate } from "../../helper/functions/date.helper";
-import { getNow } from "../../helper/functions/time.helper";
+import { formattedDate } from '../../helper/functions/date.helper'
+import { getNow } from '../../helper/functions/time.helper'
 
 // styles
-import "./common.scss";
+import './common.scss'
 
 export const TagPanel = ({
   suggestions,
@@ -24,7 +24,7 @@ export const TagPanel = ({
   onQueryTagChange,
   tags,
   onTagClick,
-  handleAddTag
+  handleAddTag,
 }) => (
   <>
     <div className="textField">
@@ -44,7 +44,7 @@ export const TagPanel = ({
     </div>
     <TagList tags={tags} onTagClick={tag => onTagClick(tag)} />
   </>
-);
+)
 
 TagPanel.propTypes = {
   queryTag: PropTypes.string.isRequired,
@@ -52,15 +52,15 @@ TagPanel.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.object).isRequired,
   onQueryTagChange: PropTypes.func.isRequired,
   onTagClick: PropTypes.func.isRequired,
-  handleAddTag: PropTypes.func.isRequired
-};
+  handleAddTag: PropTypes.func.isRequired,
+}
 
 export const Pickers = ({
   isError,
   startDate,
   endDate,
   onStartDateChange,
-  onEndDateChange
+  onEndDateChange,
 }) => (
   <>
     <Picker
@@ -78,15 +78,15 @@ export const Pickers = ({
       onChange={onEndDateChange}
     />
   </>
-);
+)
 
 Pickers.propTypes = {
   isError: PropTypes.shape({}).isRequired,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   onStartDateChange: PropTypes.func.isRequired,
-  onEndDateChange: PropTypes.func.isRequired
-};
+  onEndDateChange: PropTypes.func.isRequired,
+}
 
 export const Buttons = ({ startDate, endDate, update, handleUpdate }) => {
   const now = getNow()
@@ -106,30 +106,21 @@ export const Buttons = ({ startDate, endDate, update, handleUpdate }) => {
           label="Today"
           componentName="CustomAdd"
           onClick={() =>
-            update(
-              formattedDate(startOfToday(now)),
-              formattedDate(now)
-            )
+            update(formattedDate(startOfToday(now)), formattedDate(now))
           }
         />
         <Button
           label="Last 7 days"
           componentName="CustomAdd"
           onClick={() =>
-            update(
-              formattedDate(subDays(now, 6)),
-              formattedDate(now)
-            )
+            update(formattedDate(subDays(now, 6)), formattedDate(now))
           }
         />
         <Button
           label="Last 30 days"
           componentName="CustomAdd"
           onClick={() =>
-            update(
-              formattedDate(subDays(now, 29)),
-              formattedDate(now)
-            )
+            update(formattedDate(subDays(now, 29)), formattedDate(now))
           }
         />
       </div>
@@ -141,8 +132,8 @@ Buttons.propTypes = {
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
-  handleUpdate: PropTypes.func.isRequired
-};
+  handleUpdate: PropTypes.func.isRequired,
+}
 
 export const BarChart = ({ data, XDataKey, YDataKey }) =>
   data.length ? (
@@ -153,12 +144,12 @@ export const BarChart = ({ data, XDataKey, YDataKey }) =>
         YDataKey={YDataKey}
       />
     </div>
-  ) : null;
+  ) : null
 
 BarChart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   XDataKey: PropTypes.string.isRequired,
-  YDataKey: PropTypes.string.isRequired
+  YDataKey: PropTypes.string.isRequired,
 }
 
 export const DoubleBarChart = ({ data, XDataKey, YDataKey }) =>
@@ -170,11 +161,10 @@ export const DoubleBarChart = ({ data, XDataKey, YDataKey }) =>
         YDataKey={YDataKey}
       />
     </div>
-  ) : null;
+  ) : null
 
 DoubleBarChart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   XDataKey: PropTypes.string.isRequired,
-  YDataKey: PropTypes.string.isRequired
+  YDataKey: PropTypes.string.isRequired,
 }
-

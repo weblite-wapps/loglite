@@ -10,7 +10,7 @@ import {
   dispatchCloseEdit,
   dispatchChangeEditTitle,
   dispatchRemoveInterval,
-  dispatchChangeEditPopOverId, 
+  dispatchChangeEditPopOverId,
   dispatchChangeEditAnchorEl,
 } from './Edit.action'
 // views
@@ -23,7 +23,6 @@ import {
   popoverIdView,
   isOpenDialogView,
 } from './Edit.reducer'
-
 
 const mapStateToProps = () => ({
   log: logView(),

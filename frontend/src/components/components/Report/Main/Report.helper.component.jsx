@@ -36,7 +36,7 @@ const IconButton = ({ expandMode, changeExpandMode, mode }) => (
     {mode === 'workList' && <ListAltIcon />}
     {mode === 'export' && <ImportExportIcon />}
     {mode === 'showChart' && <InsertChartOutlinedIcon />}
-    {mode === 'leaderboard' &&  <FlagIcon />}
+    {mode === 'leaderboard' && <FlagIcon />}
   </Button>
 )
 

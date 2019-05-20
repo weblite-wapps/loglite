@@ -2,7 +2,7 @@
 import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-import { push } from 'react-router-redux'
+import { push } from '../../../../setup/redux'
 // local modules
 import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 // helpers
@@ -415,6 +415,7 @@ const handleEditButtonEpic = action$ =>
     .do(dispatchInsertLog)
     .do(() => dispatchChangeIsOpenDialog(true))
     .map(() => push('/Edit'))
+    .ignoreElements()
 
 export default combineEpics(
   resetStaffDataEpic,

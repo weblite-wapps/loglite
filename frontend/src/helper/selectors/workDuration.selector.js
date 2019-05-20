@@ -5,17 +5,22 @@ import * as R from 'ramda'
 import { sumTimes, formattedSeconds } from '../functions/time.helper'
 
 const getLogs = state => state.App.logs
-const getStaffLogs = state => state.Report.staffLogs 
+const getStaffLogs = state => state.Report.staffLogs
 
 const getWorksDuration = createSelector(
   [getLogs],
-  R.reduce((acc, log) => R.assoc(log._id, formattedSeconds(sumTimes(log.times)), acc), {}),
+  R.reduce(
+    (acc, log) => R.assoc(log._id, formattedSeconds(sumTimes(log.times)), acc),
+    {},
+  ),
 )
 
 const getStaffWorksDuration = createSelector(
   [getStaffLogs],
-  R.reduce((acc, log) => R.assoc(log._id, formattedSeconds(sumTimes(log.times)), acc), {}),
+  R.reduce(
+    (acc, log) => R.assoc(log._id, formattedSeconds(sumTimes(log.times)), acc),
+    {},
+  ),
 )
-
 
 export { getWorksDuration, getStaffWorksDuration }

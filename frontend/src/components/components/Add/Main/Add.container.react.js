@@ -4,7 +4,16 @@ import { connect } from 'react-redux'
 import Add from './Add.presentational'
 // views
 import { logsView } from '../../../Main/App.reducer'
-import { titleView, selectedTagsView, queryTagView, tagsView, dateView, startTimeView, endTimeView, isErrorView } from './Add.reducer'
+import {
+  titleView,
+  selectedTagsView,
+  queryTagView,
+  tagsView,
+  dateView,
+  startTimeView,
+  endTimeView,
+  isErrorView,
+} from './Add.reducer'
 // actions
 import { dispatchChangeTab } from '../../../Main/App.action'
 import {
@@ -18,7 +27,6 @@ import {
 } from './Add.action'
 // selectors
 import { getAddFilteredSuggestions } from '../../../Main/App.selector'
-
 
 const mapStateToProps = state => ({
   logs: logsView(),
@@ -44,5 +52,7 @@ const mapDispatchToProps = () => ({
   onCustomAdd: dispatchHandleAddCustomLog,
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Add)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Add)
