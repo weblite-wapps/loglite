@@ -8,14 +8,17 @@ import { creatorView, usersView } from '../../../../Main/App.reducer'
 // actions
 import { dispatchChangeSelectedUser } from '../../Main/Report.action'
 
-
 const mapStateToProps = () => ({
   creator: creatorView(),
   users: usersView(),
   selectedUser: selectedUserView(),
 })
 
-const mapDispatchToProps = () => ({ changeSelectedUser: dispatchChangeSelectedUser })
+const mapDispatchToProps = () => ({
+  changeSelectedUser: dispatchChangeSelectedUser,
+})
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectBar)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SelectBar)

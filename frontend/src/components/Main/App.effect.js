@@ -3,11 +3,16 @@ import { combineEpics } from 'redux-observable'
 import 'rxjs'
 import moment from 'moment-timezone'
 import { dispatchChangeSnackbarStage } from '../components/Snackbar/Snackbar.action'
-import { push } from 'react-router-redux'
+import { push } from '../../setup/redux'
 // helpers
 import { getUnique } from './App.helper'
 import { getRequest, postRequest } from '../../helper/functions/request.helper'
-import { formatTime, sumTimes, getNow, getTimeZone } from '../../helper/functions/time.helper'
+import {
+  formatTime,
+  sumTimes,
+  getNow,
+  getTimeZone,
+} from '../../helper/functions/time.helper'
 import {
   formattedDate,
   getToday,
@@ -49,12 +54,7 @@ import {
   dispatchHandleSaveStartTime,
 } from './App.action'
 // views
-import {
-  wisView,
-  userIdView,
-  userNameView,
-  aboutModeView,
-} from './App.reducer'
+import { wisView, userIdView, userNameView, aboutModeView } from './App.reducer'
 import { selectedUserView } from '../components/Report/Main/Report.reducer'
 // const
 const { W } = window
@@ -143,10 +143,7 @@ const initialFetchEpic = action$ =>
     )
     .do(({ body }) => dispatchLoadLogsData(body))
     .do(() =>
-      dispatchAddPage(
-        formattedDate(previousDay(getNow())),
-        selectedUserView(),
-      ),
+      dispatchAddPage(formattedDate(previousDay(getNow())), selectedUserView()),
     )
     .do(() => dispatchAddPage(formattedDate(getNow()), selectedUserView()))
     .do(() => dispatchSetIsLoading(false))
@@ -281,17 +278,17 @@ const effectToggleIsPinned = action$ =>
     .do(({ body: { value } }) => value === true && W && W.analytics('PIN_LOG'))
     .ignoreElements()
 
-const changeTabEpic = (action$, { dispatch }) =>
+const changeTabEpic = (action$, dispatch) =>
   action$
     .ofType(CHANGE_TAB)
     .pluck('payload')
     .do(() => aboutModeView() === true && dispatchSetAboutMode(false))
-    .do(({ value }) => value === 'Home' && dispatch(push('/')))
-    .do(({ value }) => value !== 'Home' && dispatch(push(`/${value}`)))
+    .do(({ value }) => value === 'Home' && push('/'))
+    .do(({ value }) => value !== 'Home' && push(`/${value}`))
     .do(({ value }) => W && W.analytics('TAB_CLICK', { name: value }))
     .ignoreElements()
 
-const setAboutModeEpic = action$ =>
+const setAboutModeEpic = (action$, dispatch) =>
   action$.ofType(SET_ABOUT_MODE).map(() => push('/About'))
 
 export default combineEpics(

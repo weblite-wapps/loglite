@@ -1,10 +1,10 @@
 // modules
-import React from "react";
-import List from "@material-ui/core/List";
+import React from 'react'
+import List from '@material-ui/core/List'
 // helpers
-import { Buttons, Collapse } from "./Custom.helper.component";
+import { Buttons, Collapse } from './Custom.helper.component'
 // styles
-import "./Custom.scss";
+import './Custom.scss'
 
 export default props => (
   <div>
@@ -13,4 +13,4 @@ export default props => (
       <Collapse {...props} />
     </List>
   </div>
-);
+)

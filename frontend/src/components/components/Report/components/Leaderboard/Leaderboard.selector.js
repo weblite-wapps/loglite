@@ -1,8 +1,8 @@
 // modules
-import { createSelector } from "reselect"
-import * as R from "ramda"
+import { createSelector } from 'reselect'
+import * as R from 'ramda'
 // helpers
-import { getUsername } from "./Leaderboard.helper"
+import { getUsername } from './Leaderboard.helper'
 
 const getLeaderboard = state => state.Report.leaderboard
 

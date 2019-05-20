@@ -4,7 +4,7 @@ import * as R from 'ramda'
 import { getState } from '../../../../setup/redux'
 // helpers
 import { previousDay, nextDay } from './Report.helper'
-import { getNow } from "../../../../helper/functions/time.helper";
+import { getNow } from '../../../../helper/functions/time.helper'
 // actions
 import {
   CHANGE_EXPAND_MODE,

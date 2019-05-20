@@ -3,12 +3,20 @@ import { connect } from 'react-redux'
 // components
 import Leaderbord from './Leaderboard.presentational'
 // views
-import { startDateView, endDateView, isErrorView } from '../../Main/Report.reducer'
+import {
+  startDateView,
+  endDateView,
+  isErrorView,
+} from '../../Main/Report.reducer'
 // actions
-import { dispatchChangeStartDate, dispatchChangeEndDate, dispatchUpdateLeaderboard, dispatchHandleUpdateLeaderboard } from '../../Main/Report.action'
+import {
+  dispatchChangeStartDate,
+  dispatchChangeEndDate,
+  dispatchUpdateLeaderboard,
+  dispatchHandleUpdateLeaderboard,
+} from '../../Main/Report.action'
 // selectors
 import { getLeaderboardData } from './Leaderboard.selector'
-
 
 const mapStateToProps = state => ({
   startDate: startDateView(),
@@ -24,5 +32,7 @@ const mapDispatchToProps = () => ({
   handleUpdate: dispatchHandleUpdateLeaderboard,
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Leaderbord)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Leaderbord)

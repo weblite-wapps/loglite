@@ -1,4 +1,7 @@
-import { primary_color, secondary_color } from '../../../../../helper/style/_color'
+import {
+  primary_color,
+  secondary_color,
+} from '../../../../../helper/style/_color'
 
 export default {
   root: {

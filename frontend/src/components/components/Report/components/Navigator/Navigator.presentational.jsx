@@ -1,10 +1,10 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import React from 'react'
+import { withStyles } from '@material-ui/core/styles'
 // helpers
-import { Button, Text } from "./Navigator.helper.component";
+import { Button, Text } from './Navigator.helper.component'
 // styles
-import "./Navigator.scss";
-import styles from "./Navigator.style";
+import './Navigator.scss'
+import styles from './Navigator.style'
 
 const Navigator = props => (
   <div className="navigator-container">
@@ -12,6 +12,6 @@ const Navigator = props => (
     <Text {...props} />
     <Button {...props} direction="Next" />
   </div>
-);
+)
 
-export default withStyles(styles)(Navigator);
+export default withStyles(styles)(Navigator)

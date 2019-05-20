@@ -1,5 +1,7 @@
 /* Spinner 3Balls Scale */
-.sp-3balls, .sp-3balls:before, .sp-3balls:after {
+.sp-3balls,
+.sp-3balls:before,
+.sp-3balls:after {
   border-radius: 50%;
   background-color: #000;
   width: 18px;
@@ -18,7 +20,8 @@
   animation: spScaleAlpha 1s infinite linear;
 }
 
-.sp-3balls:before, .sp-3balls:after {
+.sp-3balls:before,
+.sp-3balls:after {
   content: '';
   position: relative;
   opacity: 0.25;
