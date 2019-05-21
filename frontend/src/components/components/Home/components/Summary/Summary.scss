@@ -1,12 +1,11 @@
 @import '../../../../../helper/style/mixin.scss';
 
-
 .summary-container {
   margin-bottom: 20px;
 }
 
 .summary-textSlider {
-  @include no-select; 
+  @include no-select;
   display: flex;
   justify-content: center;
   align-items: center;

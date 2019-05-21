@@ -6,11 +6,19 @@ import TodayWork from './TodayWork.presentational'
 import { isLoadingView } from '../../../../Main/App.reducer'
 import { secondsElapsedView, runningIdView } from '../../Main/Home.reducer'
 // actions
-import { dispatchCountinueCounting, dispatchSetSecondsElapsed, dispatchChangeRunningId } from '../../Main/Home.action'
-import { dispatchHandleSaveStartTime, dispatchHandleSaveEndTime, dispatchAddLogToNextDay, dispatchHandleToggleIsPinned } from '../../../../Main/App.action'
+import {
+  dispatchCountinueCounting,
+  dispatchSetSecondsElapsed,
+  dispatchChangeRunningId,
+} from '../../Main/Home.action'
+import {
+  dispatchHandleSaveStartTime,
+  dispatchHandleSaveEndTime,
+  dispatchAddLogToNextDay,
+  dispatchHandleToggleIsPinned,
+} from '../../../../Main/App.action'
 // selectors
 import { getWorksDuration } from '../../../../../helper/selectors/workDuration.selector'
-
 
 const mapStateToProps = (state, { log: { _id } }) => ({
   isLoading: isLoadingView(),
@@ -19,15 +27,18 @@ const mapStateToProps = (state, { log: { _id } }) => ({
   workDuration: getWorksDuration(state)[_id],
 })
 
-const mapDispatchToProps = (_, { log: { title, tags } }) => ({
+const mapDispatchToProps = (_, { log: { title, tags, isPinned } }) => ({
   setSecondsElapsed: dispatchSetSecondsElapsed,
   countinueCounting: dispatchCountinueCounting,
   onStartClick: dispatchHandleSaveStartTime,
   onStopClick: dispatchHandleSaveEndTime,
   onToggleIsPinned: dispatchHandleToggleIsPinned,
-  addLogToNextDay: (end, date) => dispatchAddLogToNextDay(title, tags, end, date),
+  addLogToNextDay: (end, date) =>
+    dispatchAddLogToNextDay(title, tags, isPinned, end, date),
   changeRunningId: dispatchChangeRunningId,
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(TodayWork)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TodayWork)

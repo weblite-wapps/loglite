@@ -11,7 +11,10 @@ import { differenceInSeconds } from 'date-fns'
 import Popover from '../../../../../../helper/components/Popover/Popover.presentational'
 // helpers
 import { TitleAndDuration, Tags } from './WorkList.helper.component'
-import { sumTimes, getNow } from '../../../../../../helper/functions/time.helper'
+import {
+  sumTimes,
+  getNow,
+} from '../../../../../../helper/functions/time.helper'
 // styles
 import './WorkList.scss'
 import styles from '../../../../../../helper/components/Button/Button.style'
@@ -22,7 +25,7 @@ class WorkList extends React.Component {
     this.handleOpenPopover = this._handleOpenPopover.bind(this)
   }
 
-  componentWillMount() { 
+  componentWillMount() {
     const {
       log: { _id, times },
       setSecondsElapsed,
@@ -32,8 +35,7 @@ class WorkList extends React.Component {
 
     if (len && times[len - 1].end === 'running') {
       setSecondsElapsed(
-        sumTimes(times) +
-          differenceInSeconds(getNow(), times[len - 1].start)
+        sumTimes(times) + differenceInSeconds(getNow(), times[len - 1].start),
       )
       countinueCounting(_id)
     }
@@ -90,7 +92,7 @@ class WorkList extends React.Component {
               />
               <MuiButton
                 variant="contained"
-                onClick={() => editClick(log, true)}
+                onClick={() => editClick(log)}
                 classes={{ raised: classes.WorkList }}
               >
                 Edit

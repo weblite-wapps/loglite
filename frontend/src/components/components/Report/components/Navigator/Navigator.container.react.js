@@ -5,8 +5,10 @@ import Navigator from './Navigator.presentational'
 // views
 import { currentPageView, expandModeView } from '../../Main/Report.reducer'
 // actions
-import { dispatchPreviousPage, dispatchNextPage } from '../../Main/Report.action'
-
+import {
+  dispatchPreviousPage,
+  dispatchNextPage,
+} from '../../Main/Report.action'
 
 const mapStateToProps = (_, { isActive }) => ({
   isActive,
@@ -19,5 +21,7 @@ const mapDispatchToProps = () => ({
   onNextClick: () => dispatchNextPage(),
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navigator)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Navigator)

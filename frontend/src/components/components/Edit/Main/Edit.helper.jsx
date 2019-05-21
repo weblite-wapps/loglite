@@ -48,7 +48,6 @@ AppBar.propTypes = {
 
 export const AppBarWithStyle = withStyles(style)(AppBar)
 
-
 export const Content = ({ title, onTitleChange, times, isError, ...other }) => (
   <div className="intervalList">
     <List>
@@ -75,7 +74,6 @@ Content.propTypes = {
 }
 
 export const ContentWithStyle = withStyles(style)(Content)
-
 
 class IntervalItem extends Component {
   constructor(props) {
@@ -124,28 +122,26 @@ class IntervalItem extends Component {
           classes={{ container: classes.textField }}
         />
         <div className="deletePanel">
-          {
-            end !== 'running' && (
-              <>
-                <IconButton
-                  ref={node => {
-                    this.iconButton = node
-                  }}
-                  onClick={() => this.handleOpenPopOver(_id)}
-                >
-                  <CancelIcon classes={{ root: classes.deletePanel }} />
-                </IconButton>
-                <Popover
-                  popoverIsOpen={popoverId === _id}
-                  anchorEl={anchorEl}
-                  anchorReference="anchorEl"
-                  onClose={this.handleOpenPopOver}
-                  onYep={() => removeInterval(_id)}
-                  onNop={this.handleOpenPopOver}
-                />
-              </>
-            )
-          }
+          {end !== 'running' && (
+            <>
+              <IconButton
+                ref={node => {
+                  this.iconButton = node
+                }}
+                onClick={() => this.handleOpenPopOver(_id)}
+              >
+                <CancelIcon classes={{ root: classes.deletePanel }} />
+              </IconButton>
+              <Popover
+                popoverIsOpen={popoverId === _id}
+                anchorEl={anchorEl}
+                anchorReference="anchorEl"
+                onClose={this.handleOpenPopOver}
+                onYep={() => removeInterval(_id)}
+                onNop={this.handleOpenPopOver}
+              />
+            </>
+          )}
         </div>
       </ListItem>
     )

@@ -26,15 +26,18 @@ const secondsElapsedLens = R.lensProp('secondsElapsed')
 const runningIdLens = R.lensProp('runningId')
 // views
 export const textSliderView = () => R.path(['Home', 'textSlider'])(getState())
-export const secondsElapsedView = () => R.path(['Home', 'secondsElapsed'])(getState())
+export const secondsElapsedView = () =>
+  R.path(['Home', 'secondsElapsed'])(getState())
 export const runningIdView = () => R.path(['Home', 'runningId'])(getState())
 
 // reducers
 const reducers = {
-  [CHANGE_TEXT_SLIDER]: (state, { value }) => ({ ...state,
+  [CHANGE_TEXT_SLIDER]: (state, { value }) => ({
+    ...state,
     textSlider: {
       name: NextName(state.textSlider.name, value),
-      duration: state.homeTotalDuration[NextDuration(state.textSlider.name, value)],
+      duration:
+        state.homeTotalDuration[NextDuration(state.textSlider.name, value)],
     },
   }),
 
@@ -44,14 +47,14 @@ const reducers = {
     textSlider: R.set(durationLens, totalDurations.today, state.textSlider),
   }),
 
-  [SET_SECONDS_ELAPSED]: (state, { value }) => R.set(secondsElapsedLens, value, state),
+  [SET_SECONDS_ELAPSED]: (state, { value }) =>
+    R.set(secondsElapsedLens, value, state),
 
   [INCREMENT_SECONDS_ELAPSED]: state =>
     R.set(secondsElapsedLens, R.inc(state.secondsElapsed), state),
 
   [CHANGE_RUNNING_ID]: (state, { _id }) => R.set(runningIdLens, _id, state),
 }
-
 
 export default (state = initialState, { type, payload }) =>
   reducers[type] ? reducers[type](state, payload) : state

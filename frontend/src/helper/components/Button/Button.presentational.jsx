@@ -6,14 +6,16 @@ import Button from '@material-ui/core/Button'
 // css
 import styles from './Button.style'
 
-
-const CustomizedButton = (props) => {
+const CustomizedButton = props => {
   const { componentName, label, variant, classes, ...otherProps } = props
   return (
     <Button
-      {...otherProps} 
+      {...otherProps}
       variant={variant}
-      classes={{ root: classes[componentName], contained: classes[`${componentName}Raised`] }}
+      classes={{
+        root: classes[componentName],
+        contained: classes[`${componentName}Raised`],
+      }}
     >
       {props.children}
       {label}
@@ -21,12 +23,8 @@ const CustomizedButton = (props) => {
   )
 }
 
-
 CustomizedButton.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.array,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
   classes: PropTypes.shape({}).isRequired,
   componentName: PropTypes.string,
   label: PropTypes.string,

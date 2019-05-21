@@ -1,12 +1,12 @@
 // modules
-import React from "react";
+import React from 'react'
 // components
-import Custom from "../components/Custom/Custom.container.react";
+import Custom from '../components/Custom/Custom.container.react'
 // helpers
-import { TagPanel } from "../../../../helper/functions/common.helper.component";
-import { TextField } from "./Add.helper.component";
+import { TagPanel } from '../../../../helper/functions/common.helper.component'
+import { TextField } from './Add.helper.component'
 // styles
-import "./Add.scss";
+import './Add.scss'
 
 export default props => (
   <div className="add-container">
@@ -14,4 +14,4 @@ export default props => (
     <TagPanel {...props} />
     <Custom {...props} />
   </div>
-);
+)

@@ -15,30 +15,45 @@ const getTotalDuration = createSelector(
   [getLogs, getCurrentPage, getSelectedUser, getTabIndex],
   (logs, currentPage) =>
     formattedSeconds(
-      R.compose(sumLogs, R.filter(log => log.date === formattedDate(currentPage)))(logs)),
+      R.compose(
+        sumLogs,
+        R.filter(log => log.date === formattedDate(currentPage)),
+      )(logs),
+    ),
 )
 
 const getStaffTotalDuration = createSelector(
   [getStaffLogs, getCurrentPage, getSelectedUser, getTabIndex],
   (logs, currentPage) =>
     formattedSeconds(
-      R.compose(sumLogs, R.filter(log => log.date === formattedDate(currentPage)))(logs)),
+      R.compose(
+        sumLogs,
+        R.filter(log => log.date === formattedDate(currentPage)),
+      )(logs),
+    ),
 )
 
 const getPieChartData = createSelector(
   [getLogs, getCurrentPage],
-  (logs, currentPage) => R.compose(
-    R.map(log => ({ name: log.title, value: sumTimes(log.times) })),
-    R.filter(log => log.date === formattedDate(currentPage)),
-  )(logs),
+  (logs, currentPage) =>
+    R.compose(
+      R.map(log => ({ name: log.title, value: sumTimes(log.times) })),
+      R.filter(log => log.date === formattedDate(currentPage)),
+    )(logs),
 )
 
 const getStaffPieChartData = createSelector(
   [getStaffLogs, getCurrentPage],
-  (logs, currentPage) => R.compose(
-    R.map(log => ({ name: log.title, value: sumTimes(log.times) })),
-    R.filter(log => log.date === formattedDate(currentPage)),
-  )(logs),
+  (logs, currentPage) =>
+    R.compose(
+      R.map(log => ({ name: log.title, value: sumTimes(log.times) })),
+      R.filter(log => log.date === formattedDate(currentPage)),
+    )(logs),
 )
 
-export { getTotalDuration, getStaffTotalDuration, getPieChartData, getStaffPieChartData }
+export {
+  getTotalDuration,
+  getStaffTotalDuration,
+  getPieChartData,
+  getStaffPieChartData,
+}

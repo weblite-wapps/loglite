@@ -10,17 +10,25 @@ import {
   differenceInSeconds,
 } from 'date-fns'
 
+export const getTimeZone = time =>
+  new Date(
+    moment(time)
+      .tz('Asia/Tehran')
+      .format(),
+  )
 
-export const getTimeZone = time => new Date(moment(time).tz('Asia/Tehran').format())
+export const getNow = () =>
+  new Date(
+    moment()
+      .tz('Asia/Tehran')
+      .format(),
+  )
 
-export const getNow = () => new Date(moment().tz('Asia/Tehran').format())
+export const getParsedNow = () => moment().tz('Asia/Tehran').format()
 
 export const formatTime = time =>
   setHours(
-    setMinutes(
-      setSeconds(getNow(), R.slice(6, 8, time)),
-      R.slice(3, 5, time),
-    ),
+    setMinutes(setSeconds(getNow(), R.slice(6, 8, time)), R.slice(3, 5, time)),
     R.slice(0, 2, time),
   )
 
@@ -51,7 +59,7 @@ export const formattedMinutes = minutes => {
   return minutes % 60 === 0
     ? `${Math.floor(minutes / 60)}h`
     : `${Math.floor(minutes / 60)}h${minutes % 60}m`
-} 
+}
 
 export const getCurrentTime = time =>
   `${getHours(time) > 9 ? getHours(time) : '0' + getHours(time)}:${

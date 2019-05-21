@@ -137,11 +137,11 @@ const effectHandleAddCustomLog = action$ =>
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ title, tags, start, end, date }) => 
+    .mergeMap(({ title, tags, start, end, date }) =>
       Promise.all([
         postRequest('/saveCustomLog')
           .send({
-            title, 
+            title,
             tags,
             times: [{ start: formatTime(start), end: formatTime(end) }],
             date,

@@ -1,6 +1,10 @@
-import { primary_color, secondary_color, accent_color } from '../../style/_color'
+import {
+  primary_color,
+  secondary_color,
+  accent_color,
+} from '../../style/_color'
 
-export default ({
+export default {
   CustomAdd: {
     backgroundColor: secondary_color,
     color: 'white',
@@ -61,4 +65,4 @@ export default ({
   ReportRaised: {
     color: 'white',
   },
-})
+}

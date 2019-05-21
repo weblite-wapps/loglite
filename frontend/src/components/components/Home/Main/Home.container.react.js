@@ -7,9 +7,11 @@ import { logsView } from '../../../Main/App.reducer'
 // actions
 import { dispatchHandleAddLog } from '../../Add/Main/Add.action'
 
-
 const mapStateToProps = () => ({ logs: logsView() })
 
 const mapDispatchToProps = () => ({ onAdd: dispatchHandleAddLog })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Home)

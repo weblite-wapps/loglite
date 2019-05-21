@@ -29,12 +29,9 @@ import {
   dispatchSetSecondsElapsed,
 } from './Home.action'
 // views
-import {
-  wisView,
-  userIdView,
-  logsView,
-} from '../../../Main/App.reducer'
+import { wisView, userIdView, logsView } from '../../../Main/App.reducer'
 import { runningIdView } from '../../Home/Main/Home.reducer'
+import { getParsedNow } from '../../../../helper/functions/time.helper';
 
 const refetchTotalDurationEpic = action$ =>
   action$
@@ -46,6 +43,7 @@ const refetchTotalDurationEpic = action$ =>
           wis: wisView(),
           userId: userIdView(),
           today: getToday(),
+          now: getParsedNow(),
         })
         .on(
           'error',
@@ -78,9 +76,7 @@ const effectSetSecondsElapsed = action$ =>
     .ofType(CHECK_TO_SET_SECONDS_ELAPSED)
     .filter(runningIdView)
     .do(() =>
-      dispatchSetSecondsElapsed(
-        getSecondsElapsed(logsView(), runningIdView()),
-      ),
+      dispatchSetSecondsElapsed(getSecondsElapsed(logsView(), runningIdView())),
     )
     .ignoreElements()
 

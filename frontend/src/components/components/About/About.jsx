@@ -1,8 +1,8 @@
 // modules
-import React from "react";
-import Typography from "@material-ui/core/Typography";
+import React from 'react'
+import Typography from '@material-ui/core/Typography'
 // styles
-import "./About.scss";
+import './About.scss'
 
 export default () => (
   <div className="about-container">
@@ -14,4 +14,4 @@ export default () => (
       All right reserved
     </Typography>
   </div>
-);
+)

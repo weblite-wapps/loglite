@@ -45,7 +45,7 @@ export const changeEditPopOverId = createAction(CHANGE_EDIT_POPOVER_ID)
 export const dispatchChangeEditPopOverId = (...args) =>
   dispatch(changeEditPopOverId(...args))
 
-export const CHANGE_EDIT_ANCHOR_EL = 'CHANGE_EDIT_ANCHOR_EL' 
+export const CHANGE_EDIT_ANCHOR_EL = 'CHANGE_EDIT_ANCHOR_EL'
 export const changeEditAnchorEl = createAction(CHANGE_EDIT_ANCHOR_EL)
 export const dispatchChangeEditAnchorEl = (...args) =>
   dispatch(changeEditAnchorEl(...args))

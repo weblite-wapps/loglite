@@ -1,12 +1,12 @@
 // modules
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 // helpers
-import { SliderText, DurationPanel } from "./Summary.helper.component";
+import { SliderText, DurationPanel } from './Summary.helper.component'
 // styles
-import "./Summary.scss";
-import styles from "./Summary.style";
+import './Summary.scss'
+import styles from './Summary.style'
 
 const Summary = props => (
   <div className="summary-container">
@@ -14,10 +14,10 @@ const Summary = props => (
     <SliderText text={props.duration} variant="h3" />
     <DurationPanel {...props} />
   </div>
-);
+)
 
 Summary.propTypes = {
-  duration: PropTypes.string.isRequired
-};
+  duration: PropTypes.string.isRequired,
+}
 
-export default withStyles(styles)(Summary);
+export default withStyles(styles)(Summary)

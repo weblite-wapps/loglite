@@ -3,10 +3,19 @@ import { connect } from 'react-redux'
 // components
 import ShowChart from './ShowChart.presentational'
 // views
-import { startDateView, endDateView, barChartDataView, isErrorView } from '../../Main/Report.reducer'
+import {
+  startDateView,
+  endDateView,
+  barChartDataView,
+  isErrorView,
+} from '../../Main/Report.reducer'
 // actions
-import { dispatchUpdateChart, dispatchChangeStartDate, dispatchChangeEndDate, dispatchHandleUpdateChart } from '../../Main/Report.action'
-
+import {
+  dispatchUpdateChart,
+  dispatchChangeStartDate,
+  dispatchChangeEndDate,
+  dispatchHandleUpdateChart,
+} from '../../Main/Report.action'
 
 const mapStateToProps = () => ({
   startDate: startDateView(),
@@ -22,5 +31,7 @@ const mapDispatchToProps = () => ({
   handleUpdate: dispatchHandleUpdateChart,
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShowChart)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ShowChart)

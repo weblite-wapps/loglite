@@ -35,7 +35,8 @@ export const titleView = () => R.path(['Edit', 'title'])(getState())
 export const isErrorView = () => R.path(['Edit', 'isError'])(getState())
 export const anchorElView = () => R.path(['Edit', 'anchorEl'])(getState())
 export const popoverIdView = () => R.path(['Edit', 'popoverId'])(getState())
-export const isOpenDialogView = () => R.path(['Edit', 'isOpenDialog'])(getState())
+export const isOpenDialogView = () =>
+  R.path(['Edit', 'isOpenDialog'])(getState())
 
 // reducers
 const reducers = {

@@ -2,7 +2,7 @@
 import * as R from 'ramda'
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
-import { push } from 'react-router-redux'
+import { push } from '../../../../setup/redux'
 //actions
 import {
   SUBMIT_EDIT,
@@ -23,7 +23,7 @@ import {
 const { W } = window
 
 // epics
-const submitEditEpic = (action$, { dispatch }) =>
+const submitEditEpic = action$ =>
   action$
     .ofType(SUBMIT_EDIT)
     .pluck('payload')
@@ -68,18 +68,20 @@ const submitEditEpic = (action$, { dispatch }) =>
         .then(() => {
           dispatchChangeIsOpenDialog(false)
           dispatchChangeSnackbarStage('Updated Succesfully!')
-          dispatch(push('/Report'))
+          push('/Report')
           dispatchChangeTitleIsError(false)
           dispatchRefetchTotalDuration()
           W && W.analytics('EDIT_LOG')
         })
     })
     .ignoreElements()
- 
+
 const closeEditEpic = action$ =>
-  action$.ofType(CLOSE_EDIT)
+  action$
+    .ofType(CLOSE_EDIT)
     .do(() => dispatchChangeIsOpenDialog(false))
     .delay(200)
     .map(() => push('/Report'))
+    .ignoreElements()
 
 export default combineEpics(submitEditEpic, closeEditEpic)
