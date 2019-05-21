@@ -15,7 +15,7 @@ export const TitleAndDuration = ({
   len,
   secondsElapsed,
 }) => (
-  <div className="workList-text">
+  <div dir="auto" className="workList-text">
     <div>
       <Typography variant="subtitle1">{title}</Typography>
     </div>
@@ -37,7 +37,7 @@ TitleAndDuration.propTypes = {
 }
 
 export const Tags = ({ log: { tags } }) => (
-  <div className="workList-tags">
+  <div dir="auto" className="workList-tags">
     {tags.map((tag, index) => (
       <TagShape key={index} tag={tag} />
     ))}

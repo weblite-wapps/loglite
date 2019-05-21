@@ -31,7 +31,7 @@ PinButton.propTypes = {
 };
 
 export const BriefInfo = ({ runningId, log: { _id, title }, workDuration }) => (
-  <Typography variant="body1">
+  <Typography variant="body1" dir="auto">
     {formattedName(title) === title ? (
       <span className="todayWork-title">{formattedName(title)}</span>
     ) : (
