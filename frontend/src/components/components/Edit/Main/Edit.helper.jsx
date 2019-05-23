@@ -20,6 +20,7 @@ import Done from '@material-ui/icons/Done'
 import Popover from '../../../../helper/components/Popover/Popover.presentational'
 // helpers
 import Picker from '../../../../helper/components/Picker/Picker.presentational'
+import TextField from '../../../../helper/components/TextField/TextField.presentational'
 // classes
 import './Edit.scss'
 import { default as style } from './Edit.style'
@@ -50,15 +51,15 @@ export const AppBarWithStyle = withStyles(style)(AppBar)
 
 export const Content = ({ title, onTitleChange, times, isError, ...other }) => (
   <div className="intervalList">
-    <List>
-      <Picker
+    <div className="title-panel">
+      <TextField
+        label="Title"
         value={title}
         onChange={onTitleChange}
-        placeholder="Title goes here ..."
-        type="text"
-        label="Title"
         isError={isError && isError.title}
       />
+    </div>
+    <List>
       {times.map((time, index) => (
         <IntervalItem {...other} index={index} time={time} key={time._id} />
       ))}

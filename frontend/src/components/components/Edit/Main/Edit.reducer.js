@@ -3,7 +3,10 @@ import * as R from 'ramda'
 // local modules
 import { getState } from '../../../../setup/redux'
 // helpers
-import { getCurrentTime } from '../../../../helper/functions/time.helper'
+import {
+  getCurrentTime,
+  getTimeZone,
+} from '../../../../helper/functions/time.helper'
 // actions
 import {
   INSERT_LOG,
@@ -46,6 +49,7 @@ const reducers = {
     times: R.map(
       ({ _id, start, end }) => ({
         _id,
+        date: R.prop('date', log),
         start: getCurrentTime(start),
         end: end === 'running' ? end : getCurrentTime(end),
       }),

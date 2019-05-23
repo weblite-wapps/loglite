@@ -51,35 +51,40 @@ export const checkBeforeAddLog = ({ title, quickMode = false }) => {
   return getObject('title', 'Enter title first!', false)
 }
 
-export const checkBeforeAddCustomLog = ({ title, date, start, end }) => {
+export const checkBeforeEditLog = times => {
   const logs = logsView()
   const now = getNow()
-  if (title && date && start && end) {
-    if (isAfter(getTimeZone(date), now)) {
-      return getObject('date', 'Are you predictor?!', false)
-    } else if (date === formattedDate(now) && isAfter(formatTime(start), now)) {
-      return getObject('startTime', 'Are you predictor?!', false)
-    } else if (date === formattedDate(now) && isAfter(formatTime(end), now)) {
-      return getObject('endTime', 'Are you predictor?!', false)
-    } else if (isAfter(formatTime(end), formatTime(start))) {
-      if (
-        areTimesOverlapping(
-          R.filter(eachLog => eachLog.date === date, logs),
-          formatTime(start),
-          formatTime(end),
-        )
+  times.map(({ title, date, start, end }) => {
+    if (title && date && start && end) {
+      if (isAfter(getTimeZone(date), now)) {
+        return getObject('date', 'Are you predictor?!', false)
+      } else if (
+        date === formattedDate(now) &&
+        isAfter(formatTime(start), now)
       ) {
-        return getObject('endTime', 'Time is overlapping!', false)
+        return getObject('startTime', 'Are you predictor?!', false)
+      } else if (date === formattedDate(now) && isAfter(formatTime(end), now)) {
+        return getObject('endTime', 'Are you predictor?!', false)
+      } else if (isAfter(formatTime(end), formatTime(start))) {
+        if (
+          areTimesOverlapping(
+            R.filter(eachLog => eachLog.date === date, logs),
+            formatTime(start),
+            formatTime(end),
+          )
+        ) {
+          return getObject('endTime', 'Time is overlapping!', false)
+        }
       }
-      return getObject('', 'Added successfully!', true)
+      return getObject('startTime', 'StartTime is after EndTime!', false)
+    } else if (!title) {
+      return getObject('title', 'Please enter title!', false)
+    } else if (!date) {
+      return getObject('date', 'Please enter date!', false)
+    } else if (!start) {
+      return getObject('startTime', 'Please enter start time!', false)
     }
-    return getObject('startTime', 'StartTime is after EndTime!', false)
-  } else if (!title) {
-    return getObject('title', 'Please enter title!', false)
-  } else if (!date) {
-    return getObject('date', 'Please enter date!', false)
-  } else if (!start) {
-    return getObject('startTime', 'Please enter start time!', false)
-  }
-  return getObject('endTime', 'Please enter end time!', false)
+    return getObject('endTime', 'Please enter end time!', false)
+  })
+  return getObject('', 'Added successfully!', true)
 }

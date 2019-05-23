@@ -10,15 +10,20 @@ import {
   dispatchChangeTitleIsError,
   dispatchChangeIsOpenDialog,
 } from './Edit.action'
-import { dispatchSetEditedLog } from '../../../Main/App.action'
+import {
+  dispatchSetEditedLog,
+  dispatchSetIsLoading,
+} from '../../../Main/App.action'
 import { dispatchRefetchTotalDuration } from '../../Home/Main/Home.action'
 import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 //helper
+import { checkBeforeAddCustomLog } from '../../Add/Main/Add.helper'
 import { postRequest } from '../../../../helper/functions/request.helper'
 import {
   formatTime,
   checkEditTimesOrder,
 } from '../../../../helper/functions/time.helper'
+import { checkBeforeEditLog } from './Edit.helper'
 // const
 const { W } = window
 
@@ -40,10 +45,14 @@ const submitEditEpic = action$ =>
       ({ times }) =>
         checkEditTimesOrder(times) ||
         (() => {
-          dispatchChangeSnackbarStage('Your intervals have overlap')
+          dispatchChangeSnackbarStage(
+            'Your intervals have overlap in Edit Panel',
+          )
           return false
         })(),
     )
+    .do(({ times }) => console.log(checkBeforeEditLog(times)))
+    .do(() => dispatchSetIsLoading(true))
     .map(({ log, times, title }) => ({
       ...log,
       times: R.map(
@@ -66,6 +75,7 @@ const submitEditEpic = action$ =>
         })
         .then(() => dispatchSetEditedLog(log))
         .then(() => {
+          dispatchSetIsLoading(false)
           dispatchChangeIsOpenDialog(false)
           dispatchChangeSnackbarStage('Updated Succesfully!')
           push('/Report')
