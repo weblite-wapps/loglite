@@ -51,40 +51,49 @@ export const checkBeforeAddLog = ({ title, quickMode = false }) => {
   return getObject('title', 'Enter title first!', false)
 }
 
-export const checkBeforeEditLog = times => {
-  const logs = logsView()
+export const checkBeforeEditLog = ({ times, log: { logId } }) => {
+  const logs = R.filter(({ _id }) => _id !== logId, logsView())
   const now = getNow()
-  times.map(({ title, date, start, end }) => {
-    if (title && date && start && end) {
-      if (isAfter(getTimeZone(date), now)) {
-        return getObject('date', 'Are you predictor?!', false)
-      } else if (
-        date === formattedDate(now) &&
-        isAfter(formatTime(start), now)
-      ) {
-        return getObject('startTime', 'Are you predictor?!', false)
-      } else if (date === formattedDate(now) && isAfter(formatTime(end), now)) {
-        return getObject('endTime', 'Are you predictor?!', false)
-      } else if (isAfter(formatTime(end), formatTime(start))) {
-        if (
-          areTimesOverlapping(
-            R.filter(eachLog => eachLog.date === date, logs),
-            formatTime(start),
-            formatTime(end),
-          )
+  return R.reduce(
+    (acc, { date, start, end }) => {
+      if (date && start && end) {
+        if (isAfter(getTimeZone(date), now)) {
+          return getObject('date', 'Are you predictor?!', false)
+        } else if (
+          date === formattedDate(now) &&
+          isAfter(formatTime(start), now)
         ) {
-          return getObject('endTime', 'Time is overlapping!', false)
+          return getObject('startTime', 'Are you predictor?!', false)
+        } else if (
+          date === formattedDate(now) &&
+          isAfter(formatTime(end), now)
+        ) {
+          return getObject('endTime', 'Are you predictor?!', false)
+        } else if (isAfter(formatTime(end), formatTime(start))) {
+          if (
+            areTimesOverlapping(
+              R.filter(eachLog => eachLog.date === date, logs),
+              formatTime(start),
+              formatTime(end),
+            )
+          ) {
+            return getObject(
+              'endTime',
+              'Time is overlapping with other logs!',
+              false,
+            )
+          }
         }
+      } else if (!date) {
+        return getObject('date', 'Please enter date!', false)
+      } else if (!start) {
+        return getObject('startTime', 'Please enter start time!', false)
+      } else {
+        return getObject('endTime', 'Please enter end time!', false)
       }
-      return getObject('startTime', 'StartTime is after EndTime!', false)
-    } else if (!title) {
-      return getObject('title', 'Please enter title!', false)
-    } else if (!date) {
-      return getObject('date', 'Please enter date!', false)
-    } else if (!start) {
-      return getObject('startTime', 'Please enter start time!', false)
-    }
-    return getObject('endTime', 'Please enter end time!', false)
-  })
-  return getObject('', 'Added successfully!', true)
+      return acc
+    },
+    getObject('', 'Added successfully!', true),
+    times,
+  )
 }

@@ -27,14 +27,14 @@ import { default as style } from './Edit.style'
 
 export const Transition = props => <Slide direction="up" {...props} />
 
-const AppBar = ({ close, submit, classes }) => (
+const AppBar = ({ close, submit, classes, isLoading }) => (
   <MuiAppBar style={{ position: 'fixed' }}>
     <Toolbar>
-      <IconButton className="icon" onClick={close}>
+      <IconButton disabled={isLoading} className="icon" onClick={close}>
         <CloseButton classes={{ root: classes.svgIcon }} />
       </IconButton>
       <strong>Edit Log</strong>
-      <IconButton className="icon" onClick={submit}>
+      <IconButton disabled={isLoading} className="icon" onClick={submit}>
         <Done classes={{ root: classes.svgIcon }} />
       </IconButton>
     </Toolbar>
@@ -45,6 +45,7 @@ AppBar.propTypes = {
   submit: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
+  isLoading: PropTypes.bool.isRequired,
 }
 
 export const AppBarWithStyle = withStyles(style)(AppBar)

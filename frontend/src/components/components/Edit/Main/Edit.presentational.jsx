@@ -4,7 +4,7 @@ import {
   Transition,
   ContentWithStyle as Content,
   AppBarWithStyle as AppBar,
-} from './Edit.helper'
+} from './Edit.helper.jsx'
 
 const Edit = props => (
   <Dialog

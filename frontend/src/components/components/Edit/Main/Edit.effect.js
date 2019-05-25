@@ -17,7 +17,6 @@ import {
 import { dispatchRefetchTotalDuration } from '../../Home/Main/Home.action'
 import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 //helper
-import { checkBeforeAddCustomLog } from '../../Add/Main/Add.helper'
 import { postRequest } from '../../../../helper/functions/request.helper'
 import {
   formatTime,
@@ -46,12 +45,23 @@ const submitEditEpic = action$ =>
         checkEditTimesOrder(times) ||
         (() => {
           dispatchChangeSnackbarStage(
-            'Your intervals have overlap in Edit Panel',
+            'Your Edited intervals have overlap together',
           )
           return false
         })(),
     )
-    .do(({ times }) => console.log(checkBeforeEditLog(times)))
+
+    .map(payload => ({
+      ...payload,
+      ...checkBeforeEditLog(payload),
+    }))
+    .do(
+      ({ message, permission }) =>
+        !permission && dispatchChangeSnackbarStage(message),
+    )
+    // TODO ISERROR MUST BE IMPLEMENTED
+    // .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
+    .filter(({ permission }) => permission)
     .do(() => dispatchSetIsLoading(true))
     .map(({ log, times, title }) => ({
       ...log,

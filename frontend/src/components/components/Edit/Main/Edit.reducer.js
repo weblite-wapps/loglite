@@ -3,10 +3,7 @@ import * as R from 'ramda'
 // local modules
 import { getState } from '../../../../setup/redux'
 // helpers
-import {
-  getCurrentTime,
-  getTimeZone,
-} from '../../../../helper/functions/time.helper'
+import { getCurrentTime } from '../../../../helper/functions/time.helper'
 // actions
 import {
   INSERT_LOG,

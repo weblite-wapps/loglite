@@ -23,15 +23,16 @@ import {
   popoverIdView,
   isOpenDialogView,
 } from './Edit.reducer'
-
+import { isLoadingView } from '../../../Main/App.reducer'
 const mapStateToProps = () => ({
   log: logView(),
   times: timesView(),
   title: titleView(),
   isError: isErrorView(),
   anchorEl: anchorElView(),
-  popoverId: popoverIdView(),
   isOpen: isOpenDialogView(),
+  popoverId: popoverIdView(),
+  isLoading: isLoadingView(),
 })
 
 const mapDispatchToProps = () => ({
