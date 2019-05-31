@@ -24,7 +24,6 @@ const Add = lazy(() =>
 const Report = lazy(() =>
   import('../components/components/Report/Main/Report.container.react'),
 )
-
 const Edit = lazy(() =>
   import('../components/components/Edit/Main/Edit.container.react'),
 )

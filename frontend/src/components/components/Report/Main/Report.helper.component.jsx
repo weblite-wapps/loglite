@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Collapse from '@material-ui/core/Collapse'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
+import Tooltip from '@material-ui/core/Tooltip' 
 // icons
 import FlagIcon from '@material-ui/icons/Flag'
 import ListAltIcon from '@material-ui/icons/ListAlt'
@@ -24,20 +25,29 @@ import {
 } from '../../../../helper/selectors/workDuration.selector'
 // helpers
 import { formattedDate } from '../../../../helper/functions/date.helper'
+import { tooltipTitles } from './Report.helper'
 // styles
 import './Report.scss'
 
 const IconButton = ({ expandMode, changeExpandMode, mode }) => (
-  <Button
-    variant={expandMode === mode ? 'contained' : 'outlined'}
-    onClick={() => changeExpandMode(mode)}
-    componentName="Report"
+  <Tooltip
+    title={tooltipTitles[mode]}
+    placement="bottom"
+    enterDelay={150}
+    leaveDelay={150}
   >
-    {mode === 'workList' && <ListAltIcon />}
-    {mode === 'export' && <ImportExportIcon />}
-    {mode === 'showChart' && <InsertChartOutlinedIcon />}
-    {mode === 'leaderboard' && <FlagIcon />}
-  </Button>
+    <Button
+      variant={expandMode === mode ? 'contained' : 'outlined'}
+      onClick={() => changeExpandMode(mode)}
+      componentName="Report"
+    >
+      {mode === 'workList' && <ListAltIcon />}
+      {mode === 'export' && <ImportExportIcon />}
+      {mode === 'showChart' && <InsertChartOutlinedIcon />}
+      {mode === 'leaderboard' && <FlagIcon />}
+    </Button>
+  </Tooltip>
+
 )
 
 IconButton.propTypes = {

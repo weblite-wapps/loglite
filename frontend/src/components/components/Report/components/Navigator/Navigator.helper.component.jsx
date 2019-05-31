@@ -3,6 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import MuiButton from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import Tooltip from '@material-ui/core/Tooltip' 
 // icons
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
@@ -20,18 +21,27 @@ export const Button = ({
   onNextClick,
   direction,
 }) => (
-  <MuiButton
-    disabled={
-      direction === 'Back'
-        ? !isActive
-        : !isActive || formattedDate(currentPage) === formattedDate(getNow())
-    }
-    onClick={direction === 'Back' ? onPreviousClick : onNextClick}
-    classes={{ root: classes.root, disabled: classes.disabled }}
+  <Tooltip
+    title={direction === 'Back' ? 'previous day' : 'next day'}
+    placement="bottom"
+    enterDelay={150}
+    leaveDelay={150}
   >
-    {direction === 'Back' && <KeyboardArrowLeft />}
-    {direction === 'Next' && <KeyboardArrowRight />}
-  </MuiButton>
+    <div>
+      <MuiButton
+        disabled={
+          direction === 'Back'
+            ? !isActive
+            : !isActive || formattedDate(currentPage) === formattedDate(getNow())
+        }
+        onClick={direction === 'Back' ? onPreviousClick : onNextClick}
+        classes={{ root: classes.root, disabled: classes.disabled }}
+      >
+        {direction === 'Back' && <KeyboardArrowLeft />}
+        {direction === 'Next' && <KeyboardArrowRight />}
+      </MuiButton>
+    </div>
+  </Tooltip>
 )
 
 Button.propTypes = {

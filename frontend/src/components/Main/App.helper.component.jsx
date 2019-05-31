@@ -4,21 +4,29 @@ import PropTypes from 'prop-types'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import MuiTabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import Tooltip from '@material-ui/core/Tooltip'
 // styles
 import './App.scss'
 
 export const Logo = ({ isLoading, setAboutMode }) => (
-  <div
-    className="logoContainer"
-    onClick={() => setAboutMode(true)}
-    role="button"
-    tabIndex="0"
+  <Tooltip
+    title="About"
+    placement="bottom"
+    enterDelay={150}
+    leaveDelay={150}
   >
-    <div className={isLoading ? 'loading' : 'normal'}>
-      <CircularProgress size={40} color="primary" className="progress" />
-      <img alt="loglite logo" src="logo.jpg" className="logo" />
+    <div
+      className="logoContainer"
+      onClick={() => setAboutMode(true)}
+      role="button"
+      tabIndex="0"
+    >
+      <div className={isLoading ? 'loading' : 'normal'}>
+        <CircularProgress size={40} color="primary" className="progress" />
+        <img alt="Loglite logo" src="logo.jpg" className="logo" />
+      </div>
     </div>
-  </div>
+  </Tooltip>
 )
 
 Logo.propTypes = {

@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import MuiCollapse from '@material-ui/core/Collapse'
 import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
 import Divider from '@material-ui/core/Divider'
+import Tooltip from '@material-ui/core/Tooltip'
 // icons
 import Play from '@material-ui/icons/PlayArrow'
 import Pause from '@material-ui/icons/Pause'
@@ -27,11 +27,18 @@ export const PinButton = ({
     disabled={isLoading}
     onClick={() => onToggleIsPinned(_id, title, tags, !isPinned)}
   >
-    {isPinned ? (
-      <Lock className="todayWork-icon" />
-    ) : (
-      <LockOpen className="todayWork-icon" />
-    )}
+    <Tooltip
+      title={isPinned ? 'UnPin' : 'Pin'}
+      placement="bottom"
+      enterDelay={150}
+      leaveDelay={150}
+    >
+      {isPinned ? (
+        <Lock className="todayWork-icon" />
+      ) : (
+        <LockOpen className="todayWork-icon" />
+      )}
+    </Tooltip>
   </IconButton>
 )
 
