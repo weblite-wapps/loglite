@@ -3,6 +3,7 @@ import {
   combineEpics
 } from 'redux-observable'
 import 'rxjs'
+import * as R from 'ramda'
 // import moment from 'moment-timezone'
 import {
   dispatchChangeSnackbarStage
@@ -12,7 +13,8 @@ import {
 } from '../../setup/redux'
 // helpers
 import {
-  getUnique
+  getUnique,
+  mapToUsername,
 } from './App.helper'
 import {
   getRequest,
@@ -50,14 +52,12 @@ import {
   HANDLE_SAVE_START_TIME,
   HANDLE_SAVE_END_TIME,
   HANDLE_TOGGLE_IS_PINNED,
-  FETCH_ADMIN_DATA,
   CHANGE_TAB,
   SET_ABOUT_MODE,
   dispatchAddLog,
   dispatchDeleteLog,
   dispatchLoadLogsData,
   dispatchLoadUsersData,
-  dispatchFetchAdminData,
   dispatchSetIsLoading,
   dispatchSetAboutMode,
   dispatchChangePopoverId,
@@ -76,30 +76,7 @@ import {
 import {
   selectedUserView
 } from '../components/Report/Main/Report.reducer'
-// const
-const {
-  W
-} = window
 
-const fetchUsersEpic = action$ =>
-  action$
-  .ofType(FETCH_ADMIN_DATA)
-  .mergeMap(() =>
-    getRequest('/fetchUsers')
-    .query({
-      wis: wisView()
-    })
-    .on(
-      'error',
-      err =>
-      err.status !== 304 &&
-      dispatchChangeSnackbarStage('Server disconnected!'),
-    ),
-  )
-  .do(({
-    body
-  }) => dispatchLoadUsersData(body))
-  .ignoreElements()
 
 const saveUsersEpic = action$ =>
   action$
@@ -121,14 +98,32 @@ const saveUsersEpic = action$ =>
   .do(({
     body
   }) => body && dispatchLoadUsersData([body]))
-  .do(() => dispatchFetchAdminData())
+  .mergeMap(() =>
+    getRequest('/fetchUsers')
+    .query({
+      wis: wisView()
+    })
+    .on(
+      'error',
+      err =>
+      err.status !== 304 &&
+      dispatchChangeSnackbarStage('Server disconnected!'),
+    ),
+  )
+  .do(({
+      body
+    }) =>
+    window.W && window.W.getUsersInfo(mapToUsername(body)).then(info => {
+      const users = R.values(info)
+      dispatchLoadUsersData(users)
+    }))
   .ignoreElements()
 
 const initialFetchEpic = action$ =>
   action$
   .ofType(FETCH_TODAY_DATA)
   .do(() => dispatchSetIsLoading(true))
-  .do(() => W && W.start())
+  .do(() => window.W && window.W.start())
   .mergeMap(() =>
     getRequest('/initialFetch')
     .query({
@@ -234,7 +229,7 @@ const addLogToNextDayEpic = action$ =>
   .do(({
     body
   }) => dispatchAddLog(body))
-  .do(() => W && W.analytics('PAUSE_AFTER_24'))
+  .do(() => window.W && window.W.analytics('PAUSE_AFTER_24'))
   .ignoreElements()
 
 const effectDeleteLog = action$ =>
@@ -260,7 +255,7 @@ const effectDeleteLog = action$ =>
   .do(() => dispatchChangeSnackbarStage('Deleted successfully !'))
   .do(() => dispatchChangePopoverId(''))
   .do(() => dispatchRefetchTotalDuration())
-  .do(() => W && W.analytics('DELETE_LOG'))
+  .do(() => window.W && window.W.analytics('DELETE_LOG'))
   .ignoreElements()
 
 const effectSaveStartTime = action$ =>
@@ -299,7 +294,7 @@ const effectSaveStartTime = action$ =>
       _id
     }
   }) => dispatchChangeRunningId(_id))
-  .do(() => W && W.analytics('PLAY_CLICK'))
+  .do(() => window.W && window.W.analytics('PLAY_CLICK'))
   .ignoreElements()
 
 const effectSaveEndTime = action$ =>
@@ -334,7 +329,7 @@ const effectSaveEndTime = action$ =>
       end
     }
   }) => dispatchSaveEndTime(runningId, end))
-  .do(() => W && W.analytics('PAUSE_CLICK'))
+  .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
   .do(() => dispatchChangeRunningId(''))
   .do(() => dispatchRefetchTotalDuration())
   .filter(({
@@ -353,7 +348,7 @@ const effectSaveEndTime = action$ =>
       end
     }
   }) => dispatchHandleSaveStartTime(_id, end))
-  .do(() => W && W.analytics('PLAY_CLICK'))
+  .do(() => window.W && window.W.analytics('PLAY_CLICK'))
   .ignoreElements()
 
 const effectToggleIsPinned = action$ =>
@@ -394,7 +389,7 @@ const effectToggleIsPinned = action$ =>
     body: {
       value
     }
-  }) => value === true && W && W.analytics('PIN_LOG'))
+  }) => value === true && window.W && window.W.analytics('PIN_LOG'))
   .ignoreElements()
 
 const changeTabEpic = action$ =>
@@ -410,7 +405,7 @@ const changeTabEpic = action$ =>
   }) => value !== 'Home' && push(`/${value}`))
   .do(({
     value
-  }) => W && W.analytics('TAB_CLICK', {
+  }) => window.W && window.W.analytics('TAB_CLICK', {
     name: value
   }))
   .ignoreElements()
@@ -421,7 +416,6 @@ const setAboutModeEpic = action$ =>
   .ignoreElements()
 
 export default combineEpics(
-  fetchUsersEpic,
   saveUsersEpic,
   initialFetchEpic,
   addLogToNextDayEpic,
