@@ -11,6 +11,7 @@ const getLeaderboardData = createSelector(
   R.map(({ userId, ...other }) => ({
     userId,
     username: getUsername(userId),
+    profileImage: getProfileImage(userId),
     ...other,
   })),
 )

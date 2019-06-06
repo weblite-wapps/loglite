@@ -9,7 +9,7 @@ import { usersView } from '../../../../Main/App.reducer'
 
 export const getUsername = userId =>
   R.compose(
-    R.prop('name'),
+    R.prop('username'),
     R.find(R.propEq('id', userId)),
   )(usersView())
 

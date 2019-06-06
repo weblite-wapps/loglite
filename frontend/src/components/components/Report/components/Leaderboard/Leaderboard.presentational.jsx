@@ -40,7 +40,7 @@ const Leaderbord = props => (
                   <Avatar username={username} />
                 </Badge>
               ) : (
-                <Avatar username={username} />
+                <Avatar username={username} profileImage={profileImage} />
               )}
 
               <ListItemText primary={username} />
