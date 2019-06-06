@@ -12,16 +12,20 @@ const getRunningId = state => state.Home.runningId
  
 const getTotalDuration = createSelector( 
   [getLogs, getRunningId, getTextSliderDuration, getTabIndex],
-  (logs, runningId, duration) => 
-    formattedSeconds( 
+  (logs, runningId, duration) => {
+    if (runningId) {
+      return formattedSeconds(
         R.compose(
-          difference => difference && difference + duration,
+          difference => difference + duration,
           time => time && differenceInSeconds(getNow(), time.start),
           times => times && R.find(R.propEq('end', 'running'), times),
           log => log && R.prop('times', log),
           R.find(R.propEq('_id', runningId)),
         )(logs),
-      ),
+      )
+    }
+    return formattedSeconds(duration)
+  },
 )
 
 export {

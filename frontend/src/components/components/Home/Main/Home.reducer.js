@@ -14,8 +14,8 @@ import {
 import { NextName, NextDuration } from './Home.helper'
 // state
 const initialState = {
-  textSlider: { name: 'Today', duration: '' },
-  homeTotalDuration: { today: '', thisWeek: '', thisMonth: '' },
+  textSlider: { name: 'Today', duration: 0 },
+  homeTotalDuration: { today: 0, thisWeek: 0, thisMonth: 0 },
   secondsElapsed: 0,
   runningId: '',
 }
