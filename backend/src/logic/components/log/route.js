@@ -6,7 +6,7 @@ import app from "../../../setup/server";
 // db helpers
 import { fetchLogs, saveLog, deleteLog, saveTime, updateLog } from "./db";
 // helpers
-import { sumLogs, modifiedQuery, getBarChartData, getJSON, getLeaderboardData, getRunningTimeId } from '../../../helper/query.helper'
+import { dynamicSumLogs, sumLogs, modifiedQuery, getBarChartData, getJSON, getLeaderboardData, getRunningTimeId } from '../../../helper/query.helper'
 import { getStartDayOfWeek, getStartDayOfMonth } from '../../../helper/date.helper'
 import { formattedSeconds, getNow } from '../../../helper/time.helper'
 // const 
@@ -94,7 +94,7 @@ app.get("/fetchTotalDurations", ({ query: { wis, userId, today, now } }, res) =>
 
 app.get("/calculateTotalDuration", ({ query }, res) =>
   fetchLogs(modifiedQuery(query))
-    .then(logs => sumLogs(logs, query.now))
+    .then(logs => dynamicSumLogs(logs, query.now))
     .then(sum => formattedSeconds(sum))
     .then(totalDuration => res.json(totalDuration))
     .catch(logger))
