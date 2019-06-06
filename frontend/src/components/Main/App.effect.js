@@ -330,8 +330,8 @@ const effectSaveEndTime = action$ =>
     }
   }) => dispatchSaveEndTime(runningId, end))
   .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
+  .do(dispatchRefetchTotalDuration)
   .do(() => dispatchChangeRunningId(''))
-  .do(() => dispatchRefetchTotalDuration())
   .filter(({
     body: {
       _id
@@ -347,7 +347,7 @@ const effectSaveEndTime = action$ =>
       _id,
       end
     }
-  }) => dispatchHandleSaveStartTime(_id, end))
+  }) => dispatchHandleSaveStartTime(_id))
   .do(() => window.W && window.W.analytics('PLAY_CLICK'))
   .ignoreElements()
 

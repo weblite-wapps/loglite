@@ -9,7 +9,7 @@ const getLogs = state => state.App.logs
 const getTabIndex = state => state.App.tabIndex
 const getTextSliderDuration = state => state.Home.textSlider.duration
 const getRunningId = state => state.Home.runningId
- 
+
 const getTotalDuration = createSelector( 
   [getLogs, getRunningId, getTextSliderDuration, getTabIndex],
   (logs, runningId, duration) => {
@@ -23,7 +23,7 @@ const getTotalDuration = createSelector(
           R.find(R.propEq('_id', runningId)),
         )(logs),
       )
-    }
+    } 
     return formattedSeconds(duration)
   },
 )
