@@ -13,7 +13,7 @@ import { fetchPins, savePin, deletePin, updatePins } from '../components/pin/db'
 // helpers
 import { sumLogs, getLeaderboardData } from '../../helper/query.helper'
 import { formattedDate, getSixDaysAgo, getStartDayOfWeek, getStartDayOfMonth } from '../../helper/date.helper'
-import { formattedSeconds, getNow } from '../../helper/time.helper'
+import { getNow } from '../../helper/time.helper'
 // const
 const logger = console.log
 
@@ -39,9 +39,9 @@ app.get('/initialFetch', ({ query: { wis, userId, today, now } }, res) =>
     logs: success[0],
     tags: success[1],
     totalDurations: {
-      today: formattedSeconds(sumLogs(success[2], now), 'Home'), 
-      thisWeek: formattedSeconds(sumLogs(success[3], now), 'Home'),
-      thisMonth: formattedSeconds(sumLogs(success[4], now), 'Home'),
+      today: sumLogs(success[2], now),
+      thisWeek: sumLogs(success[3], now),
+      thisMonth: sumLogs(success[4], now),
     },
     leaderboard: getLeaderboardData(success[5], now),
     pins: success[6],

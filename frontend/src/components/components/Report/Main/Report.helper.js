@@ -38,7 +38,7 @@ export const formattedSeconds = seconds => {
     ? `Total: ${Math.floor(seconds / 3600)}h`
     : `Total: ${Math.floor(seconds / 3600)}h & ${Math.floor(
         (seconds % 3600) / 60,
-      )}m`
+      )}m` 
 }
 
 const getObject = (trueOption, message, permission) => {

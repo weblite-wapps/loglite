@@ -8,17 +8,7 @@ import {
 } from "date-fns";
 
 
-export const formattedSeconds = (seconds, pageName) => {
-  if (pageName === "Home") {
-    if (Math.floor(seconds / 3600) === 0) {
-      return `${Math.floor(seconds / 60)}m`;
-    }
-    return Math.floor((seconds % 3600) / 60) === 0
-      ? `${Math.floor(seconds / 3600)}h`
-      : `${Math.floor(seconds / 3600)}h & ${Math.floor(
-          (seconds % 3600) / 60
-        )}m`;
-  }
+export const formattedSeconds = (seconds) => {
   if (Math.floor(seconds / 3600) === 0) {
     return `Total: ${Math.floor(seconds / 60)}m`;
   }
@@ -27,7 +17,7 @@ export const formattedSeconds = (seconds, pageName) => {
     : `Total: ${Math.floor(seconds / 3600)}h & ${Math.floor(
         (seconds % 3600) / 60
       )}m`;
-};
+}
 
 export const formatTime = time =>
   setHours(

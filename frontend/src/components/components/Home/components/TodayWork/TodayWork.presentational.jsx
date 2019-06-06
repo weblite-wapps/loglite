@@ -37,6 +37,7 @@ export default class TodayWork extends React.Component {
       log: { _id, times },
       setSecondsElapsed,
       countinueCounting,
+      changeRunningId,
     } = this.props
     const len = times.length
 
@@ -46,16 +47,8 @@ export default class TodayWork extends React.Component {
           differenceInSeconds(getNow(), getTimeZone(times[len - 1].start)),
       )
       countinueCounting(_id)
+      changeRunningId(_id)
     }
-  }
-
-  componentDidMount() {
-    const {
-      log: { _id, times },
-      changeRunningId,
-    } = this.props
-    const len = times.length
-    if (len && times[len - 1].end === 'running') changeRunningId(_id)
   }
 
   _handleStartClick() {
