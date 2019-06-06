@@ -13,8 +13,17 @@ export const getUsername = userId =>
     R.find(R.propEq('id', userId)),
   )(usersView())
 
-export default ({ username }) => (
-  <Avatar style={{ backgroundColor: mapCharsToColor(username) }}>
-    {R.head(username)}
+export const getProfileImage = userId =>
+  R.compose(
+    R.prop('profileImage'),
+    R.find(R.propEq('id', userId)),
+  )(usersView())
+
+export default ({ username, profileImage }) => (
+  <Avatar
+    src={profileImage && `https://www.weblite.me:3000/image/${profileImage}`}
+    style={{ backgroundColor: mapCharsToColor(username) }}
+  >
+    {(!profileImage) && R.head(username)}
   </Avatar>
 )
