@@ -4,6 +4,7 @@ import * as R from 'ramda'
 import { getState } from '../../../../setup/redux'
 // actions
 import {
+  SET_TODAY,
   CHANGE_TEXT_SLIDER,
   LOAD_TOTAL_DURATIONS,
   SET_SECONDS_ELAPSED,
@@ -32,6 +33,14 @@ export const runningIdView = () => R.path(['Home', 'runningId'])(getState())
 
 // reducers
 const reducers = {
+  [SET_TODAY]: (state, value) => ({
+    ...state,
+    textSlider: {
+      name: 'Today',
+      duration: value,
+    },
+  }),
+
   [CHANGE_TEXT_SLIDER]: (state, { value }) => ({
     ...state,
     textSlider: {

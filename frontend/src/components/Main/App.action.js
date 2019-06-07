@@ -120,13 +120,7 @@ export const dispatchSetEditedLog = (...args) => dispatch(setEditedLog(...args))
 
 // effects
 export const HANDLE_SAVE_START_TIME = 'HANDLE_SAVE_START_TIME'
-export const handleSaveStartTime = createAction(
-  HANDLE_SAVE_START_TIME,
-  (_id, start) => ({
-    _id,
-    start
-  }),
-)
+export const handleSaveStartTime = createAction(HANDLE_SAVE_START_TIME, (_id) => ({ _id }))
 export const dispatchHandleSaveStartTime = (...args) =>
   dispatch(handleSaveStartTime(...args))
 

@@ -3,6 +3,10 @@ import { createAction } from 'redux-actions'
 import { dispatch } from '../../../../setup/redux'
 
 // actions
+export const SET_TODAY = 'SET_TODAY'
+export const setToday = createAction(SET_TODAY)
+export const dispatchSetToday = (...args) => dispatch(setToday(...args))
+
 export const CHANGE_TEXT_SLIDER = 'CHANGE_TEXT_SLIDER'
 export const changeTextSlider = createAction(CHANGE_TEXT_SLIDER, value => ({
   value,

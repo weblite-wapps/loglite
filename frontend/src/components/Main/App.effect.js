@@ -44,6 +44,7 @@ import {
   dispatchLoadTotalDurations,
   dispatchChangeRunningId,
   dispatchSetSecondsElapsed,
+  dispatchSetToday,
 } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
@@ -76,6 +77,8 @@ import {
 import {
   selectedUserView
 } from '../components/Report/Main/Report.reducer'
+// selectors
+import { getTotalDuration } from '../components/Home/components/Summary/Summary.selector'
 
 
 const saveUsersEpic = action$ =>
@@ -297,7 +300,7 @@ const effectSaveStartTime = action$ =>
   .do(() => window.W && window.W.analytics('PLAY_CLICK'))
   .ignoreElements()
 
-const effectSaveEndTime = action$ =>
+const effectSaveEndTime = (action$, { getState }) =>
   action$
   .ofType(HANDLE_SAVE_END_TIME)
   .pluck('payload')
@@ -323,6 +326,7 @@ const effectSaveEndTime = action$ =>
     ),
   )
   .do(() => dispatchSetIsLoading(false))
+  .do(() => dispatchSetToday(getTotalDuration(getState())))
   .do(({
     body: {
       runningId,
@@ -330,8 +334,8 @@ const effectSaveEndTime = action$ =>
     }
   }) => dispatchSaveEndTime(runningId, end))
   .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
+  .do(dispatchRefetchTotalDuration)
   .do(() => dispatchChangeRunningId(''))
-  .do(() => dispatchRefetchTotalDuration())
   .filter(({
     body: {
       _id
@@ -347,7 +351,7 @@ const effectSaveEndTime = action$ =>
       _id,
       end
     }
-  }) => dispatchHandleSaveStartTime(_id, end))
+  }) => dispatchHandleSaveStartTime(_id))
   .do(() => window.W && window.W.analytics('PLAY_CLICK'))
   .ignoreElements()
 
