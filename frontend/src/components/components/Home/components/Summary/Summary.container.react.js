@@ -8,10 +8,12 @@ import { textSliderView } from '../../Main/Home.reducer'
 import { dispatchChangeTextSlider } from '../../Main/Home.action'
 // selectors
 import { getTotalDuration } from './Summary.selector'
+// helpers
+import { formattedSeconds } from '../../../../../helper/functions/time.helper';
 
 const mapStateToProps = (state) => ({
   name: textSliderView().name,
-  duration: getTotalDuration(state),
+  duration: formattedSeconds(getTotalDuration(state)),
 })
 
 const mapDispatchToProps = () => ({
