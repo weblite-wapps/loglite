@@ -6,9 +6,7 @@
 
 .summary-textSlider {
   @include no-select;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
   position: relative;
 }
 

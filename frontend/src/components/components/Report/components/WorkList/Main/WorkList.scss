@@ -1,11 +1,15 @@
 @import '../../../../../../helper/style/_color';
 @import '../../../../../../helper/style/mixin.scss';
 
-.workList-text {
+.workList-title-container {
   @include no-select;
   display: flex;
   justify-content: space-between;
   margin: 10px;
+}
+
+.workList-pin-and-title {
+  @include flex-center;
 }
 
 .workList-tags {

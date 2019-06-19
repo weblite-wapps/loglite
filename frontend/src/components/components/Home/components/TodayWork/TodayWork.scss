@@ -19,8 +19,6 @@
 }
 
 .todayWork-stopwatch {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
   margin: 5px;
 }

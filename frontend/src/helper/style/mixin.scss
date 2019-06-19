@@ -10,6 +10,11 @@
   -ms-user-select: none;
   /* Internet Explorer/Edge */
   user-select: none;
-  /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
+  /* Non-prefixed version, currently                                 supported by Chrome and Opera */
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
