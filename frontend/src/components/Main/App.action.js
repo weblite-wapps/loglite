@@ -140,11 +140,12 @@ export const dispatchHandleSaveEndTime = (...args) =>
 export const HANDLE_TOGGLE_IS_PINNED = 'HANDLE_TOGGLE_IS_PINNED'
 export const handleToggleIsPinned = createAction(
   HANDLE_TOGGLE_IS_PINNED,
-  (_id, title, tags, value) => ({
+  (_id, title, tags, value, lastDate) => ({
     _id,
     title,
     tags,
-    value
+    value,
+    lastDate,
   }),
 )
 export const dispatchHandleToggleIsPinned = (...args) =>
