@@ -1,3 +1,5 @@
+@import '../../../../../helper/style/mixin.scss';
+
 .showChart-insertButton {
   margin: 20px 16px;
 }
@@ -9,8 +11,6 @@
 }
 
 .showChart-chart {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
   margin-top: 10px;
 }

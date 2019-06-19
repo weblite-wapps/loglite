@@ -174,7 +174,7 @@ const initialFetchEpic = action$ =>
     postRequest('/saveLogs')
     .send({
       date: formattedDate(getNow()),
-      pins: getUnique(pins),
+      pins: getUnique(pins), 
       userId: userIdView(),
       wis: wisView(),
     })
@@ -349,7 +349,6 @@ const effectSaveEndTime = (action$, { getState }) =>
   .do(({
     body: {
       _id,
-      end
     }
   }) => dispatchHandleSaveStartTime(_id))
   .do(() => window.W && window.W.analytics('PLAY_CLICK'))
@@ -364,7 +363,8 @@ const effectToggleIsPinned = action$ =>
       _id,
       title,
       tags,
-      value
+      value,
+      lastDate,
     }) =>
     postRequest('/toggleIsPinned')
     .send({
@@ -372,6 +372,7 @@ const effectToggleIsPinned = action$ =>
       title,
       tags,
       value,
+      lastDate, 
       userId: userIdView(),
       wis: wisView(),
     })
@@ -383,17 +384,10 @@ const effectToggleIsPinned = action$ =>
     ),
   )
   .do(() => dispatchSetIsLoading(false))
-  .do(({
-    body: {
-      _id,
-      value
-    }
-  }) => dispatchToggleIsPinned(_id, value))
-  .do(({
-    body: {
-      value
-    }
-  }) => value === true && window.W && window.W.analytics('PIN_LOG'))
+  .map(({ body: { _id, value } }) => ({ _id, value }))
+  .do(({ _id, value }) => dispatchToggleIsPinned(_id, value))
+  .do(({ value }) => value === true && window.W && window.W.analytics('PIN_LOG'))
+  .do(({ value }) => value === false && window.W && window.W.analytics('UNPIN_LOG'))
   .ignoreElements()
 
 const changeTabEpic = action$ =>

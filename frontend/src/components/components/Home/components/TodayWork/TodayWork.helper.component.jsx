@@ -18,14 +18,14 @@ import { formattedSeconds, formattedName } from './TodayWork.helper'
 import './TodayWork.scss'
 
 export const PinButton = ({
-  log: { _id, title, tags, isPinned },
+  log: { _id, title, tags, isPinned, date },
   isLoading,
   onToggleIsPinned,
 }) => (
   <IconButton
     style={{ marginRight: '5px' }}
     disabled={isLoading}
-    onClick={() => onToggleIsPinned(_id, title, tags, !isPinned)}
+    onClick={() => onToggleIsPinned(_id, title, tags, !isPinned, date)}
   >
     <Tooltip
       title={isPinned ? 'UnPin' : 'Pin'}

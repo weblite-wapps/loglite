@@ -12,7 +12,7 @@ import { fetchTags } from '../components/tag/db'
 import { fetchPins, savePin, deletePin, updatePins } from '../components/pin/db'
 // helpers
 import { sumLogs, getLeaderboardData } from '../../helper/query.helper'
-import { formattedDate, getSixDaysAgo, getStartDayOfWeek, getStartDayOfMonth } from '../../helper/date.helper'
+import { getSixDaysAgo, getStartDayOfWeek, getStartDayOfMonth } from '../../helper/date.helper'
 import { getNow } from '../../helper/time.helper'
 // const
 const logger = console.log
@@ -47,13 +47,13 @@ app.get('/initialFetch', ({ query: { wis, userId, today, now } }, res) =>
     pins: success[6],
   })).catch(logger))
 
-  app.post("/toggleIsPinned", ({ body: { _id, title, tags, value, userId, wis } }, res) =>
+  app.post("/toggleIsPinned", ({ body: { _id, title, tags, value, lastDate, userId, wis } }, res) =>
     Promise.all([
       updateLog({ _id: mongoose.Types.ObjectId(_id) },
         { $set: { 'isPinned': value } }),
       (value === true) ?
-        savePin({ logId: mongoose.Types.ObjectId(_id), title, tags, created_at: getNow(), lastDate: formattedDate(getNow()), userId, wis }) :
-        deletePin({ wis, userId, title })
+        savePin({ logId: mongoose.Types.ObjectId(_id), title, tags, created_at: getNow(), lastDate, userId, wis }) :
+        deletePin({ wis, userId, title }) 
     ]).then(() => res.send({ _id, value })).catch(logger))
 
   app.post("/saveLogs", ({ body: { pins, date, userId, wis } }, res) =>
