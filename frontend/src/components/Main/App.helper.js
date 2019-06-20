@@ -41,3 +41,12 @@ export const getUnique = R.compose(
 )
 
 export const mapToUsername = users => R.map(user => user.name, users)
+
+export const isUniqueLog = _id => R.compose(
+  R.not,
+  R.length,
+  R.filter(log => log._id === _id),
+  R.filter(log => log.date === formattedDate(getNow())),
+)(logsView())
+
+export const getLog = _id => R.find(R.propEq('_id', _id))(logsView())
