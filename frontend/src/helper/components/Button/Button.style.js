@@ -18,7 +18,7 @@ export default {
     color: 'white',
     borderRadius: '0px',
     padding: '2px 15px',
-    margin: '0px',
+    margin: '0px 0px 0px 5px',
     minWidth: '5px',
     minHeight: '37px',
     textTransform: 'capitalize',

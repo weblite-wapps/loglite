@@ -69,7 +69,6 @@ const effectHandleAddTag = action$ =>
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
     )
-    .do(() => W && W.analytics('ADD_TAG'))
     .ignoreElements()
 
 const effectHandleAddLog = action$ =>
@@ -83,6 +82,7 @@ const effectHandleAddLog = action$ =>
     )
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
+    .do(({ tags }) => !!tags.length && window.W && window.W.analytics('ADD_TAG'))
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(({ title, tags }) =>
       Promise.all([
