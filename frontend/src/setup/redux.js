@@ -25,10 +25,10 @@ import EditReducer from '../components/components/Edit/Main/Edit.reducer'
 import SnackbarReducer from '../components/components/Snackbar/Snackbar.reducer'
 // epics
 import AppEpic from '../components/Main/App.effect'
-import HomeEpic from '../components/components/Home/Main/Home.effect'
-import AddEpic from '../components/components/Add/Main/Add.effect'
-import ReportEpic from '../components/components/Report/Main/Report.effect'
-import EditEpic from '../components/components/Edit/Main/Edit.effect'
+// import HomeEpic from '../components/components/Home/Main/Home.effect'
+// import AddEpic from '../components/components/Add/Main/Add.effect'
+// import ReportEpic from '../components/components/Report/Main/Report.effect'
+// import EditEpic from '../components/components/Edit/Main/Edit.effect'
 
 
 // Create a history of your choosing (we're using a browser history in this case)
@@ -43,8 +43,9 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 /* eslint-enable */
 
 // redux observable
-const rootEpic = combineEpics(AppEpic, HomeEpic, AddEpic, ReportEpic, EditEpic)
-const epicMiddleware = createEpicMiddleware(rootEpic)
+// const rootEpic = combineEpics(AppEpic, HomeEpic, AddEpic, ReportEpic, EditEpic)
+const rootEpic = combineEpics(AppEpic)
+const epicMiddleware = createEpicMiddleware()
 
 const store = createStore(
   combineReducers({
@@ -58,6 +59,8 @@ const store = createStore(
   }),
   composeEnhancers(applyMiddleware(middleware, epicMiddleware)),
 )
+
+epicMiddleware.run(rootEpic)
 
 export const {
   dispatch,

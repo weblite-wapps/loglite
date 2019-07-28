@@ -19,9 +19,9 @@ app.get("/fetchLogs", ({ query: { wis, userId, date } }, res) =>
 );
 
 app.post("/saveLog", (req, res) =>
-    saveLog({ ...req.body, created_at: getNow() })
-      .then(log => res.send(log))
-      .catch(logger))
+  saveLog({ ...req.body, created_at: getNow() })
+    .then(log => res.send(log))
+    .catch(logger))
 
 app.post("/saveCustomLog", (req, res) =>
   saveLog({ ...req.body, created_at: getNow() })
@@ -39,9 +39,12 @@ app.post("/deleteLog", ({ query }, res) =>
   deleteLog({ _id: mongoose.Types.ObjectId(query._id) })
     .then(() => res.send(query))
     .catch(logger)
-); 
+);
 
-app.post("/saveStartTime", ({ body }, res) =>
+app.post("/saveStartTime", ({ body }, res) => {
+  // console.log(body.start)
+  // console.log(new Date(body.start))
+  // console.log(Date(body.start))
   saveTime(
     { _id: mongoose.Types.ObjectId(body._id) },
     { $push: { times: { start: body.start, end: "running" } } }
@@ -53,6 +56,7 @@ app.post("/saveStartTime", ({ body }, res) =>
       });
     })
     .catch(logger)
+}
 );
 
 app.post("/saveEndTime", ({ body }, res) =>
@@ -101,7 +105,7 @@ app.get("/calculateTotalDuration", ({ query }, res) =>
 
 app.get("/convertJSONToCSV", ({ query }, res) =>
   fetchLogs(modifiedQuery(query))
-    .then(logs => getJSON(logs, query.now)) 
+    .then(logs => getJSON(logs, query.now))
     .then(csv => {
       res.setHeader("Content-disposition", "attachment; filename=data.csv");
       res.set("Content-Type", "text/csv");
@@ -124,7 +128,7 @@ app.get("/barChartData", ({ query }, res) => {
 });
 
 app.get("/leaderboardData", ({ query: { wis, startDate, endDate, now } }, res) => {
-  const newQuery = { 
+  const newQuery = {
     wis,
     $and: [
       { date: { $gte: startDate } },

@@ -63,7 +63,7 @@ export const formattedMinutes = minutes => {
 
 export const getCurrentTime = time =>
   `${getHours(time) > 9 ? getHours(time) : '0' + getHours(time)}:${
-    getMinutes(time) > 9 ? getMinutes(time) : '0' + getMinutes(time)
+  getMinutes(time) > 9 ? getMinutes(time) : '0' + getMinutes(time)
   }`
 
 export const checkEditTimesOrder = times =>
@@ -73,13 +73,13 @@ export const checkEditTimesOrder = times =>
       (acc, item) =>
         item.start > item.end || item.start < acc.lastData
           ? {
-              val: false,
-              lastData: acc.lastData,
-            }
+            val: false,
+            lastData: acc.lastData,
+          }
           : {
-              lastData: item.end,
-              val: acc.val,
-            },
+            lastData: item.end,
+            val: acc.val,
+          },
       { val: true, lastData: '' },
       times,
     ),
