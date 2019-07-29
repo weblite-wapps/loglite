@@ -45,7 +45,7 @@ const mapDispatchToProps = () => ({
     dispatchChangeEditStartTime({ value, id }),
   onEndTimeChange: ({ target: { value } }, id) =>
     dispatchChangeEditEndTime({ value, id }),
-  close: dispatchCloseEdit,
+  close: e => dispatchCloseEdit(),
   onTitleChange: ({ target: { value } }) => dispatchChangeEditTitle(value),
   removeInterval: dispatchRemoveInterval,
   changePopoverId: dispatchChangeEditPopOverId,

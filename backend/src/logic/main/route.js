@@ -20,7 +20,8 @@ const logger = console.log
 
 app.get('/initialFetch', ({ query: { wis, userId, today, now } }, res) =>
   Promise.all([
-    fetchLogs({ wis, userId,
+    fetchLogs({
+      wis, userId,
       $and: [{ date: { $gte: getSixDaysAgo(today) } }, { date: { $lte: today } }],
     }),
     fetchTags({ wis, userId }),
@@ -47,20 +48,20 @@ app.get('/initialFetch', ({ query: { wis, userId, today, now } }, res) =>
     pins: success[6],
   })).catch(logger))
 
-  app.post("/toggleIsPinned", ({ body: { _id, title, tags, value, lastDate, userId, wis } }, res) =>
-    Promise.all([
-      updateLog({ _id: mongoose.Types.ObjectId(_id) },
-        { $set: { 'isPinned': value } }),
-      (value === true) ?
-        savePin({ logId: mongoose.Types.ObjectId(_id), title, tags, created_at: getNow(), lastDate, userId, wis }) :
-        deletePin({ wis, userId, title }) 
-    ]).then(() => res.send({ _id, value })).catch(logger))
+app.post("/toggleIsPinned", ({ body: { _id, title, tags, value, lastDate, userId, wis } }, res) =>
+  Promise.all([
+    updateLog({ _id: mongoose.Types.ObjectId(_id) },
+      { $set: { 'isPinned': value } }),
+    (value === true) ?
+      savePin({ logId: mongoose.Types.ObjectId(_id), title, tags, created_at: getNow(), lastDate, userId, wis }) :
+      deletePin({ wis, userId, title })
+  ]).then(() => res.send({ _id, value })).catch(logger))
 
-  app.post("/saveLogs", ({ body: { pins, date, userId, wis } }, res) =>
-    Promise.all(
-      R.map(pin =>
-        saveLog({ title: pin.title, tags: pin.tags, created_at: getNow(), userId, wis, times: [], date, isPinned: true } ), pins),
-        updatePins({ wis, userId },
-        { $set: { 'lastDate': date } }))
+app.post("/saveLogs", ({ body: { pins, date, userId, wis } }, res) =>
+  Promise.all(
+    R.map(pin =>
+      saveLog({ title: pin.title, tags: pin.tags, created_at: getNow(), userId, wis, times: [], date, isPinned: true }), pins),
+    updatePins({ wis, userId },
+      { $set: { 'lastDate': date } }))
     .then(success => res.send(R.flatten(success))).catch(logger),
-  )
+)

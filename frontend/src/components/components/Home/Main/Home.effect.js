@@ -1,7 +1,7 @@
 // modules
-import { combineEpics } from 'redux-observable'
+import { combineEpics, ofType } from 'redux-observable'
 import 'rxjs'
-import { Observable } from 'rxjs/Observable'
+import { interval } from 'rxjs'
 // local modules
 import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 // helpers
@@ -31,13 +31,20 @@ import {
 // views
 import { wisView, userIdView, logsView } from '../../../Main/App.reducer'
 import { runningIdView } from '../../Home/Main/Home.reducer'
-import { getParsedNow } from '../../../../helper/functions/time.helper';
+import { getParsedNow } from '../../../../helper/functions/time.helper'
+import {
+  filter,
+  tap,
+  ignoreElements,
+  mergeMap,
+  takeUntil,
+} from 'rxjs/operators'
 
 const refetchTotalDurationEpic = action$ =>
-  action$
-    .ofType(RESET_INPUTS, REFETCH_TOTAL_DURATION)
-    .do(() => dispatchSetIsLoading(true))
-    .mergeMap(() =>
+  action$.pipe(
+    ofType(RESET_INPUTS, REFETCH_TOTAL_DURATION),
+    tap(() => dispatchSetIsLoading(true)),
+    mergeMap(() =>
       getRequest('/fetchTotalDurations')
         .query({
           wis: wisView(),
@@ -51,34 +58,42 @@ const refetchTotalDurationEpic = action$ =>
             err.status !== 304 &&
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
-    )
-    .do(() => dispatchSetIsLoading(false))
-    .do(({ body }) => dispatchLoadTotalDurations(body))
-    .ignoreElements()
+    ),
+    tap(() => dispatchSetIsLoading(false)),
+    tap(({ body }) => dispatchLoadTotalDurations(body)),
+    ignoreElements(),
+  )
 
 const effectCountUpEpic = action$ =>
-  action$.ofType(SAVE_START_TIME, COUNTINUE_COUNTING).mergeMap(() =>
-    Observable.interval(1000)
-      .do(() => dispatchIncrementSecondsElapsed())
-      .takeUntil(
-        action$.ofType(
-          SAVE_END_TIME,
-          CHANGE_TAB,
-          CHANGE_SELECTED_USER,
-          PREVIOUS_PAGE,
+  action$.pipe(
+    ofType(SAVE_START_TIME, COUNTINUE_COUNTING),
+    mergeMap(() =>
+      interval(1000).pipe(
+        tap(dispatchIncrementSecondsElapsed),
+        takeUntil(
+          action$.pipe(
+            ofType(
+              SAVE_END_TIME,
+              CHANGE_TAB,
+              CHANGE_SELECTED_USER,
+              PREVIOUS_PAGE,
+            ),
+          ),
         ),
-      )
-      .ignoreElements(),
+        ignoreElements(),
+      ),
+    ),
   )
 
 const effectSetSecondsElapsed = action$ =>
-  action$
-    .ofType(CHECK_TO_SET_SECONDS_ELAPSED)
-    .filter(runningIdView)
-    .do(() =>
+  action$.pipe(
+    ofType(CHECK_TO_SET_SECONDS_ELAPSED),
+    filter(runningIdView),
+    tap(() =>
       dispatchSetSecondsElapsed(getSecondsElapsed(logsView(), runningIdView())),
-    )
-    .ignoreElements()
+    ),
+    ignoreElements(),
+  )
 
 export default combineEpics(
   refetchTotalDurationEpic,

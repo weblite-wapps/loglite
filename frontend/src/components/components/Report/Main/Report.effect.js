@@ -1,12 +1,22 @@
 // modules
 import * as R from 'ramda'
-import { combineEpics } from 'redux-observable'
-import 'rxjs'
+import { combineEpics, ofType } from 'redux-observable'
+import {
+  map,
+  filter,
+  tap,
+  mergeMap,
+  pluck,
+  debounceTime,
+  delay,
+  mapTo,
+  ignoreElements,
+} from 'rxjs/operators'
 import { push } from '../../../../setup/redux'
 // local modules
 import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 // helpers
-import { getParsedNow } from '../../../../helper/functions/time.helper';
+import { getParsedNow } from '../../../../helper/functions/time.helper'
 import { getRequest } from '../../../../helper/functions/request.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 import { checkBeforeAddTag } from '../../../Main/App.helper'
@@ -68,24 +78,27 @@ import { dispatchInsertLog } from '../../Edit/Main/Edit.action'
 const { W } = window
 
 const resetStaffDataEpic = action$ =>
-  action$.ofType(CHANGE_SELECTED_USER).map(() => resetStaffLogs(userIdView()))
+  action$.pipe(
+    ofType(CHANGE_SELECTED_USER),
+    map(() => resetStaffLogs(userIdView())),
+  )
 
 const loadStaffDataEpic = action$ =>
-  action$
-    .ofType(RESET_STAFF_LOGS)
-    .filter(
+  action$.pipe(
+    ofType(RESET_STAFF_LOGS),
+    filter(
       () =>
         R.prop(selectedUserView(), pagesView()) === undefined ||
         !R.contains(
           formattedDate(currentPageView()),
           pagesView()[selectedUserView()],
         ),
-    )
-    .do(() =>
+    ),
+    tap(() =>
       dispatchAddPage(formattedDate(currentPageView()), selectedUserView()),
-    )
-    .do(() => dispatchSetIsLoading(true))
-    .mergeMap(() =>
+    ),
+    tap(() => dispatchSetIsLoading(true)),
+    mergeMap(() =>
       Promise.all([
         getRequest('/fetchLogs')
           .query({
@@ -114,27 +127,29 @@ const loadStaffDataEpic = action$ =>
               dispatchChangeSnackbarStage('Server disconnected!'),
           ),
       ]),
-    )
-    .do(() => dispatchSetIsLoading(false))
-    .mergeMap(success => [
+    ),
+    tap(() => dispatchSetIsLoading(false)),
+    mergeMap(success => [
       selectedUserView() === userIdView()
         ? loadLogsData(success[0].body)
         : loadStaffLogs(success[0].body),
       loadTagsDataInReport(success[1].body),
-    ])
+    ]),
+  )
 
 const loadTagsDataEpic = action$ =>
-  action$
-    .ofType(LOAD_TAGS_DATA_IN_ADD)
-    .map(action => loadTagsDataInReport(action.payload.tags))
+  action$.pipe(
+    ofType(LOAD_TAGS_DATA_IN_ADD),
+    map(action => loadTagsDataInReport(action.payload.tags)),
+  )
 
 const effectSearchTagsEpic = action$ =>
-  action$
-    .ofType(SET_QUERY)
-    .pluck('payload')
-    .filter(payload => payload.queryTag.trim() !== '')
-    .debounceTime(250)
-    .mergeMap(payload =>
+  action$.pipe(
+    ofType(SET_QUERY),
+    pluck('payload'),
+    filter(payload => payload.queryTag.trim() !== ''),
+    debounceTime(250),
+    mergeMap(payload =>
       getRequest('/searchTags')
         .query({
           wis: wisView(),
@@ -147,14 +162,15 @@ const effectSearchTagsEpic = action$ =>
             err.status !== 304 &&
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
-    )
-    .map(({ body }) => fetchTags(body))
+    ),
+    map(({ body }) => fetchTags(body)),
+  )
 
 const calculateTotalDurationEpic = action$ =>
-  action$
-    .ofType(CALCULATE_TOTAL_DURATION)
-    .do(() => dispatchSetIsLoading(true))
-    .mergeMap(() =>
+  action$.pipe(
+    ofType(CALCULATE_TOTAL_DURATION),
+    tap(() => dispatchSetIsLoading(true)),
+    mergeMap(() =>
       getRequest('/calculateTotalDuration')
         .query({
           wis: wisView(),
@@ -170,16 +186,17 @@ const calculateTotalDurationEpic = action$ =>
             err.status !== 304 &&
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
-    )
-    .do(() => dispatchSetIsLoading(false))
-    .do(() => W && W.analytics('CALCULATE_CLICK'))
-    .map(({ body }) => restoreTotalDuration(body))
+    ),
+    tap(() => dispatchSetIsLoading(false)),
+    tap(() => W && W.analytics('CALCULATE_CLICK')),
+    map(({ body }) => restoreTotalDuration(body)),
+  )
 
 const convertJSONToCSVEpic = action$ =>
-  action$
-    .ofType(CONVERT_JSON_TO_CSV)
-    .do(() => dispatchSetIsLoading(true))
-    .mergeMap(() =>
+  action$.pipe(
+    ofType(CONVERT_JSON_TO_CSV),
+    tap(() => dispatchSetIsLoading(true)),
+    mergeMap(() =>
       getRequest('/convertJSONToCSV')
         .query({
           wis: wisView(),
@@ -195,26 +212,27 @@ const convertJSONToCSVEpic = action$ =>
             err.status !== 304 &&
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
-    )
-    .do(() => dispatchSetIsLoading(false))
-    .do(() => W && W.analytics('EXPORT_CLICK'))
-    .map(({ text }) => restoreCSV(text))
+    ),
+    tap(() => dispatchSetIsLoading(false)),
+    tap(() => W && W.analytics('EXPORT_CLICK')),
+    map(({ text }) => restoreCSV(text)),
+  )
 
 const fetchPreviousDayLogsDataEpic = action$ =>
-  action$
-    .ofType(PREVIOUS_PAGE)
-    .filter(
+  action$.pipe(
+    ofType(PREVIOUS_PAGE),
+    filter(
       () =>
         !R.contains(
           formattedDate(currentPageView()),
           pagesView()[selectedUserView()],
         ),
-    )
-    .do(() =>
+    ),
+    tap(() =>
       dispatchAddPage(formattedDate(currentPageView()), selectedUserView()),
-    )
-    .do(() => dispatchSetIsLoading(true))
-    .mergeMap(() =>
+    ),
+    tap(() => dispatchSetIsLoading(true)),
+    mergeMap(() =>
       getRequest('/fetchLogs')
         .query({
           wis: wisView(),
@@ -230,30 +248,31 @@ const fetchPreviousDayLogsDataEpic = action$ =>
             )
           }
         }),
-    )
-    .do(() => dispatchSetIsLoading(false))
-    .do(() => W && W.analytics('PREVIOUS_DAY_CLICK'))
-    .map(({ body }) =>
+    ),
+    tap(() => dispatchSetIsLoading(false)),
+    tap(() => W && W.analytics('PREVIOUS_DAY_CLICK')),
+    map(({ body }) =>
       selectedUserView() === userIdView()
         ? loadLogsData(body)
         : loadStaffLogs(body),
-    )
+    ),
+  )
 
 const fetchNextDayLogsDataEpic = action$ =>
-  action$
-    .ofType(NEXT_PAGE)
-    .filter(
+  action$.pipe(
+    ofType(NEXT_PAGE),
+    filter(
       () =>
         !R.contains(
           formattedDate(currentPageView()),
           pagesView()[selectedUserView()],
         ),
-    )
-    .do(() =>
+    ),
+    tap(() =>
       dispatchAddPage(formattedDate(currentPageView()), selectedUserView()),
-    )
-    .do(() => dispatchSetIsLoading(true))
-    .mergeMap(() =>
+    ),
+    tap(() => dispatchSetIsLoading(true)),
+    mergeMap(() =>
       getRequest('/fetchLogs')
         .query({
           wis: wisView(),
@@ -269,34 +288,36 @@ const fetchNextDayLogsDataEpic = action$ =>
             )
           }
         }),
-    )
-    .do(() => dispatchSetIsLoading(false))
-    .do(() => W && W.analytics('NEXT_DAY_CLICK'))
-    .map(({ body }) =>
+    ),
+    tap(() => dispatchSetIsLoading(false)),
+    tap(() => W && W.analytics('NEXT_DAY_CLICK')),
+    map(({ body }) =>
       selectedUserView() === userIdView()
         ? loadLogsData(body)
         : loadStaffLogs(body),
-    )
+    ),
+  )
 
 const resetCSVEpic = action$ =>
-  action$
-    .ofType(RESTORE_CSV)
-    .delay(1000)
-    .mapTo({ type: RESET_CSV })
+  action$.pipe(
+    ofType(RESTORE_CSV),
+    delay(1000),
+    mapTo({ type: RESET_CSV }),
+  )
 
 const updateChartEpic = action$ =>
-  action$
-    .ofType(UPDATE_CHART)
-    .do(() => dispatchSetIsLoading(true))
-    .pluck('payload')
-    .mergeMap(({ startDate, endDate }) =>
+  action$.pipe(
+    ofType(UPDATE_CHART),
+    tap(() => dispatchSetIsLoading(true)),
+    pluck('payload'),
+    mergeMap(({ startDate, endDate }) =>
       getRequest('/barChartData')
         .query({
           wis: wisView(),
           userId: selectedUserView(),
           startDate,
           endDate,
-          now: getParsedNow()
+          now: getParsedNow(),
         })
         .on(
           'error',
@@ -304,16 +325,17 @@ const updateChartEpic = action$ =>
             err.status !== 304 &&
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
-    )
-    .do(() => dispatchSetIsLoading(false))
-    .map(({ body }) => restoreBarChartData(body))
+    ),
+    tap(() => dispatchSetIsLoading(false)),
+    map(({ body }) => restoreBarChartData(body)),
+  )
 
 const updateLeaderboardEpic = action$ =>
-  action$
-    .ofType(UPDATE_LEADERBOARD)
-    .do(() => dispatchSetIsLoading(true))
-    .pluck('payload')
-    .mergeMap(({ startDate, endDate }) =>
+  action$.pipe(
+    ofType(UPDATE_LEADERBOARD),
+    tap(() => dispatchSetIsLoading(true)),
+    pluck('payload'),
+    mergeMap(({ startDate, endDate }) =>
       getRequest('/leaderboardData')
         .query({
           wis: wisView(),
@@ -327,96 +349,103 @@ const updateLeaderboardEpic = action$ =>
             err.status !== 304 &&
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
-    )
-    .do(() => dispatchSetIsLoading(false))
-    .do(() => W && W.analytics('UPDATE_LEADERBOARD'))
-    .map(({ body }) => restoreLeaderboardData(body))
+    ),
+    tap(() => dispatchSetIsLoading(false)),
+    tap(() => W && W.analytics('UPDATE_LEADERBOARD')),
+    map(({ body }) => restoreLeaderboardData(body)),
+  )
 
 // effects
 const effectHandleAddTag = action$ =>
-  action$
-    .ofType(HANDLE_ADD_TAG)
-    .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
-    .do(({ permission }) => permission && dispatchAddTag())
-    .do(
+  action$.pipe(
+    ofType(HANDLE_ADD_TAG),
+    map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) })),
+    tap(({ permission }) => permission && dispatchAddTag()),
+    tap(
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
-    )
-    .ignoreElements()
+    ),
+    ignoreElements(),
+  )
 
 const effectHandleCalculation = action$ =>
-  action$
-    .ofType(HANDLE_CALCULATION)
-    .map(() => ({ ...checkBeforeAction() }))
-    .do(({ isError }) => dispatchChangeIsError(isError))
-    .do(({ permission }) => permission && dispatchCalculateTotalDuration())
-    .do(
+  action$.pipe(
+    ofType(HANDLE_CALCULATION),
+    map(() => ({ ...checkBeforeAction() })),
+    tap(({ isError }) => dispatchChangeIsError(isError)),
+    tap(({ permission }) => permission && dispatchCalculateTotalDuration()),
+    tap(
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
-    )
-    .ignoreElements()
+    ),
+    ignoreElements(),
+  )
 
 const effectHandleExport = action$ =>
-  action$
-    .ofType(HANDLE_EXPORT)
-    .map(() => ({ ...checkBeforeAction() }))
-    .do(({ isError }) => dispatchChangeIsError(isError))
-    .do(({ permission }) => permission && dispatchConvertJSONToCSV())
-    .do(
+  action$.pipe(
+    ofType(HANDLE_EXPORT),
+    map(() => ({ ...checkBeforeAction() })),
+    tap(({ isError }) => dispatchChangeIsError(isError)),
+    tap(({ permission }) => permission && dispatchConvertJSONToCSV()),
+    tap(
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
-    )
-    .ignoreElements()
+    ),
+    ignoreElements(),
+  )
 
 const effectHandleUpdateChart = action$ =>
-  action$
-    .ofType(HANDLE_UPDATE_CHART)
-    .pluck('payload')
-    .map(payload => ({ ...payload, ...checkBeforeAction() }))
-    .do(({ isError }) => dispatchChangeIsError(isError))
-    .do(
+  action$.pipe(
+    ofType(HANDLE_UPDATE_CHART),
+    pluck('payload'),
+    map(payload => ({ ...payload, ...checkBeforeAction() })),
+    tap(({ isError }) => dispatchChangeIsError(isError)),
+    tap(
       ({ startDate, endDate, permission }) =>
         permission && dispatchUpdateChart(startDate, endDate),
-    )
-    .do(
+    ),
+    tap(
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
-    )
-    .ignoreElements()
+    ),
+    ignoreElements(),
+  )
 
 const effectHandleUpdateLeaderboard = action$ =>
-  action$
-    .ofType(HANDLE_UPDATE_LEADERBOARD)
-    .pluck('payload')
-    .map(payload => ({ ...payload, ...checkBeforeAction() }))
-    .do(({ isError }) => dispatchChangeIsError(isError))
-    .do(
+  action$.pipe(
+    ofType(HANDLE_UPDATE_LEADERBOARD),
+    pluck('payload'),
+    map(payload => ({ ...payload, ...checkBeforeAction() })),
+    tap(({ isError }) => dispatchChangeIsError(isError)),
+    tap(
       ({ startDate, endDate, permission }) =>
         permission && dispatchUpdateLeaderboard(startDate, endDate),
-    )
-    .do(
+    ),
+    tap(
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
-    )
-    .ignoreElements()
+    ),
+    ignoreElements(),
+  )
 
 const changeExpandModeEpic = action$ =>
-  action$
-    .ofType(CHANGE_EXPAND_MODE)
-    .pluck('payload')
-    .do(({ value }) => W && W.analytics('EXPAND_MODE_CLICK', { mode: value }))
-    .ignoreElements()
+  action$.pipe(
+    ofType(CHANGE_EXPAND_MODE),
+    pluck('payload'),
+    tap(({ value }) => W && W.analytics('EXPAND_MODE_CLICK', { mode: value })),
+    ignoreElements(),
+  )
 
 const handleEditButtonEpic = action$ =>
-  action$
-    .ofType(EDIT_BUTTON_CLICK)
-    .pluck('payload')
-    .pluck('value')
-    .do(dispatchInsertLog)
-    .do(() => dispatchChangeIsOpenDialog(true))
-    .map(() => push('/Edit'))
-    .ignoreElements()
-
+  action$.pipe(
+    ofType(EDIT_BUTTON_CLICK),
+    pluck('payload'),
+    pluck('value'),
+    tap(dispatchInsertLog),
+    tap(() => dispatchChangeIsOpenDialog(true)),
+    map(() => push('/Edit')),
+    ignoreElements(),
+  )
 export default combineEpics(
   resetStaffDataEpic,
   loadStaffDataEpic,

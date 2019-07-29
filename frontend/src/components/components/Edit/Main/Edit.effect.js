@@ -1,6 +1,6 @@
 // modules
 import * as R from 'ramda'
-import { combineEpics } from 'redux-observable'
+import { combineEpics, ofType } from 'redux-observable'
 import 'rxjs'
 import { push } from '../../../../setup/redux'
 //actions
@@ -19,15 +19,16 @@ import {
   formatTime,
   checkEditTimesOrder,
 } from '../../../../helper/functions/time.helper'
+import { pluck, filter, map, tap, ignoreElements, delay } from 'rxjs/operators'
 // const
 const { W } = window
 
 // epics
 const submitEditEpic = action$ =>
-  action$
-    .ofType(SUBMIT_EDIT)
-    .pluck('payload')
-    .filter(
+  action$.pipe(
+    ofType(SUBMIT_EDIT),
+    pluck('payload'),
+    filter(
       ({ title }) =>
         title.length ||
         (() => {
@@ -35,16 +36,16 @@ const submitEditEpic = action$ =>
           dispatchChangeSnackbarStage('Title is empty')
           return false
         })(),
-    )
-    .filter(
+    ),
+    filter(
       ({ times }) =>
         checkEditTimesOrder(times) ||
         (() => {
           dispatchChangeSnackbarStage('Your intervals have overlap')
           return false
         })(),
-    )
-    .map(({ log, times, title }) => ({
+    ),
+    map(({ log, times, title }) => ({
       ...log,
       times: R.map(
         ({ _id, start, end }) => ({
@@ -55,8 +56,8 @@ const submitEditEpic = action$ =>
         times,
       ),
       title,
-    }))
-    .do(log => {
+    })),
+    tap(log => {
       postRequest('/updateLog')
         .send(log)
         .on('error', err => {
@@ -73,15 +74,17 @@ const submitEditEpic = action$ =>
           dispatchRefetchTotalDuration()
           W && W.analytics('EDIT_LOG')
         })
-    })
-    .ignoreElements()
+    }),
+    ignoreElements(),
+  )
 
 const closeEditEpic = action$ =>
-  action$
-    .ofType(CLOSE_EDIT)
-    .do(() => dispatchChangeIsOpenDialog(false))
-    .delay(200)
-    .map(() => push('/Report'))
-    .ignoreElements()
+  action$.pipe(
+    ofType(CLOSE_EDIT),
+    tap(() => dispatchChangeIsOpenDialog(false)),
+    delay(200),
+    map(() => push('/Report')),
+    ignoreElements(),
+  )
 
 export default combineEpics(submitEditEpic, closeEditEpic)

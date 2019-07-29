@@ -31,13 +31,14 @@ const Leaderbord = props => (
 
     <List>
       {props.data
+        .filter(users => users.length)
         .sort((personA, personB) => personA.score < personB.score)
         .map(({ userId, username, profileImage, score, workInProgress }) => (
           <React.Fragment key={userId}>
             <ListItem className="leaderboard-listItem">
               {workInProgress ? (
                 <Badge badgeContent={'On'}>
-                  <Avatar username={username} profileImage={profileImage} /> 
+                  <Avatar username={username} profileImage={profileImage} />
                 </Badge>
               ) : (
                 <Avatar username={username} profileImage={profileImage} />
