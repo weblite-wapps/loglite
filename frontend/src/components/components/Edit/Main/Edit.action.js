@@ -54,3 +54,20 @@ export const CHANGE_IS_OPEN_DIALOG = 'CHANGE_IS_OPEN_DIALOG'
 export const changeIsOpenDialog = createAction(CHANGE_IS_OPEN_DIALOG)
 export const dispatchChangeIsOpenDialog = (...args) =>
   dispatch(changeIsOpenDialog(...args))
+
+export const SET_TAG_QUERY_IN_EDIT = 'SET_TAG_QUERY_IN_EDIT'
+export const setTagQueryInEdit = createAction(SET_TAG_QUERY_IN_EDIT)
+export const dispatchSetTagQueryInEdit = (...args) =>
+  dispatch(setTagQueryInEdit(...args))
+
+export const CHANGE_SELECTED_TAGS_IN_EDIT = 'CHANGE_SELECTED_TAGS_IN_EDIT'
+export const changeSelectedTagsInEdit = createAction(
+  CHANGE_SELECTED_TAGS_IN_EDIT,
+)
+export const dispatchChangeSelectedTagsInEdit = (...args) =>
+  dispatch(changeSelectedTagsInEdit(...args))
+
+export const HANDLE_ADD_TAG_IN_EDIT = 'HANDLE_ADD_TAG_IN_EDIT'
+export const handleAddTagInEdit = createAction(HANDLE_ADD_TAG_IN_EDIT)
+export const dispatchHandleAddTagInEdit = (...args) =>
+  dispatch(handleAddTagInEdit(...args))

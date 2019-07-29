@@ -12,6 +12,9 @@ import {
   dispatchRemoveInterval,
   dispatchChangeEditPopOverId,
   dispatchChangeEditAnchorEl,
+  dispatchSetTagQueryInEdit,
+  dispatchChangeSelectedTagsInEdit,
+  dispatchHandleAddTagInEdit,
 } from './Edit.action'
 // views
 import {
@@ -22,6 +25,9 @@ import {
   anchorElView,
   popoverIdView,
   isOpenDialogView,
+  selectedTagsView,
+  queryTagView,
+  tagsView,
 } from './Edit.reducer'
 
 const mapStateToProps = () => ({
@@ -32,6 +38,10 @@ const mapStateToProps = () => ({
   anchorEl: anchorElView(),
   popoverId: popoverIdView(),
   isOpen: isOpenDialogView(),
+  selectedTags: selectedTagsView(),
+  suggestions: [],
+  queryTag: queryTagView(),
+  tags: tagsView(),
 })
 
 const mapDispatchToProps = () => ({
@@ -50,6 +60,9 @@ const mapDispatchToProps = () => ({
   removeInterval: dispatchRemoveInterval,
   changePopoverId: dispatchChangeEditPopOverId,
   changeAnchorEl: dispatchChangeEditAnchorEl,
+  onQueryTagChange: dispatchSetTagQueryInEdit,
+  onTagClick: dispatchChangeSelectedTagsInEdit,
+  handleAddTag: dispatchHandleAddTagInEdit,
 })
 
 export default connect(
