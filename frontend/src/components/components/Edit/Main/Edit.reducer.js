@@ -40,14 +40,13 @@ const initialState = {
 const queryTagLens = R.lensProp('queryTag')
 const suggestionsLens = R.lensProp('suggestions')
 
-
 // views
 export const logView = () => R.path(['Edit', 'log'])(getState())
 export const timesView = () => R.path(['Edit', 'times'])(getState())
 export const titleView = () => R.path(['Edit', 'title'])(getState())
 export const isErrorView = () => R.path(['Edit', 'isError'])(getState())
 export const anchorElView = () => R.path(['Edit', 'anchorEl'])(getState())
-export const popoverIdView = () => R.path(['Edit', 'popoverId'])(getState()) 
+export const popoverIdView = () => R.path(['Edit', 'popoverId'])(getState())
 export const isOpenDialogView = () =>
   R.path(['Edit', 'isOpenDialog'])(getState())
 export const selectedTagsView = () =>
@@ -126,10 +125,11 @@ const reducers = {
     tags: R.map(tag => R.assoc('isSelected', false, tag), tags),
   }),
 
-  [SET_TAG_QUERY_IN_EDIT]: (state, { queryTag }) =>
+  [SET_TAG_QUERY_IN_EDIT]: (state, queryTag) =>
     R.set(queryTagLens, queryTag)(state),
 
-  [FETCH_TAGS_IN_EDIT]: (state, { tags }) => R.set(suggestionsLens, tags, state),
+  [FETCH_TAGS_IN_EDIT]: (state, { tags }) =>
+    R.set(suggestionsLens, tags, state),
 
   [HANDLE_ADD_TAG_IN_EDIT]: state => ({
     ...state,
