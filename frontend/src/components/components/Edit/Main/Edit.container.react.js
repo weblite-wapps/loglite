@@ -29,8 +29,10 @@ import {
   queryTagView,
   tagsView,
 } from './Edit.reducer'
+// selectors
+import { getEditFilteredSuggestions } from '../../../Main/App.selector';
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state) => ({
   log: logView(),
   times: timesView(),
   title: titleView(),
@@ -39,8 +41,8 @@ const mapStateToProps = () => ({
   popoverId: popoverIdView(),
   isOpen: isOpenDialogView(),
   selectedTags: selectedTagsView(),
-  suggestions: [],
   queryTag: queryTagView(),
+  suggestions: getEditFilteredSuggestions(state),
   tags: tagsView(),
 })
 

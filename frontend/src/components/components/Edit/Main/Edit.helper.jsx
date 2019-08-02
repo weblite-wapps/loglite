@@ -67,7 +67,9 @@ export const Content = ({
         label="Title"
         isError={isError && isError.title}
       />
+
       <TagPanel {...others} />
+
       {times.map((time, index) => (
         <IntervalItem {...others} index={index} time={time} key={time._id} />
       ))}

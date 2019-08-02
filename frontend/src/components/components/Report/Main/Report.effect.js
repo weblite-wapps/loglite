@@ -413,6 +413,7 @@ const handleEditButtonEpic = action$ =>
     .pluck('payload')
     .pluck('value')
     .do(dispatchInsertLog)
+    // .do()
     .do(() => dispatchChangeIsOpenDialog(true))
     .map(() => push('/Edit'))
     .ignoreElements()
