@@ -46,7 +46,7 @@ const CustomizedPopover = ({
       onClick={onNop}
       classes={{ contained: classes.WorkList }}
     >
-      Nop
+      Nope
     </Button>
   </Popover>
 )
