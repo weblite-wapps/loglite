@@ -30,9 +30,9 @@ import {
   tagsView,
 } from './Edit.reducer'
 // selectors
-import { getEditFilteredSuggestions } from '../../../Main/App.selector';
+import { getEditFilteredSuggestions } from '../../../Main/App.selector'
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   log: logView(),
   times: timesView(),
   title: titleView(),
@@ -52,12 +52,13 @@ const mapDispatchToProps = () => ({
       times: timesView(),
       log: logView(),
       title: titleView(),
+      tags: selectedTagsView(),
     }),
   onStartTimeChange: ({ target: { value } }, id) =>
     dispatchChangeEditStartTime({ value, id }),
   onEndTimeChange: ({ target: { value } }, id) =>
     dispatchChangeEditEndTime({ value, id }),
-  close: dispatchCloseEdit,
+  close: e => dispatchCloseEdit(),
   onTitleChange: ({ target: { value } }) => dispatchChangeEditTitle(value),
   removeInterval: dispatchRemoveInterval,
   changePopoverId: dispatchChangeEditPopOverId,

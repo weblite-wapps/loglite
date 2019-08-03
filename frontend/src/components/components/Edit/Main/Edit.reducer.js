@@ -145,7 +145,7 @@ const reducers = {
     queryTag: '',
   }),
 
-  [CHANGE_SELECTED_TAGS_IN_EDIT]: (state, { tag }) => ({
+  [CHANGE_SELECTED_TAGS_IN_EDIT]: (state, tag) => ({
     ...state,
     selectedTags: tag.isSelected
       ? R.remove(
