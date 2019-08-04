@@ -68,23 +68,37 @@ const submitEditEpic = action$ =>
       title,
       tags,
     }))
-    .do(log => {
-      postRequest('/updateLog')
-        .send(log)
-        .on('error', err => {
-          if (err.status !== 304) {
-            dispatchChangeSnackbarStage('Server disconnected!')
-          }
-        })
-        .then(() => dispatchSetEditedLog(log))
-        .then(() => {
-          dispatchChangeIsOpenDialog(false)
-          dispatchChangeSnackbarStage('Updated Succesfully!')
-          push('/Report')
-          dispatchChangeTitleIsError(false)
-          dispatchRefetchTotalDuration()
-          W && W.analytics('EDIT_LOG')
-        })
+    .mergeMap(log =>
+      Promise.all([
+        postRequest('/updateLog')
+          .send(log)
+          .on('error', err => {
+            if (err.status !== 304) {
+              dispatchChangeSnackbarStage('Server disconnected!')
+            }
+          })
+          .then(() => dispatchSetEditedLog(log)),
+        postRequest('/saveTags')
+          .send({
+            tags: log.tags,
+            userId: userIdView(),
+            wis: wisView(),
+          })
+          .on(
+            'error',
+            err =>
+              err.status !== 304 &&
+              dispatchChangeSnackbarStage('Server disconnected!'),
+          ),
+      ]),
+    )
+    .do(() => {
+      dispatchChangeIsOpenDialog(false)
+      dispatchChangeSnackbarStage('Updated Succesfully!')
+      push('/Report')
+      dispatchChangeTitleIsError(false)
+      dispatchRefetchTotalDuration()
+      W && W.analytics('EDIT_LOG')
     })
     .ignoreElements()
 
@@ -105,7 +119,6 @@ const effectSearchTagsEpic = action$ =>
   action$
     .ofType(SET_TAG_QUERY_IN_EDIT)
     .pluck('payload')
-    .do(console.log)
     .filter(payload => payload.trim() !== '')
     .debounceTime(250)
     .do(() => dispatchSetIsLoading(true))

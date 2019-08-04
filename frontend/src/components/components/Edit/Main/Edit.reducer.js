@@ -140,19 +140,22 @@ const reducers = {
   [SET_TAG_QUERY_IN_EDIT]: (state, queryTag) =>
     R.set(queryTagLens, queryTag)(state),
 
-  [HANDLE_ADD_TAG_IN_EDIT]: state => ({
-    ...state,
-    selectedTags: R.append(R.toLower(state.queryTag), state.selectedTags),
-    tags: R.append(
-      {
-        label: R.toLower(state.queryTag),
-        _id: state.tags.length,
-        isSelected: true,
-      },
-      state.tags,
-    ),
-    queryTag: '',
-  }),
+  [HANDLE_ADD_TAG_IN_EDIT]: state =>
+    !R.includes(state.queryTag, state.selectedTags)
+      ? {
+          ...state,
+          selectedTags: R.append(R.toLower(state.queryTag), state.selectedTags),
+          tags: R.append(
+            {
+              label: R.toLower(state.queryTag),
+              _id: state.tags.length,
+              isSelected: true,
+            },
+            state.tags,
+          ),
+          queryTag: '',
+        }
+      : state,
 
   [CHANGE_SELECTED_TAGS_IN_EDIT]: (state, tag) => ({
     ...state,

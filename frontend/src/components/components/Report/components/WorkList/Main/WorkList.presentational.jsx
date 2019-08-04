@@ -77,7 +77,8 @@ class WorkList extends React.Component {
                   this.button = node
                 }}
                 variant="contained"
-                onClick={this.handleOpenPopover}
+                onClick={() => handleDeleteLog(_id)}
+                // onClick={() => handleDeleteLog(_id)}
                 classes={{ raised: classes.WorkList }}
               >
                 Delete
