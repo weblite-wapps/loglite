@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Collapse from '@material-ui/core/Collapse'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
-import Tooltip from '@material-ui/core/Tooltip' 
+import Tooltip from '@material-ui/core/Tooltip'
 // icons
 import FlagIcon from '@material-ui/icons/Flag'
 import ListAltIcon from '@material-ui/icons/ListAlt'
@@ -47,7 +47,6 @@ const IconButton = ({ expandMode, changeExpandMode, mode }) => (
       {mode === 'leaderboard' && <FlagIcon />}
     </Button>
   </Tooltip>
-
 )
 
 IconButton.propTypes = {

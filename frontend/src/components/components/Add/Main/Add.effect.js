@@ -1,6 +1,15 @@
 // modules
-import { combineEpics } from 'redux-observable'
-import 'rxjs'
+import { combineEpics, ofType } from 'redux-observable'
+import {
+  pluck,
+  map,
+  tap,
+  filter,
+  mergeMap,
+  ignoreElements,
+  debounceTime,
+  switchMap,
+} from 'rxjs/operators'
 // local modules
 import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 // helpers
@@ -36,13 +45,13 @@ import { queryTagView, tagsView } from './Add.reducer'
 const { W } = window
 
 const effectSearchTagsEpic = action$ =>
-  action$
-    .ofType(SET_QUERY_IN_ADD)
-    .pluck('payload')
-    .filter(payload => payload.queryTag.trim() !== '')
-    .debounceTime(250)
-    .do(() => dispatchSetIsLoading(true))
-    .switchMap(payload =>
+  action$.pipe(
+    ofType(SET_QUERY_IN_ADD),
+    pluck('payload'),
+    filter(payload => payload.queryTag.trim() !== ''),
+    debounceTime(250),
+    tap(() => dispatchSetIsLoading(true)),
+    switchMap(payload =>
       getRequest('/searchTags')
         .query({
           wis: wisView(),
@@ -55,36 +64,40 @@ const effectSearchTagsEpic = action$ =>
             err.status !== 304 &&
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
-    )
-    .do(() => dispatchSetIsLoading(false))
-    .do(({ body }) => dispatchFetchTagsInAdd(body))
-    .ignoreElements()
+    ),
+    tap(() => dispatchSetIsLoading(false)),
+    tap(({ body }) => dispatchFetchTagsInAdd(body)),
+    ignoreElements(),
+  )
 
 const effectHandleAddTag = action$ =>
-  action$
-    .ofType(HANDLE_ADD_TAG_IN_ADD)
-    .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
-    .do(({ permission }) => permission && dispatchAddTagInAdd())
-    .do(
+  action$.pipe(
+    ofType(HANDLE_ADD_TAG_IN_ADD),
+    map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) })),
+    tap(({ permission }) => permission && dispatchAddTagInAdd()),
+    tap(
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
-    )
-    .ignoreElements()
+    ),
+    ignoreElements(),
+  )
 
 const effectHandleAddLog = action$ =>
-  action$
-    .ofType(HANDLE_ADD_LOG)
-    .pluck('payload')
-    .map(payload => ({ ...payload, ...checkBeforeAddLog(payload) }))
-    .do(
+  action$.pipe(
+    ofType(HANDLE_ADD_LOG),
+    pluck('payload'),
+    map(payload => ({ ...payload, ...checkBeforeAddLog(payload) })),
+    tap(
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
-    )
-    .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
-    .filter(({ permission }) => permission)
-    .do(({ tags }) => !!tags.length && window.W && window.W.analytics('ADD_TAG'))
-    .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ title, tags }) =>
+    ),
+    tap(({ isError }) => dispatchChangeIsErrorInAdd(isError)),
+    filter(({ permission }) => permission),
+    tap(
+      ({ tags }) => !!tags.length && window.W && window.W.analytics('ADD_TAG'),
+    ),
+    tap(() => dispatchSetIsLoading(true)),
+    mergeMap(({ title, tags }) =>
       Promise.all([
         postRequest('/saveLog')
           .send({
@@ -115,29 +128,30 @@ const effectHandleAddLog = action$ =>
               dispatchChangeSnackbarStage('Server disconnected!'),
           ),
       ]),
-    )
-    .do(success => dispatchAddLog(success[0].body))
-    .do(success => dispatchLoadTagsDataInAdd(success[1].body))
-    .do(() => dispatchSetIsLoading(false))
-    .do(() => dispatchChangeTab('Home'))
-    .do(() => dispatchChangeSnackbarStage('Added successfully!'))
-    .do(() => dispatchResetInputs())
-    .do(() => W && W.analytics('ADD_LOG', { custom: false }))
-    .ignoreElements()
+    ),
+    tap(success => dispatchAddLog(success[0].body)),
+    tap(success => dispatchLoadTagsDataInAdd(success[1].body)),
+    tap(() => dispatchSetIsLoading(false)),
+    tap(() => dispatchChangeTab('Home')),
+    tap(() => dispatchChangeSnackbarStage('Added successfully!')),
+    tap(() => dispatchResetInputs()),
+    tap(() => W && W.analytics('ADD_LOG', { custom: false })),
+    ignoreElements(),
+  )
 
 const effectHandleAddCustomLog = action$ =>
-  action$
-    .ofType(HANDLE_ADD_CUSTOM_LOG)
-    .pluck('payload')
-    .map(payload => ({ ...payload, ...checkBeforeAddCustomLog(payload) }))
-    .do(
+  action$.pipe(
+    ofType(HANDLE_ADD_CUSTOM_LOG),
+    pluck('payload'),
+    map(payload => ({ ...payload, ...checkBeforeAddCustomLog(payload) })),
+    tap(
       ({ message, permission }) =>
         !permission && dispatchChangeSnackbarStage(message),
-    )
-    .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
-    .filter(({ permission }) => permission)
-    .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ title, tags, start, end, date }) =>
+    ),
+    tap(({ isError }) => dispatchChangeIsErrorInAdd(isError)),
+    filter(({ permission }) => permission),
+    tap(() => dispatchSetIsLoading(true)),
+    mergeMap(({ title, tags, start, end, date }) =>
       Promise.all([
         postRequest('/saveCustomLog')
           .send({
@@ -168,15 +182,16 @@ const effectHandleAddCustomLog = action$ =>
               dispatchChangeSnackbarStage('Server disconnected!'),
           ),
       ]),
-    )
-    .do(success => dispatchAddLog(success[0].body))
-    .do(success => dispatchLoadTagsDataInAdd(success[1].body))
-    .do(() => dispatchSetIsLoading(false))
-    .do(() => dispatchChangeSnackbarStage('Added successfully!'))
-    .do(() => dispatchChangeTab('Home'))
-    .do(() => dispatchResetInputs())
-    .do(() => W && W.analytics('ADD_LOG', { custom: true }))
-    .ignoreElements()
+    ),
+    tap(success => dispatchAddLog(success[0].body)),
+    tap(success => dispatchLoadTagsDataInAdd(success[1].body)),
+    tap(() => dispatchSetIsLoading(false)),
+    tap(() => dispatchChangeSnackbarStage('Added successfully!')),
+    tap(() => dispatchChangeTab('Home')),
+    tap(() => dispatchResetInputs()),
+    tap(() => W && W.analytics('ADD_LOG', { custom: true })),
+    ignoreElements(),
+  )
 
 export default combineEpics(
   effectSearchTagsEpic,

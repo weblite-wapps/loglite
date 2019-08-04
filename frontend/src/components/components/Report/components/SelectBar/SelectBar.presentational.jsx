@@ -35,6 +35,7 @@ const SelectBar = ({
           }}
           margin="normal"
         >
+          {console.log(users)}
           {users.map(user => (
             <option key={user.id} value={user.id}>
               {user.username}
