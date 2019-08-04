@@ -72,13 +72,6 @@ export const handleAddTagInEdit = createAction(HANDLE_ADD_TAG_IN_EDIT)
 export const dispatchHandleAddTagInEdit = (...args) =>
   dispatch(handleAddTagInEdit(...args))
 
-export const FETCH_TAGS_IN_EDIT = 'FETCH_TAGS_IN_EDIT'
-export const fetchTagsInEdit = createAction(FETCH_TAGS_IN_EDIT, tags => ({
-  tags,
-}))
-export const dispatchFetchTagsInEdit = (...args) =>
-  dispatch(fetchTagsInEdit(...args))
-
 export const LOAD_TAGS_DATA_IN_EDIT = 'LOAD_TAGS_DATA_IN_EDIT'
 export const loadTagsDataInEdit = createAction(
   LOAD_TAGS_DATA_IN_EDIT,
@@ -86,3 +79,18 @@ export const loadTagsDataInEdit = createAction(
 )
 export const dispatchLoadTagsDataInEdit = (...args) =>
   dispatch(loadTagsDataInEdit(...args))
+
+export const UPDATE_TAGS_DATA_IN_EDIT = 'UPDATE_TAGS_DATA_IN_EDIT'
+export const updateTagsDataInEdit = createAction(
+  UPDATE_TAGS_DATA_IN_EDIT,
+  tags => ({ tags }),
+)
+export const dispatchUpdateTagsDataInEdit = (...args) =>
+  dispatch(updateTagsDataInEdit(...args))
+
+export const FETCH_TAGS_IN_EDIT = 'FETCH_TAGS_IN_EDIT'
+export const fetchTagsInEdit = createAction(FETCH_TAGS_IN_EDIT, tags => ({
+  tags,
+}))
+export const dispatchFetchTagsInEdit = (...args) =>
+  dispatch(fetchTagsInEdit(...args))

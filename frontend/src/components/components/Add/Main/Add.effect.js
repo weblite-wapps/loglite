@@ -24,10 +24,10 @@ import {
   HANDLE_ADD_LOG,
   HANDLE_ADD_CUSTOM_LOG,
   dispatchFetchTagsInAdd,
-  dispatchLoadTagsDataInAdd,
   dispatchAddTagInAdd,
   dispatchChangeIsErrorInAdd,
   dispatchResetInputs,
+  dispatchLoadTagsDataInAdd,
 } from './Add.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'

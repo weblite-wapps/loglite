@@ -65,7 +65,7 @@ const mapDispatchToProps = () => ({
   changeAnchorEl: dispatchChangeEditAnchorEl,
   onQueryTagChange: dispatchSetTagQueryInEdit,
   onTagClick: dispatchChangeSelectedTagsInEdit,
-  handleAddTag: dispatchHandleAddTagInEdit,
+  handleAddTag: e => dispatchHandleAddTagInEdit(),
 })
 
 export default connect(

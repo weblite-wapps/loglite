@@ -15,10 +15,11 @@ import {
   CHANGE_EDIT_POPOVER_ID,
   CHANGE_EDIT_ANCHOR_EL,
   CHANGE_IS_OPEN_DIALOG,
-  LOAD_TAGS_DATA_IN_EDIT,
   SET_TAG_QUERY_IN_EDIT,
   HANDLE_ADD_TAG_IN_EDIT,
   CHANGE_SELECTED_TAGS_IN_EDIT,
+  UPDATE_TAGS_DATA_IN_EDIT,
+  LOAD_TAGS_DATA_IN_EDIT,
   FETCH_TAGS_IN_EDIT,
 } from './Edit.action'
 
@@ -125,11 +126,19 @@ const reducers = {
     tags: R.map(tag => R.assoc('isSelected', false, tag), tags),
   }),
 
-  [SET_TAG_QUERY_IN_EDIT]: (state, queryTag) =>
-    R.set(queryTagLens, queryTag)(state),
+  [UPDATE_TAGS_DATA_IN_EDIT]: (state, { tags }) => ({
+    ...state,
+    tags: R.map(
+      tag => R.assoc('isSelected', R.includes(tag.label, tags), tag),
+      state.tags,
+    ),
+  }),
 
   [FETCH_TAGS_IN_EDIT]: (state, { tags }) =>
     R.set(suggestionsLens, tags, state),
+
+  [SET_TAG_QUERY_IN_EDIT]: (state, queryTag) =>
+    R.set(queryTagLens, queryTag)(state),
 
   [HANDLE_ADD_TAG_IN_EDIT]: state => ({
     ...state,
