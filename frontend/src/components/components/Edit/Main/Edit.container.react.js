@@ -12,6 +12,9 @@ import {
   dispatchRemoveInterval,
   dispatchChangeEditPopOverId,
   dispatchChangeEditAnchorEl,
+  dispatchSetTagQueryInEdit,
+  dispatchChangeSelectedTagsInEdit,
+  dispatchHandleAddTagInEdit,
 } from './Edit.action'
 // views
 import {
@@ -22,9 +25,14 @@ import {
   anchorElView,
   popoverIdView,
   isOpenDialogView,
+  selectedTagsView,
+  queryTagView,
+  tagsView,
 } from './Edit.reducer'
+// selectors
+import { getEditFilteredSuggestions } from '../../../Main/App.selector'
 
-const mapStateToProps = () => ({
+const mapStateToProps = state => ({
   log: logView(),
   times: timesView(),
   title: titleView(),
@@ -32,6 +40,10 @@ const mapStateToProps = () => ({
   anchorEl: anchorElView(),
   popoverId: popoverIdView(),
   isOpen: isOpenDialogView(),
+  selectedTags: selectedTagsView(),
+  queryTag: queryTagView(),
+  suggestions: getEditFilteredSuggestions(state),
+  tags: tagsView(),
 })
 
 const mapDispatchToProps = () => ({
@@ -40,16 +52,20 @@ const mapDispatchToProps = () => ({
       times: timesView(),
       log: logView(),
       title: titleView(),
+      tags: selectedTagsView(),
     }),
   onStartTimeChange: ({ target: { value } }, id) =>
     dispatchChangeEditStartTime({ value, id }),
   onEndTimeChange: ({ target: { value } }, id) =>
     dispatchChangeEditEndTime({ value, id }),
-  close: dispatchCloseEdit,
+  close: e => dispatchCloseEdit(),
   onTitleChange: ({ target: { value } }) => dispatchChangeEditTitle(value),
   removeInterval: dispatchRemoveInterval,
   changePopoverId: dispatchChangeEditPopOverId,
   changeAnchorEl: dispatchChangeEditAnchorEl,
+  onQueryTagChange: dispatchSetTagQueryInEdit,
+  onTagClick: dispatchChangeSelectedTagsInEdit,
+  handleAddTag: e => dispatchHandleAddTagInEdit(),
 })
 
 export default connect(

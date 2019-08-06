@@ -9,16 +9,27 @@ import {
   CLOSE_EDIT,
   dispatchChangeTitleIsError,
   dispatchChangeIsOpenDialog,
+  loadTagsDataInEdit,
+  SET_TAG_QUERY_IN_EDIT,
+  dispatchFetchTagsInEdit,
 } from './Edit.action'
-import { dispatchSetEditedLog } from '../../../Main/App.action'
+import {
+  dispatchSetEditedLog,
+  dispatchSetIsLoading,
+} from '../../../Main/App.action'
 import { dispatchRefetchTotalDuration } from '../../Home/Main/Home.action'
+import { LOAD_TAGS_DATA_IN_ADD } from '../../Add/Main/Add.action'
 import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 //helper
-import { postRequest } from '../../../../helper/functions/request.helper'
+import {
+  postRequest,
+  getRequest,
+} from '../../../../helper/functions/request.helper'
 import {
   formatTime,
   checkEditTimesOrder,
 } from '../../../../helper/functions/time.helper'
+import { wisView, userIdView } from '../../../Main/App.reducer'
 // const
 const { W } = window
 
@@ -44,7 +55,7 @@ const submitEditEpic = action$ =>
           return false
         })(),
     )
-    .map(({ log, times, title }) => ({
+    .map(({ log, times, title, tags }) => ({
       ...log,
       times: R.map(
         ({ _id, start, end }) => ({
@@ -55,24 +66,39 @@ const submitEditEpic = action$ =>
         times,
       ),
       title,
+      tags,
     }))
-    .do(log => {
-      postRequest('/updateLog')
-        .send(log)
-        .on('error', err => {
-          if (err.status !== 304) {
-            dispatchChangeSnackbarStage('Server disconnected!')
-          }
-        })
-        .then(() => dispatchSetEditedLog(log))
-        .then(() => {
-          dispatchChangeIsOpenDialog(false)
-          dispatchChangeSnackbarStage('Updated Succesfully!')
-          push('/Report')
-          dispatchChangeTitleIsError(false)
-          dispatchRefetchTotalDuration()
-          W && W.analytics('EDIT_LOG')
-        })
+    .mergeMap(log =>
+      Promise.all([
+        postRequest('/updateLog')
+          .send(log)
+          .on('error', err => {
+            if (err.status !== 304) {
+              dispatchChangeSnackbarStage('Server disconnected!')
+            }
+          })
+          .then(() => dispatchSetEditedLog(log)),
+        postRequest('/saveTags')
+          .send({
+            tags: log.tags,
+            userId: userIdView(),
+            wis: wisView(),
+          })
+          .on(
+            'error',
+            err =>
+              err.status !== 304 &&
+              dispatchChangeSnackbarStage('Server disconnected!'),
+          ),
+      ]),
+    )
+    .do(() => {
+      dispatchChangeIsOpenDialog(false)
+      dispatchChangeSnackbarStage('Updated Succesfully!')
+      push('/Report')
+      dispatchChangeTitleIsError(false)
+      dispatchRefetchTotalDuration()
+      W && W.analytics('EDIT_LOG')
     })
     .ignoreElements()
 
@@ -84,4 +110,39 @@ const closeEditEpic = action$ =>
     .map(() => push('/Report'))
     .ignoreElements()
 
-export default combineEpics(submitEditEpic, closeEditEpic)
+const loadTagsDataEpic = action$ =>
+  action$
+    .ofType(LOAD_TAGS_DATA_IN_ADD)
+    .map(action => loadTagsDataInEdit(action.payload.tags))
+
+const effectSearchTagsEpic = action$ =>
+  action$
+    .ofType(SET_TAG_QUERY_IN_EDIT)
+    .pluck('payload')
+    .filter(payload => payload.trim() !== '')
+    .debounceTime(250)
+    .do(() => dispatchSetIsLoading(true))
+    .switchMap(payload =>
+      getRequest('/searchTags')
+        .query({
+          wis: wisView(),
+          userId: userIdView(),
+          label: payload,
+        })
+        .on(
+          'error',
+          err =>
+            err.status !== 304 &&
+            dispatchChangeSnackbarStage('Server disconnected!'),
+        ),
+    )
+    .do(() => dispatchSetIsLoading(false))
+    .do(({ body }) => dispatchFetchTagsInEdit(body))
+    .ignoreElements()
+
+export default combineEpics(
+  submitEditEpic,
+  closeEditEpic,
+  loadTagsDataEpic,
+  effectSearchTagsEpic,
+)

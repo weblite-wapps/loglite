@@ -6,14 +6,17 @@ import { push } from '../../../../setup/redux'
 // local modules
 import { dispatchChangeSnackbarStage } from '../../Snackbar/Snackbar.action'
 // helpers
-import { getParsedNow } from '../../../../helper/functions/time.helper';
+import { getParsedNow } from '../../../../helper/functions/time.helper'
 import { getRequest } from '../../../../helper/functions/request.helper'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 import { checkBeforeAddTag } from '../../../Main/App.helper'
 import { checkBeforeAction } from './Report.helper'
 // actions
 import { loadLogsData, dispatchSetIsLoading } from '../../../Main/App.action'
-import { dispatchChangeIsOpenDialog } from '../../../components/Edit/Main/Edit.action'
+import {
+  dispatchChangeIsOpenDialog,
+  dispatchUpdateTagsDataInEdit,
+} from '../../../components/Edit/Main/Edit.action'
 import { LOAD_TAGS_DATA_IN_ADD } from '../../Add/Main/Add.action'
 import {
   RESET_STAFF_LOGS,
@@ -296,7 +299,7 @@ const updateChartEpic = action$ =>
           userId: selectedUserView(),
           startDate,
           endDate,
-          now: getParsedNow()
+          now: getParsedNow(),
         })
         .on(
           'error',
@@ -413,6 +416,8 @@ const handleEditButtonEpic = action$ =>
     .pluck('payload')
     .pluck('value')
     .do(dispatchInsertLog)
+    .pluck('tags')
+    .do(dispatchUpdateTagsDataInEdit)
     .do(() => dispatchChangeIsOpenDialog(true))
     .map(() => push('/Edit'))
     .ignoreElements()
