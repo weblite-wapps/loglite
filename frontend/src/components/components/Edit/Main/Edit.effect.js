@@ -22,7 +22,7 @@ import {
   formatTime,
   checkEditTimesOrder,
 } from '../../../../helper/functions/time.helper'
-import { checkBeforeEditLog } from './Edit.helper'
+import { checkBeforeEditLog } from './Edit.helpers'
 // const
 const { W } = window
 

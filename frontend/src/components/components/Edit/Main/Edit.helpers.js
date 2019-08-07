@@ -51,9 +51,14 @@ export const checkBeforeAddLog = ({ title, quickMode = false }) => {
   return getObject('title', 'Enter title first!', false)
 }
 
-export const checkBeforeEditLog = ({ times, log: { logId } }) => {
+export const checkBeforeEditLog = ({ times, log, log: { _id } }) => {
+  const logId = _id
+  console.log('times ', times)
+  console.log('log ', log)
   const logs = R.filter(({ _id }) => _id !== logId, logsView())
+  console.log('logs ', logs)
   const now = getNow()
+  console.log('now ', now)
   return R.reduce(
     (acc, { date, start, end }) => {
       if (date && start && end) {

@@ -17,6 +17,7 @@ import {
   TOGGLE_IS_PINNED,
   SET_ABOUT_MODE,
   SET_EDITED_LOG,
+  SORT_ON_FREQUENTLY_USAGE,
 } from './App.action'
 
 // state
@@ -131,6 +132,11 @@ const reducers = {
   [SET_EDITED_LOG]: (state, newlog) => ({
     ...state,
     logs: R.map(log => (log._id === newlog._id ? newlog : log), state.logs),
+  }),
+
+  [SORT_ON_FREQUENTLY_USAGE]: state => ({
+    ...state,
+    logs: R.sort((a, b) => b.times.length - a.times.length, state.logs),
   }),
 }
 

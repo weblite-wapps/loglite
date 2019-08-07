@@ -99,6 +99,11 @@ export const SET_EDITED_LOG = 'SET_EDITED_LOG'
 export const setEditedLog = createAction(SET_EDITED_LOG)
 export const dispatchSetEditedLog = (...args) => dispatch(setEditedLog(...args))
 
+export const SORT_ON_FREQUENTLY_USAGE = 'SORT_ON_FREQUENTLY_USAGE'
+export const sortOnFrequentlyUsage = createAction(SORT_ON_FREQUENTLY_USAGE)
+export const dispatchSortOnFrequentlyUsage = (...args) =>
+  dispatch(sortOnFrequentlyUsage(...args))
+
 // effects
 export const HANDLE_SAVE_START_TIME = 'HANDLE_SAVE_START_TIME'
 export const handleSaveStartTime = createAction(
