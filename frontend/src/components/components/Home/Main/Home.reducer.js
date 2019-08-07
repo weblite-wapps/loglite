@@ -4,6 +4,7 @@ import * as R from 'ramda'
 import { getState } from '../../../../setup/redux'
 // actions
 import {
+  SET_TODAY,
   CHANGE_TEXT_SLIDER,
   LOAD_TOTAL_DURATIONS,
   SET_SECONDS_ELAPSED,
@@ -14,8 +15,8 @@ import {
 import { NextName, NextDuration } from './Home.helper'
 // state
 const initialState = {
-  textSlider: { name: 'Today', duration: '' },
-  homeTotalDuration: { today: '', thisWeek: '', thisMonth: '' },
+  textSlider: { name: 'Today', duration: 0 },
+  homeTotalDuration: { today: 0, thisWeek: 0, thisMonth: 0 },
   secondsElapsed: 0,
   runningId: '',
 }
@@ -32,6 +33,14 @@ export const runningIdView = () => R.path(['Home', 'runningId'])(getState())
 
 // reducers
 const reducers = {
+  [SET_TODAY]: (state, value) => ({
+    ...state,
+    textSlider: {
+      name: 'Today',
+      duration: value,
+    },
+  }),
+
   [CHANGE_TEXT_SLIDER]: (state, { value }) => ({
     ...state,
     textSlider: {

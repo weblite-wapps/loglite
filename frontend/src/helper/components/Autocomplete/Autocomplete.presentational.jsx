@@ -27,6 +27,7 @@ const CustomizedAutocomplete = ({
       <div className="autoComplete-group">
         <input
           {...kind}
+          dir="auto"
           type="text"
           required
           onKeyPress={ev => {

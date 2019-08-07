@@ -3,7 +3,7 @@ import * as R from 'ramda'
 // local modules
 import { getState } from '../../../../setup/redux'
 // helpers
-import { previousDay, nextDay } from './Report.helper'
+import { previousDay, nextDay } from '../../../../helper/functions/date.helper'
 import { getNow } from '../../../../helper/functions/time.helper'
 // actions
 import {

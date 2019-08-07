@@ -13,9 +13,7 @@
 }
 
 .report-controlBar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
   position: relative;
   margin-bottom: 10px;
 }
@@ -27,27 +25,5 @@
 }
 
 .report-chart {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
 }
-
-// .report-container ::-webkit-scrollbar-track {
-//   background-color: #ffffff;
-// }
-
-// .report-container ::-webkit-scrollbar {
-//   width: 10px;
-//   background-color: #ffffff;
-//   border-radius: 20px;
-// }
-
-// .report-container ::-webkit-scrollbar-thumb {
-//   background-color: #c9c9c9;
-//   border-radius: 40px;
-//   border: 2px solid #ffffff;
-// }
-
-// .report-container ::-webkit-scrollbar-thumb:hover {
-//   border: 0px solid #ffffff;
-// }

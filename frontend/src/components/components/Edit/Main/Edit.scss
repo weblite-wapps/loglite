@@ -1,3 +1,6 @@
+@import '../../../../helper/style/mixin.scss';
+
+
 .intervalList {
   margin-top: 70px;
   min-width: 200px;
@@ -15,10 +18,8 @@
 }
 
 .interval-panel {
-  display: flex;
+  @include flex-center;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   margin-left: 0px;
   font-size: 10px;
 }

@@ -32,15 +32,15 @@ const Leaderbord = props => (
     <List>
       {props.data
         .sort((personA, personB) => personA.score < personB.score)
-        .map(({ userId, username, score, workInProgress }) => (
+        .map(({ userId, username, profileImage, score, workInProgress }) => (
           <React.Fragment key={userId}>
             <ListItem className="leaderboard-listItem">
               {workInProgress ? (
                 <Badge badgeContent={'On'}>
-                  <Avatar username={username} />
+                  <Avatar username={username} profileImage={profileImage} /> 
                 </Badge>
               ) : (
-                <Avatar username={username} />
+                <Avatar username={username} profileImage={profileImage} />
               )}
 
               <ListItemText primary={username} />

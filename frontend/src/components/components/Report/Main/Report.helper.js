@@ -1,6 +1,6 @@
 // modules
 import * as R from 'ramda'
-import { differenceInSeconds, addDays, subDays } from 'date-fns'
+import { differenceInSeconds } from 'date-fns'
 // views
 import {
   startDateView,
@@ -9,11 +9,14 @@ import {
 // helpers
 import { getNow } from '../../../../helper/functions/time.helper'
 
+export const tooltipTitles = {
+  'workList': 'work list',
+  'export': 'export',
+  'showChart': 'own chart',
+  'leaderboard': 'leaderboard',
+}
+
 export const isTime = time => R.test(/^Total/, time)
-
-export const previousDay = date => subDays(date, 1)
-
-export const nextDay = date => addDays(date, 1)
 
 export const sumTimes = times =>
   R.reduce(
@@ -35,7 +38,7 @@ export const formattedSeconds = seconds => {
     ? `Total: ${Math.floor(seconds / 3600)}h`
     : `Total: ${Math.floor(seconds / 3600)}h & ${Math.floor(
         (seconds % 3600) / 60,
-      )}m`
+      )}m` 
 }
 
 const getObject = (trueOption, message, permission) => {

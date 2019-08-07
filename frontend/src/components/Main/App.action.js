@@ -1,6 +1,10 @@
 // modules
-import { createAction } from 'redux-actions'
-import { dispatch } from '../../setup/redux'
+import {
+  createAction
+} from 'redux-actions'
+import {
+  dispatch
+} from '../../setup/redux'
 
 // actions
 export const SET_API = 'SET_API'
@@ -16,25 +20,28 @@ export const dispatchFetchTodayData = (...args) =>
   dispatch(fetchTodayData(...args))
 
 export const SET_ISLOADING = 'SET_ISLOADING'
-export const setIsLoading = createAction(SET_ISLOADING, value => ({ value }))
+export const setIsLoading = createAction(SET_ISLOADING, value => ({
+  value
+}))
 export const dispatchSetIsLoading = (...args) => dispatch(setIsLoading(...args))
 
 export const CHANGE_TAB = 'CHANGE_TAB'
-export const changeTab = createAction(CHANGE_TAB, value => ({ value }))
+export const changeTab = createAction(CHANGE_TAB, value => ({
+  value
+}))
 export const dispatchChangeTab = (...args) => dispatch(changeTab(...args))
 
 export const LOAD_USERS_DATA = 'LOAD_USERS_DATA'
-export const loadUsersData = createAction(LOAD_USERS_DATA, users => ({ users }))
+export const loadUsersData = createAction(LOAD_USERS_DATA, users => ({
+  users
+}))
 export const dispatchLoadUsersData = (...args) =>
   dispatch(loadUsersData(...args))
 
-export const FETCH_ADMIN_DATA = 'FETCH_ADMIN_DATA'
-export const fetchAdminData = createAction(FETCH_ADMIN_DATA)
-export const dispatchFetchAdminData = (...args) =>
-  dispatch(fetchAdminData(...args))
-
 export const LOAD_LOGS_DATA = 'LOAD_LOGS_DATA'
-export const loadLogsData = createAction(LOAD_LOGS_DATA, logs => ({ logs }))
+export const loadLogsData = createAction(LOAD_LOGS_DATA, logs => ({
+  logs
+}))
 export const dispatchLoadLogsData = (...args) => dispatch(loadLogsData(...args))
 
 export const CHANGE_POPOVER_ID = 'CHANGE_POPOVER_ID'
@@ -45,23 +52,35 @@ export const dispatchChangePopoverId = (...args) =>
   dispatch(changePopoverId(...args))
 
 export const ADD_LOG = 'ADD_LOG'
-export const addLog = createAction(ADD_LOG, log => ({ log }))
+export const addLog = createAction(ADD_LOG, log => ({
+  log
+}))
 export const dispatchAddLog = (...args) => dispatch(addLog(...args))
 
 export const ADD_LOG_TO_NEXT_DAY = 'ADD_LOG_TO_NEXT_DAY'
 export const addLogToNextDay = createAction(
   ADD_LOG_TO_NEXT_DAY,
-  (title, tags, isPinned, end, date) => ({ title, tags, isPinned, end, date }),
+  (title, tags, isPinned, end, date) => ({
+    title,
+    tags,
+    isPinned,
+    end,
+    date
+  }),
 )
 export const dispatchAddLogToNextDay = (...args) =>
   dispatch(addLogToNextDay(...args))
 
 export const RESTORE_LOG = 'RESTORE_LOG'
-export const restoreLog = createAction(RESTORE_LOG, log => ({ log }))
+export const restoreLog = createAction(RESTORE_LOG, log => ({
+  log
+}))
 export const dispatchRestoreLog = (...args) => dispatch(restoreLog(...args))
 
 export const DELETE_LOG = 'DELETE_LOG'
-export const deleteLog = createAction(DELETE_LOG, _id => ({ _id }))
+export const deleteLog = createAction(DELETE_LOG, _id => ({
+  _id
+}))
 export const dispatchDeleteLog = (...args) => dispatch(deleteLog(...args))
 
 export const SAVE_START_TIME = 'SAVE_START_TIME'
@@ -106,17 +125,19 @@ export const dispatchSortOnFrequentlyUsage = (...args) =>
 
 // effects
 export const HANDLE_SAVE_START_TIME = 'HANDLE_SAVE_START_TIME'
-export const handleSaveStartTime = createAction(
-  HANDLE_SAVE_START_TIME,
-  (_id, start) => ({ _id, start }),
-)
+export const handleSaveStartTime = createAction(HANDLE_SAVE_START_TIME, (_id) => ({ _id }))
 export const dispatchHandleSaveStartTime = (...args) =>
   dispatch(handleSaveStartTime(...args))
 
 export const HANDLE_SAVE_END_TIME = 'HANDLE_SAVE_END_TIME'
 export const handleSaveEndTime = createAction(
   HANDLE_SAVE_END_TIME,
-  (runningId, end, _id, times) => ({ runningId, end, _id, times }),
+  (runningId, end, _id, times) => ({
+    runningId,
+    end,
+    _id,
+    times
+  }),
 )
 export const dispatchHandleSaveEndTime = (...args) =>
   dispatch(handleSaveEndTime(...args))
@@ -124,12 +145,20 @@ export const dispatchHandleSaveEndTime = (...args) =>
 export const HANDLE_TOGGLE_IS_PINNED = 'HANDLE_TOGGLE_IS_PINNED'
 export const handleToggleIsPinned = createAction(
   HANDLE_TOGGLE_IS_PINNED,
-  (_id, title, tags, value) => ({ _id, title, tags, value }),
+  (_id, title, tags, value, lastDate) => ({
+    _id,
+    title,
+    tags,
+    value,
+    lastDate,
+  }),
 )
 export const dispatchHandleToggleIsPinned = (...args) =>
   dispatch(handleToggleIsPinned(...args))
 
 export const HANDLE_DELETE_LOG = 'HANDLE_DELETE_LOG'
-export const handleDeleteLog = createAction(HANDLE_DELETE_LOG, _id => ({ _id }))
+export const handleDeleteLog = createAction(HANDLE_DELETE_LOG, _id => ({
+  _id
+}))
 export const dispatchHandleDeleteLog = (...args) =>
   dispatch(handleDeleteLog(...args))

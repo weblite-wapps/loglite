@@ -18,6 +18,8 @@ import CloseButton from '@material-ui/icons/Close'
 import Done from '@material-ui/icons/Done'
 // components
 import Popover from '../../../../helper/components/Popover/Popover.presentational'
+import { TagPanel } from '../../../../helper/functions/common.helper.component'
+
 // helpers
 import Picker from '../../../../helper/components/Picker/Picker.presentational'
 import TextField from '../../../../helper/components/TextField/TextField.presentational'
@@ -50,7 +52,13 @@ AppBar.propTypes = {
 
 export const AppBarWithStyle = withStyles(style)(AppBar)
 
-export const Content = ({ title, onTitleChange, times, isError, ...other }) => (
+export const Content = ({
+  title,
+  onTitleChange,
+  times,
+  isError,
+  ...others
+}) => (
   <div className="intervalList">
     <div className="title-panel">
       <TextField
@@ -60,9 +68,11 @@ export const Content = ({ title, onTitleChange, times, isError, ...other }) => (
         isError={isError && isError.title}
       />
     </div>
+
+    <TagPanel {...others} />
     <List>
       {times.map((time, index) => (
-        <IntervalItem {...other} index={index} time={time} key={time._id} />
+        <IntervalItem {...others} index={index} time={time} key={time._id} />
       ))}
     </List>
   </div>

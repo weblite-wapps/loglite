@@ -1,11 +1,12 @@
 // modules
 import { combineEpics } from 'redux-observable'
 import 'rxjs'
+import * as R from 'ramda'
 // import moment from 'moment-timezone'
 import { dispatchChangeSnackbarStage } from '../components/Snackbar/Snackbar.action'
 import { push } from '../../setup/redux'
 // helpers
-import { getUnique } from './App.helper'
+import { getUnique, mapToUsername, isUniqueLog, getLog } from './App.helper'
 import { getRequest, postRequest } from '../../helper/functions/request.helper'
 import {
   formatTime,
@@ -29,6 +30,7 @@ import {
   dispatchLoadTotalDurations,
   dispatchChangeRunningId,
   dispatchSetSecondsElapsed,
+  dispatchSetToday,
 } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
@@ -37,14 +39,12 @@ import {
   HANDLE_SAVE_START_TIME,
   HANDLE_SAVE_END_TIME,
   HANDLE_TOGGLE_IS_PINNED,
-  FETCH_ADMIN_DATA,
   CHANGE_TAB,
   SET_ABOUT_MODE,
   dispatchAddLog,
   dispatchDeleteLog,
   dispatchLoadLogsData,
   dispatchLoadUsersData,
-  dispatchFetchAdminData,
   dispatchSetIsLoading,
   dispatchSetAboutMode,
   dispatchChangePopoverId,
@@ -57,26 +57,8 @@ import {
 // views
 import { wisView, userIdView, userNameView, aboutModeView } from './App.reducer'
 import { selectedUserView } from '../components/Report/Main/Report.reducer'
-// const
-const { W } = window
-
-const fetchUsersEpic = action$ =>
-  action$
-    .ofType(FETCH_ADMIN_DATA)
-    .mergeMap(() =>
-      getRequest('/fetchUsers')
-        .query({
-          wis: wisView(),
-        })
-        .on(
-          'error',
-          err =>
-            err.status !== 304 &&
-            dispatchChangeSnackbarStage('Server disconnected!'),
-        ),
-    )
-    .do(({ body }) => dispatchLoadUsersData(body))
-    .ignoreElements()
+// selectors
+import { getTotalDuration } from '../components/Home/components/Summary/Summary.selector'
 
 const saveUsersEpic = action$ =>
   action$
@@ -96,14 +78,33 @@ const saveUsersEpic = action$ =>
         ),
     )
     .do(({ body }) => body && dispatchLoadUsersData([body]))
-    .do(() => dispatchFetchAdminData())
+    .mergeMap(() =>
+      getRequest('/fetchUsers')
+        .query({
+          wis: wisView(),
+        })
+        .on(
+          'error',
+          err =>
+            err.status !== 304 &&
+            dispatchChangeSnackbarStage('Server disconnected!'),
+        ),
+    )
+    .do(
+      ({ body }) =>
+        window.W &&
+        window.W.getUsersInfo(mapToUsername(body)).then(info => {
+          const users = R.values(info)
+          dispatchLoadUsersData(users)
+        }),
+    )
     .ignoreElements()
 
 const initialFetchEpic = action$ =>
   action$
     .ofType(FETCH_TODAY_DATA)
     .do(() => dispatchSetIsLoading(true))
-    .do(() => W && W.start())
+    .do(() => window.W && window.W.start())
     .mergeMap(() =>
       getRequest('/initialFetch')
         .query({
@@ -121,10 +122,9 @@ const initialFetchEpic = action$ =>
     )
     .do(({ body: { logs } }) => dispatchLoadLogsData(logs))
     .do(({ body: { tags } }) => dispatchLoadTagsDataInAdd(tags))
-    .do(({ body: { totalDurations } }) => {
-      console.log('totalDurations ', totalDurations)
-      dispatchLoadTotalDurations(totalDurations)
-    })
+    .do(({ body: { totalDurations } }) =>
+      dispatchLoadTotalDurations(totalDurations),
+    )
     .do(({ body: { leaderboard } }) =>
       dispatchRestoreLeaderboardData(leaderboard),
     )
@@ -182,7 +182,7 @@ const addLogToNextDayEpic = action$ =>
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchAddPage(formattedDate(getNow()), selectedUserView()))
     .do(({ body }) => dispatchAddLog(body))
-    .do(() => W && W.analytics('PAUSE_AFTER_24'))
+    .do(() => window.W && window.W.analytics('PAUSE_AFTER_24'))
     .ignoreElements()
 
 const effectDeleteLog = action$ =>
@@ -206,7 +206,7 @@ const effectDeleteLog = action$ =>
     .do(() => dispatchChangeSnackbarStage('Deleted successfully !'))
     .do(() => dispatchChangePopoverId(''))
     .do(() => dispatchRefetchTotalDuration())
-    .do(() => W && W.analytics('DELETE_LOG'))
+    .do(() => window.W && window.W.analytics('DELETE_LOG'))
     .ignoreElements()
 
 const effectSaveStartTime = action$ =>
@@ -233,10 +233,10 @@ const effectSaveStartTime = action$ =>
       dispatchSaveStartTime(_id, start, runningTimeId),
     )
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
-    .do(() => W && W.analytics('PLAY_CLICK'))
+    .do(() => window.W && window.W.analytics('PLAY_CLICK'))
     .ignoreElements()
 
-const effectSaveEndTime = action$ =>
+const effectSaveEndTime = (action$, { getState }) =>
   action$
     .ofType(HANDLE_SAVE_END_TIME)
     .pluck('payload')
@@ -257,15 +257,16 @@ const effectSaveEndTime = action$ =>
         ),
     )
     .do(() => dispatchSetIsLoading(false))
+    .do(() => dispatchSetToday(getTotalDuration(getState())))
     .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end))
-    // .do(dispatchSortOnFrequentlyUsage)
-    .do(() => W && W.analytics('PAUSE_CLICK'))
+    .do(dispatchSortOnFrequentlyUsage)
+    .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
+    .do(dispatchRefetchTotalDuration)
     .do(() => dispatchChangeRunningId(''))
-    .do(() => dispatchRefetchTotalDuration())
     .filter(({ body: { _id } }) => _id)
     .do(({ body: { times } }) => dispatchSetSecondsElapsed(sumTimes(times)))
-    .do(({ body: { _id, end } }) => dispatchHandleSaveStartTime(_id, end))
-    .do(() => W && W.analytics('PLAY_CLICK'))
+    .do(({ body: { _id } }) => dispatchHandleSaveStartTime(_id))
+    .do(() => window.W && window.W.analytics('PLAY_CLICK'))
     .ignoreElements()
 
 const effectToggleIsPinned = action$ =>
@@ -273,13 +274,14 @@ const effectToggleIsPinned = action$ =>
     .ofType(HANDLE_TOGGLE_IS_PINNED)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(({ _id, title, tags, value }) =>
+    .mergeMap(({ _id, title, tags, value, lastDate }) =>
       postRequest('/toggleIsPinned')
         .send({
           _id,
           title,
           tags,
           value,
+          lastDate,
           userId: userIdView(),
           wis: wisView(),
         })
@@ -291,8 +293,33 @@ const effectToggleIsPinned = action$ =>
         ),
     )
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { _id, value } }) => dispatchToggleIsPinned(_id, value))
-    .do(({ body: { value } }) => value === true && W && W.analytics('PIN_LOG'))
+    .map(({ body: { _id, value } }) => ({ _id, value }))
+    .do(({ _id, value }) => dispatchToggleIsPinned(_id, value))
+    .do(
+      ({ value }) =>
+        value === true && window.W && window.W.analytics('PIN_LOG'),
+    )
+    .do(
+      ({ value }) =>
+        value === false && window.W && window.W.analytics('UNPIN_LOG'),
+    )
+    .filter(({ _id, value }) => value && isUniqueLog(_id))
+    .mergeMap(({ _id }) =>
+      postRequest('/saveLogs')
+        .send({
+          date: formattedDate(getNow()),
+          pins: [getLog(_id)],
+          userId: userIdView(),
+          wis: wisView(),
+        })
+        .on(
+          'error',
+          err =>
+            err.status !== 304 &&
+            dispatchChangeSnackbarStage('Server disconnected!'),
+        ),
+    )
+    .do(({ body }) => dispatchLoadLogsData(body))
     .ignoreElements()
 
 const changeTabEpic = action$ =>
@@ -304,8 +331,8 @@ const changeTabEpic = action$ =>
     .do(({ value }) => value !== 'Home' && push(`/${value}`))
     .do(
       ({ value }) =>
-        W &&
-        W.analytics('TAB_CLICK', {
+        window.W &&
+        window.W.analytics('TAB_CLICK', {
           name: value,
         }),
     )
@@ -318,7 +345,6 @@ const setAboutModeEpic = action$ =>
     .ignoreElements()
 
 export default combineEpics(
-  fetchUsersEpic,
   saveUsersEpic,
   initialFetchEpic,
   addLogToNextDayEpic,

@@ -7,7 +7,6 @@ import {
   CHANGE_DATE,
   CHANGE_START_TIME,
   CHANGE_END_TIME,
-  LOAD_TAGS_DATA_IN_ADD,
   CHANGE_TITLE,
   SET_QUERY_IN_ADD,
   FETCH_TAGS_IN_ADD,
@@ -16,6 +15,7 @@ import {
   RESET_INPUTS,
   TOGGLE_EXPANDED,
   CHANGE_IS_ERROR_IN_ADD,
+  LOAD_TAGS_DATA_IN_ADD,
 } from './Add.action'
 // helpers
 import { formattedDate } from '../../../../helper/functions/date.helper'

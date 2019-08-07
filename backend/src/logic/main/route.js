@@ -18,12 +18,11 @@ import {
 // helpers
 import { sumLogs, getLeaderboardData } from "../../helper/query.helper";
 import {
-  formattedDate,
   getSixDaysAgo,
   getStartDayOfWeek,
   getStartDayOfMonth
 } from "../../helper/date.helper";
-import { formattedSeconds, getNow } from "../../helper/time.helper";
+import { getNow } from "../../helper/time.helper";
 // const
 const logger = console.log;
 
@@ -58,28 +57,25 @@ app.get("/initialFetch", ({ query: { wis, userId, today, now } }, res) =>
     fetchLogs({ wis, date: today }),
     fetchPins({ wis, userId })
   ])
-    .then(success => {
-      // console.log(success[2]);
-      console.log(formattedSeconds(sumLogs(success[2], now), "Home"));
-      console.log(sumLogs(success[2], now));
-      return res.json({
+    .then(success =>
+      res.json({
         logs: success[0],
         tags: success[1],
         totalDurations: {
-          today: formattedSeconds(sumLogs(success[2], now), "Home"),
-          thisWeek: formattedSeconds(sumLogs(success[3], now), "Home"),
-          thisMonth: formattedSeconds(sumLogs(success[4], now), "Home")
+          today: sumLogs(success[2], now),
+          thisWeek: sumLogs(success[3], now),
+          thisMonth: sumLogs(success[4], now)
         },
         leaderboard: getLeaderboardData(success[5], now),
         pins: success[6]
-      });
-    })
+      })
+    )
     .catch(logger)
 );
 
 app.post(
   "/toggleIsPinned",
-  ({ body: { _id, title, tags, value, userId, wis } }, res) =>
+  ({ body: { _id, title, tags, value, lastDate, userId, wis } }, res) =>
     Promise.all([
       updateLog(
         { _id: mongoose.Types.ObjectId(_id) },
@@ -91,7 +87,7 @@ app.post(
             title,
             tags,
             created_at: getNow(),
-            lastDate: formattedDate(getNow()),
+            lastDate,
             userId,
             wis
           })

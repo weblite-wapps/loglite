@@ -24,10 +24,10 @@ import {
   HANDLE_ADD_LOG,
   HANDLE_ADD_CUSTOM_LOG,
   dispatchFetchTagsInAdd,
-  dispatchLoadTagsDataInAdd,
   dispatchAddTagInAdd,
   dispatchChangeIsErrorInAdd,
   dispatchResetInputs,
+  dispatchLoadTagsDataInAdd,
 } from './Add.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
@@ -69,7 +69,6 @@ const effectHandleAddTag = action$ =>
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
     )
-    .do(() => W && W.analytics('ADD_TAG'))
     .ignoreElements()
 
 const effectHandleAddLog = action$ =>
@@ -83,6 +82,9 @@ const effectHandleAddLog = action$ =>
     )
     .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
+    .do(
+      ({ tags }) => !!tags.length && window.W && window.W.analytics('ADD_TAG'),
+    )
     .do(() => dispatchSetIsLoading(true))
     .mergeMap(({ title, tags }) =>
       Promise.all([

@@ -1,42 +1,29 @@
 @import '../../style/_color';
+@import '../../style/mixin.scss';
+
 
 .tagShape-container {
-  display: flex;
-  justify-content: center;
+  @include no-select;
+  @include flex-center;
   margin-top: 10px;
   margin-right: 6px;
   margin-left: 6px;
   cursor: pointer;
   outline: none;
-  -webkit-touch-callout: none;
-  /* iOS Safari */
-  -webkit-user-select: none;
-  /* Safari */
-  -khtml-user-select: none;
-  /* Konqueror HTML */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
-  user-select: none;
-  /* Non-prefixed version, currently
-                                supported by Chrome and Opera */
 }
 
 .tagShape-default {
   background-color: $accent-color;
-  padding: 2px 10px;
+  padding: 1.5px 10px;
 }
 
 .tagShape-selected {
   background-color: $secondary-color;
-  padding: 2px 10px;
+  padding: 1.5px 10px;
 }
 
 .tagShape-icon {
+  @include flex-center;
   background-color: $primary-color;
   color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
