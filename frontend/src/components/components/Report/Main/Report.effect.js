@@ -176,7 +176,6 @@ const calculateTotalDurationEpic = action$ =>
     )
     .do(() => dispatchSetIsLoading(false))
     .do(() => W && W.analytics('CALCULATE_CLICK'))
-    .do(r => console.log('report calculateTotalDuration: ', r.body))
     .map(({ body }) => restoreTotalDuration(body))
 
 const convertJSONToCSVEpic = action$ =>

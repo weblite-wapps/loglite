@@ -12,6 +12,8 @@ import {
   loadTagsDataInEdit,
   SET_TAG_QUERY_IN_EDIT,
   dispatchFetchTagsInEdit,
+  HANDLE_ADD_TAG_IN_EDIT,
+  dispatchAddTagInEdit,
 } from './Edit.action'
 import {
   dispatchSetEditedLog,
@@ -31,6 +33,8 @@ import {
 } from '../../../../helper/functions/time.helper'
 import { checkBeforeEditLog } from './Edit.helpers'
 import { wisView, userIdView } from '../../../Main/App.reducer'
+import { queryTagView, tagsView } from './Edit.reducer'
+import { checkBeforeAddTag } from '../../../Main/App.helper'
 // const
 const { W } = window
 
@@ -58,7 +62,6 @@ const submitEditEpic = action$ =>
           return false
         })(),
     )
-<<<<<<< HEAD
 
     .map(payload => ({
       ...payload,
@@ -72,10 +75,7 @@ const submitEditEpic = action$ =>
     // .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
     .filter(({ permission }) => permission)
     .do(() => dispatchSetIsLoading(true))
-    .map(({ log, times, title }) => ({
-=======
     .map(({ log, times, title, tags }) => ({
->>>>>>> master
       ...log,
       times: R.map(
         ({ _id, start, end }) => ({
@@ -88,26 +88,6 @@ const submitEditEpic = action$ =>
       title,
       tags,
     }))
-<<<<<<< HEAD
-    .do(log => {
-      postRequest('/updateLog')
-        .send(log)
-        .on('error', err => {
-          if (err.status !== 304) {
-            dispatchChangeSnackbarStage('Server disconnected!')
-          }
-        })
-        .then(() => dispatchSetEditedLog(log))
-        .then(() => {
-          dispatchSetIsLoading(false)
-          dispatchChangeIsOpenDialog(false)
-          dispatchChangeSnackbarStage('Updated Succesfully!')
-          push('/Report')
-          dispatchChangeTitleIsError(false)
-          dispatchRefetchTotalDuration()
-          W && W.analytics('EDIT_LOG')
-        })
-=======
     .mergeMap(log =>
       Promise.all([
         postRequest('/updateLog')
@@ -139,9 +119,10 @@ const submitEditEpic = action$ =>
       dispatchChangeTitleIsError(false)
       dispatchRefetchTotalDuration()
       W && W.analytics('EDIT_LOG')
->>>>>>> master
     })
     .ignoreElements()
+
+// TODO: INCREASE & DECREASE IN NUMBER OF TAGS MUST BE IMPLEMENTED
 
 const closeEditEpic = action$ =>
   action$
@@ -181,9 +162,21 @@ const effectSearchTagsEpic = action$ =>
     .do(({ body }) => dispatchFetchTagsInEdit(body))
     .ignoreElements()
 
+const effectHandleAddTag = action$ =>
+  action$
+    .ofType(HANDLE_ADD_TAG_IN_EDIT)
+    .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
+    .do(({ permission }) => permission && console.log('dispatchAddTagInEdit()'))
+    .do(
+      ({ permission, message }) =>
+        !permission && dispatchChangeSnackbarStage(message),
+    )
+    .ignoreElements()
+
 export default combineEpics(
   submitEditEpic,
   closeEditEpic,
   loadTagsDataEpic,
   effectSearchTagsEpic,
+  effectHandleAddTag,
 )
