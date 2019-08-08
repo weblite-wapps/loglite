@@ -6,12 +6,12 @@ import { differenceInSeconds } from 'date-fns'
 import { getNow } from '../../../../../helper/functions/time.helper'
 
 const getLogs = state => state.App.logs 
-const getTabIndex = state => state.App.tabIndex
 const getTextSliderDuration = state => state.Home.textSlider.duration
 const getRunningId = state => state.Home.runningId
+const getSecondsElapsed = state => state.Home.secondsElapsed
 
 const getTotalDuration = createSelector( 
-  [getLogs, getRunningId, getTextSliderDuration, getTabIndex],
+  [getLogs, getRunningId, getTextSliderDuration, getSecondsElapsed],
   (logs, runningId, duration) => {
     if (runningId) {
       return R.compose(
