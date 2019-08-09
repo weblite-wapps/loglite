@@ -12,6 +12,8 @@ import {
   loadTagsDataInEdit,
   SET_TAG_QUERY_IN_EDIT,
   dispatchFetchTagsInEdit,
+  HANDLE_ADD_TAG_IN_EDIT,
+  dispatchAddTagInEdit,
 } from './Edit.action'
 import {
   dispatchSetEditedLog,
@@ -29,7 +31,10 @@ import {
   formatTime,
   checkEditTimesOrder,
 } from '../../../../helper/functions/time.helper'
+import { checkBeforeEditLog } from './Edit.helpers'
 import { wisView, userIdView } from '../../../Main/App.reducer'
+import { queryTagView, tagsView } from './Edit.reducer'
+import { checkBeforeAddTag } from '../../../Main/App.helper'
 // const
 const { W } = window
 
@@ -51,10 +56,25 @@ const submitEditEpic = action$ =>
       ({ times }) =>
         checkEditTimesOrder(times) ||
         (() => {
-          dispatchChangeSnackbarStage('Your intervals have overlap')
+          dispatchChangeSnackbarStage(
+            'Your Edited intervals have overlap together',
+          )
           return false
         })(),
     )
+
+    .map(payload => ({
+      ...payload,
+      ...checkBeforeEditLog(payload),
+    }))
+    .do(
+      ({ message, permission }) =>
+        !permission && dispatchChangeSnackbarStage(message),
+    )
+    // TODO ISERROR MUST BE IMPLEMENTED
+    // .do(({ isError }) => dispatchChangeIsErrorInAdd(isError))
+    .filter(({ permission }) => permission)
+    .do(() => dispatchSetIsLoading(true))
     .map(({ log, times, title, tags }) => ({
       ...log,
       times: R.map(
@@ -102,6 +122,8 @@ const submitEditEpic = action$ =>
     })
     .ignoreElements()
 
+// TODO: INCREASE & DECREASE IN NUMBER OF TAGS MUST BE IMPLEMENTED
+
 const closeEditEpic = action$ =>
   action$
     .ofType(CLOSE_EDIT)
@@ -140,9 +162,21 @@ const effectSearchTagsEpic = action$ =>
     .do(({ body }) => dispatchFetchTagsInEdit(body))
     .ignoreElements()
 
+const effectHandleAddTag = action$ =>
+  action$
+    .ofType(HANDLE_ADD_TAG_IN_EDIT)
+    .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
+    .do(({ permission }) => permission && console.log('dispatchAddTagInEdit()'))
+    .do(
+      ({ permission, message }) =>
+        !permission && dispatchChangeSnackbarStage(message),
+    )
+    .ignoreElements()
+
 export default combineEpics(
   submitEditEpic,
   closeEditEpic,
   loadTagsDataEpic,
   effectSearchTagsEpic,
+  effectHandleAddTag,
 )

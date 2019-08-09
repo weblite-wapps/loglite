@@ -54,7 +54,6 @@ export const checkBeforeAddLog = ({ title, quickMode = false }) => {
 export const checkBeforeAddCustomLog = ({ title, date, start, end }) => {
   const logs = logsView()
   const now = getNow()
-
   if (title && date && start && end) {
     if (isAfter(getTimeZone(date), now)) {
       return getObject('date', 'Are you predictor?!', false)

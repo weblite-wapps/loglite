@@ -16,11 +16,11 @@ import {
   CHANGE_EDIT_ANCHOR_EL,
   CHANGE_IS_OPEN_DIALOG,
   SET_TAG_QUERY_IN_EDIT,
-  HANDLE_ADD_TAG_IN_EDIT,
   CHANGE_SELECTED_TAGS_IN_EDIT,
   UPDATE_TAGS_DATA_IN_EDIT,
   LOAD_TAGS_DATA_IN_EDIT,
   FETCH_TAGS_IN_EDIT,
+  ADD_TAG_IN_EDIT,
 } from './Edit.action'
 
 // state
@@ -63,6 +63,7 @@ const reducers = {
     times: R.map(
       ({ _id, start, end }) => ({
         _id,
+        date: R.prop('date', log),
         start: getCurrentTime(start),
         end: end === 'running' ? end : getCurrentTime(end),
       }),
@@ -140,7 +141,7 @@ const reducers = {
   [SET_TAG_QUERY_IN_EDIT]: (state, queryTag) =>
     R.set(queryTagLens, queryTag)(state),
 
-  [HANDLE_ADD_TAG_IN_EDIT]: state =>
+  [ADD_TAG_IN_EDIT]: state =>
     !R.includes(state.queryTag, state.selectedTags)
       ? {
           ...state,

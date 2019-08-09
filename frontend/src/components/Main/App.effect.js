@@ -52,6 +52,7 @@ import {
   dispatchSaveEndTime,
   dispatchToggleIsPinned,
   dispatchHandleSaveStartTime,
+  dispatchSortOnFrequentlyUsage,
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, aboutModeView } from './App.reducer'
@@ -258,6 +259,7 @@ const effectSaveEndTime = (action$, { getState }) =>
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchSetToday(getTotalDuration(getState())))
     .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end))
+    .do(dispatchSortOnFrequentlyUsage)
     .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
     .do(dispatchRefetchTotalDuration)
     .do(() => dispatchChangeRunningId(''))
