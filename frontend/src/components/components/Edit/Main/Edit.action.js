@@ -98,3 +98,9 @@ export const HANDLE_ADD_TAG_IN_EDIT = 'HANDLE_ADD_TAG_IN_EDIT'
 export const handleAddTagInEdit = createAction(HANDLE_ADD_TAG_IN_EDIT)
 export const dispatchHandleAddTagInEdit = (...args) =>
   dispatch(handleAddTagInEdit(...args))
+
+// real time
+export const SUBMIT_EDIT_REALTIME = 'SUBMIT_EDIT_REALTIME'
+export const submitEditRealTime = createAction(SUBMIT_EDIT_REALTIME)
+export const dispatchSubmitEditRealTime = (...args) =>
+  dispatch(submitEditRealTime(...args))

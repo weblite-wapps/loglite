@@ -37,6 +37,7 @@ const refetchTotalDurationEpic = action$ =>
   action$
     .ofType(RESET_INPUTS, REFETCH_TOTAL_DURATION)
     .do(() => dispatchSetIsLoading(true))
+    .do(() => console.log('shit'))
     .mergeMap(() =>
       getRequest('/fetchTotalDurations')
         .query({
@@ -53,6 +54,7 @@ const refetchTotalDurationEpic = action$ =>
         ),
     )
     .do(() => dispatchSetIsLoading(false))
+    .do(() => console.log('yes'))
     .do(({ body }) => dispatchLoadTotalDurations(body))
     .ignoreElements()
 

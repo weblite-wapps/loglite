@@ -8,7 +8,7 @@ export default () => (
   <div className="about-container">
     <img alt="loglite about" src="about.jpg" align="middle" />
     <Typography variant="subtitle1" align="center" gutterBottom>
-      Version 2.0.1
+      Version 2.0.2
     </Typography>
     <Typography variant="subtitle1" align="center" gutterBottom>
       All right reserved

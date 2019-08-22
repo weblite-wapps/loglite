@@ -53,12 +53,19 @@ import {
   dispatchToggleIsPinned,
   dispatchHandleSaveStartTime,
   dispatchSortOnFrequentlyUsage,
+  DELETE_LOG,
+  SAVE_START_TIME,
+  SAVE_END_TIME,
+  SAVE_END_TIME_REALTIME,
+  DELETE_LOG_REALTIME,
+  SAVE_START_TIME_REALTIME,
 } from './App.action'
 // views
 import { wisView, userIdView, userNameView, aboutModeView } from './App.reducer'
 import { selectedUserView } from '../components/Report/Main/Report.reducer'
 // selectors
 import { getTotalDuration } from '../components/Home/components/Summary/Summary.selector'
+import { pulse } from '../../helper/functions/realTime.helper'
 
 const saveUsersEpic = action$ =>
   action$
@@ -148,6 +155,7 @@ const initialFetchEpic = action$ =>
       dispatchAddPage(formattedDate(previousDay(getNow())), selectedUserView()),
     )
     .do(() => dispatchAddPage(formattedDate(getNow()), selectedUserView()))
+    .do(dispatchSortOnFrequentlyUsage)
     .do(() => dispatchSetIsLoading(false))
     .ignoreElements()
 
@@ -202,11 +210,20 @@ const effectDeleteLog = action$ =>
         ),
     )
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body }) => dispatchDeleteLog(body._id))
+    .do(({ body }) => pulse(DELETE_LOG, body._id))
+    // .do(({ body }) => dispatchDeleteLog(body._id))
     .do(() => dispatchChangeSnackbarStage('Deleted successfully !'))
     .do(() => dispatchChangePopoverId(''))
-    .do(() => dispatchRefetchTotalDuration())
     .do(() => window.W && window.W.analytics('DELETE_LOG'))
+    .ignoreElements()
+
+const effectDeleteLogRealTime = action$ =>
+  action$
+    .ofType(DELETE_LOG_REALTIME)
+    .pluck('payload')
+    .do(console.log)
+    .do(dispatchDeleteLog)
+    .do(() => dispatchRefetchTotalDuration())
     .ignoreElements()
 
 const effectSaveStartTime = action$ =>
@@ -230,10 +247,19 @@ const effectSaveStartTime = action$ =>
     )
     .do(() => dispatchSetIsLoading(false))
     .do(({ body: { _id, start, runningTimeId } }) =>
-      dispatchSaveStartTime(_id, start, runningTimeId),
+      // pulse(SAVE_START_TIME, { _id, start, runningTimeId }),
+      dispatchSaveStartTime({ _id, start, runningTimeId }),
     )
     .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .do(() => window.W && window.W.analytics('PLAY_CLICK'))
+    .ignoreElements()
+
+const effectSaveStartTimeRealTime = action$ =>
+  action$
+    .ofType(SAVE_START_TIME_REALTIME)
+    .pluck('payload')
+    .do(dispatchSaveStartTime)
+    .do(({ _id }) => dispatchChangeRunningId(_id))
     .ignoreElements()
 
 const effectSaveEndTime = (action$, { getState }) =>
@@ -257,11 +283,32 @@ const effectSaveEndTime = (action$, { getState }) =>
         ),
     )
     .do(() => dispatchSetIsLoading(false))
+    // .do(() => dispatchSetToday(getTotalDuration(getState())))
+    .do(({ body }) => pulse(SAVE_END_TIME, body))
+    // .do(({ body: { runningId, end } }) =>
+    //   dispatchSaveEndTime({ _id: runningId, end }),
+    // )
+    // .do(dispatchSortOnFrequentlyUsage)
+    // .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
+    // .do(dispatchRefetchTotalDuration)
+    // .do(() => dispatchChangeRunningId(''))
+    // .filter(({ body: { _id } }) => _id)
+    // .do(({ body: { times } }) => dispatchSetSecondsElapsed(sumTimes(times)))
+    // .do(({ body: { _id } }) => dispatchHandleSaveStartTime(_id))
+    // .do(() => window.W && window.W.analytics('PLAY_CLICK'))
+    .ignoreElements()
+
+const effectSaveEndTimeRealtimeEpic = (action$, { getState }) =>
+  action$
+    .ofType(SAVE_END_TIME_REALTIME)
+    .pluck('payload')
+    .do(console.log)
     .do(() => dispatchSetToday(getTotalDuration(getState())))
-    .do(({ body: { runningId, end } }) => dispatchSaveEndTime(runningId, end))
+    .do(({ runningId, end }) => dispatchSaveEndTime({ _id: runningId, end }))
     .do(dispatchSortOnFrequentlyUsage)
     .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
     .do(dispatchRefetchTotalDuration)
+    .do(() => console.log('we are here'))
     .do(() => dispatchChangeRunningId(''))
     .filter(({ body: { _id } }) => _id)
     .do(({ body: { times } }) => dispatchSetSecondsElapsed(sumTimes(times)))
@@ -354,4 +401,7 @@ export default combineEpics(
   effectToggleIsPinned,
   changeTabEpic,
   setAboutModeEpic,
+  effectSaveEndTimeRealtimeEpic,
+  effectDeleteLogRealTime,
+  effectSaveStartTimeRealTime,
 )

@@ -14,6 +14,7 @@ import {
   dispatchFetchTagsInEdit,
   HANDLE_ADD_TAG_IN_EDIT,
   dispatchAddTagInEdit,
+  SUBMIT_EDIT_REALTIME,
 } from './Edit.action'
 import {
   dispatchSetEditedLog,
@@ -35,6 +36,7 @@ import { checkBeforeEditLog } from './Edit.helpers'
 import { wisView, userIdView } from '../../../Main/App.reducer'
 import { queryTagView, tagsView } from './Edit.reducer'
 import { checkBeforeAddTag } from '../../../Main/App.helper'
+import { pulse } from '../../../../helper/functions/realTime.helper'
 // const
 const { W } = window
 
@@ -97,7 +99,8 @@ const submitEditEpic = action$ =>
               dispatchChangeSnackbarStage('Server disconnected!')
             }
           })
-          .then(() => dispatchSetEditedLog(log)),
+          .then(() => log),
+        // .then(() => dispatchSetEditedLog(log)),
         postRequest('/saveTags')
           .send({
             tags: log.tags,
@@ -112,14 +115,23 @@ const submitEditEpic = action$ =>
           ),
       ]),
     )
+    .do(success => pulse(SUBMIT_EDIT_REALTIME, success[0]))
     .do(() => {
       dispatchChangeIsOpenDialog(false)
       dispatchChangeSnackbarStage('Updated Succesfully!')
       push('/Report')
       dispatchChangeTitleIsError(false)
-      dispatchRefetchTotalDuration()
       W && W.analytics('EDIT_LOG')
     })
+    .do()
+    .ignoreElements()
+
+const submitEditRealTimeEpic = action$ =>
+  action$
+    .ofType(SUBMIT_EDIT_REALTIME)
+    .pluck('payload')
+    .do(dispatchSetEditedLog)
+    .do(() => dispatchRefetchTotalDuration())
     .ignoreElements()
 
 // TODO: INCREASE & DECREASE IN NUMBER OF TAGS MUST BE IMPLEMENTED
@@ -166,7 +178,7 @@ const effectHandleAddTag = action$ =>
   action$
     .ofType(HANDLE_ADD_TAG_IN_EDIT)
     .map(() => ({ ...checkBeforeAddTag(queryTagView(), tagsView()) }))
-    .do(({ permission }) => permission && console.log('dispatchAddTagInEdit()'))
+    .do(({ permission }) => permission && dispatchAddTagInEdit())
     .do(
       ({ permission, message }) =>
         !permission && dispatchChangeSnackbarStage(message),
@@ -179,4 +191,5 @@ export default combineEpics(
   loadTagsDataEpic,
   effectSearchTagsEpic,
   effectHandleAddTag,
+  submitEditRealTimeEpic,
 )

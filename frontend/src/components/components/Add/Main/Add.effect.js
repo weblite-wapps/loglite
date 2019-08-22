@@ -17,6 +17,7 @@ import {
   dispatchAddLog,
   dispatchChangeTab,
   dispatchSetIsLoading,
+  ADD_LOG,
 } from '../../../Main/App.action'
 import {
   SET_QUERY_IN_ADD,
@@ -32,6 +33,7 @@ import {
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
 import { queryTagView, tagsView } from './Add.reducer'
+import { pulse } from '../../../../helper/functions/realTime.helper'
 // const
 const { W } = window
 
@@ -118,7 +120,7 @@ const effectHandleAddLog = action$ =>
           ),
       ]),
     )
-    .do(success => dispatchAddLog(success[0].body))
+    .do(success => pulse(ADD_LOG, success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeTab('Home'))
@@ -171,7 +173,8 @@ const effectHandleAddCustomLog = action$ =>
           ),
       ]),
     )
-    .do(success => dispatchAddLog(success[0].body))
+    // .do(success => dispatchAddLog(success[0].body))
+    .do(success => pulse(ADD_LOG, success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeSnackbarStage('Added successfully!'))

@@ -7,6 +7,7 @@ import {
   getNow,
   getTimeZone,
 } from '../../../../helper/functions/time.helper'
+import { differenceInSeconds } from 'date-fns'
 import { formattedDate } from '../../../../helper/functions/date.helper'
 // views
 import { logsView } from '../../../Main/App.reducer'
@@ -15,21 +16,47 @@ export const areRangesOverlappingForTimes = (times, startOfRange, endOfRange) =>
   R.reduce(
     R.or,
     false,
-    R.map(
-      time =>
-        areRangesOverlapping(startOfRange, endOfRange, time.start, time.end),
-      times,
-    ),
+    R.map(time => {
+      if (differenceInSeconds(time.end, startOfRange) < 60) return false
+      if (
+        areRangesOverlapping(
+          startOfRange,
+          endOfRange,
+          new Date(time.start),
+          new Date(time.end),
+        )
+      ) {
+        // console.log('startOfRange ', startOfRange)
+        // console.log('endOfRange ', endOfRange)
+        // console.log('time.start ', new Date(time.start))
+        // console.log(new Date(time.start))
+        // console.log('time.end', new Date(time.end))
+        // console.log(new Date(time.end))
+      }
+      return areRangesOverlapping(
+        startOfRange,
+        endOfRange,
+        time.start,
+        time.end,
+      )
+    }, times),
   )
 
 export const areTimesOverlapping = (logs, startOfRange, endOfRange) =>
   R.reduce(
     R.or,
     false,
-    R.map(
-      log => areRangesOverlappingForTimes(log.times, startOfRange, endOfRange),
-      logs,
-    ),
+    R.map(log => {
+      if (areRangesOverlappingForTimes(log.times, startOfRange, endOfRange)) {
+        // console.log('conflict ')
+        // console.log('log ', log)
+        // console.log('log times  ', log.times)
+        // console.log('startOfRange ', startOfRange)
+        // console.log('endOfRange ', endOfRange)
+        // console.log('conflict ')
+      }
+      return areRangesOverlappingForTimes(log.times, startOfRange, endOfRange)
+    }, logs),
   )
 
 const getObject = (trueOption, message, permission) => {
@@ -51,14 +78,17 @@ export const checkBeforeAddLog = ({ title, quickMode = false }) => {
   return getObject('title', 'Enter title first!', false)
 }
 
-export const checkBeforeEditLog = ({ times, log, log: { _id } }) => {
+export const checkBeforeEditLog = ({ times, log, log: { _id, date } }) => {
   const logId = _id
+  const logDate = date
   // console.log('times ', times)
   // console.log('log ', log)
-  const logs = R.filter(({ _id }) => _id !== logId, logsView())
+  const logs = R.filter(
+    ({ _id, date }) => _id !== logId && date === logDate,
+    logsView(),
+  )
   // console.log('logs ', logs)
   const now = getNow()
-  // console.log('now ', now)
   return R.reduce(
     (acc, { date, start, end }) => {
       if (date && start && end) {
@@ -74,12 +104,21 @@ export const checkBeforeEditLog = ({ times, log, log: { _id } }) => {
           isAfter(formatTime(end), now)
         ) {
           return getObject('endTime', 'Are you predictor?!', false)
-        } else if (isAfter(formatTime(end), formatTime(start))) {
+        } else if (
+          isAfter(formatTime(end), formatTime(start)) ||
+          end === 'running'
+        ) {
+          // console.log(end)
+          // if (end === 'running') {
+          // console.log('hello')
+          // }
+          // console.log('formatTime(start)', formatTime(start))
+          // console.log('now', now)
           if (
             areTimesOverlapping(
               R.filter(eachLog => eachLog.date === date, logs),
               formatTime(start),
-              formatTime(end),
+              end === 'running' ? now : formatTime(end),
             )
           ) {
             return getObject(
@@ -96,6 +135,7 @@ export const checkBeforeEditLog = ({ times, log, log: { _id } }) => {
       } else {
         return getObject('endTime', 'Please enter end time!', false)
       }
+
       return acc
     },
     getObject('', 'Added successfully!', true),
