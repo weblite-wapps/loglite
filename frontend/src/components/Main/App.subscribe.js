@@ -16,7 +16,7 @@ import {
   dispatchDeleteLogRealTime,
   dispatchSaveStartTimeRealTime,
 } from './App.action'
-import {} from '../components/Add/Main/Add.action'
+import { dispatchAddLogRealTime } from '../components/Add/Main/Add.action'
 import {
   SUBMIT_EDIT_REALTIME,
   dispatchSubmitEditRealTime,
@@ -35,7 +35,9 @@ const fetchNotingSubscribe = action$ =>
       //   userId,
       //   userIdView(),
       //   )
-      type === ADD_LOG && userId === userIdView() && dispatchAddLog(data)
+      type === ADD_LOG &&
+        userId === userIdView() &&
+        dispatchAddLogRealTime(data)
       type === DELETE_LOG &&
         userId === userIdView() &&
         dispatchDeleteLogRealTime(data)

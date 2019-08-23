@@ -31,6 +31,7 @@ import {
   dispatchChangeRunningId,
   dispatchSetSecondsElapsed,
   dispatchSetToday,
+  checkToSetSecondsElapsed,
 } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
@@ -61,11 +62,19 @@ import {
   SAVE_START_TIME_REALTIME,
 } from './App.action'
 // views
-import { wisView, userIdView, userNameView, aboutModeView } from './App.reducer'
+import {
+  wisView,
+  userIdView,
+  userNameView,
+  aboutModeView,
+  logsView,
+} from './App.reducer'
 import { selectedUserView } from '../components/Report/Main/Report.reducer'
 // selectors
 import { getTotalDuration } from '../components/Home/components/Summary/Summary.selector'
 import { pulse } from '../../helper/functions/realTime.helper'
+import { getSecondsElapsed } from '../components/Home/Main/Home.helper'
+import { runningIdView } from '../components/Home/Main/Home.reducer'
 
 const saveUsersEpic = action$ =>
   action$
@@ -221,7 +230,6 @@ const effectDeleteLogRealTime = action$ =>
   action$
     .ofType(DELETE_LOG_REALTIME)
     .pluck('payload')
-    .do(console.log)
     .do(dispatchDeleteLog)
     .do(() => dispatchRefetchTotalDuration())
     .ignoreElements()
@@ -246,11 +254,12 @@ const effectSaveStartTime = action$ =>
         ),
     )
     .do(() => dispatchSetIsLoading(false))
-    .do(({ body: { _id, start, runningTimeId } }) =>
-      // pulse(SAVE_START_TIME, { _id, start, runningTimeId }),
-      dispatchSaveStartTime({ _id, start, runningTimeId }),
+    .do(
+      ({ body: { _id, start, runningTimeId } }) =>
+        pulse(SAVE_START_TIME, { _id, start, runningTimeId }),
+      // dispatchSaveStartTime({ _id, start, runningTimeId }),
     )
-    .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
+    // .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
     .do(() => window.W && window.W.analytics('PLAY_CLICK'))
     .ignoreElements()
 
@@ -258,6 +267,9 @@ const effectSaveStartTimeRealTime = action$ =>
   action$
     .ofType(SAVE_START_TIME_REALTIME)
     .pluck('payload')
+    // .do(() =>
+    // dispatchSetSecondsElapsed(getSecondsElapsed(logsView(), runningIdView())),
+    // )
     .do(dispatchSaveStartTime)
     .do(({ _id }) => dispatchChangeRunningId(_id))
     .ignoreElements()
@@ -284,6 +296,7 @@ const effectSaveEndTime = (action$, { getState }) =>
     )
     .do(() => dispatchSetIsLoading(false))
     // .do(() => dispatchSetToday(getTotalDuration(getState())))
+    // .do(console.log)
     .do(({ body }) => pulse(SAVE_END_TIME, body))
     // .do(({ body: { runningId, end } }) =>
     //   dispatchSaveEndTime({ _id: runningId, end }),
@@ -302,17 +315,15 @@ const effectSaveEndTimeRealtimeEpic = (action$, { getState }) =>
   action$
     .ofType(SAVE_END_TIME_REALTIME)
     .pluck('payload')
-    .do(console.log)
     .do(() => dispatchSetToday(getTotalDuration(getState())))
     .do(({ runningId, end }) => dispatchSaveEndTime({ _id: runningId, end }))
     .do(dispatchSortOnFrequentlyUsage)
     .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
-    .do(dispatchRefetchTotalDuration)
-    .do(() => console.log('we are here'))
+    .do(body => dispatchRefetchTotalDuration({ body }))
     .do(() => dispatchChangeRunningId(''))
-    .filter(({ body: { _id } }) => _id)
-    .do(({ body: { times } }) => dispatchSetSecondsElapsed(sumTimes(times)))
-    .do(({ body: { _id } }) => dispatchHandleSaveStartTime(_id))
+    .filter(({ _id }) => _id)
+    .do(({ times }) => dispatchSetSecondsElapsed(sumTimes(times)))
+    .do(({ _id }) => dispatchHandleSaveStartTime(_id))
     .do(() => window.W && window.W.analytics('PLAY_CLICK'))
     .ignoreElements()
 

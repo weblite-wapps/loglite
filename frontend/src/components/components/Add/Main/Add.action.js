@@ -93,3 +93,9 @@ export const handleAddCustomLog = createAction(
 )
 export const dispatchHandleAddCustomLog = (...args) =>
   dispatch(handleAddCustomLog(...args))
+
+// real time
+export const ADD_LOG_REALTIME = 'ADD_LOG_REALTIME'
+export const addLogRealTime = createAction(ADD_LOG_REALTIME)
+export const dispatchAddLogRealTime = (...args) =>
+  dispatch(addLogRealTime(...args))

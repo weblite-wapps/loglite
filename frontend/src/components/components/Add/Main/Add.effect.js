@@ -29,6 +29,7 @@ import {
   dispatchChangeIsErrorInAdd,
   dispatchResetInputs,
   dispatchLoadTagsDataInAdd,
+  ADD_LOG_REALTIME,
 } from './Add.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
@@ -125,7 +126,7 @@ const effectHandleAddLog = action$ =>
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeTab('Home'))
     .do(() => dispatchChangeSnackbarStage('Added successfully!'))
-    .do(() => dispatchResetInputs())
+    // .do(() => dispatchResetInputs())
     .do(() => W && W.analytics('ADD_LOG', { custom: false }))
     .ignoreElements()
 
@@ -179,8 +180,16 @@ const effectHandleAddCustomLog = action$ =>
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeSnackbarStage('Added successfully!'))
     .do(() => dispatchChangeTab('Home'))
-    .do(() => dispatchResetInputs())
+    // .do(() => dispatchResetInputs())
     .do(() => W && W.analytics('ADD_LOG', { custom: true }))
+    .ignoreElements()
+
+const effectAddLogRealTime = action$ =>
+  action$
+    .ofType(ADD_LOG_REALTIME)
+    .pluck('payload')
+    .do(dispatchAddLog)
+    .do(() => dispatchResetInputs())
     .ignoreElements()
 
 export default combineEpics(
@@ -188,4 +197,5 @@ export default combineEpics(
   effectHandleAddTag,
   effectHandleAddLog,
   effectHandleAddCustomLog,
+  effectAddLogRealTime,
 )
