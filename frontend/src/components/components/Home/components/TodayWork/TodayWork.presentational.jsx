@@ -52,6 +52,7 @@ export default class TodayWork extends React.Component {
   }
 
   _handleStartClick() {
+    console.log('in handle start click')
     const {
       log: { _id, times },
       runningId,
@@ -61,8 +62,8 @@ export default class TodayWork extends React.Component {
     } = this.props
     if (runningId) onStopClick(runningId, getNow(), _id, times)
     else {
-      setSecondsElapsed(sumTimes(times))
-      onStartClick(_id)
+      // setSecondsElapsed(sumTimes(times))
+      onStartClick(_id, sumTimes(times))
     }
   }
 

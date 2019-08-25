@@ -113,7 +113,7 @@ export const dispatchSortOnFrequentlyUsage = (...args) =>
 export const HANDLE_SAVE_START_TIME = 'HANDLE_SAVE_START_TIME'
 export const handleSaveStartTime = createAction(
   HANDLE_SAVE_START_TIME,
-  _id => ({ _id }),
+  (_id, sumOfTimes) => ({ _id, sumOfTimes }),
 )
 export const dispatchHandleSaveStartTime = (...args) =>
   dispatch(handleSaveStartTime(...args))
@@ -172,3 +172,10 @@ export const SAVE_START_TIME_REALTIME = 'SAVE_START_TIME_REALTIME'
 export const saveStartTimeRealTime = createAction(SAVE_START_TIME_REALTIME)
 export const dispatchSaveStartTimeRealTime = (...args) =>
   dispatch(saveStartTimeRealTime(...args))
+
+export const ADD_LOG_TO_NEXT_DAY_REALTIME = 'ADD_LOG_TO_NEXT_DAY_REALTIME'
+export const addLogToNextDayRealTime = createAction(
+  ADD_LOG_TO_NEXT_DAY_REALTIME,
+)
+export const dispatchAddLogToNextDayRealTime = (...args) =>
+  dispatch(addLogToNextDayRealTime(...args))

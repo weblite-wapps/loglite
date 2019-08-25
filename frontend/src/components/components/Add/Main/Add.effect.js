@@ -177,7 +177,7 @@ const effectHandleAddCustomLog = action$ =>
     // .do(success => dispatchAddLog(success[0].body))
     .do(success => pulse(ADD_LOG, success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
-    .do(() => dispatchSetIsLoading(false))
+    // .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeSnackbarStage('Added successfully!'))
     .do(() => dispatchChangeTab('Home'))
     // .do(() => dispatchResetInputs())
@@ -188,8 +188,10 @@ const effectAddLogRealTime = action$ =>
   action$
     .ofType(ADD_LOG_REALTIME)
     .pluck('payload')
+    .do(() => dispatchSetIsLoading(true))
     .do(dispatchAddLog)
     .do(() => dispatchResetInputs())
+    .do(() => dispatchSetIsLoading(false))
     .ignoreElements()
 
 export default combineEpics(

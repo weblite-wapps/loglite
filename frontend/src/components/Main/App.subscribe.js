@@ -15,6 +15,8 @@ import {
   dispatchHandleSaveEndTimeRealTime,
   dispatchDeleteLogRealTime,
   dispatchSaveStartTimeRealTime,
+  ADD_LOG_TO_NEXT_DAY,
+  dispatchAddLogToNextDayRealTime,
 } from './App.action'
 import { dispatchAddLogRealTime } from '../components/Add/Main/Add.action'
 import {
@@ -50,6 +52,9 @@ const fetchNotingSubscribe = action$ =>
       type === SUBMIT_EDIT_REALTIME &&
         userId === userIdView() &&
         dispatchSubmitEditRealTime(data)
+      type === ADD_LOG_TO_NEXT_DAY &&
+        userId === userIdView() &&
+        dispatchAddLogToNextDayRealTime(data)
     })
     .ignoreElements()
 

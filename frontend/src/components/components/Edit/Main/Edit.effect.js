@@ -123,15 +123,16 @@ const submitEditEpic = action$ =>
       dispatchChangeTitleIsError(false)
       W && W.analytics('EDIT_LOG')
     })
-    .do()
     .ignoreElements()
 
 const submitEditRealTimeEpic = action$ =>
   action$
     .ofType(SUBMIT_EDIT_REALTIME)
+    .do(() => dispatchSetIsLoading(true))
     .pluck('payload')
     .do(dispatchSetEditedLog)
     .do(() => dispatchRefetchTotalDuration())
+    .do(() => dispatchSetIsLoading(false))
     .ignoreElements()
 
 // TODO: INCREASE & DECREASE IN NUMBER OF TAGS MUST BE IMPLEMENTED
