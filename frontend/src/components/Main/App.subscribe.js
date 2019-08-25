@@ -30,13 +30,13 @@ const fetchNotingSubscribe = action$ =>
     .ofType(HANDLE_REAL_TIME)
     .pluck('payload')
     .do(({ data, type, userId }) => {
-      //   console.log(
-      //     'in subscribe: type, data, userId , userIdView():   ',
-      //     type,
-      //     data,
-      //   userId,
-      //   userIdView(),
-      //   )
+      console.log(
+        'in subscribe: type, data, userId , userIdView():   ',
+        // type,
+        // data,
+        // userId,
+        // userIdView(),
+      )
       type === ADD_LOG &&
         userId === userIdView() &&
         dispatchAddLogRealTime(data)

@@ -198,6 +198,8 @@ const addLogToNextDayEpic = action$ =>
         ),
     )
     // .do(() => dispatchSetIsLoading(false))
+    .do(() => console.log('pulse(ADD_LOG_TO_NEXT_DAY'))
+
     .do(({ body }) =>
       pulse(ADD_LOG_TO_NEXT_DAY, {
         body,
@@ -238,6 +240,7 @@ const effectDeleteLog = action$ =>
         ),
     )
     // .do(() => dispatchSetIsLoading(false))
+    .do(() => console.log('pulse(DELETE_LOG,'))
     .do(({ body }) => pulse(DELETE_LOG, body._id))
     // .do(({ body }) => dispatchDeleteLog(body._id))
     .do(() => dispatchChangeSnackbarStage('Deleted successfully !'))
@@ -259,7 +262,8 @@ const effectSaveStartTime = action$ =>
   action$
     .ofType(HANDLE_SAVE_START_TIME)
     .pluck('payload')
-    // .do(a => console.log('HANDLE_SAVE_START_TIME ', a))
+    .do(() => console.log(' in HANDLE_SAVE_START_TIME '))
+    .do(console.log)
     .do(() => dispatchSetIsLoading(true))
     .delay(250)
     .mergeMap(({ _id, sumOfTimes }) =>
@@ -277,7 +281,8 @@ const effectSaveStartTime = action$ =>
         .then(res => ({ ...res.body, sumOfTimes })),
     )
     // .do(() => dispatchSetIsLoading(false))
-    // .do(b => console.log('HAN  DLE_SAVE_START_TIME ', b))
+    .do(b => console.log('HANDLE_SAVE_START_TIME ', b))
+    .do(() => console.log('pulse(SAVE_START_TIME, body),'))
     .do(
       body => pulse(SAVE_START_TIME, body),
       // dispatchSaveStartTime({ _id, start, runningTimeId }),
@@ -290,6 +295,7 @@ const effectSaveStartTimeRealTime = action$ =>
   action$
     .ofType(SAVE_START_TIME_REALTIME)
     .pluck('payload')
+    .do(() => console.log('in SAVE_START_TIME_REALTIME'))
     .do(() => dispatchSetIsLoading(true))
     .do(({ sumOfTimes }) => dispatchSetSecondsElapsed(sumOfTimes))
     .do(dispatchSaveStartTime)
@@ -302,6 +308,7 @@ const effectSaveEndTime = (action$, { getState }) =>
     .ofType(HANDLE_SAVE_END_TIME)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
+    .do(console.log)
     .mergeMap(({ runningId, end, _id, times }) =>
       postRequest('/saveEndTime')
         .send({
@@ -319,8 +326,10 @@ const effectSaveEndTime = (action$, { getState }) =>
     )
     // .do(() => dispatchSetIsLoading(false))
     // .do(() => dispatchSetToday(getTotalDuration(getState())))
+    .pluck('body')
     // .do(console.log)
-    .do(({ body }) => pulse(SAVE_END_TIME, body))
+    // .do(() => console.log('pulse(SAVE_END_TIME'))
+    .do(body => pulse(SAVE_END_TIME, body))
     // .do(({ body: { runningId, end } }) =>
     //   dispatchSaveEndTime({ _id: runningId, end }),
     // )
@@ -332,24 +341,30 @@ const effectSaveEndTime = (action$, { getState }) =>
     // .do(({ body: { times } }) => dispatchSetSecondsElapsed(sumTimes(times)))
     // .do(({ body: { _id } }) => dispatchHandleSaveStartTime(_id))
     // .do(() => window.W && window.W.analytics('PLAY_CLICK'))
+    .do(() => console.log('before filter'))
+    .filter(({ _id }) => _id)
+    .do(a => console.log('aaaa ', a))
+    .do(({ _id, times }) => dispatchHandleSaveStartTime(_id, sumTimes(times)))
     .ignoreElements()
 
 const effectSaveEndTimeRealtimeEpic = (action$, { getState }) =>
   action$
     .ofType(SAVE_END_TIME_REALTIME)
     .pluck('payload')
+    .do(() => console.log('in SAVE_END_TIME_REALTIME'))
+    .do(console.log)
     .do(() => dispatchSetIsLoading(true))
     .do(() => dispatchSetToday(getTotalDuration(getState())))
     .do(({ runningId, end }) => dispatchSaveEndTime({ _id: runningId, end }))
-    .do(dispatchSortOnFrequentlyUsage)
-    .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
-    .do(body => dispatchRefetchTotalDuration({ body }))
+    // .do(dispatchSortOnFrequentlyUsage)
+    // .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
+    .do(() => dispatchRefetchTotalDuration())
     .do(() => dispatchChangeRunningId(''))
-    .filter(({ _id }) => _id)
-    // .do(({ times }) => dispatchSetSecondsElapsed(sumTimes(times)))
-    .do(({ _id, times }) => dispatchHandleSaveStartTime(_id, sumTimes(times)))
-    .do(() => window.W && window.W.analytics('PLAY_CLICK'))
     .do(() => dispatchSetIsLoading(false))
+    // .filter(({ _id }) => _id)
+    // .do(({ times }) => dispatchSetSecondsElapsed(sumTimes(times)))
+    // .do(({ _id, times }) => dispatchHandleSaveStartTime(_id, sumTimes(times)))
+    // .do(() => window.W && window.W.analytics('PLAY_CLICK'))
     .ignoreElements()
 
 const effectToggleIsPinned = action$ =>

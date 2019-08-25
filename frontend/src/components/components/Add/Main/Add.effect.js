@@ -122,6 +122,7 @@ const effectHandleAddLog = action$ =>
       ]),
     )
     .do(success => pulse(ADD_LOG, success[0].body))
+    .do(() => console.log('pulse(ADD_LOG, success[0].body)'))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeTab('Home'))
@@ -176,6 +177,7 @@ const effectHandleAddCustomLog = action$ =>
     )
     // .do(success => dispatchAddLog(success[0].body))
     .do(success => pulse(ADD_LOG, success[0].body))
+    .do(() => console.log('pulse(ADD_LOG, success[0].body)'))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     // .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeSnackbarStage('Added successfully!'))

@@ -53,6 +53,8 @@ const refetchTotalDurationEpic = action$ =>
         ),
     )
     .do(() => dispatchSetIsLoading(false))
+    // .do(() => console.log('in REFETCH_TOTAL_DURATION'))
+    // .do(console.log)
     .do(({ body }) => dispatchLoadTotalDurations(body))
     .ignoreElements()
 

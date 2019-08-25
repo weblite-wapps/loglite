@@ -116,6 +116,7 @@ const submitEditEpic = action$ =>
       ]),
     )
     .do(success => pulse(SUBMIT_EDIT_REALTIME, success[0]))
+    .do(() => console.log('pulse(SUBMIT_EDIT_REALTIME, success[0])'))
     .do(() => {
       dispatchChangeIsOpenDialog(false)
       dispatchChangeSnackbarStage('Updated Succesfully!')
