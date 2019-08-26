@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 // components
 import WorkList from './WorkList.presentational'
 // views
-import { selectedUserView, anchorElView } from '../../../Main/Report.reducer'
+import { selectedUserView } from '../../../Main/Report.reducer'
 import {
   userIdView,
   popoverIdView,
@@ -19,10 +19,7 @@ import {
   dispatchChangePopoverId,
   dispatchHandleToggleIsPinned,
 } from '../../../../../Main/App.action'
-import {
-  dispatchChangeAnchorEl,
-  dispatchEditClick,
-} from '../../../Main/Report.action'
+import { dispatchEditClick } from '../../../Main/Report.action'
 import {
   dispatchSetSecondsElapsed,
   dispatchCountinueCounting,
@@ -34,15 +31,13 @@ const mapStateToProps = (state, { getDuration, log: { _id } }) => ({
   userId: userIdView(),
   popoverId: popoverIdView(),
   runningId: runningIdView(),
-  anchorEl: anchorElView(),
   secondsElapsed: secondsElapsedView(),
   isLoading: isLoadingView(),
 })
 
 const mapDispatchToProps = (_, { log: { _id } }) => ({
-  handleDeleteLog: _id => dispatchHandleDeleteLog(_id),
+  handleDeleteLog: () => dispatchHandleDeleteLog(_id),
   changePopoverId: dispatchChangePopoverId,
-  changeAnchorEl: dispatchChangeAnchorEl,
   setSecondsElapsed: dispatchSetSecondsElapsed,
   countinueCounting: dispatchCountinueCounting,
   editClick: dispatchEditClick,

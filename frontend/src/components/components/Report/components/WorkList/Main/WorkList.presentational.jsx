@@ -22,7 +22,9 @@ import styles from '../../../../../../helper/components/Button/Button.style'
 class WorkList extends React.Component {
   constructor(props) {
     super(props)
+    this.state = { anchorEl: null }
     this.handleOpenPopover = this._handleOpenPopover.bind(this)
+    this._changeAnchorEl = this._changeAnchorEl.bind(this)
   }
 
   componentWillMount() {
@@ -41,13 +43,16 @@ class WorkList extends React.Component {
     }
   }
 
+  _changeAnchorEl(anchorEl) {
+    this.setState({ anchorEl })
+  }
+
   _handleOpenPopover() {
     const {
-      changeAnchorEl,
       changePopoverId,
       log: { _id },
     } = this.props
-    changeAnchorEl(findDOMNode(this.button))
+    this._changeAnchorEl(findDOMNode(this.button))
     changePopoverId(_id)
   }
 
@@ -61,10 +66,10 @@ class WorkList extends React.Component {
       popoverId,
       changePopoverId,
       handleDeleteLog,
-      anchorEl,
       editClick,
     } = this.props
     const len = times.length
+    const anchorEl = this.state.anchorEl
     return (
       <>
         <List disablePadding>
@@ -77,8 +82,7 @@ class WorkList extends React.Component {
                   this.button = node
                 }}
                 variant="contained"
-                onClick={() => handleDeleteLog(_id)}
-                // onClick={() => handleDeleteLog(_id)}
+                onClick={() => this._handleOpenPopover()}
                 classes={{ raised: classes.WorkList }}
               >
                 Delete
@@ -115,15 +119,12 @@ WorkList.propTypes = {
   popoverId: PropTypes.string.isRequired,
   handleDeleteLog: PropTypes.func.isRequired,
   changePopoverId: PropTypes.func.isRequired,
-  anchorEl: PropTypes.shape({}),
-  changeAnchorEl: PropTypes.func.isRequired,
   setSecondsElapsed: PropTypes.func.isRequired,
   countinueCounting: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
 }
 
 WorkList.defaultProps = {
-  anchorEl: null,
   editMode: false,
 }
 

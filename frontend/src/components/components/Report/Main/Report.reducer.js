@@ -30,7 +30,6 @@ import {
   REMOVE_PAGE,
   RESTORE_BAR_CHART_DATA,
   RESTORE_LEADERBOARD_DATA,
-  CHANGE_ANCHOR_EL,
   CHANGE_IS_ERROR,
 } from './Report.action'
 
@@ -50,7 +49,6 @@ const initialState = {
   currentPage: getNow(),
   pages: {},
   barChartData: [],
-  anchorEl: null,
   isError: { startDate: false, endDate: false },
   leaderboard: [],
 }
@@ -66,7 +64,6 @@ const currentPageLens = R.lensProp('currentPage')
 const suggestionsLens = R.lensProp('suggestions')
 const barChartDataLens = R.lensProp('barChartData')
 const expandModeLens = R.lensProp('expandMode')
-const anchorElLens = R.lensProp('anchorEl')
 const isErrorLens = R.lensProp('isError')
 const leaderboardLens = R.lensProp('leaderboard')
 
@@ -89,7 +86,6 @@ export const pagesView = () => R.path(['Report', 'pages'])(getState())
 export const barChartDataView = () =>
   R.path(['Report', 'barChartData'])(getState())
 export const expandModeView = () => R.path(['Report', 'expandMode'])(getState())
-export const anchorElView = () => R.path(['Report', 'anchorEl'])(getState())
 export const isErrorView = () => R.path(['Report', 'isError'])(getState())
 export const leaderboardView = () =>
   R.path(['Report', 'leaderboard'])(getState())
@@ -205,8 +201,6 @@ const reducers = {
 
   [RESTORE_LEADERBOARD_DATA]: (state, { data }) =>
     R.set(leaderboardLens, data, state),
-
-  [CHANGE_ANCHOR_EL]: (state, { value }) => R.set(anchorElLens, value, state),
 
   [CHANGE_IS_ERROR]: (state, { value }) => R.set(isErrorLens, value, state),
 }
