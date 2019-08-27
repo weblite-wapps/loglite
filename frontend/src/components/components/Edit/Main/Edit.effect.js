@@ -64,11 +64,12 @@ const submitEditEpic = action$ =>
           return false
         })(),
     )
-
+    .do(() => console.log('before check edit log'))
     .map(payload => ({
       ...payload,
       ...checkBeforeEditLog(payload),
     }))
+    .do(() => console.log('after check edit log'))
     .do(
       ({ message, permission }) =>
         !permission && dispatchChangeSnackbarStage(message),

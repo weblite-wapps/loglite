@@ -17,7 +17,6 @@ export default class App extends React.Component {
     if (window.W && window.W.wisId) this.handleWappMode()
     else this.handleNormalMode()
     window.addEventListener('focus', () => {
-      console.log('in checkToSetSecondsElapsed focus')
       this.props.checkToSetSecondsElapsed()
     })
   }
