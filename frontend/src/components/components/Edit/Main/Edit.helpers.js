@@ -1,6 +1,6 @@
 // modules
 import * as R from 'ramda'
-import { areRangesOverlapping, isAfter } from 'date-fns'
+import { areRangesOverlapping, isAfter, differenceInSeconds } from 'date-fns'
 // helpers
 import {
   formatTime,
@@ -15,11 +15,16 @@ export const areRangesOverlappingForTimes = (times, startOfRange, endOfRange) =>
   R.reduce(
     R.or,
     false,
-    R.map(
-      time =>
-        areRangesOverlapping(startOfRange, endOfRange, time.start, time.end),
-      times,
-    ),
+    R.map(time => {
+      if (differenceInSeconds(startOfRange, new Date(time.end)) > -60)
+        return false
+      return areRangesOverlapping(
+        startOfRange,
+        endOfRange,
+        time.start,
+        time.end,
+      )
+    }, times),
   )
 
 export const areTimesOverlapping = (logs, startOfRange, endOfRange) =>
@@ -53,12 +58,9 @@ export const checkBeforeAddLog = ({ title, quickMode = false }) => {
 
 export const checkBeforeEditLog = ({ times, log, log: { _id } }) => {
   const logId = _id
-  // console.log('times ', times)
-  // console.log('log ', log)
   const logs = R.filter(({ _id }) => _id !== logId, logsView())
-  // console.log('logs ', logs)
   const now = getNow()
-  // console.log('now ', now)
+  const filterEnd = end => (end === 'running' ? now : formatTime(end))
   return R.reduce(
     (acc, { date, start, end }) => {
       if (date && start && end) {
@@ -74,12 +76,15 @@ export const checkBeforeEditLog = ({ times, log, log: { _id } }) => {
           isAfter(formatTime(end), now)
         ) {
           return getObject('endTime', 'Are you predictor?!', false)
-        } else if (isAfter(formatTime(end), formatTime(start))) {
+        } else if (
+          isAfter(formatTime(end), formatTime(start)) ||
+          end === 'running'
+        ) {
           if (
             areTimesOverlapping(
               R.filter(eachLog => eachLog.date === date, logs),
               formatTime(start),
-              formatTime(end),
+              filterEnd(end),
             )
           ) {
             return getObject(
