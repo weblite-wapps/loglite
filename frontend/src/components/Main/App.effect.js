@@ -212,10 +212,11 @@ const effectDeleteLog = action$ =>
   action$
     .ofType(HANDLE_DELETE_LOG)
     .do(() => dispatchSetIsLoading(true))
-    .mergeMap(action =>
+    .pluck('payload')
+    .mergeMap(({ _id }) =>
       postRequest('/deleteLog')
         .query({
-          _id: action.payload._id,
+          _id,
         })
         .on(
           'error',
