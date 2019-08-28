@@ -122,12 +122,10 @@ const effectHandleAddLog = action$ =>
       ]),
     )
     .do(success => pulse(ADD_LOG, success[0].body))
-    .do(() => console.log('pulse(ADD_LOG, success[0].body)'))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeTab('Home'))
     .do(() => dispatchChangeSnackbarStage('Added successfully!'))
-    // .do(() => dispatchResetInputs())
     .do(() => W && W.analytics('ADD_LOG', { custom: false }))
     .ignoreElements()
 
@@ -175,14 +173,10 @@ const effectHandleAddCustomLog = action$ =>
           ),
       ]),
     )
-    // .do(success => dispatchAddLog(success[0].body))
     .do(success => pulse(ADD_LOG, success[0].body))
-    .do(() => console.log('pulse(ADD_LOG, success[0].body)'))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
-    // .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeSnackbarStage('Added successfully!'))
     .do(() => dispatchChangeTab('Home'))
-    // .do(() => dispatchResetInputs())
     .do(() => W && W.analytics('ADD_LOG', { custom: true }))
     .ignoreElements()
 

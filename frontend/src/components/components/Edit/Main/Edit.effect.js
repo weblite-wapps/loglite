@@ -64,12 +64,10 @@ const submitEditEpic = action$ =>
           return false
         })(),
     )
-    .do(() => console.log('before check edit log'))
     .map(payload => ({
       ...payload,
       ...checkBeforeEditLog(payload),
     }))
-    .do(() => console.log('after check edit log'))
     .do(
       ({ message, permission }) =>
         !permission && dispatchChangeSnackbarStage(message),
@@ -101,7 +99,6 @@ const submitEditEpic = action$ =>
             }
           })
           .then(() => log),
-        // .then(() => dispatchSetEditedLog(log)),
         postRequest('/saveTags')
           .send({
             tags: log.tags,
@@ -117,7 +114,6 @@ const submitEditEpic = action$ =>
       ]),
     )
     .do(success => pulse(SUBMIT_EDIT_REALTIME, success[0]))
-    .do(() => console.log('pulse(SUBMIT_EDIT_REALTIME, success[0])'))
     .do(() => {
       dispatchChangeIsOpenDialog(false)
       dispatchChangeSnackbarStage('Updated Succesfully!')

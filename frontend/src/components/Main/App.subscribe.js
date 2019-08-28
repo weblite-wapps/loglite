@@ -5,13 +5,9 @@ import { userIdView } from './App.reducer'
 import {
   HANDLE_REAL_TIME,
   ADD_LOG,
-  dispatchAddLog,
   DELETE_LOG,
-  dispatchDeleteLog,
   SAVE_START_TIME,
-  dispatchSaveStartTime,
   SAVE_END_TIME,
-  dispatchSaveEndTime,
   dispatchHandleSaveEndTimeRealTime,
   dispatchDeleteLogRealTime,
   dispatchSaveStartTimeRealTime,
@@ -23,38 +19,21 @@ import {
   SUBMIT_EDIT_REALTIME,
   dispatchSubmitEditRealTime,
 } from '../components/Edit/Main/Edit.action'
-import { dispatchRefetchTotalDuration } from '../components/Home/Main/Home.action'
 
 const fetchNotingSubscribe = action$ =>
   action$
     .ofType(HANDLE_REAL_TIME)
     .pluck('payload')
     .do(({ data, type, userId }) => {
-      console.log(
-        'in subscribe: type, data, userId , userIdView():   ',
-        // type,
-        // data,
-        // userId,
-        // userIdView(),
-      )
-      type === ADD_LOG &&
-        userId === userIdView() &&
-        dispatchAddLogRealTime(data)
-      type === DELETE_LOG &&
-        userId === userIdView() &&
-        dispatchDeleteLogRealTime(data)
-      type === SAVE_START_TIME &&
-        userId === userIdView() &&
-        dispatchSaveStartTimeRealTime(data)
-      type === SAVE_END_TIME &&
-        userId === userIdView() &&
-        dispatchHandleSaveEndTimeRealTime(data)
-      type === SUBMIT_EDIT_REALTIME &&
-        userId === userIdView() &&
-        dispatchSubmitEditRealTime(data)
-      type === ADD_LOG_TO_NEXT_DAY &&
-        userId === userIdView() &&
-        dispatchAddLogToNextDayRealTime(data)
+      if (userId !== userIdView()) {
+        return
+      }
+      type === ADD_LOG && dispatchAddLogRealTime(data)
+      type === DELETE_LOG && dispatchDeleteLogRealTime(data)
+      type === SAVE_END_TIME && dispatchHandleSaveEndTimeRealTime(data)
+      type === SAVE_START_TIME && dispatchSaveStartTimeRealTime(data)
+      type === SUBMIT_EDIT_REALTIME && dispatchSubmitEditRealTime(data)
+      type === ADD_LOG_TO_NEXT_DAY && dispatchAddLogToNextDayRealTime(data)
     })
     .ignoreElements()
 

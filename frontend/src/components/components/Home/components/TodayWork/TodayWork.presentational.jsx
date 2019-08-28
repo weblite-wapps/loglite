@@ -57,14 +57,10 @@ export default class TodayWork extends React.Component {
       runningId,
       onStartClick,
       onStopClick,
-      setSecondsElapsed,
     } = this.props
     if (runningId) {
-      console.log('aa44')
       onStopClick(runningId, getNow(), _id, times)
     } else {
-      // setSecondsElapsed(sumTimes(times))
-      console.log('aa33')
       onStartClick(_id, sumTimes(times))
     }
   }
@@ -84,11 +80,9 @@ export default class TodayWork extends React.Component {
         now,
       )
     ) {
-      console.log('aa11')
       addLogToNextDay(now, formattedDate(now))
       onStopClick(_id, previousDay(formatTime('24:00:00')), null, null)
     } else {
-      console.log('aa22')
       onStopClick(_id, getNow(), null, null)
     }
   }

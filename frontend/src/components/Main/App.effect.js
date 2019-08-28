@@ -31,7 +31,6 @@ import {
   dispatchChangeRunningId,
   dispatchSetSecondsElapsed,
   dispatchSetToday,
-  checkToSetSecondsElapsed,
 } from '../components/Home/Main/Home.action'
 import {
   FETCH_TODAY_DATA,
@@ -63,19 +62,11 @@ import {
   ADD_LOG_TO_NEXT_DAY_REALTIME,
 } from './App.action'
 // views
-import {
-  wisView,
-  userIdView,
-  userNameView,
-  aboutModeView,
-  logsView,
-} from './App.reducer'
+import { wisView, userIdView, userNameView, aboutModeView } from './App.reducer'
 import { selectedUserView } from '../components/Report/Main/Report.reducer'
 // selectors
 import { getTotalDuration } from '../components/Home/components/Summary/Summary.selector'
 import { pulse } from '../../helper/functions/realTime.helper'
-import { getSecondsElapsed } from '../components/Home/Main/Home.helper'
-import { runningIdView } from '../components/Home/Main/Home.reducer'
 
 const saveUsersEpic = action$ =>
   action$
@@ -197,9 +188,6 @@ const addLogToNextDayEpic = action$ =>
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
-    // .do(() => dispatchSetIsLoading(false))
-    .do(() => console.log('pulse(ADD_LOG_TO_NEXT_DAY'))
-
     .do(({ body }) =>
       pulse(ADD_LOG_TO_NEXT_DAY, {
         body,
@@ -207,8 +195,6 @@ const addLogToNextDayEpic = action$ =>
         user: selectedUserView(),
       }),
     )
-    // .do(() => dispatchAddPage(formattedDate(getNow()), selectedUserView()))
-    // .do(({ body }) => dispatchAddLog(body))
     .do(() => window.W && window.W.analytics('PAUSE_AFTER_24'))
     .ignoreElements()
 
@@ -217,7 +203,6 @@ const addLogToNextDayRealTime = action$ =>
     .ofType(ADD_LOG_TO_NEXT_DAY_REALTIME)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
-    // .do(aa => console.log('ADD_LOG_TO_NEXT_DAY_REALTIME: ', aa))
     .do(({ now, user }) => dispatchAddPage(formattedDate(now), user))
     .do(({ body }) => dispatchAddLog(body))
     .do(() => dispatchSetIsLoading(true))
@@ -239,10 +224,7 @@ const effectDeleteLog = action$ =>
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
-    // .do(() => dispatchSetIsLoading(false))
-    .do(() => console.log('pulse(DELETE_LOG,'))
     .do(({ body }) => pulse(DELETE_LOG, body._id))
-    // .do(({ body }) => dispatchDeleteLog(body._id))
     .do(() => dispatchChangeSnackbarStage('Deleted successfully !'))
     .do(() => dispatchChangePopoverId(''))
     .do(() => window.W && window.W.analytics('DELETE_LOG'))
@@ -262,8 +244,6 @@ const effectSaveStartTime = action$ =>
   action$
     .ofType(HANDLE_SAVE_START_TIME)
     .pluck('payload')
-    .do(() => console.log(' in HANDLE_SAVE_START_TIME '))
-    .do(console.log)
     .do(() => dispatchSetIsLoading(true))
     .delay(250)
     .mergeMap(({ _id, sumOfTimes }) =>
@@ -280,14 +260,7 @@ const effectSaveStartTime = action$ =>
         )
         .then(res => ({ ...res.body, sumOfTimes })),
     )
-    // .do(() => dispatchSetIsLoading(false))
-    .do(b => console.log('HANDLE_SAVE_START_TIME ', b))
-    .do(() => console.log('pulse(SAVE_START_TIME, body),'))
-    .do(
-      body => pulse(SAVE_START_TIME, body),
-      // dispatchSaveStartTime({ _id, start, runningTimeId }),
-    )
-    // .do(({ body: { _id } }) => dispatchChangeRunningId(_id))
+    .do(body => pulse(SAVE_START_TIME, body))
     .do(() => window.W && window.W.analytics('PLAY_CLICK'))
     .ignoreElements()
 
@@ -295,7 +268,6 @@ const effectSaveStartTimeRealTime = action$ =>
   action$
     .ofType(SAVE_START_TIME_REALTIME)
     .pluck('payload')
-    .do(() => console.log('in SAVE_START_TIME_REALTIME'))
     .do(() => dispatchSetIsLoading(true))
     .do(({ sumOfTimes }) => dispatchSetSecondsElapsed(sumOfTimes))
     .do(dispatchSaveStartTime)
@@ -303,12 +275,11 @@ const effectSaveStartTimeRealTime = action$ =>
     .do(() => dispatchSetIsLoading(false))
     .ignoreElements()
 
-const effectSaveEndTime = (action$, { getState }) =>
+const effectSaveEndTime = action$ =>
   action$
     .ofType(HANDLE_SAVE_END_TIME)
     .pluck('payload')
     .do(() => dispatchSetIsLoading(true))
-    .do(console.log)
     .mergeMap(({ runningId, end, _id, times }) =>
       postRequest('/saveEndTime')
         .send({
@@ -324,47 +295,25 @@ const effectSaveEndTime = (action$, { getState }) =>
             dispatchChangeSnackbarStage('Server disconnected!'),
         ),
     )
-    // .do(() => dispatchSetIsLoading(false))
-    // .do(() => dispatchSetToday(getTotalDuration(getState())))
     .pluck('body')
-    // .do(console.log)
-    // .do(() => console.log('pulse(SAVE_END_TIME'))
     .do(body => pulse(SAVE_END_TIME, body))
-    // .do(({ body: { runningId, end } }) =>
-    //   dispatchSaveEndTime({ _id: runningId, end }),
-    // )
-    // .do(dispatchSortOnFrequentlyUsage)
-    // .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
-    // .do(dispatchRefetchTotalDuration)
-    // .do(() => dispatchChangeRunningId(''))
-    // .filter(({ body: { _id } }) => _id)
-    // .do(({ body: { times } }) => dispatchSetSecondsElapsed(sumTimes(times)))
-    // .do(({ body: { _id } }) => dispatchHandleSaveStartTime(_id))
-    // .do(() => window.W && window.W.analytics('PLAY_CLICK'))
-    .do(() => console.log('before filter'))
+    .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
     .filter(({ _id }) => _id)
-    .do(a => console.log('aaaa ', a))
     .do(({ _id, times }) => dispatchHandleSaveStartTime(_id, sumTimes(times)))
+    .do(() => window.W && window.W.analytics('PLAY_CLICK'))
     .ignoreElements()
 
 const effectSaveEndTimeRealtimeEpic = (action$, { getState }) =>
   action$
     .ofType(SAVE_END_TIME_REALTIME)
     .pluck('payload')
-    .do(() => console.log('in SAVE_END_TIME_REALTIME'))
-    .do(console.log)
     .do(() => dispatchSetIsLoading(true))
     .do(() => dispatchSetToday(getTotalDuration(getState())))
     .do(({ runningId, end }) => dispatchSaveEndTime({ _id: runningId, end }))
-    // .do(dispatchSortOnFrequentlyUsage)
-    // .do(() => window.W && window.W.analytics('PAUSE_CLICK'))
+    .do(dispatchSortOnFrequentlyUsage)
     .do(() => dispatchRefetchTotalDuration())
     .do(() => dispatchChangeRunningId(''))
     .do(() => dispatchSetIsLoading(false))
-    // .filter(({ _id }) => _id)
-    // .do(({ times }) => dispatchSetSecondsElapsed(sumTimes(times)))
-    // .do(({ _id, times }) => dispatchHandleSaveStartTime(_id, sumTimes(times)))
-    // .do(() => window.W && window.W.analytics('PLAY_CLICK'))
     .ignoreElements()
 
 const effectToggleIsPinned = action$ =>
