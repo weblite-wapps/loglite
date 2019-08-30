@@ -17,6 +17,7 @@ import {
   dispatchAddLog,
   dispatchChangeTab,
   dispatchSetIsLoading,
+  ADD_LOG,
 } from '../../../Main/App.action'
 import {
   SET_QUERY_IN_ADD,
@@ -28,10 +29,12 @@ import {
   dispatchChangeIsErrorInAdd,
   dispatchResetInputs,
   dispatchLoadTagsDataInAdd,
+  ADD_LOG_REALTIME,
 } from './Add.action'
 // views
 import { wisView, userIdView } from '../../../Main/App.reducer'
 import { queryTagView, tagsView } from './Add.reducer'
+import { pulse } from '../../../../helper/functions/realTime.helper'
 // const
 const { W } = window
 
@@ -118,12 +121,11 @@ const effectHandleAddLog = action$ =>
           ),
       ]),
     )
-    .do(success => dispatchAddLog(success[0].body))
+    .do(success => pulse(ADD_LOG, success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
     .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeTab('Home'))
     .do(() => dispatchChangeSnackbarStage('Added successfully!'))
-    .do(() => dispatchResetInputs())
     .do(() => W && W.analytics('ADD_LOG', { custom: false }))
     .ignoreElements()
 
@@ -171,13 +173,21 @@ const effectHandleAddCustomLog = action$ =>
           ),
       ]),
     )
-    .do(success => dispatchAddLog(success[0].body))
+    .do(success => pulse(ADD_LOG, success[0].body))
     .do(success => dispatchLoadTagsDataInAdd(success[1].body))
-    .do(() => dispatchSetIsLoading(false))
     .do(() => dispatchChangeSnackbarStage('Added successfully!'))
     .do(() => dispatchChangeTab('Home'))
-    .do(() => dispatchResetInputs())
     .do(() => W && W.analytics('ADD_LOG', { custom: true }))
+    .ignoreElements()
+
+const effectAddLogRealTime = action$ =>
+  action$
+    .ofType(ADD_LOG_REALTIME)
+    .pluck('payload')
+    .do(() => dispatchSetIsLoading(true))
+    .do(dispatchAddLog)
+    .do(() => dispatchResetInputs())
+    .do(() => dispatchSetIsLoading(false))
     .ignoreElements()
 
 export default combineEpics(
@@ -185,4 +195,5 @@ export default combineEpics(
   effectHandleAddTag,
   effectHandleAddLog,
   effectHandleAddCustomLog,
+  effectAddLogRealTime,
 )

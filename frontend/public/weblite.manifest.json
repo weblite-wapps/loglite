@@ -5,9 +5,10 @@
   "instancable": true,
   "inline": false,
   "creator": true,
+  "shareDB": true,
   "userInfo": true,
   "servIndexes": {
     "main": "index"
   },
-  "version": "1.0.1"
+  "version": "1.0.2"
 }

@@ -11,31 +11,51 @@ import { formattedDate } from '../../../../helper/functions/date.helper'
 // views
 import { logsView } from '../../../Main/App.reducer'
 
-export const areRangesOverlappingForTimes = (times, startOfRange, endOfRange) =>
-  R.reduce(
+export const areRangesOverlappingForTimes = (
+  title,
+  times,
+  startOfRange,
+  endOfRange,
+) => {
+  // console.log('in areRangesOverlappingForTimes')
+  // console.log('startOfRange ', startOfRange)
+  // console.log('endOfRange ', endOfRange)
+  // console.log('title ', title)
+  // console.log('times ', times)
+  return R.reduce(
     R.or,
     false,
     R.map(time => {
       if (differenceInSeconds(startOfRange, new Date(time.end)) > -60)
         return false
+      // console.log('time.start: ', new Date(time.start))
+      // console.log('time.end: ', new Date(time.end))
       return areRangesOverlapping(
         startOfRange,
         endOfRange,
-        time.start,
-        time.end,
+        new Date(time.start),
+        new Date(time.end),
       )
     }, times),
   )
-
-export const areTimesOverlapping = (logs, startOfRange, endOfRange) =>
-  R.reduce(
+}
+export const areTimesOverlapping = (logs, startOfRange, endOfRange) => {
+  // console.log('in areTimesOverlapping')
+  return R.reduce(
     R.or,
     false,
     R.map(
-      log => areRangesOverlappingForTimes(log.times, startOfRange, endOfRange),
+      log =>
+        areRangesOverlappingForTimes(
+          log.title,
+          log.times,
+          startOfRange,
+          endOfRange,
+        ),
       logs,
     ),
   )
+}
 
 const getObject = (trueOption, message, permission) => {
   const isError = {
@@ -80,6 +100,7 @@ export const checkBeforeEditLog = ({ times, log, log: { _id } }) => {
           isAfter(formatTime(end), formatTime(start)) ||
           end === 'running'
         ) {
+          // console.log('hello')
           if (
             areTimesOverlapping(
               R.filter(eachLog => eachLog.date === date, logs),

@@ -57,12 +57,11 @@ export default class TodayWork extends React.Component {
       runningId,
       onStartClick,
       onStopClick,
-      setSecondsElapsed,
     } = this.props
-    if (runningId) onStopClick(runningId, getNow(), _id, times)
-    else {
-      setSecondsElapsed(sumTimes(times))
-      onStartClick(_id)
+    if (runningId) {
+      onStopClick(runningId, getNow(), _id, times)
+    } else {
+      onStartClick(_id, sumTimes(times))
     }
   }
 

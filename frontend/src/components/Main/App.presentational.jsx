@@ -16,9 +16,9 @@ export default class App extends React.Component {
   componentDidMount() {
     if (window.W && window.W.wisId) this.handleWappMode()
     else this.handleNormalMode()
-    window.addEventListener('focus', () =>
-      this.props.checkToSetSecondsElapsed(),
-    )
+    window.addEventListener('focus', () => {
+      this.props.checkToSetSecondsElapsed()
+    })
   }
 
   _handleWappMode() {
