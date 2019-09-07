@@ -156,7 +156,6 @@ const initialFetchEpic = action$ =>
       dispatchAddPage(formattedDate(previousDay(getNow())), selectedUserView()),
     )
     .do(() => dispatchAddPage(formattedDate(getNow()), selectedUserView()))
-    .do(dispatchSortOnFrequentlyUsage)
     .do(() => dispatchSetIsLoading(false))
     .ignoreElements()
 
