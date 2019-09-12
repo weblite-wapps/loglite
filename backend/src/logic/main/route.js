@@ -59,7 +59,7 @@ app.get("/initialFetch", ({ query: { wis, userId, today, now } }, res) =>
   ])
     .then(success =>
       res.json({
-        logs: success[0],
+        logs: R.sort((a, b) => b.times.length - a.times.length, success[0]),
         tags: success[1],
         totalDurations: {
           today: sumLogs(success[2], now),
