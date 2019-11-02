@@ -30,7 +30,7 @@
     "express": "^4.16.2",
     "json2csv": "^3.11.5",
     "moment-timezone": "^0.5.25",
-    "mongoose": "^4.13.9",
+    "mongoose": "^5.7.5",
     "ramda": "^0.25.0"
   }
 }
